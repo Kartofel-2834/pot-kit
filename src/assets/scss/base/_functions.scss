@@ -1,0 +1,25 @@
+/**
+ * Функция для получения значения по ключу с его смещением по индексу 
+ *
+ * @param {String} $key - Ключ, c индекса которого будет идти отсчет
+ * @param {Number} $offset - Смещение от индекса ключа $key (по-умолчанию: 0)
+ * @param {Map} $map - Карта из которой извлекается значение. (по-умолчанию: $breakpoints)
+ *
+ * @return {Any|null} - значение из карты привязанное к ключу смещенного на $offset от индекса ключа $key
+ */
+@function get-map-value($key, $offset: 0, $map: $breakpoints) {
+    $keys-list: map-keys($map);
+    $index: index($keys-list, $key);
+
+    @if $index == null {
+        @return null;
+    }
+
+    $new-index: $index + $offset;
+
+    @if $new-index >= length($keys-list) {
+        @return null;
+    }
+
+    @return map-get($map, nth($keys-list, $new-index));
+}

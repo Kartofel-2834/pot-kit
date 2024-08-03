@@ -1,0 +1,10 @@
+// Fade
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity $default-transition;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
