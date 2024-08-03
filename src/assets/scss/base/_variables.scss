@@ -21,6 +21,8 @@ $error-300: #f2958b;
 $error-400: #e66355;
 $error-500: #ea4e3d;
 
+$soup-pot: #f87531;
+
 /* Breakpoints */
 $breakpoints: (
     mobile: 0,
@@ -29,6 +31,8 @@ $breakpoints: (
     laptop: 1280px,
     desktop: 1440px,
 );
+
+$default-size-breakpoints: 'desktop' 'tablet' 'mobile';
 
 /* Font formats */
 $font-formats: (

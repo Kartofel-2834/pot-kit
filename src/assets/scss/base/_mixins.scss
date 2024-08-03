@@ -78,7 +78,7 @@
  * @param {Map} $bp - Карта брейкпоинтов экранов, где каждый ключ - это имя брейкпоинта
  */
 @mixin respond-to($name, $bp: $breakpoints) {
-    $max: get-map-value($name, $offset: 1, $map: $breakpoints);
+    $max: get-map-value($name, $offset: 1, $map: $breakpoints) - 0.02;
 
     @if $max {
         @media (max-width: $max) {
