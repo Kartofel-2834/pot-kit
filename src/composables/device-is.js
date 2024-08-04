@@ -37,9 +37,11 @@ export function useDeviceIs({ mount = true, breakpoints = bp }) {
             return;
         }
 
-        const breakpointsKeys = Object.keys(breakpoints);
         const createdQueries = {};
         const updatedState = {};
+        const breakpointsKeys = Object.keys(bp).sort((a, b) => {
+            return (bp?.[a] || 0) - (bp?.[b] || 0);
+        });
 
         let currentDevice = null;
 
