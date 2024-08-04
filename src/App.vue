@@ -1,12 +1,17 @@
 <template>
-    <main :class="$style.main">Hello {{ screenSize.device }}</main>
+    <main :class="$style.main">
+        <PotButton
+            size="56 _ 32"
+            color="red green blue"
+        >
+            Button
+        </PotButton>
+    </main>
 </template>
 
 <script setup>
-// Composables
-import { useScreenSize } from '@/composables/screen-size.js';
-
-const screenSize = useScreenSize();
+// Components
+import PotButton from '@/components/button/PotButton.vue';
 </script>
 
 <style lang="scss" module>

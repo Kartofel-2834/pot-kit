@@ -2,32 +2,29 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 // Constants
-import { breakpoints } from '@/assets/js/constants/breakpoints';
+import { bp } from '@/assets/js/constants/breakpoints';
 
 /**
  * Хук для определения текущего разрешения экрана по брейкпоинтам
  *
- * @param {Object} bp - Брейкпоинты. По умолчанию использует объект breakpoints, если не указан
+ * @param {Boolean} mount - флаг, указывающий, следует ли создавать медиа-запросы при монтировании компоненте
+ * @param {Object} breakpoints - Брейкпоинты. По умолчанию bp из констант
  *
- * @returns {Object} - возвращает рефы:
+ * @returns {Object} - возвращает методы для управления состоянием компосабла и рефы:
  *                     state - акутальные статусы всех брейкпоинтов
  *                     device - текущий активный брейкпонт
  */
-export function useScreenSize(bp = breakpoints) {
+export function useDeviceIs({ mount = true, breakpoints = bp }) {
     const queries = ref({});
     const state = ref({});
     const device = ref(null);
     const timeoutId = ref(null);
 
     // Lifecycle hooks
-    onMounted(() => {
-        initQueries();
-    });
-
-    onUnmounted(() => {
-        clearTimeout(timeoutId.value);
-        clearQueries();
-    });
+    if (mount) {
+        onMounted(initQueries);
+        onUnmounted(clearQueries);
+    }
 
     /**
      * Создает медиа-запросы для переданных брейкпоинтов
@@ -40,7 +37,7 @@ export function useScreenSize(bp = breakpoints) {
             return;
         }
 
-        const breakpointsKeys = Object.keys(bp);
+        const breakpointsKeys = Object.keys(breakpoints);
         const createdQueries = {};
         const updatedState = {};
 
@@ -73,6 +70,8 @@ export function useScreenSize(bp = breakpoints) {
      * @returns {void}
      */
     function clearQueries() {
+        clearTimeout(timeoutId.value);
+
         for (const breakpoint in queries.value) {
             const mediaQuery = queries.value[breakpoint];
             mediaQuery.removeEventListener('change', queryChangeListener);
@@ -90,8 +89,8 @@ export function useScreenSize(bp = breakpoints) {
      * @returns {MediaQueryList|null}
      */
     function createQuery(currentBreakpoint, nextBreakpoint) {
-        let minWidth = bp[currentBreakpoint];
-        let maxWidth = bp?.[nextBreakpoint];
+        let minWidth = breakpoints[currentBreakpoint];
+        let maxWidth = breakpoints?.[nextBreakpoint];
 
         minWidth = isNaN(minWidth) ? '' : `(min-width: ${minWidth}px)`;
         maxWidth = isNaN(maxWidth) ? '' : `(max-width: ${maxWidth - 0.02}px)`;
@@ -142,5 +141,11 @@ export function useScreenSize(bp = breakpoints) {
         device.value = breakpoint;
     }
 
-    return { state, device };
+    return {
+        state,
+        device,
+        init: initQueries,
+        clear: clearQueries,
+        update: updateState,
+    };
 }
