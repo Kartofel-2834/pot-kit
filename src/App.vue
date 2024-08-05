@@ -1,8 +1,9 @@
 <template>
     <main :class="$style.main">
         <PotButton
-            size="56 _ 32"
-            color="red green blue"
+            size="56 48 32"
+            color="red _ blue"
+            breakpoints="desktop tablet mobile"
         >
             Button
         </PotButton>

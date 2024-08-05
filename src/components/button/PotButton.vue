@@ -9,63 +9,43 @@
     </component>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 // Vue
-import { computed, useCssModule } from 'vue';
+import { withDefaults, computed, useCssModule } from 'vue';
+
+// Types
+import type { IPotButtonProps } from '@/types/components/pot-button-types';
 
 // Composables
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Props
-const $props = defineProps({
-    tag: {
-        type: String,
-        default: 'button',
-    },
-
-    size: {
-        type: String,
-        default: '32',
-        validator: value => {
-            const sizes = ['32', '48', '56', 'none'];
-            const newValue = value?.split(' ');
-
-            return !newValue?.find(breakpoint => !sizes.includes(breakpoint));
-        },
-    },
-
-    color: {
-        type: String,
-        default: 'red',
-    },
-
-    breakpoints: {
-        type: String,
-        default: 'desktop tablet mobile',
-    },
+const $props = withDefaults(defineProps<IPotButtonProps>(), {
+    tag: 'button',
+    size: '32',
+    color: 'red',
+    breakpoints: 'desktop tablet mobile',
 });
 
 const $style = useCssModule();
 
 // Computed
-const breakpointsList = computed(() => ($props.breakpoints?.split(' ') || []).filter(Boolean));
-const sizesList = computed(() => ($props.size?.split(' ') || []).filter(Boolean));
-const colorsList = computed(() => ($props.color?.split(' ') || []).filter(Boolean));
-
 const properties = computed(() => {
     return useDeviceProperties({
+        devices: $props.breakpoints,
         properties: {
-            size: sizesList.value,
-            color: colorsList.value,
+            size: $props.size,
+            color: $props.color,
         },
-
-        devices: breakpointsList.value,
     });
 });
 
-const classList = computed(() => ({
-    [$style[`_size-${properties.value.value.size}`]]: properties.value?.value?.size,
-    [$style[`_color-${properties.value.value.color}`]]: properties.value?.value?.color,
+const currentSize = computed(() => properties.value?.value?.size || null);
+const currentColor = computed(() => properties.value?.value?.color || null);
+
+const classList = computed<Record<string, boolean>>(() => ({
+    [$style[`_size-${currentSize.value}`]]: Boolean(currentSize.value),
+    [$style[`_color-${currentColor.value}`]]: Boolean(currentColor.value),
 }));
 </script>
 
@@ -74,6 +54,7 @@ const classList = computed(() => ({
     background-color: $soup-pot;
     color: $base-0;
     transition: $default-transition;
+    transform: scale(2);
     cursor: pointer;
 
     /* --- Sizes --- */

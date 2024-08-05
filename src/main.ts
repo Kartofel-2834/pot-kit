@@ -1,14 +1,17 @@
+// Types
+import type { App as Application } from 'vue';
+
 // Vue
 import { createApp } from 'vue';
 
 // Plugins
-import deviceIs from '@/plugins/device-is.js';
+import deviceIsPlugin from './plugins/device-is';
 
 // Components
 import App from '@/App.vue';
 
-const app = createApp(App);
+const app: Application = createApp(App);
 
-app.use(deviceIs);
+app.use(deviceIsPlugin);
 
 app.mount('#app');
