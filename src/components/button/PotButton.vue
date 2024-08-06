@@ -3,7 +3,13 @@
         :is="tag"
         :class="[$style.PotButton, 'pot-button', classList]"
     >
-        <slot name="preicon"> preicon </slot>
+        <slot name="preicon">
+            <PotIcon
+                v-if="preicon"
+                :class="$style.icon"
+                :icon="preicon"
+            />
+        </slot>
 
         <span
             v-if="$slots?.default"
@@ -12,20 +18,29 @@
             <slot />
         </span>
 
-        <slot name="icon"> icon </slot>
+        <slot name="icon">
+            <PotIcon
+                v-if="icon"
+                :class="$style.icon"
+                :icon="icon"
+            />
+        </slot>
     </component>
 </template>
 
 <script lang="ts" setup>
-// Vue
-import { withDefaults, computed, useCssModule } from 'vue';
-
 // Types
 import type { IPotButtonProps } from '@/types/components/pot-button-types';
+
+// Vue
+import { withDefaults, defineAsyncComponent, computed, useCssModule } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+
+// Components
+const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 // Props
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
@@ -34,6 +49,8 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     color: 'clay',
     radius: '6',
     breakpoints: 'desktop tablet mobile',
+    icon: '',
+    preicon: '',
 });
 
 const $style = useCssModule();
@@ -117,6 +134,11 @@ const classList = computed(() =>
 
     .label {
         padding: 0 1.4rem;
+    }
+
+    .icon {
+        width: 1.4em;
+        height: 1.4em;
     }
 }
 </style>

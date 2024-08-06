@@ -3,6 +3,7 @@
         <PotButton
             size="56"
             color="clay"
+            preicon="pot"
         >
             Button
         </PotButton>

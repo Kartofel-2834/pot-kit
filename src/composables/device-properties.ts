@@ -75,7 +75,6 @@ export function useDeviceProperties({
      * Объект с текущими устройство-специфическими свойствами.
      */
     const currentProperties: DeviceProperties = computed(() => {
-        console.log('currentProperties - calc');
         return Object.entries(breakpointValues.value).reduce((res, [property, values]) => {
             return {
                 ...res,
