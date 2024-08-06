@@ -1,12 +1,12 @@
 // Types
 import type { ComputedRef } from 'vue';
 
-export type DevicePropertiesOptions = {
+export type DevicePropertiesOptions = Partial<{
     properties: Record<string, string | string[]>;
-    devices?: string | string[];
-    breakpoints?: Record<string, number>;
-    separator?: string;
-};
+    devices: string | string[];
+    breakpoints: Record<string, number>;
+    separator: string;
+}>;
 
 export type DeviceProperties = ComputedRef<Record<string, string | null>>;
 

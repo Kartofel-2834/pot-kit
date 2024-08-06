@@ -1,11 +1,18 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotButton, classList]"
+        :class="[$style.PotButton, 'pot-button', classList]"
     >
-        <slot />
+        <slot name="preicon"> preicon </slot>
 
-        {{ properties }}
+        <span
+            v-if="$slots?.default"
+            :class="[$style.label, 'pot-button__label']"
+        >
+            <slot />
+        </span>
+
+        <slot name="icon"> icon </slot>
     </component>
 </template>
 
@@ -17,13 +24,15 @@ import { withDefaults, computed, useCssModule } from 'vue';
 import type { IPotButtonProps } from '@/types/components/pot-button-types';
 
 // Composables
+import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Props
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
     size: '32',
-    color: 'red',
+    color: 'clay',
+    radius: '6',
     breakpoints: 'desktop tablet mobile',
 });
 
@@ -36,51 +45,78 @@ const properties = computed(() => {
         properties: {
             size: $props.size,
             color: $props.color,
+            radius: $props.radius,
         },
     });
 });
 
-const currentSize = computed(() => properties.value?.value?.size || null);
-const currentColor = computed(() => properties.value?.value?.color || null);
-
-const classList = computed<Record<string, boolean>>(() => ({
-    [$style[`_size-${currentSize.value}`]]: Boolean(currentSize.value),
-    [$style[`_color-${currentColor.value}`]]: Boolean(currentColor.value),
-}));
+const classList = computed(() =>
+    useClassList({
+        ...properties.value.value,
+    }),
+);
 </script>
 
 <style lang="scss" module>
 .PotButton {
-    background-color: $soup-pot;
-    color: $base-0;
-    transition: $default-transition;
-    transform: scale(2);
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    outline: none;
     cursor: pointer;
+    user-select: none;
+    transition: background-color $default-transition;
 
     /* --- Sizes --- */
-    &._size-32 {
+    @include modificator(size, 32) {
         height: 3.2rem;
+        padding: 0 1rem;
+        font-size: 1.4rem;
     }
 
-    &._size-48 {
+    @include modificator(size, 48) {
         height: 4.8rem;
+        padding: 0 1.8rem;
     }
 
-    &._size-56 {
+    @include modificator(size, 56) {
         height: 5.6rem;
+        padding: 0 1.8rem;
     }
 
     /* --- Colors --- */
-    &._color-red {
-        background-color: red;
+    @include modificator(color, clay) {
+        background-color: $clay-pot-100;
+        color: $base-0;
+
+        &:not(:active) {
+            &:hover {
+                background-color: $clay-pot-0;
+            }
+        }
     }
 
-    &._color-blue {
-        background-color: blue;
+    /* --- Border radius --- */
+    @include modificator(radius, 4) {
+        border-radius: 0.4rem;
     }
 
-    &._color-green {
-        background-color: green;
+    @include modificator(radius, 6) {
+        border-radius: 0.6rem;
+    }
+
+    @include modificator(radius, 8) {
+        border-radius: 0.8rem;
+    }
+
+    @include modificator(radius, 100) {
+        border-radius: 100rem;
+    }
+
+    .label {
+        padding: 0 1.4rem;
     }
 }
 </style>

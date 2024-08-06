@@ -106,3 +106,15 @@
         @content;
     }
 }
+
+/**
+ * Миксин для быстрого описания базовых модификаторов компонента
+ *
+ * @param {String} $name - Имя модификатора
+ * @param {String} $value - Значение модификатора
+ */
+@mixin modificator($name, $value) {
+    &:global(._#{$name}-#{$value}) {
+        @content;
+    }
+}

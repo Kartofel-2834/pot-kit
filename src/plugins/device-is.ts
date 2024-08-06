@@ -1,7 +1,7 @@
 // Types
 import type { App } from 'vue';
 import type { IVuePlugin } from '@/types';
-import type { DeviceIs } from '@/types/composables/device-is-types';
+import type { DeviceIs, DeviceIsPluginOptions } from '@/types/composables/device-is-types';
 
 // Constants
 import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
@@ -17,7 +17,7 @@ import { useDeviceIs } from '@/composables/device-is';
  * @param [options] - Необязательный объект конфигурации.
  * @param [options.breakpoints] - Настраиваемый объект точек перелома. Если не указан, будут использованы стандартные точки перелома из 'assets/js/constants/breakpoints'.
  */
-function deviceIsPluginInit(app: App, options?: Record<string, any>): void {
+function deviceIsPluginInit(app: App, options?: DeviceIsPluginOptions): void {
     const breakpoints: Record<string, number> = options?.breakpoints || bp;
     const deviceIs: DeviceIs = useDeviceIs({ mount: false, breakpoints });
 

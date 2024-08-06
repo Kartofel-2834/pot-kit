@@ -13,3 +13,7 @@ export type DeviceIs = {
     clear: () => void;
     update: () => void;
 };
+
+export type DeviceIsPluginOptions = {
+    breakpoints?: Record<string, number>;
+};
