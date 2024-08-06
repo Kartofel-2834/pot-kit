@@ -1,11 +1,12 @@
 <template>
     <main :class="$style.main">
         <PotButton
-            size="56"
+            size="48"
             color="clay"
+            radius="8"
             preicon="pot"
         >
-            Button
+            Some text
         </PotButton>
     </main>
 </template>

@@ -111,10 +111,16 @@
  * Миксин для быстрого описания базовых модификаторов компонента
  *
  * @param {String} $name - Имя модификатора
- * @param {String} $value - Значение модификатора
+ * @param {String | null} $value - Значение модификатора
  */
-@mixin modificator($name, $value) {
-    &:global(._#{$name}-#{$value}) {
-        @content;
+@mixin modificator($name, $value: null) {
+    @if $value != null {
+        &:global(._#{$name}-#{$value}) {
+            @content;
+        }
+    } @else {
+        &:global(._#{$name}) {
+            @content;
+        }
     }
 }
