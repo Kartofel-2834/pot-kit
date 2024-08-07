@@ -125,7 +125,6 @@ const currentLink = computed<string | null>(() => {
     }
 
     &:after {
-        content: '';
         position: absolute;
         left: 0;
         bottom: 0;
