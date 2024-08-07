@@ -34,7 +34,7 @@
 import type { IPotButtonProps } from '@/types/components/pot-button-types';
 
 // Vue
-import { withDefaults, defineAsyncComponent, computed, useCssModule } from 'vue';
+import { defineAsyncComponent, computed, useCssModule } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';

@@ -46,7 +46,7 @@ watch(() => iconPath.value, updateIcon);
 // Methods
 async function updateIcon(): Promise<void> {
     try {
-        const icon = await import(iconPath.value); /* @vite-ignore */
+        const icon = await import(/* @vite-ignore */ iconPath.value);
         const data = icon?.default && typeof icon?.default === 'string' ? icon.default : '';
 
         const iconWrapper = document.createElement('div');
