@@ -1,21 +1,18 @@
 <template>
     <main :class="$style.main">
-        <PotButton
-            :class="$style.customButton"
-            size="56"
-            radius="100"
-            preicon="pot"
-            icon="pot-filled"
-            @click="handleClick"
+        <PotLink
+            link="https://element.eleme.io/#/en-US/component/link"
+            underline
+            disabled
         >
-            Content
-        </PotButton>
+            Kamal
+        </PotLink>
     </main>
 </template>
 
 <script setup>
 // Components
-import PotButton from '@/components/button/PotButton.vue';
+import PotLink from './components/link/PotLink.vue';
 
 function handleClick() {
     alert(42);

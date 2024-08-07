@@ -25,9 +25,17 @@ const iconAttributes = ref<Record<string, string>>({});
 // Lifecycle hooks
 onMounted(updateIcon);
 
-// Computed
+// Watchers
+watch(() => iconPath.value, updateIcon);
+
+/**
+ * Путь к svg файлу иконки
+ */
 const iconPath = computed<string>(() => `${$props.srcPath}${$props.icon}.svg?raw`);
 
+/**
+ * Если проп size указан, то width: size в ремах / 10
+ */
 const customSize = computed<Partial<Record<string, string>>>(() => {
     let formattedSize: number = Number($props.size);
 
@@ -37,13 +45,14 @@ const customSize = computed<Partial<Record<string, string>>>(() => {
 
     formattedSize = formattedSize / 10;
 
-    return { width: `${formattedSize}rem`, height: `${formattedSize}rem` };
+    return { width: `${formattedSize}rem` };
 });
 
-// Watchers
-watch(() => iconPath.value, updateIcon);
-
-// Methods
+/**
+ * Метод для загрузки и отображения контента svg иконки
+ *
+ * @throws Бросит ошибку, если iconPath не валидный.
+ */
 async function updateIcon(): Promise<void> {
     try {
         const icon = await import(/* @vite-ignore */ iconPath.value);
@@ -74,6 +83,7 @@ async function updateIcon(): Promise<void> {
 
 <style lang="scss" module>
 .PotIcon {
+    aspect-ratio: 1 / 1;
     color: inherit;
 }
 </style>

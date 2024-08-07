@@ -43,7 +43,6 @@ import { useDeviceProperties } from '@/composables/device-properties';
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
-// Props
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
     size: '32',
@@ -58,7 +57,10 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
 
 const $style = useCssModule();
 
-// Computed
+/**
+ * Вычисляет и возвращает свойства компонента на основе
+ * брейкпоинтов и текущего размера экрана
+ */
 const properties = computed(() => {
     return useDeviceProperties({
         devices: $props.breakpoints,
@@ -70,6 +72,9 @@ const properties = computed(() => {
     });
 });
 
+/**
+ * Классы модификаторы компонента
+ */
 const classList = computed(() =>
     useClassList({
         ...properties.value.value,
