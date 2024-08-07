@@ -1,12 +1,14 @@
 <template>
     <main :class="$style.main">
         <PotButton
-            size="48"
-            color="clay"
-            radius="8"
+            :class="$style.customButton"
+            size="56"
+            radius="100"
             preicon="pot"
+            icon="pot-filled"
+            @click="handleClick"
         >
-            Some text
+            Content
         </PotButton>
     </main>
 </template>
@@ -14,6 +16,10 @@
 <script setup>
 // Components
 import PotButton from '@/components/button/PotButton.vue';
+
+function handleClick() {
+    alert(42);
+}
 </script>
 
 <style lang="scss" module>

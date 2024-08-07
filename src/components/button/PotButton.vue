@@ -2,11 +2,12 @@
     <component
         :is="tag"
         :class="[$style.PotButton, 'pot-button', classList]"
+        :disabled="disabled"
     >
         <slot name="preicon">
             <PotIcon
                 v-if="preicon"
-                :class="$style.icon"
+                :class="[$style.icon, 'pot-button__icon', 'pot-button__icon_pre']"
                 :icon="preicon"
             />
         </slot>
@@ -21,7 +22,7 @@
         <slot name="icon">
             <PotIcon
                 v-if="icon"
-                :class="$style.icon"
+                :class="[$style.icon, 'pot-button__icon', 'pot-button__icon_post']"
                 :icon="icon"
             />
         </slot>
@@ -52,6 +53,7 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     icon: '',
     preicon: '',
     square: false,
+    disabled: false,
 });
 
 const $style = useCssModule();
@@ -123,7 +125,7 @@ const classList = computed(() =>
         background-color: $clay-pot-100;
         color: $base-0;
 
-        &:not(:active) {
+        &:not(:active, :disabled) {
             &:hover {
                 background-color: $clay-pot-0;
             }
@@ -150,6 +152,11 @@ const classList = computed(() =>
     /* --- Flags --- */
     @include modificator(square) {
         aspect-ratio: 1 / 1;
+    }
+
+    &:disabled {
+        opacity: 0.75;
+        cursor: not-allowed;
     }
 
     .label {

@@ -8,7 +8,8 @@
  * @property {string | string[]} [breakpoints] - Точки останова для адаптивного дизайна
  * @property {string} [icon] - Иконка после текста кнопки.
  * @property {string} [preicon] - Иконка до текста кнопки.
- * @property {string} [square] - Если true, то длина кнопки будет равна ширине из пропа size.
+ * @property {boolean} [square] - Если true, то длина кнопки будет равна ширине из пропа size.
+ * @property {boolean} [disabled] - Если true, то кнопка будет заблокирована и не активна.
  */
 export interface IPotButtonProps {
     tag?: string;
@@ -19,4 +20,5 @@ export interface IPotButtonProps {
     icon?: string;
     preicon?: string;
     square?: boolean;
+    disabled?: boolean;
 }
