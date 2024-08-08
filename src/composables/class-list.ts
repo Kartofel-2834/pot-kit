@@ -6,7 +6,7 @@
  * @returns Объект, где каждый ключ - строка в формате `_${property}-${value}`
  * Если value булевое, то просто `_${property}`
  */
-export function useClassList(properties: Record<string, any>): Record<string, boolean> {
+export function useClassList(properties: Record<string, unknown>): Record<string, boolean> {
     if (!properties && typeof properties !== 'object') return {};
 
     return Object.entries(properties).reduce((res, [property, value]) => {

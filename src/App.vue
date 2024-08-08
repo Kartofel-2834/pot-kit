@@ -1,22 +1,24 @@
 <template>
     <main :class="$style.main">
-        <PotLink
-            link="https://element.eleme.io/#/en-US/component/link"
-            underline
-            disabled
-        >
-            Kamal
-        </PotLink>
+        {{ value }}
+
+        <PotRadio
+            v-model="value"
+            :specs="specs"
+            :facets="facets"
+        />
     </main>
 </template>
 
 <script setup>
 // Components
-import PotLink from './components/link/PotLink.vue';
+import PotRadio from './components/radio/PotRadio.vue';
 
-function handleClick() {
-    alert(42);
-}
+import { ref } from 'vue';
+
+const value = ref(null);
+const specs = ref([1, 2, 3]);
+const facets = ref([1, 2]);
 </script>
 
 <style lang="scss" module>
