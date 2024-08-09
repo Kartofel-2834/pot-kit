@@ -1,10 +1,10 @@
 // Types
 import type { Ref } from 'vue';
 
-export type DeviceIsOptions = {
+export interface IDeviceIsOptions {
     mount: boolean;
     breakpoints: Record<string, number>;
-};
+}
 
 export type DeviceIs = {
     state: Ref<Record<string, boolean>>;
@@ -14,6 +14,6 @@ export type DeviceIs = {
     update: () => void;
 };
 
-export type DeviceIsPluginOptions = {
+export interface IDeviceIsPluginOptions {
     breakpoints?: Record<string, number>;
-};
+}

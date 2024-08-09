@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 
 // Types
 import type { Ref } from 'vue';
-import type { DeviceIsOptions, DeviceIs } from '@/types/composables/device-is-types';
+import type { IDeviceIsOptions, DeviceIs } from '@/types/composables/device-is-types';
 
 // Constants
 import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
@@ -18,7 +18,7 @@ import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
  * state - акутальные статусы всех брейкпоинтов,
  * device - текущий активный брейкпонт
  */
-export function useDeviceIs({ mount = true, breakpoints = bp }: DeviceIsOptions): DeviceIs {
+export function useDeviceIs({ mount = true, breakpoints = bp }: IDeviceIsOptions): DeviceIs {
     const queries: Ref<Record<string, MediaQueryList>> = ref({});
     const state: Ref<Record<string, boolean>> = ref({});
     const device: Ref<string | null> = ref(null);

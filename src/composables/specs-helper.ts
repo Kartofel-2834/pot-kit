@@ -1,6 +1,6 @@
 // Types
 import type {
-    ISpecsHelper,
+    SpecsHelper,
     ISpecsHelperOptions,
     Spec,
     SpecValue,
@@ -12,7 +12,28 @@ import { computed } from 'vue';
 // Composables
 import { useClassList } from './class-list';
 
-// TODO: add docstrings
+/**
+ * Компосабл возвращающий набор методов для упрощения реализации фасетного поиска.
+ *
+ * @param options - Объект, содержащий следующие свойства:
+ * @param [options.specs=[]] - Массив объектов или значений доступных для выбора и называемых спеками
+ * @param [options.facets=null] - Массив значений спеков доступных для выбора, если есть спек значения
+ *                                которого нет в `facets`, то он будет задизейблен
+ * @param [options.value=null] - Значение выбранного спека
+ * @param [options.modelValue=null] - То же, что и `value`, добавлен для удобства использования
+ *                                    компосабла в компонентах поддерживающих v-model
+ * @param [options.labelName='label'] - ключ по которому будет извлекаться label из спека, если спек объект.
+ * @param [options.valueName='value'] - ключ по которому будет извлекаться значение из спека, если спек объект.
+ *
+ * @returns Объект включающий currentValue и следующие методы для простой работы с спеками:
+ * - checkIsDisabled - проверяет, задизейблен ли спек.
+ * - checkIsSelected - проверяет, выбран ли спек.
+ * - checkIsValueValid - проверяет, валидно ли значение спека.
+ * - getSpecValue - возвращает значение спека.
+ * - getSpecLabel - возвращает label спека.
+ * - getSpecClassList - возвращает список классов для текущего спека.
+ * - getCurrentSpec - возвращает выбранный спек.
+ */
 export function useSpecsHelper({
     specs = [],
     facets = null,
@@ -24,10 +45,21 @@ export function useSpecsHelper({
     trueLabel = 'Да',
     falseLabel = 'Нет',
     resetLabel = 'Все',
-}: ISpecsHelperOptions): ISpecsHelper {
+}: ISpecsHelperOptions): SpecsHelper {
     const currentValue = computed<SpecValue>(() => value || modelValue);
 
-    // Methods
+    /**
+     * Хелпер-функция для определения, задизейблен ли спек.
+     *
+     * @param spec - Спецификация для проверки на дизейбл.
+     *
+     * @returns Логическое значение, указывающее на то задизейблен ли спек.
+     *
+     * @description
+     * Дизейбл спеков проверяется по наличию их значения в `facets`.
+     * Если значения спека нет в `facets`, то он задизейблен.
+     * Проверку по наличию в `facets` можно отключить передав в `facets` null.
+     */
     function checkIsDisabled(spec: Spec): boolean {
         if (facets === null) return false;
 
@@ -38,16 +70,42 @@ export function useSpecsHelper({
         return !facets.includes(specValue);
     }
 
+    /**
+     * Хелпер-функция для определения, выбран ли спек.
+     *
+     * @param spec - Спек для проверки.
+     *
+     * @returns Логическое значение, указывающее на то выбран спек или нет.
+     */
     function checkIsSelected(spec: Spec): boolean {
         return getSpecValue(spec) === currentValue.value && !checkIsDisabled(spec);
     }
 
+    /**
+     * Хелпер-функция для проверки, является ли значение спека допустимым.
+     *
+     * @param possibleValue - проверяемое значение спека.
+     * @returns Логическое значение, указывающее, является ли значение спека допустимым.
+     *
+     * @description функция используется в основном для определения является ли сам спек значением
+     * или же значение нужно извлечь из него по ключу `valueName`
+     */
     function checkIsValueValid(possibleValue: unknown): boolean {
         return (
             ['string', 'number', 'boolean'].includes(typeof possibleValue) || possibleValue === null
         );
     }
 
+    /**
+     * Хелпер-функция для получения значения спека.
+     *
+     * @param spec - Спек, из которого необходимо получить значение.
+     *
+     * @returns
+     * - Если `spec` является действительным значением (строкой, числом, логическим значением или null), оно возвращается как есть.
+     * - Если `spec` является объектом и содержит действительное значение, она рекурсивно вызывается с этим значением.
+     * - Если ни одно из вышеперечисленных условий не выполняется, возвращается null.
+     */
     function getSpecValue(spec: Spec): SpecValue {
         if (checkIsValueValid(spec)) return spec as SpecValue;
 
@@ -58,6 +116,19 @@ export function useSpecsHelper({
         return spec[valueName] as SpecValue;
     }
 
+    /**
+     * Хелпер-функция для получения label спека.
+     *
+     * @param spec - Спек, для которого необходимо получить метку.
+     *
+     * @returns
+     * Эта функция проверяет тип спека и возвращает соответствующий label на основе следующих правил:
+     * - Если `spec` является строкой или числом, он возвращается как строка.
+     * - Если `spec` является логическим значением, возвращается `trueLabel` или `falseLabel` соответственно.
+     * - Если `spec` равен null, возвращается `resetLabel`.
+     * - Если `spec` является объектом, то получаем значение по `labelName` и применяем к нему первые 3 пункта.
+     * - Если ни одно из вышеперечисленных условий не выполняется, возвращается пустая строка.
+     */
     function getSpecLabel(spec: Spec): string {
         if (['string', 'number'].includes(typeof spec)) return `${spec}`;
 
@@ -70,6 +141,13 @@ export function useSpecsHelper({
         return getSpecLabel(spec[labelName] as SpecValue);
     }
 
+    /**
+     * Хелпер-функция для получения списка классов-модификаторов спека
+     *
+     * @param spec - Спек, для которого необходимо создать список классов.
+     *
+     * @returns Список классов-модификаторов для элемента спека.
+     */
     function getSpecClassList(spec: Spec): Record<string, boolean> {
         return useClassList({
             selected: checkIsSelected(spec),
@@ -77,6 +155,9 @@ export function useSpecsHelper({
         });
     }
 
+    /**
+     * Хелпер-функция для получения выбранного спека
+     */
     function getCurrentSpec(): Spec {
         return specs.find(checkIsSelected) || null;
     }

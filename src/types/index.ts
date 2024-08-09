@@ -2,8 +2,8 @@
 import type { App } from 'vue';
 
 /**
- * Интерфейс для создания плагинов Vue
+ * Интерфейс для плагинов Vue
  */
-export interface IVuePlugin {
-    install: (app: App, options?: unknown) => void;
+export interface IVuePlugin<T = unknown> {
+    install: (app: App, options?: T) => void;
 }

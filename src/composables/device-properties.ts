@@ -1,7 +1,7 @@
 // Types
 import type {
     DeviceProperties,
-    DevicePropertiesOptions,
+    IDevicePropertiesOptions,
     DevicePropertiesBreakpointValues,
 } from '@/types/composables/device-properties-types';
 import type { DeviceIs } from '@/types/composables/device-is-types';
@@ -17,7 +17,7 @@ import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
  *
  * @param options - Объект, содержащий следующие свойства:
  * @param [options.properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
- *                                           соответствующих устройствам из options.devices
+ *                                  соответствующих устройствам из options.devices
  * @param [options.devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
  * @param [options.breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
  * @param [options.separator=' '] - разделитель для значений передаваемых в виде строки
@@ -44,7 +44,7 @@ export function useDeviceProperties({
     devices = ['desktop', 'tablet', 'mobile'],
     breakpoints = bp,
     separator = ' ',
-}: DevicePropertiesOptions): DeviceProperties {
+}: IDevicePropertiesOptions): DeviceProperties {
     const $deviceIs = inject<DeviceIs>('deviceIs');
 
     /**
