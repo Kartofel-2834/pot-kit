@@ -25,9 +25,6 @@ const iconAttributes = ref<Record<string, string>>({});
 // Lifecycle hooks
 onMounted(updateIcon);
 
-// Watchers
-watch(() => iconPath.value, updateIcon);
-
 /**
  * Путь к svg файлу иконки
  */
@@ -47,6 +44,8 @@ const customSize = computed<Partial<Record<string, string>>>(() => {
 
     return { width: `${formattedSize}rem` };
 });
+
+watch(() => iconPath?.value, updateIcon);
 
 /**
  * Метод для загрузки и отображения контента svg иконки
