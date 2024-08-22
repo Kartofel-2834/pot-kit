@@ -26,11 +26,6 @@ const iconAttributes = ref<Record<string, string>>({});
 onMounted(updateIcon);
 
 /**
- * Путь к svg файлу иконки
- */
-const iconPath = computed<string>(() => `${$props.srcPath}${$props.icon}.svg?raw`);
-
-/**
  * Если проп size указан, то width: size в ремах / 10
  */
 const customSize = computed<Partial<Record<string, string>>>(() => {
@@ -45,7 +40,7 @@ const customSize = computed<Partial<Record<string, string>>>(() => {
     return { width: `${formattedSize}rem` };
 });
 
-watch(() => iconPath?.value, updateIcon);
+watch(() => $props.icon, updateIcon);
 
 /**
  * Метод для загрузки и отображения контента svg иконки
@@ -54,7 +49,7 @@ watch(() => iconPath?.value, updateIcon);
  */
 async function updateIcon(): Promise<void> {
     try {
-        const icon = await import(/* @vite-ignore */ iconPath.value);
+        const icon = await import(/* @vite-ignore */ `../../assets/icons/${$props.icon}.svg?raw`);
         const data = icon?.default && typeof icon?.default === 'string' ? icon.default : '';
 
         const iconWrapper = document.createElement('div');
