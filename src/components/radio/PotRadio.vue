@@ -1,14 +1,21 @@
 <template>
-    <ul :class="[$style.PotRadio, 'pot-radio']">
-        <li
-            v-for="spec of specs"
-            :key="`PotRadioSpec_${specsHelper.getSpecValue(spec)}`"
-            :class="[$style.spec, specsHelper.getSpecClassList(spec)]"
-            @click="onSpecClick(spec)"
-        >
-            {{ specsHelper.getSpecLabel(spec) }}
-        </li>
-    </ul>
+    <component
+        :is="tag"
+        :class="[$style.PotRadio, 'pot-radio']"
+    >
+        <template v-for="spec of specs">
+            <slot name="radio">
+                <component
+                    :is="radioTag"
+                    :key="`PotRadioSpec_${specsHelper.getSpecValue(spec)}`"
+                    :class="[$style.spec, specsHelper.getSpecClassList(spec)]"
+                    @click="onSpecClick(spec)"
+                >
+                    {{ specsHelper.getSpecLabel(spec) }}
+                </component>
+            </slot>
+        </template>
+    </component>
 </template>
 
 <script lang="ts" setup>
@@ -25,6 +32,8 @@ import { computed } from 'vue';
 import { useSpecsHelper } from '@/composables/specs-helper';
 
 const $props = withDefaults(defineProps<IPotRadioProps>(), {
+    tag: 'ul',
+    radioTag: 'li',
     specs: () => [],
     facets: null,
     value: null,

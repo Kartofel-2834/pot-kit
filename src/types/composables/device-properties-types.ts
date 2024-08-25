@@ -4,11 +4,11 @@ import type { ComputedRef } from 'vue';
 /**
  * Интерфейс options компосабла useDeviceProperties
  *
- * @param [properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
+ * @param {Record<string, string | string[]>} [properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
  *                          соответствующих устройствам из options.devices
- * @param [devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
- * @param [breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
- * @param [separator=' '] - разделитель для значений передаваемых в виде строки
+ * @param {string | string[]} [devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
+ * @param {Record<string, number>} [breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
+ * @param {string} [separator=' '] - разделитель для значений передаваемых в виде строки
  *
  * @returns - возвращает методы для управления состоянием компосабла и рефы:
  * state - акутальные статусы всех брейкпоинтов,
