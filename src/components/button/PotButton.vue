@@ -34,7 +34,7 @@
 import type { IPotButtonProps } from '@/types/components/pot-button-types';
 
 // Vue
-import { defineAsyncComponent, computed, useCssModule } from 'vue';
+import { defineAsyncComponent, computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -54,8 +54,6 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     square: false,
     disabled: false,
 });
-
-const $style = useCssModule();
 
 /**
  * Вычисляет и возвращает свойства компонента на основе

@@ -1,4 +1,5 @@
 // Types
+import type { breakpoints } from '@/assets/ts/constants/breakpoints';
 import type { ComputedRef } from 'vue';
 
 /**

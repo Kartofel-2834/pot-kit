@@ -19,8 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-// TODO: add docstrings
-
 // Types
 import type { IPotRadioProps } from '@/types/components/pot-radio-types';
 import type { Spec, SpecValue } from '@/types/composables/specs-helper-types';

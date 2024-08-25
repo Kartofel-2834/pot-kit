@@ -46,7 +46,7 @@ export function useSpecsHelper({
     falseLabel = 'Нет',
     resetLabel = 'Все',
 }: ISpecsHelperOptions): SpecsHelper {
-    const currentValue = computed<SpecValue>(() => value || modelValue);
+    const currentValue = computed<SpecValue>(() => value ?? modelValue);
 
     /**
      * Хелпер-функция для определения, задизейблен ли спек.

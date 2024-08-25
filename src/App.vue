@@ -1,24 +1,22 @@
 <template>
     <main :class="$style.main">
-        {{ value }}
-
-        <PotRadio
+        <PotCheckbox
             v-model="value"
-            :specs="specs"
-            :facets="facets"
-        />
+            true-value="да"
+            false-value="нет"
+        >
+            Checkbox
+        </PotCheckbox>
     </main>
 </template>
 
 <script setup>
 // Components
-import PotRadio from './components/radio/PotRadio.vue';
+import PotCheckbox from '@/components/check/PotCheckbox.vue';
 
 import { ref } from 'vue';
 
-const value = ref(null);
-const specs = ref([1, 2, 3]);
-const facets = ref([1, 2]);
+const value = ref(false);
 </script>
 
 <style lang="scss" module>
