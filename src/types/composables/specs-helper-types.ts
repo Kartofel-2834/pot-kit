@@ -9,6 +9,17 @@ export type SpecValue = string | number | boolean | null;
 export type Spec = Record<string, unknown> | SpecValue;
 
 /**
+ * Модифицированный спек с состоянием
+ */
+export type ModifiedSpec = {
+    target: Spec;
+    value: SpecValue;
+    label: string;
+    isDisabled: boolean;
+    isSelected: boolean;
+};
+
+/**
  * Интерфейс пропсов для компонентов использующих фасетный поиск
  *
  * @property {Spec[]} [specs] - Массив объектов или значений доступных для выбора и называемых спеками
@@ -76,12 +87,12 @@ export type SpecsHelper = {
     getSpecLabel: (spec: Spec) => string;
 
     /**
-     * Возвращает список классов для текущего спека.
-     */
-    getSpecClassList: (spec: Spec) => Record<string, boolean>;
-
-    /**
      * Возвращает выбранный спек.
      */
     getCurrentSpec(): Spec;
+
+    /**
+     * Возвращает спеки с их текущим состоянием
+     */
+    getModifiedSpecs(specsArg?: Spec[]): ModifiedSpec[];
 };

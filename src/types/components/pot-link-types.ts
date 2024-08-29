@@ -1,26 +1,54 @@
 /**
  * Интерфейс пропсов для компонента PotLink
- *
- * @property {string} [tag] - HTML-тег кнопки. По умолчанию - 'a'.
- * @property {string | null} [link] - URL ссылки, нужен для работы автоматического определения target.
- * @property {string | null} [target] - target ссылки, если значение null, то ссылка будет открываться в новом окне для внешних URL-ов.
- * @property {string} [toAttribute] - атрибут используемый для ссылки, по умолчанию - 'href'.
- * @property {string | string[]} [color] - Цвет кнопки. Может быть одним значением или массивом значений для адаптивного дизайна.
- * @property {string | string[]} [breakpoints] - Точки останова для адаптивного дизайна
- * @property {string} [icon] - Иконка после текста кнопки.
- * @property {string} [preicon] - Иконка до текста кнопки.
- * @property {boolean} [disabled] - Если true, то ссылка будет заблокирована и не активна.
- * @property {boolean} [underline] - Если true, то ссылка будет подчеркиваться снизу при наведении.
  */
 export interface IPotLinkProps {
+    /**
+     * HTML-тег ссылки. По умолчанию - 'a'
+     */
     tag?: string;
+
+    /**
+     * URL ссылки, нужен для работы автоматического определения target
+     */
     link?: string | null;
+
+    /**
+     * Атрибут используемый для ссылки, по умолчанию - 'href'
+     */
     toAttribute?: string;
+
+    /**
+     * target ссылки, если значение null, то ссылка будет открываться в новом окне для внешних URL-ов
+     */
     target?: string | null;
+
+    /**
+     * Цвет ссылки. Может быть одним значением или массивом значений для адаптивного дизайна
+     */
     color?: string | string[];
+
+    /**
+     * Точки останова для адаптивного дизайна
+     */
     breakpoints?: string | string[];
+
+    /**
+     * Иконка после текста ссылки
+     */
     icon?: string;
+
+    /**
+     * Иконка до текста ссылки
+     */
     preicon?: string;
+
+    /**
+     * Если true, то ссылка будет заблокирована и не активна
+     */
     disabled?: boolean;
+
+    /**
+     * Если true, то ссылка будет подчеркиваться снизу при наведении
+     */
     underline?: boolean;
 }

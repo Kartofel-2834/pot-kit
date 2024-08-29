@@ -1,29 +1,36 @@
 <template>
     <main :class="$style.main">
-        <PotCheckbox
+        value: {{ value }}
+
+        <PotButton @click="() => specs.push(specs[specs.length - 1] + 1)">Add</PotButton>
+
+        <PotRadio
             v-model="value"
-            true-value="да"
-            false-value="нет"
-        >
-            Checkbox
-        </PotCheckbox>
+            :specs="specs"
+            :facets="[2, 3, 4, 7, 8]"
+        />
     </main>
 </template>
 
-<script setup>
-// Components
-import PotCheckbox from '@/components/check/PotCheckbox.vue';
-
+<script lang="ts" setup>
+// Vue
 import { ref } from 'vue';
 
-const value = ref(false);
+// Components
+import PotRadio from '@/components/radio/PotRadio.vue';
+import PotButton from './components/button/PotButton.vue';
+
+const value = ref<number>(1);
+const specs = ref<number[]>([1, 2, 3]);
 </script>
 
 <style lang="scss" module>
 .main {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
     min-height: 100vh;
 
     @include text(h0, m);

@@ -1,6 +1,5 @@
 // Types
-import type { App } from 'vue';
-import type { IVuePlugin } from '@/types';
+import type { App, Plugin } from 'vue';
 import type { DeviceIs, IDeviceIsPluginOptions } from '@/types/composables/device-is-types';
 
 // Constants
@@ -13,9 +12,10 @@ import { useDeviceIs } from '@/composables/device-is';
  * Этот плагин позволяет компонентам легко определять текущий размер
  * экрана на основе предопределенных брейкпоинтов
  *
- * @param app - Экземпляр приложения Vue.js.
+ * @param app - Экземпляр приложения Vue.
  * @param [options] - Необязательный объект конфигурации.
- * @param [options.breakpoints] - Настраиваемый объект точек перелома. Если не указан, будут использованы стандартные точки перелома из 'assets/js/constants/breakpoints'.
+ * @param [options.breakpoints] - Настраиваемый объект точек перелома для адаптивного дизайна.
+ * Если не указан, будут использованы стандартные брейкпоинты из 'assets/js/constants/breakpoints'.
  */
 function deviceIsPluginInit(app: App, options?: IDeviceIsPluginOptions): void {
     const breakpoints: Record<string, number> = options?.breakpoints || bp;
@@ -35,6 +35,6 @@ function deviceIsPluginInit(app: App, options?: IDeviceIsPluginOptions): void {
     app.config.globalProperties.$deviceIs = deviceIs;
 }
 
-const deviceIsPlugin: IVuePlugin<IDeviceIsPluginOptions> = { install: deviceIsPluginInit };
+const deviceIsPlugin: Plugin<IDeviceIsPluginOptions> = { install: deviceIsPluginInit };
 
 export default deviceIsPlugin;

@@ -3,12 +3,16 @@ import type { Ref } from 'vue';
 
 /**
  * Интерфейс options для useDeviceIs
- *
- * @param {boolean} mount - флаг, указывающий, следует ли создавать медиа-запросы при монтировании компоненте
- * @param {Record<string, number>} breakpoints - Брейкпоинты. По умолчанию bp из констант
  */
 export interface IDeviceIsOptions {
+    /**
+     * Флаг, указывающий, следует ли создавать медиа-запросы при монтировании компоненте
+     */
     mount: boolean;
+
+    /**
+     * Точки останова для адаптивного дизайна
+     */
     breakpoints: Record<string, number>;
 }
 
@@ -40,5 +44,8 @@ export type DeviceIs = {
 };
 
 export interface IDeviceIsPluginOptions {
+    /**
+     * Точки останова для адаптивного дизайна
+     */
     breakpoints?: Record<string, number>;
 }

@@ -4,13 +4,11 @@ import type {
     ISpecsHelperOptions,
     Spec,
     SpecValue,
+    ModifiedSpec,
 } from '@/types/composables/specs-helper-types';
 
 // Vue
 import { computed } from 'vue';
-
-// Composables
-import { useClassList } from './class-list';
 
 /**
  * Компосабл возвращающий набор методов для упрощения реализации фасетного поиска.
@@ -31,8 +29,8 @@ import { useClassList } from './class-list';
  * - checkIsValueValid - проверяет, валидно ли значение спека.
  * - getSpecValue - возвращает значение спека.
  * - getSpecLabel - возвращает label спека.
- * - getSpecClassList - возвращает список классов для текущего спека.
  * - getCurrentSpec - возвращает выбранный спек.
+ * - getModifiedSpecs - возвращает спеки с их текущим состоянием
  */
 export function useSpecsHelper({
     specs = [],
@@ -142,24 +140,27 @@ export function useSpecsHelper({
     }
 
     /**
-     * Хелпер-функция для получения списка классов-модификаторов спека
-     *
-     * @param spec - Спек, для которого необходимо создать список классов.
-     *
-     * @returns Список классов-модификаторов для элемента спека.
-     */
-    function getSpecClassList(spec: Spec): Record<string, boolean> {
-        return useClassList({
-            selected: checkIsSelected(spec),
-            disabled: checkIsDisabled(spec),
-        });
-    }
-
-    /**
      * Хелпер-функция для получения выбранного спека
      */
     function getCurrentSpec(): Spec {
         return specs.find(checkIsSelected) || null;
+    }
+
+    /**
+     * Хелпер-функция для получения спеков с состоянием
+     *
+     * @param specsArg - спеки, которые будут обновлены
+     *
+     * @returns Список обновленных спеков с состоянием.
+     */
+    function getModifiedSpecs(specsArg = specs): ModifiedSpec[] {
+        return specsArg.map(spec => ({
+            target: spec,
+            value: getSpecValue(spec),
+            label: getSpecLabel(spec),
+            isDisabled: checkIsDisabled(spec),
+            isSelected: checkIsSelected(spec),
+        }));
     }
 
     return {
@@ -169,7 +170,7 @@ export function useSpecsHelper({
         checkIsValueValid,
         getSpecValue,
         getSpecLabel,
-        getSpecClassList,
         getCurrentSpec,
+        getModifiedSpecs,
     };
 }
