@@ -44,7 +44,7 @@ export function useSpecsHelper({
     falseLabel = 'Нет',
     resetLabel = 'Все',
 }: ISpecsHelperOptions): SpecsHelper {
-    const currentValue = computed<SpecValue>(() => value ?? modelValue);
+    const currentValue = computed<SpecValue | SpecValue[]>(() => value ?? modelValue);
 
     /**
      * Хелпер-функция для определения, задизейблен ли спек.
@@ -76,7 +76,13 @@ export function useSpecsHelper({
      * @returns Логическое значение, указывающее на то выбран спек или нет.
      */
     function checkIsSelected(spec: Spec): boolean {
-        return getSpecValue(spec) === currentValue.value && !checkIsDisabled(spec);
+        if (checkIsDisabled(spec)) return false;
+
+        const value = getSpecValue(spec);
+
+        if (!Array.isArray(currentValue.value)) return value === currentValue.value;
+
+        return Boolean(currentValue.value.find(specValue => specValue === value));
     }
 
     /**
@@ -117,7 +123,7 @@ export function useSpecsHelper({
     /**
      * Хелпер-функция для получения label спека.
      *
-     * @param spec - Спек, для которого необходимо получить метку.
+     * @param spec - Спек, для которого необходимо получить label.
      *
      * @returns
      * Эта функция проверяет тип спека и возвращает соответствующий label на основе следующих правил:

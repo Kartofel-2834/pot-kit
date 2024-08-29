@@ -34,8 +34,8 @@ export type ModifiedSpec = {
 export interface ISpecsProps {
     specs?: Spec[];
     facets?: SpecValue[] | null;
-    value?: SpecValue;
-    modelValue?: SpecValue;
+    value?: SpecValue | SpecValue[];
+    modelValue?: SpecValue | SpecValue[];
     labelName?: string;
     valueName?: string;
 }
@@ -59,7 +59,7 @@ export type SpecsHelper = {
     /**
      * Выбранное значение
      */
-    currentValue: ComputedRef<SpecValue>;
+    currentValue: ComputedRef<SpecValue | SpecValue[]>;
 
     /**
      * Проверяет, задизейблен ли спек.
