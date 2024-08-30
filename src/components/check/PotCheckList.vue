@@ -18,6 +18,7 @@
                 :key="`PotCheckListCheckbox_reset`"
                 :value="isAllSelected"
                 :disabled="disabled"
+                :color="color"
                 @change="onCheckboxChange(null)"
             >
                 {{ resetLabel }}
@@ -38,6 +39,7 @@
                 :key="`PotCheckListCheckbox_${specValue}`"
                 :value="isSelected"
                 :disabled="disabled || isDisabled"
+                :color="color"
                 @change="onCheckboxChange(specValue)"
             >
                 {{ label }}
@@ -67,6 +69,7 @@ const $props = withDefaults(defineProps<IPotCheckListProps>(), {
     resetLabel: 'Все',
     disabled: false,
     resetable: false,
+    color: 'clay',
 });
 
 const $emit = defineEmits<{

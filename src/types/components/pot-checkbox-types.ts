@@ -34,6 +34,11 @@ export interface IPotCheckListProps extends ISpecsHelperOptions {
      * Если true, то в начале списка появится чекбокс для выбора и сброса всех значений сразу
      */
     resetable?: boolean;
+
+    /**
+     * Цвет чекбоксов в списке
+     */
+    color?: string;
 }
 
 /**
