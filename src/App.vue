@@ -2,13 +2,13 @@
     <main :class="$style.main">
         value: {{ value }}
 
-        <PotButton @click="() => specs.push(specs[specs.length - 1] + 1)">Add</PotButton>
-
-        <PotRadio
+        <PotCheckList
             v-model="value"
             :specs="specs"
-            :facets="[2, 3, 4, 7, 8]"
+            resetable
         />
+
+        <PotButton @click="() => specs.push(specs[specs.length - 1] + 1)">Add</PotButton>
     </main>
 </template>
 
@@ -17,10 +17,10 @@
 import { ref } from 'vue';
 
 // Components
-import PotRadio from '@/components/radio/PotRadio.vue';
+import PotCheckList from '@/components/check/PotCheckList.vue';
 import PotButton from './components/button/PotButton.vue';
 
-const value = ref<number>(1);
+const value = ref<number[]>([1]);
 const specs = ref<number[]>([1, 2, 3]);
 </script>
 

@@ -82,7 +82,7 @@ export function useSpecsHelper({
 
         if (!Array.isArray(currentValue.value)) return value === currentValue.value;
 
-        return Boolean(currentValue.value.find(specValue => specValue === value));
+        return currentValue.value.includes(value);
     }
 
     /**
