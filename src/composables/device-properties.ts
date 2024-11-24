@@ -10,7 +10,7 @@ import type { DeviceIs } from '@/types/composables/device-is-types';
 import { inject, computed } from 'vue';
 
 // Constants
-import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
+import { Breakpoints as BP } from '@/assets/ts/constants/breakpoints';
 
 /**
  * Компосабл возвращающий computed свойство с значениями расчитаными на основе текущего размера экрана
@@ -19,7 +19,7 @@ import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
  * @param [options.properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
  *                                  соответствующих устройствам из options.devices
  * @param [options.devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
- * @param [options.breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
+ * @param [options.breakpoints=BP] - брейкпоинты, по-умолчанию BP из констант
  * @param [options.separator=' '] - разделитель для значений передаваемых в виде строки
  *
  * @returns Вычисляемый объект, содержащий текущие устройство-специфические свойства.
@@ -42,7 +42,7 @@ import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
 export function useDeviceProperties({
     properties = {},
     devices = ['desktop', 'tablet', 'mobile'],
-    breakpoints = bp,
+    breakpoints = BP,
     separator = ' ',
 }: IDevicePropertiesOptions): DeviceProperties {
     const $deviceIs = inject<DeviceIs>('deviceIs');
@@ -51,7 +51,7 @@ export function useDeviceProperties({
      * Массив названий брейкпоинтов отсортированных по размеру
      */
     const allDevices = computed<string[]>(() => {
-        return Object.keys(breakpoints).sort((a, b) => (bp?.[a] || 0) - (bp?.[b] || 0));
+        return Object.keys(breakpoints).sort((a, b) => (breakpoints?.[a] || 0) - (breakpoints?.[b] || 0));
     });
 
     /**

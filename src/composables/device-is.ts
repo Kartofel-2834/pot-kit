@@ -6,19 +6,19 @@ import type { Ref } from 'vue';
 import type { IDeviceIsOptions, DeviceIs } from '@/types/composables/device-is-types';
 
 // Constants
-import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
+import { Breakpoints as BP } from '@/assets/ts/constants/breakpoints';
 
 /**
  * Хук для определения текущего разрешения экрана по брейкпоинтам
  *
  * @param mount - флаг, указывающий, следует ли создавать медиа-запросы при монтировании компоненте
- * @param breakpoints - Брейкпоинты. По умолчанию bp из констант
+ * @param breakpoints - Брейкпоинты. По умолчанию BP из констант
  *
  * @returns - возвращает методы для управления состоянием компосабла и рефы:
  * state - акутальные статусы всех брейкпоинтов,
  * device - текущий активный брейкпонт
  */
-export function useDeviceIs({ mount = true, breakpoints = bp }: IDeviceIsOptions): DeviceIs {
+export function useDeviceIs({ mount = true, breakpoints = BP }: IDeviceIsOptions): DeviceIs {
     const queries: Ref<Record<string, MediaQueryList>> = ref({});
     const state: Ref<Record<string, boolean>> = ref({});
     const device: Ref<string | null> = ref(null);
@@ -41,8 +41,8 @@ export function useDeviceIs({ mount = true, breakpoints = bp }: IDeviceIsOptions
 
         const createdQueries: Record<string, MediaQueryList> = {};
         const updatedState: Record<string, boolean> = {};
-        const breakpointsKeys: string[] = Object.keys(bp).sort((a, b) => {
-            return (bp?.[a] || 0) - (bp?.[b] || 0);
+        const breakpointsKeys: string[] = Object.keys(breakpoints).sort((a, b) => {
+            return (breakpoints?.[a] || 0) - (breakpoints?.[b] || 0);
         });
 
         let currentDevice: string | null = null;

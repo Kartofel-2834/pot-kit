@@ -67,6 +67,7 @@ const currentValue = computed<CheckboxValue>(() => $props.value ?? $props.modelV
  * если его текущее значение равно свойству `trueValue`.
  */
 const isChecked = computed<boolean>(() => currentValue.value === $props.trueValue);
+
 /**
  * Вычисляет и возвращает свойства компонента на основе
  * брейкпоинтов и текущего размера экрана
