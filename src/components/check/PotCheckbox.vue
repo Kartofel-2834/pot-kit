@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotCheckboxProps, CheckboxValue } from '@/types/components/pot-checkbox-types';
+import type { IPotCheckboxProps, CheckboxValue } from '@/types/components';
 
 // Vue
 import { computed } from 'vue';
@@ -128,7 +128,7 @@ function onChange(event: Event): void {
     }
 
     @include modificator(disabled) {
-        opacity: .75;
+        opacity: 0.75;
         cursor: not-allowed;
     }
 }

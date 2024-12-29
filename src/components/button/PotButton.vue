@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotButtonProps } from '@/types/components/pot-button-types';
+import type { IPotButtonProps } from '@/types/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';

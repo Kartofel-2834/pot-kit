@@ -7,7 +7,7 @@ import type {
     RequestInterceptor,
     ResponseInterceptor,
     RequestParams
-} from '@/types/composables/request-types';
+} from '@/types/composables';
 
 /**
  * Компосабл-обертка над браузерным fetch

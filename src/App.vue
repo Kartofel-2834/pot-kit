@@ -1,14 +1,8 @@
 <template>
     <main :class="$style.main">
-        value: {{ value }}
+        {{ value }}
 
-        <PotCheckList
-            v-model="value"
-            :specs="specs"
-            resetable
-        />
-
-        <PotButton @click="() => specs.push(specs[specs.length - 1] + 1)">Add</PotButton>
+        <PotInput v-model="value" />
     </main>
 </template>
 
@@ -17,11 +11,9 @@
 import { ref } from 'vue';
 
 // Components
-import PotCheckList from '@/components/check/PotCheckList.vue';
-import PotButton from './components/button/PotButton.vue';
+import PotInput from './components/input/PotInput.vue';
 
-const value = ref<number[]>([1]);
-const specs = ref<number[]>([1, 2, 3]);
+const value = ref<string>('');
 </script>
 
 <style lang="scss" module>

@@ -1,5 +1,5 @@
 // Types
-import type { ValidatorBuilder } from "@/types/composables/validators-types";
+import type { ValidatorBuilder } from "@/types/composables";
 
 // Constants
 import { ValidatorsMessages } from "@/assets/ts/constants/validators-messages";

@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotRadioElementProps } from '@/types/components/pot-radio-types';
+import type { IPotRadioElementProps } from '@/types/components';
 
 // Vue
 import { computed } from 'vue';

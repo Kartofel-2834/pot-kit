@@ -1,10 +1,10 @@
 // Types
 import type {
+    DeviceIs,
     DeviceProperties,
     IDevicePropertiesOptions,
     DevicePropertiesBreakpointValues,
-} from '@/types/composables/device-properties-types';
-import type { DeviceIs } from '@/types/composables/device-is-types';
+} from '@/types/composables';
 
 // Vue
 import { inject, computed } from 'vue';

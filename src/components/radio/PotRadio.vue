@@ -4,22 +4,22 @@
         :class="[$style.PotRadio, 'pot-radio']"
     >
         <slot
-            v-for="{ value: specValue, label, target, isDisabled, isSelected } of updatedSpecs"
+            v-for="spec of updatedSpecs"
             name="radio"
-            :spec="target"
-            :disabled="disabled || isDisabled"
-            :active="isSelected"
-            :on-change="() => onSpecClick(specValue, isDisabled)"
+            :spec="spec.target"
+            :disabled="disabled || spec.isDisabled"
+            :active="spec.isSelected"
+            :on-change="() => onSpecClick(spec.value, spec.isDisabled)"
         >
             <PotRadioElement
-                :key="`PotRadioElement_${specValue}`"
+                :key="`PotRadioElement_${spec.value}`"
                 :tag="radioTag"
                 :color="color"
-                :disabled="disabled || isDisabled"
-                :active="isSelected"
-                @click="onSpecClick(specValue, isDisabled)"
+                :disabled="disabled || spec.isDisabled"
+                :active="spec.isSelected"
+                @click="onSpecClick(spec.value, spec.isDisabled)"
             >
-                {{ label }}
+                {{ spec.label }}
             </PotRadioElement>
         </slot>
     </component>
@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotRadioProps } from '@/types/components/pot-radio-types';
+import type { IPotRadioProps } from '@/types/components';
 import type { SpecValue } from '@/types/composables/specs-helper-types';
 
 // Vue

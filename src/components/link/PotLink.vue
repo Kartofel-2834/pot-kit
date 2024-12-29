@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotLinkProps } from '@/types/components/pot-link-types';
+import type { IPotLinkProps } from '@/types/components';
 
 // Components
 import { computed } from 'vue';

@@ -11,19 +11,13 @@ export interface IDevicePropertiesOptions {
      */
     properties?: Record<string, string | string[]>;
 
-    /**
-     * Массив имен устройств
-     */
+    /** Массив имен устройств */
     devices?: string | string[];
 
-    /**
-     * Брейкпоинты для адаптивного дизайна
-     */
+    /** Брейкпоинты для адаптивного дизайна */
     breakpoints?: Record<string, number>;
 
-    /**
-     * Разделитель для значений передаваемых в виде строки
-     */
+    /** Разделитель для значений передаваемых в виде строки */
     separator?: string;
 }
 

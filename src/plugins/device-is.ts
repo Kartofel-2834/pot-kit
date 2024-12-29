@@ -3,7 +3,7 @@ import type { App, Plugin } from 'vue';
 import type { DeviceIs, IDeviceIsPluginOptions } from '@/types/composables/device-is-types';
 
 // Constants
-import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
+import { Breakpoints as bp } from '@/assets/ts/constants/breakpoints';
 
 // Composables
 import { useDeviceIs } from '@/composables/device-is';
@@ -23,11 +23,11 @@ function deviceIsPluginInit(app: App, options?: IDeviceIsPluginOptions): void {
 
     app.mixin({
         mounted() {
-            deviceIs?.init();
+            deviceIs.init();
         },
 
         unmounted() {
-            deviceIs?.clear();
+            deviceIs.clear();
         },
     });
 

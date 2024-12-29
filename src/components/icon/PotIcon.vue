@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotIconProps } from '@/types/components/pot-icon-types';
+import type { IPotIconProps } from '@/types/components';
 
 // Vue
 import { ref, computed, watch, onMounted } from 'vue';

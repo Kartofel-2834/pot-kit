@@ -26,23 +26,23 @@
         </slot>
 
         <slot
-            v-for="{ value: specValue, label, target, isSelected, isDisabled } of updatedSpecs"
+            v-for="spec of updatedSpecs"
             name="checkbox"
-            :spec="target"
-            :disabled="disabled || isDisabled"
-            :selected="isSelected"
-            :value="specValue"
-            :label="label"
-            :on-change="() => onCheckboxChange(specValue)"
+            :spec="spec.target"
+            :disabled="disabled || spec.isDisabled"
+            :selected="spec.isSelected"
+            :value="spec.value"
+            :label="spec.label"
+            :on-change="() => onCheckboxChange(spec.value)"
         >
             <PotCheckBox
-                :key="`PotCheckListCheckbox_${specValue}`"
-                :value="isSelected"
-                :disabled="disabled || isDisabled"
+                :key="`PotCheckListCheckbox_${spec.value}`"
+                :value="spec.isSelected"
+                :disabled="disabled || spec.isDisabled"
                 :color="color"
-                @change="onCheckboxChange(specValue)"
+                @change="onCheckboxChange(spec.value)"
             >
-                {{ label }}
+                {{ spec.label }}
             </PotCheckBox>
         </slot>
     </component>
@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 // Types
 import type { SpecValue } from '@/types/composables/specs-helper-types';
-import type { IPotCheckListProps } from '@/types/components/pot-checkbox-types';
+import type { IPotCheckListProps } from '@/types/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';

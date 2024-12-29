@@ -5,7 +5,7 @@ import type {
     Spec,
     SpecValue,
     ModifiedSpec,
-} from '@/types/composables/specs-helper-types';
+} from '@/types/composables';
 
 // Vue
 import { computed } from 'vue';

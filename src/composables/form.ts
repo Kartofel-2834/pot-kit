@@ -1,6 +1,6 @@
 // Types
 import type { Ref } from "vue";
-import type { FormValidators, FormErrors } from "@/types/composables/form-types";
+import type { FormValidators, FormErrors } from "@/types/composables";
 
 // Vue
 import { ref, computed, readonly } from "vue";

@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 
 // Types
 import type { Ref } from 'vue';
-import type { IDeviceIsOptions, DeviceIs } from '@/types/composables/device-is-types';
+import type { IDeviceIsOptions, DeviceIs } from '@/types/composables';
 
 // Constants
 import { Breakpoints as BP } from '@/assets/ts/constants/breakpoints';
