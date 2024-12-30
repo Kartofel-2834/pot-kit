@@ -40,6 +40,9 @@ import { defineAsyncComponent, computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
+// Constants
+import { ALL_DEVICES } from '@/composables/device-is';
+
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
@@ -48,7 +51,7 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     size: '32',
     color: 'clay',
     radius: '6',
-    breakpoints: 'desktop tablet mobile',
+    breakpoints: () => ALL_DEVICES,
     icon: '',
     preicon: '',
     square: false,

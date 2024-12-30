@@ -5,9 +5,6 @@
         v-bind="$attrs"
         @input="onInput"
         @change="onChange"
-        @keydown="$emit('keydown', $event)"
-        @focus="$emit('focus', $event)"
-        @blur="$emit('blur', $event)"
     />
 </template>
 
@@ -18,14 +15,19 @@ import type { IPotInputProps } from '@/types/components';
 // Vue
 import { computed, withDefaults } from 'vue';
 
-const $props = withDefaults(defineProps<IPotInputProps>(), {});
+// Composables
+import { useClassList } from '@/composables/class-list';
+import { useDeviceProperties } from '@/composables/device-properties';
+
+const $props = withDefaults(defineProps<IPotInputProps>(), {
+    size: '32',
+    color: 'pot',
+    radius: '',
+});
 
 const $emit = defineEmits<{
     input: [value: string];
     change: [value: string];
-    keydown: [e: KeyboardEvent];
-    focus: [e: FocusEvent];
-    blur: [e: FocusEvent];
     'update:modelValue': [value: string];
 }>();
 
@@ -34,15 +36,28 @@ const currentValue = computed(() =>
     typeof $props.value === 'string' ? $props.value : $props.modelValue,
 );
 
+const properties = computed(() => {
+    return useDeviceProperties({
+        devices: $props.breakpoints,
+        properties: {
+            size: $props.size,
+            color: $props.color,
+            radius: $props.radius,
+        },
+    });
+});
+
 // Methods
 function onInput(event: Event): void {
+    event.stopPropagation();
+
     const target = event.target as HTMLInputElement;
-    console.log('test', target.value, currentValue.value);
     $emit('update:modelValue', target.value);
     $emit('input', target.value);
 }
 
 function onChange(event: Event): void {
+    event.stopPropagation();
     const target = event.target as HTMLInputElement;
 
     $emit('change', target.value);

@@ -20,17 +20,20 @@ import { computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
+// Constants
+import { ALL_DEVICES } from '@/composables/device-is';
+
 const $props = withDefaults(defineProps<IPotLinkProps>(), {
     tag: 'a',
     link: null,
     target: null,
     toAttribute: 'href',
     color: 'clay',
-    breakpoints: 'desktop tablet mobile',
     icon: '',
     preicon: '',
     disabled: false,
     underline: false,
+    breakpoints: () => ALL_DEVICES,
 });
 
 /**

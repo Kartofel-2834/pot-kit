@@ -1,23 +1,21 @@
 // Types
 import type { Ref } from 'vue';
 
-/**
- * Интерфейс options для useDeviceIs
- */
-export interface IDeviceIsOptions {
-    /** Флаг, указывающий, следует ли создавать медиа-запросы при монтировании компоненте */
-    mount: boolean;
+// Enums
+import { EBreakpoints } from '@/enums/config';
 
-    /** Точки останова для адаптивного дизайна */
-    breakpoints: Record<string, number>;
-}
+export type DeviceBreakpoint = keyof typeof EBreakpoints;
+
+export type DeviceIsMediaQueries = Partial<Record<DeviceBreakpoint, MediaQueryList>>
+
+export type DeviceIsState = Partial<Record<DeviceBreakpoint, boolean>>
 
 export type DeviceIs = {
     /** Акутальные статусы всех брейкпоинтов */
-    state: Ref<Record<string, boolean>>;
+    state: Ref<DeviceIsState>;
 
     /** Текущий активный брейкпонт */
-    device: Ref<string | null>;
+    device: Ref<DeviceBreakpoint | null>;
 
     /** Создает медиа-запросы для переданных брейкпоинтов */
     init: () => void;
@@ -29,7 +27,3 @@ export type DeviceIs = {
     update: () => void;
 };
 
-export interface IDeviceIsPluginOptions {
-    /** Точки останова для адаптивного дизайна */
-    breakpoints?: Record<string, number>;
-}

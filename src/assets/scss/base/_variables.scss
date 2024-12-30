@@ -27,17 +27,6 @@ $clay-pot-0: #a35440;
 $clay-pot-100: #964734;
 $clay-pot-200: #823e2e;
 
-/* Breakpoints */
-$breakpoints: (
-    mobile: 0,
-    tablet-sm: 768px,
-    tablet: 1024px,
-    laptop: 1280px,
-    desktop: 1440px,
-);
-
-$default-size-breakpoints: 'desktop' 'tablet' 'mobile';
-
 /* Font formats */
 $font-formats: (
     ttf: 'truetype',

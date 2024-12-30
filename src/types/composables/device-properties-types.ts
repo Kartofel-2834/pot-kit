@@ -1,5 +1,6 @@
 // Types
 import type { ComputedRef } from 'vue';
+import type { DeviceBreakpoint } from './device-is-types';
 
 /**
  * Интерфейс options компосабла useDeviceProperties
@@ -12,10 +13,7 @@ export interface IDevicePropertiesOptions {
     properties?: Record<string, string | string[]>;
 
     /** Массив имен устройств */
-    devices?: string | string[];
-
-    /** Брейкпоинты для адаптивного дизайна */
-    breakpoints?: Record<string, number>;
+    devices?: DeviceBreakpoint[];
 
     /** Разделитель для значений передаваемых в виде строки */
     separator?: string;
@@ -23,4 +21,4 @@ export interface IDevicePropertiesOptions {
 
 export type DeviceProperties = ComputedRef<Record<string, string | null>>;
 
-export type DevicePropertiesBreakpointValues = Record<string, Record<string, string>>;
+export type DevicePropertiesBreakpointValues = Partial<Record<DeviceBreakpoint, string>>;

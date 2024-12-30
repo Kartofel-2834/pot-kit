@@ -1,9 +1,6 @@
 // Types
 import type { App, Plugin } from 'vue';
-import type { DeviceIs, IDeviceIsPluginOptions } from '@/types/composables/device-is-types';
-
-// Constants
-import { Breakpoints as bp } from '@/assets/ts/constants/breakpoints';
+import type { DeviceIs } from '@/types/composables/device-is-types';
 
 // Composables
 import { useDeviceIs } from '@/composables/device-is';
@@ -13,13 +10,9 @@ import { useDeviceIs } from '@/composables/device-is';
  * экрана на основе предопределенных брейкпоинтов
  *
  * @param app - Экземпляр приложения Vue.
- * @param [options] - Необязательный объект конфигурации.
- * @param [options.breakpoints] - Настраиваемый объект точек перелома для адаптивного дизайна.
- * Если не указан, будут использованы стандартные брейкпоинты из 'assets/js/constants/breakpoints'.
  */
-function deviceIsPluginInit(app: App, options?: IDeviceIsPluginOptions): void {
-    const breakpoints: Record<string, number> = options?.breakpoints || bp;
-    const deviceIs: DeviceIs = useDeviceIs({ mount: false, breakpoints });
+function deviceIsPluginInit(app: App): void {
+    const deviceIs: DeviceIs = useDeviceIs(false);
 
     app.mixin({
         mounted() {
@@ -35,6 +28,6 @@ function deviceIsPluginInit(app: App, options?: IDeviceIsPluginOptions): void {
     app.config.globalProperties.$deviceIs = deviceIs;
 }
 
-const deviceIsPlugin: Plugin<IDeviceIsPluginOptions> = { install: deviceIsPluginInit };
+const deviceIsPlugin: Plugin = { install: deviceIsPluginInit };
 
 export default deviceIsPlugin;

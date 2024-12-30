@@ -1,3 +1,6 @@
+// Types
+import type { DeviceBreakpoint } from "../composables";
+
 /**
  * Допустимый value для компонента PotCheckbox
  */
@@ -29,5 +32,5 @@ export interface IPotCheckboxProps {
     color?: string;
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: string | string[];
+    breakpoints?: DeviceBreakpoint[];
 }

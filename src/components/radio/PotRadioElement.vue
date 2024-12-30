@@ -20,13 +20,16 @@ import { computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
+// Constants
+import { ALL_DEVICES } from '@/composables/device-is';
+
 const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     tag: 'div',
     color: 'clay',
     radius: '100',
-    breakpoints: 'desktop tablet mobile',
     active: false,
     disabled: false,
+    breakpoints: () => ALL_DEVICES,
 });
 
 /**

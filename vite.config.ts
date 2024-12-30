@@ -7,10 +7,17 @@ import { defineConfig } from 'vite';
 // Plugins
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
+import potKit from './vite-pot-kit-plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), svgLoader()],
+    plugins: [
+        vue(),
+        svgLoader(),
+        potKit({
+            transition: '.2s ease'
+        })
+    ],
 
     css: {
         preprocessorOptions: {
@@ -19,6 +26,7 @@ export default defineConfig({
                     @import "@/assets/scss/bundle";
                     @import "@/assets/scss/default";
                     @import "@/assets/scss/reset";
+                    @import "@/assets/scss/config";
                 `,
             },
         },

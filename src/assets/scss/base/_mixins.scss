@@ -4,16 +4,9 @@
  * добавить свойство текста можно в $text-properties
  *
  * @param {String} $name - Имя размера текста
- * @param {String} $weight - Вес текста. По умолчанию 'r' (400)
  */
-@mixin text($name, $weight: 'r') {
+@mixin text($name) {
     $font-styles: map-get($text-sizes, $name);
-
-    @if $weight == 'm' {
-        font-weight: 500;
-    } @else {
-        font-weight: 400;
-    }
 
     @for $index from 1 through length($text-properties) {
         $value: nth($font-styles, $index);

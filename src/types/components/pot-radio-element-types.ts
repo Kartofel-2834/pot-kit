@@ -1,3 +1,6 @@
+// Types
+import type { DeviceBreakpoint } from "../composables";
+
 export interface IPotRadioElementProps {
     /** HTML-тег элемента. По умолчанию - 'div' */
     tag?: string;
@@ -9,7 +12,7 @@ export interface IPotRadioElementProps {
     radius?: string | string[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: string | string[];
+    breakpoints?: DeviceBreakpoint[];
 
     /** Флаг, указывающий на то, активен ли элемент радио-списка */
     active?: boolean;

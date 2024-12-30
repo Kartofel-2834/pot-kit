@@ -38,6 +38,9 @@ import { computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
+// Constants
+import { ALL_DEVICES } from '@/composables/device-is';
+
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
 
@@ -49,7 +52,7 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     falseValue: false,
     icon: 'check',
     color: 'clay',
-    breakpoints: 'desktop tablet mobile',
+    breakpoints: () => ALL_DEVICES,
 });
 
 const $emit = defineEmits<{

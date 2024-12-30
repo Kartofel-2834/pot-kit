@@ -1,3 +1,6 @@
+// Types
+import type { DeviceBreakpoint } from "../composables";
+
 /**
  * Интерфейс пропсов для компонента PotLink
  */
@@ -18,7 +21,7 @@ export interface IPotLinkProps {
     color?: string | string[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: string | string[];
+    breakpoints?: DeviceBreakpoint[];
 
     /** Иконка после текста ссылки */
     icon?: string;

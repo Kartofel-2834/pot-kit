@@ -1,3 +1,6 @@
+// Types
+import type { DeviceBreakpoint } from "../composables";
+
 /**
  * Интерфейс пропсов для компонента PotButton
  */
@@ -15,7 +18,7 @@ export interface IPotButtonProps {
     radius?: string | string[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: string | string[];
+    breakpoints?: DeviceBreakpoint[];
 
     /** Иконка после текста кнопки */
     icon?: string;

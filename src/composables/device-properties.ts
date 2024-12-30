@@ -2,33 +2,38 @@
 import type {
     DeviceIs,
     DeviceProperties,
-    IDevicePropertiesOptions,
     DevicePropertiesBreakpointValues,
+    DeviceBreakpoint,
+    IDevicePropertiesOptions
 } from '@/types/composables';
 
 // Vue
 import { inject, computed } from 'vue';
 
 // Constants
-import { Breakpoints as BP } from '@/assets/ts/constants/breakpoints';
+import { ALL_DEVICES } from './device-is';
+
+// В ключи enum-ов попадают и значения, у нас они числовые,
+// поэтому мы можем легко их вычислить и отбросить
+// const allDevices = Object.keys(EBreakpoints).filter(key => !/^[0-9]+$/.test(key)) as DeviceBreakpoint[];
+// console.log('allDevices', allDevices);
 
 /**
  * Компосабл возвращающий computed свойство с значениями расчитаными на основе текущего размера экрана
  *
- * @param options - Объект, содержащий следующие свойства:
- * @param [options.properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
- *                                  соответствующих устройствам из options.devices
- * @param [options.devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
- * @param [options.breakpoints=BP] - брейкпоинты, по-умолчанию BP из констант
- * @param [options.separator=' '] - разделитель для значений передаваемых в виде строки
+ * @param properties - Объект, где ключи - имена свойств, а значения - массивы значений,
+ *                     соответствующих устройствам из options.devices
+ * @param devices - Массив имен устройств
  *
  * @returns Вычисляемый объект, содержащий текущие устройство-специфические свойства.
  *
  * @example
- * const properties = useDeviceProperties({
- *     properties: { size: ['56', '48', '32'] },
- *     devices: ['desktop', 'tablet','mobile'],
- * });
+ * const properties = useDeviceProperties(
+ *  {
+ *     size: ['56', '48', '32']
+ *  },
+ *  [EBreakpoints.DESKTOP, EBreakpoints.TABLET, EBreakpoints.MOBILE]
+ * );
  *
  * // Для десктопа
  * properties.value //  { size: '56' }
@@ -41,25 +46,17 @@ import { Breakpoints as BP } from '@/assets/ts/constants/breakpoints';
  */
 export function useDeviceProperties({
     properties = {},
-    devices = ['desktop', 'tablet', 'mobile'],
-    breakpoints = BP,
-    separator = ' ',
+    devices = ALL_DEVICES,
+    separator = ' '
 }: IDevicePropertiesOptions): DeviceProperties {
     const $deviceIs = inject<DeviceIs>('deviceIs');
-
-    /**
-     * Массив названий брейкпоинтов отсортированных по размеру
-     */
-    const allDevices = computed<string[]>(() => {
-        return Object.keys(breakpoints).sort((a, b) => (breakpoints?.[a] || 0) - (breakpoints?.[b] || 0));
-    });
 
     /**
      * Объект c значениями из properties привязанными к брейкпоинтам из devices
      *
      * @example { size: { desktop: '56', tablet: '48' } }
      */
-    const breakpointValues = computed<DevicePropertiesBreakpointValues>(() => {
+    const breakpointValues = computed<Record<string, DevicePropertiesBreakpointValues>>(() => {
         if (!properties || typeof properties !== 'object') return {};
 
         return Object.entries(properties).reduce((res, [property, values]) => {
@@ -95,12 +92,10 @@ export function useDeviceProperties({
      * Если для какого-либо устройства не указано значение или указано '_',
      * то это устройство игнорируется.
      */
-    function getBreakpointValues(values: string[] = []): Record<string, string> {
-        const updatedDevices = prepareValues(devices);
+    function getBreakpointValues(values: string[] = []): DevicePropertiesBreakpointValues {
+        if (devices.some(device => typeof device !== 'string')) return {};
 
-        if (updatedDevices?.some(device => typeof device !== 'string')) return {};
-
-        return updatedDevices.reduce((res, breakpoint, index) => {
+        return devices.reduce((res, breakpoint, index) => {
             const value = values?.[index];
 
             return value && value !== '_' ? { ...res, [breakpoint]: value } : res;
@@ -115,19 +110,19 @@ export function useDeviceProperties({
      *
      * @returns Выбранное из properties значение или null, если значение не найдено
      */
-    function getCurrentValue(breakpointValues: Record<string, string> = {}): string | null {
-        const breakpointKeys: string[] = Object.keys(breakpointValues);
+    function getCurrentValue(breakpointValues: DevicePropertiesBreakpointValues = {}): string | null {
+        const breakpointKeys = Object.keys(breakpointValues) as DeviceBreakpoint[];
 
         if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {
             return breakpointValues?.[breakpointKeys[0]] || null;
         }
 
-        const deviceIndex = allDevices.value.indexOf($deviceIs?.device?.value);
+        const deviceIndex = ALL_DEVICES.indexOf($deviceIs?.device?.value as DeviceBreakpoint);
 
         if (deviceIndex === -1) return null;
 
-        for (let index = deviceIndex; index < allDevices.value.length; index++) {
-            const device = allDevices.value[index];
+        for (let index = deviceIndex; index < ALL_DEVICES.length; index++) {
+            const device = ALL_DEVICES[index];
             const value = breakpointValues?.[device];
 
             if (value) return value;
