@@ -3,9 +3,11 @@ import type {
     DeviceIs,
     DeviceProperties,
     DevicePropertiesBreakpointsValues,
-    DeviceBreakpoint,
     DevicePropertyValue,
 } from '@/types/composables';
+
+// Enums
+import { EDevices } from '@/enums/config';
 
 // Vue
 import { inject, computed } from 'vue';
@@ -27,7 +29,7 @@ import { ALL_DEVICES_REVERSED } from './device-is';
  *  {
  *     size: ['56', '48', '32']
  *  },
- *  [EBreakpoints.DESKTOP, EBreakpoints.TABLET, EBreakpoints.MOBILE]
+ *  [EDevices.DESKTOP, EDevices.TABLET, EDevices.MOBILE]
  * );
  *
  * // Для десктопа
@@ -41,7 +43,7 @@ import { ALL_DEVICES_REVERSED } from './device-is';
  */
 export function useDeviceProperties<T>(
     properties: T,
-    devices: DeviceBreakpoint[] = ALL_DEVICES_REVERSED,
+    devices: EDevices[] = ALL_DEVICES_REVERSED,
 ): DeviceProperties<T> {
     const $deviceIs = inject<DeviceIs>('deviceIs');
 
@@ -119,13 +121,13 @@ export function useDeviceProperties<T>(
     function getCurrentValue(
         breakpointValues: DevicePropertiesBreakpointsValues<T>[keyof T] = {}
     ): DevicePropertyValue<T[keyof T]> | null {
-        const breakpointKeys = Object.keys(breakpointValues) as DeviceBreakpoint[];
+        const breakpointKeys = Object.keys(breakpointValues) as EDevices[];
 
         if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {
             return breakpointValues?.[breakpointKeys[0]] || null;
         }
 
-        const deviceIndex = ALL_DEVICES_REVERSED.indexOf($deviceIs?.device?.value as DeviceBreakpoint);
+        const deviceIndex = ALL_DEVICES_REVERSED.indexOf($deviceIs?.device?.value);
 
         if (deviceIndex === -1) return null;
 
@@ -139,14 +141,7 @@ export function useDeviceProperties<T>(
         return null;
     }
 
-    /**
-     * Подготавливает массив значений, разбивая строку на основе
-     * заданного разделителя и фильтруя пустые значения
-     *
-     * @param notFormattedValues - Строка для разбиения и фильтрации.
-     *
-     * @returns - Массив значений после разбиения и фильтрации.
-     */
+    /**  Подготавливает массив значений */
     function prepareValues(notFormattedValues: T[keyof T]): Array<T[keyof T]> {
         return (Array.isArray(notFormattedValues) ? notFormattedValues : [notFormattedValues]);
     }

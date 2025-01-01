@@ -1,14 +1,12 @@
 /* NOT EDIT! This file generated automatically */
 
 /* Color themes */
-:root{
-    /* primary - theme */
+:root {
     --primary: #a35440;
     --primary-hover: #964734;
     --primary-active: #823e2e;
     --primary-text: var(--base-0);
 
-    /* custom - theme */
     --custom: red;
     --custom-hover: green;
     --custom-active: blue;
@@ -21,5 +19,5 @@ $breakpoints: (
     tablet-sm: 768px,
     tablet: 1024px,
     laptop: 1280px,
-    desktop: 1440px
+    desktop: 1440px,
 )

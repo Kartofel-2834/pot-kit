@@ -43,7 +43,7 @@ import { useDeviceProperties } from '@/composables/device-properties';
 import { useColorTheme } from '@/composables/color-theme';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
+import { EColorThemes } from '@/enums/config';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
@@ -55,7 +55,7 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
     size: '32',
     radius: '6',
-    color: () => EColorTheme.PRIMARY,
+    color: () => EColorThemes.PRIMARY,
     breakpoints: () => ALL_DEVICES_REVERSED,
     icon: '',
     preicon: '',

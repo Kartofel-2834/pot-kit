@@ -2,20 +2,18 @@
 import type { Ref } from 'vue';
 
 // Enums
-import { EBreakpoints } from '@/enums/config';
+import { EDevices } from '@/enums/config';
 
-export type DeviceBreakpoint = keyof typeof EBreakpoints;
+export type DeviceIsMediaQueries = Partial<Record<EDevices, MediaQueryList>>
 
-export type DeviceIsMediaQueries = Partial<Record<DeviceBreakpoint, MediaQueryList>>
-
-export type DeviceIsState = Partial<Record<DeviceBreakpoint, boolean>>
+export type DeviceIsState = Partial<Record<EDevices, boolean>>
 
 export type DeviceIs = {
     /** Акутальные статусы всех брейкпоинтов */
     state: Ref<DeviceIsState>;
 
     /** Текущий активный брейкпонт */
-    device: Ref<DeviceBreakpoint | null>;
+    device: Ref<EDevices | null>;
 
     /** Создает медиа-запросы для переданных брейкпоинтов */
     init: () => void;

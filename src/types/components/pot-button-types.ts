@@ -1,6 +1,5 @@
-// Types
-import type { EColorTheme } from "@/enums/config";
-import type { DeviceBreakpoint } from "../composables";
+// Enums
+import type { EColorThemes, EDevices } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotButton
@@ -13,13 +12,13 @@ export interface IPotButtonProps {
     size?: string | string[];
 
     /** Цвет кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EColorTheme | EColorTheme[];
+    color?: EColorThemes | EColorThemes[];
 
     /** Радиус границ кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
     radius?: string | string[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: DeviceBreakpoint[];
+    breakpoints?: EDevices[];
 
     /** Иконка после текста кнопки */
     icon?: string;

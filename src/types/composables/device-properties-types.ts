@@ -1,6 +1,8 @@
 // Types
 import type { ComputedRef } from 'vue';
-import type { DeviceBreakpoint } from './device-is-types';
+
+// Enums
+import { EDevices } from '@/enums/config';
 
 export type DevicePropertyValue<T> = T extends unknown[] ? DevicePropertyValue<T[number]> : T;
 
@@ -9,7 +11,7 @@ export type DeviceProperties<T> = ComputedRef<
 >
 
 export type DeviceBreakpointValues<T> = Partial<{
-    [Breakpoint in DeviceBreakpoint]: DevicePropertyValue<T>;
+    [Breakpoint in EDevices]: DevicePropertyValue<T>;
 }>
 
 export type DevicePropertiesBreakpointsValues<T> = Partial<{

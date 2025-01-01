@@ -19,163 +19,202 @@ interface IPotKitConfig {
     breakpoints: Record<string, number>; 
 }
 
-const defaultConfig: IPotKitConfig = {
-    colorThemes: {
-        primary: {
-            color: '#a35440',
-            hover: '#964734',
-            active: '#823e2e',
-            text: 'var(--base-0)',
-        },
+// Local utils
+/** @example capitalize('name') // 'Name' */
+function capitalize(str: string): string {
+    return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;
+}
 
-        custom: {
-            color: 'red',
-            hover: 'green',
-            active: 'blue',
-            text: 'var(--base-0)',
+/** @example toEnumKey('some-name') // 'SOME_NAME' */
+function toEnumKey(str: string): string {
+    return str.toUpperCase().split('-').join('_');
+}
+
+class PotKitStylesBuildPlugin {
+    static async init(config: IPotKitConfig) {
+        await fs.writeFile('./src/assets/scss/config.scss', [
+            `/* NOT EDIT! This file generated automatically */`,
+            
+            PotKitStylesBuildPlugin.getColorThemesStyles(config.colorThemes),
+            PotKitStylesBuildPlugin.getBreakpointsStyles(config.breakpoints),
+        ].join('\n\n'));
+    }
+
+    /** Генерация переменных для брейкпоинтов и адаптивного дизайна */
+    private static getBreakpointsStyles(breakpoints: IPotKitConfig['breakpoints']): string {
+        const values = PotKitStylesBuildPlugin.getStyle(breakpoints, ',');
+        return `/* Breakpoints */\n$breakpoints: (\n${values}\n)`; 
+    }
+
+    /** Генерация переменных для цветовых тем компонентов */
+    private static getColorThemesStyles(
+        colorThemes: IPotKitConfig['colorThemes']
+    ): string {
+        if (!colorThemes || typeof colorThemes !== 'object') {
+            return '';
         }
-    },
 
-    breakpoints: {
-        mobile: 0,
-        'tablet-sm': 768,
-        tablet: 1024,
-        laptop: 1280,
-        desktop: 1440,
-    },
-};
+        const cssVars = Object.entries(colorThemes).map(([name, theme]) => {
+            return PotKitStylesBuildPlugin.getStyle({
+                [`--${name}`]: theme.color,
+                [`--${name}-hover`]: theme.hover,
+                [`--${name}-active`]: theme.active,
+                [`--${name}-text`]: theme.text,
+            });    
+        });
 
-function getStyle(
-    field: string,
-    configuration?: Record<string, string | number>
-): string {
-    if (!configuration) {
-        return '';
+        return `/* Color themes */\n:root {\n${cssVars.join('\n\n')}\n}`;
     }
 
-    const comment = `/* ${field.slice(0, 1).toUpperCase()}${field.slice(1)} */`;
-    const values = Object.entries(configuration)
-        .map(([key, styleValue]) => {
-            const value = typeof styleValue === 'number' ? `${styleValue}px` : styleValue;
-
-            return `    ${key}: ${value}`;
-        })
-        .join(',\n');
-
-    return `${comment}\n$${field}: (\n${values}\n)`;
+    /** Генерация стилей */
+    private static getStyle(
+        data?: Record<string, string | number>,
+        separator: string = ';'
+    ): string {
+        if (!data || typeof data !== 'object') {
+            return '';
+        }
+        
+        return Object.entries(data)
+            .map(([key, value]) => {
+                const formattedValue = typeof value === 'number' ? `${value}px` : value;
+            
+                return `    ${key}: ${formattedValue}${separator}`;
+            })
+            .join(`\n`);
+    }
 }
 
-function getEnum(
-    field: string,
-    configuration?: Record<string, string | number>
-) {
-    if (!configuration) {
-        return '';
+class PotKitEnumsBuildPlugin {
+    static async init(config: IPotKitConfig) {
+        await fs.writeFile('./src/enums/config.ts', [
+            `/* NOT EDIT! This file generated automatically */`,
+            
+            PotKitEnumsBuildPlugin.getColorThemesEnum(config.colorThemes),
+            PotKitEnumsBuildPlugin.getDevicesEnum(config.breakpoints),
+            PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints)
+        ].join('\n\n'));
     }
 
-    const capitalizedField = field.slice(0, 1).toUpperCase() + field.slice(1);
-    const comment = `/* ${capitalizedField} */`;
-    const values = Object.entries(configuration)
-        .map(([key, value]) => {
-            const fotmattedKey = key.toUpperCase().split('-').join('_');
-            const formattedValue = typeof value === 'number' ? value : `'${value}'`;
-
-            return `    ${fotmattedKey} = ${formattedValue}`;
-        })
-        .join(',\n');
-
-    return `${comment}\nexport enum E${capitalizedField} {\n${values}\n}`;
-}
-
-/**
- * Генерация стилей цветовых тем
-*/
-function getColorThemesStyles(colorThemes: Record<string, IPotKitColorThemeConfig>): string {
-    if (!colorThemes || typeof colorThemes !== 'object') {
-        return '';
-    }
-
-    const getColorThemeVars = (name: string, theme: IPotKitColorThemeConfig) => {
-        return [
-            `    /* ${name} - theme */`,
-            `    --${name}: ${theme.color};`,
-            `    --${name}-hover: ${theme.hover};`,
-            `    --${name}-active: ${theme.active};`,
-            `    --${name}-text: ${theme.text};`,
-        ].join('\n');
-    };
-
-    const cssVars = Object.entries(colorThemes).map(([name, theme]) => getColorThemeVars(name, theme));
-
-    return `/* Color themes */\n:root{\n${cssVars.join('\n\n')}\n}`;
-}
-
-/**
- * Генерация стилей из конфига
-*/
-async function initStyles(config: Partial<IPotKitConfig> = {}) {
-    const currentConfig: IPotKitConfig = {
-        ...defaultConfig,
-        ...config,
-    };
-
-    const breakpoints = Object.keys(currentConfig.breakpoints)
-        .sort((a, b) => {
-            return (currentConfig.breakpoints?.[a] || 0) - (currentConfig.breakpoints?.[b] || 0);
-        })
-        .reduce((res, name) => ({
+    private static getColorThemesEnum(colorThemes: IPotKitConfig['colorThemes']): string {
+        const data = Object.entries(colorThemes).reduce((res, [themeName]) => ({
             ...res,
-            [name]: currentConfig.breakpoints[name]
+            [themeName]: themeName
         }), {});
 
-    const configurationStyles = [
-        `/* NOT EDIT! This file generated automatically */`,
-        
-        getColorThemesStyles(currentConfig.colorThemes),
-        getStyle('breakpoints', breakpoints)
-    ].join('\n\n');
+        return PotKitEnumsBuildPlugin.getEnum('colorThemes', data);
+    }
 
-    await fs.writeFile('./src/assets/scss/config.scss', configurationStyles);
+    private static getDevicesEnum(breakpoints: IPotKitConfig['breakpoints']): string {
+        const data = Object.entries(breakpoints).reduce((res, [device]) => ({
+            ...res,
+            [device]: toEnumKey(device)
+        }), {});
+
+        return PotKitEnumsBuildPlugin.getEnum('devices', data);
+    }
+
+    private static getBreakpointsEnum(breakpoints: IPotKitConfig['breakpoints']): string {
+        return PotKitEnumsBuildPlugin.getEnum('breakpoints', breakpoints);
+    }
+
+    /** Генерация енама */
+    private static getEnum(
+        name: string,
+        data?: Record<string, string | number>
+    ): string {
+        if (!data || typeof data !== 'object') {
+            return '';
+        }
+        
+        const comment = `/* ${capitalize(name)} */`;
+        const values = Object.entries(data)
+            .map(([key, value]) => {
+                const fotmattedKey = toEnumKey(key);
+                const formattedValue = typeof value === 'number' ? value : `'${value}'`;
+        
+                return `    ${fotmattedKey} = ${formattedValue}`;
+            })
+            .join(',\n');
+        
+        return `${comment}\nexport enum E${capitalize(name)} {\n${values}\n}`;
+    }
 }
 
-/**
- * Генерация енамов из конфига
-*/
-async function initEnums(config: Partial<IPotKitConfig> = {}) {
-    const currentConfig: IPotKitConfig = {
-        ...defaultConfig,
-        ...config,
+class PotKitBuildPlugin {
+    private static defaultConfig: IPotKitConfig = {
+        colorThemes: {
+            primary: {
+                color: '#a35440',
+                hover: '#964734',
+                active: '#823e2e',
+                text: 'var(--base-0)',
+            },
+    
+            custom: {
+                color: 'red',
+                hover: 'green',
+                active: 'blue',
+                text: 'var(--base-0)',
+            }
+        },
+    
+        breakpoints: {
+            mobile: 0,
+            'tablet-sm': 768,
+            tablet: 1024,
+            laptop: 1280,
+            desktop: 1440,
+        },
     };
 
-    const colorThemesEnumData = Object.keys(currentConfig.colorThemes).reduce((res, themeName) => ({
-        ...res,
-        [themeName]: themeName
-    }), {});
+    static async init(userConfig: Partial<IPotKitConfig>) {
+        const currentConfig = PotKitBuildPlugin.prepareConfig(userConfig);
 
-    const configurationEnums = [
-        `/* NOT EDIT! This file generated automatically */`,
+        console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles generation started`);
         
-        getEnum('breakpoints', currentConfig.breakpoints),
-        getEnum('colorTheme', colorThemesEnumData)
-    ].join('\n\n');
+        try {
+            await Promise.all([
+                PotKitStylesBuildPlugin.init(currentConfig),
+                PotKitEnumsBuildPlugin.init(currentConfig),
+            ]);
+            console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles successfully generated`);
+        } catch (err) {
+            console.error(`[POT-KIT]: enums and styles generation error -`, err);
+        }
+    }
 
-    await fs.writeFile('./src/enums/config.ts', configurationEnums);
+    private static prepareConfig(userConfig: Partial<IPotKitConfig>): IPotKitConfig {
+        const currentConfig: IPotKitConfig = {
+            ...PotKitBuildPlugin.defaultConfig,
+            ...userConfig,
+        };
+
+        // Primary тема должна гарантированно присутствовать
+        currentConfig.colorThemes.primary = (
+            userConfig?.colorThemes?.primary ||
+            PotKitBuildPlugin.defaultConfig.colorThemes.primary
+        );
+
+        // Сортируем брейкпоинты на всякий случай, если они были указаны не в порядке возрастания
+        currentConfig.breakpoints = Object.keys(currentConfig.breakpoints)
+            .sort((a, b) => {
+                return (currentConfig.breakpoints?.[a] || 0) - (currentConfig.breakpoints?.[b] || 0);
+            })
+            .reduce((res, name) => ({
+                ...res,
+                [name]: currentConfig.breakpoints[name]
+            }), {});
+
+        return currentConfig;
+    }
 }
 
-export default function potKitBuildPlugin(config: Partial<IPotKitConfig> = {}): Plugin {
+export default function potKitBuildPlugin(userConfig: Partial<IPotKitConfig> = {}): Plugin {
     return {
         name: 'vite-pot-kit-plugin',
         buildStart: async () => {
-            console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles generation started`);
-            try {
-                await Promise.all([
-                    initStyles(config),
-                    initEnums(config)
-                ]);
-                console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles successfully generated`);
-            } catch (err) {
-                console.error(`[POT-KIT]: enums and styles generation error -`, err);
-            }
+            await PotKitBuildPlugin.init(userConfig);
         }
     };
 }
