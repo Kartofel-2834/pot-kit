@@ -1,4 +1,5 @@
 // Types
+import type { EColorTheme } from "@/enums/config";
 import type { DeviceBreakpoint } from "../composables";
 
 /**
@@ -12,7 +13,7 @@ export interface IPotButtonProps {
     size?: string | string[];
 
     /** Цвет кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: string | string[];
+    color?: EColorTheme | EColorTheme[];
 
     /** Радиус границ кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
     radius?: string | string[];

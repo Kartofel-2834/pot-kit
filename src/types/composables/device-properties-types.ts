@@ -2,23 +2,16 @@
 import type { ComputedRef } from 'vue';
 import type { DeviceBreakpoint } from './device-is-types';
 
-/**
- * Интерфейс options компосабла useDeviceProperties
- */
-export interface IDevicePropertiesOptions {
-    /**
-     * Объект, где ключи - имена свойств, а значения - массивы значений,
-     * соответствующих устройствам из options.devices
-     */
-    properties?: Record<string, string | string[]>;
+export type DevicePropertyValue<T> = T extends unknown[] ? DevicePropertyValue<T[number]> : T;
 
-    /** Массив имен устройств */
-    devices?: DeviceBreakpoint[];
+export type DeviceProperties<T> = ComputedRef<
+    Partial<{ [Property in keyof T]: DevicePropertyValue<T[Property]> }>
+>
 
-    /** Разделитель для значений передаваемых в виде строки */
-    separator?: string;
-}
+export type DeviceBreakpointValues<T> = Partial<{
+    [Breakpoint in DeviceBreakpoint]: DevicePropertyValue<T>;
+}>
 
-export type DeviceProperties = ComputedRef<Record<string, string | null>>;
-
-export type DevicePropertiesBreakpointValues = Partial<Record<DeviceBreakpoint, string>>;
+export type DevicePropertiesBreakpointsValues<T> = Partial<{
+    [Property in keyof T]: DeviceBreakpointValues<T[Property]>
+}>

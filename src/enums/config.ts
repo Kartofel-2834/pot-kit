@@ -8,3 +8,9 @@ export enum EBreakpoints {
     LAPTOP = 1280,
     DESKTOP = 1440
 }
+
+/* ColorTheme */
+export enum EColorTheme {
+    PRIMARY = 'primary',
+    CUSTOM = 'custom'
+}

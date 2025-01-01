@@ -1,5 +1,20 @@
 /* NOT EDIT! This file generated automatically */
 
+/* Color themes */
+:root{
+    /* primary - theme */
+    --primary: #a35440;
+    --primary-hover: #964734;
+    --primary-active: #823e2e;
+    --primary-text: var(--base-0);
+
+    /* custom - theme */
+    --custom: red;
+    --custom-hover: green;
+    --custom-active: blue;
+    --custom-text: var(--base-0);
+}
+
 /* Breakpoints */
 $breakpoints: (
     mobile: 0px,

@@ -4,11 +4,38 @@ import fs from 'fs/promises';
 // Types
 import type { Plugin } from "vite";
 
+// Libs
+import moment from 'moment';
+
+interface IPotKitColorThemeConfig {
+    color: string,
+    hover: string,
+    active: string;
+    text: string;
+}
+
 interface IPotKitConfig {
+    colorThemes: Record<string, IPotKitColorThemeConfig>;
     breakpoints: Record<string, number>; 
 }
 
 const defaultConfig: IPotKitConfig = {
+    colorThemes: {
+        primary: {
+            color: '#a35440',
+            hover: '#964734',
+            active: '#823e2e',
+            text: 'var(--base-0)',
+        },
+
+        custom: {
+            color: 'red',
+            hover: 'green',
+            active: 'blue',
+            text: 'var(--base-0)',
+        }
+    },
+
     breakpoints: {
         mobile: 0,
         'tablet-sm': 768,
@@ -18,7 +45,7 @@ const defaultConfig: IPotKitConfig = {
     },
 };
 
-function parseConfigurationToStyle(
+function getStyle(
     field: string,
     configuration?: Record<string, string | number>
 ): string {
@@ -38,7 +65,7 @@ function parseConfigurationToStyle(
     return `${comment}\n$${field}: (\n${values}\n)`;
 }
 
-function parseConfigurationToEnum(
+function getEnum(
     field: string,
     configuration?: Record<string, string | number>
 ) {
@@ -51,14 +78,41 @@ function parseConfigurationToEnum(
     const values = Object.entries(configuration)
         .map(([key, value]) => {
             const fotmattedKey = key.toUpperCase().split('-').join('_');
+            const formattedValue = typeof value === 'number' ? value : `'${value}'`;
 
-            return `    ${fotmattedKey} = ${value}`;
+            return `    ${fotmattedKey} = ${formattedValue}`;
         })
         .join(',\n');
 
     return `${comment}\nexport enum E${capitalizedField} {\n${values}\n}`;
 }
 
+/**
+ * Генерация стилей цветовых тем
+*/
+function getColorThemesStyles(colorThemes: Record<string, IPotKitColorThemeConfig>): string {
+    if (!colorThemes || typeof colorThemes !== 'object') {
+        return '';
+    }
+
+    const getColorThemeVars = (name: string, theme: IPotKitColorThemeConfig) => {
+        return [
+            `    /* ${name} - theme */`,
+            `    --${name}: ${theme.color};`,
+            `    --${name}-hover: ${theme.hover};`,
+            `    --${name}-active: ${theme.active};`,
+            `    --${name}-text: ${theme.text};`,
+        ].join('\n');
+    };
+
+    const cssVars = Object.entries(colorThemes).map(([name, theme]) => getColorThemeVars(name, theme));
+
+    return `/* Color themes */\n:root{\n${cssVars.join('\n\n')}\n}`;
+}
+
+/**
+ * Генерация стилей из конфига
+*/
 async function initStyles(config: Partial<IPotKitConfig> = {}) {
     const currentConfig: IPotKitConfig = {
         ...defaultConfig,
@@ -77,22 +131,32 @@ async function initStyles(config: Partial<IPotKitConfig> = {}) {
     const configurationStyles = [
         `/* NOT EDIT! This file generated automatically */`,
         
-        parseConfigurationToStyle('breakpoints', breakpoints)
+        getColorThemesStyles(currentConfig.colorThemes),
+        getStyle('breakpoints', breakpoints)
     ].join('\n\n');
 
     await fs.writeFile('./src/assets/scss/config.scss', configurationStyles);
 }
 
+/**
+ * Генерация енамов из конфига
+*/
 async function initEnums(config: Partial<IPotKitConfig> = {}) {
     const currentConfig: IPotKitConfig = {
         ...defaultConfig,
         ...config,
     };
 
+    const colorThemesEnumData = Object.keys(currentConfig.colorThemes).reduce((res, themeName) => ({
+        ...res,
+        [themeName]: themeName
+    }), {});
+
     const configurationEnums = [
         `/* NOT EDIT! This file generated automatically */`,
         
-        parseConfigurationToEnum('breakpoints', currentConfig.breakpoints)
+        getEnum('breakpoints', currentConfig.breakpoints),
+        getEnum('colorTheme', colorThemesEnumData)
     ].join('\n\n');
 
     await fs.writeFile('./src/enums/config.ts', configurationEnums);
@@ -102,10 +166,16 @@ export default function potKitBuildPlugin(config: Partial<IPotKitConfig> = {}): 
     return {
         name: 'vite-pot-kit-plugin',
         buildStart: async () => {
-            await Promise.all([
-                initStyles(config),
-                initEnums(config)
-            ]);
+            console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles generation started`);
+            try {
+                await Promise.all([
+                    initStyles(config),
+                    initEnums(config)
+                ]);
+                console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles successfully generated`);
+            } catch (err) {
+                console.error(`[POT-KIT]: enums and styles generation error -`, err);
+            }
         }
     };
 }

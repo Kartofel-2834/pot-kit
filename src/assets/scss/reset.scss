@@ -16,10 +16,8 @@ html {
 body {
     overflow-y: scroll;
     margin: 0;
-    font-family: $base-font;
-    font-size: $base-font-size;
-    line-height: 124%;
-    color: $body-color;
+    font-size: 16px;
+    font-family: sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;

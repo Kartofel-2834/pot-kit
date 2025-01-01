@@ -5,6 +5,8 @@
         <PotInput v-model="value" />
 
         <PotCheckbox v-model="flag">Kamal</PotCheckbox>
+
+        <PotButton>Test</PotButton>
     </main>
 </template>
 
@@ -15,6 +17,7 @@ import { ref } from 'vue';
 // Components
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotInput from './components/input/PotInput.vue';
+import PotButton from './components/button/PotButton.vue';
 
 const value = ref<string>('');
 const flag = ref<boolean>(false);

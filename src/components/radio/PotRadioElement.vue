@@ -65,7 +65,7 @@ const classList = computed(() =>
     gap: 0.4em;
     user-select: none;
     cursor: pointer;
-    transition: opacity $default-transition;
+    transition: opacity $transition;
 
     /* --- Colors --- */
     @include modificator(color, clay) {
@@ -131,8 +131,8 @@ const classList = computed(() =>
     border-radius: 0.8rem;
     border: 1px solid;
     transition:
-        background-color $default-transition,
-        border-color $default-transition;
+        background-color $transition,
+        border-color $transition;
 
     &::before {
         content: '';
@@ -143,7 +143,7 @@ const classList = computed(() =>
         height: calc(100% - 0.2em);
         border-radius: inherit;
         transform: translate(-50%, -50%) scale(0);
-        transition: transform $default-transition;
+        transition: transform $transition;
     }
 }
 </style>

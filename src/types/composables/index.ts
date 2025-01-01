@@ -4,3 +4,4 @@ export * from './request-types';
 export * from './specs-helper-types';
 export * from './validators-types';
 export * from './form-types';
+export * from './color-theme';

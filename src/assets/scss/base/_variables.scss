@@ -1,10 +1,76 @@
-/*  Fonts */
-$base-font-size: 1.6rem;
-$base-font: sans-serif;
+:root {
+    --unit: 0.5rem;
+    --spacer: calc(var(--unit) * 2);
+
+    /* Spacing */
+    --spacer-0-125: calc(var(--spacer) * 0.125);
+    --spacer-0-250: calc(var(--spacer) * 0.25);
+    --spacer-0-500: calc(var(--spacer) * 0.5);
+    --spacer-0-750: calc(var(--spacer) * 0.75);
+    --spacer-1-500: calc(var(--spacer) * 1.5);
+    --spacer-2: calc(var(--spacer) * 2);
+    --spacer-2-500: calc(var(--spacer) * 2.5);
+    --spacer-3: calc(var(--spacer) * 3);
+    --spacer-4: calc(var(--spacer) * 4);
+    --spacer-6: calc(var(--spacer) * 6);
+    --spacer-8: calc(var(--spacer) * 8);
+    --spacer-10: calc(var(--spacer) * 10);
+
+    /* Colors */
+    --base-0: #ffffff;
+    --base-100: #f3f5f7;
+    --base-200: #e7eaed;
+    --base-300: #d3d9df;
+    --base-400: #acaebb;
+    --base-500: #5f6473;
+    --base-600: #373a41;
+    --base-800: #1c1e26;
+    --base-900: #111;
+
+    /* Transition */
+    --transition: 0.4s ease;
+}
+
+/* Font formats */
+$font-formats: (
+    ttf: 'truetype',
+    otf: 'opentype',
+    woff: 'woff',
+    woff2: 'woff2',
+);
+
+/* Text */
+$text-properties: 'font-size' 'font-weight' 'line-height' 'letter-spacing';
+$text-sizes: (
+    // Headings
+    h0: 4rem 500 5rem -0.8px,
+    h1: 3.2rem 500 4rem -0.64px,
+    h2: 2.4rem 500 3.2rem -0.48px,
+
+    // Labels
+    l1: 2rem 500 2.2rem -0.2px,
+    l2: 1.6rem 500 1.8rem -0.16px,
+    l3: 1.4rem 500 1.6rem -0.14px,
+    l4: 1.2rem 500 1.4rem -0.12px,
+
+    // Text
+    t0: 2rem null 2.4rem null,
+    t1: 1.8rem null 2.4rem null,
+    t2: 1.6rem null 2.2rem null,
+    t3: 1.4rem null 2rem null,
+    t4: 1.2rem null 1.6rem null,
+
+    // Paragraphs
+    p1: 1.8rem null 2.8rem null,
+    p2: 1.6rem null 2.4rem null,
+    p3: 1.4rem null 2.2rem null,
+    p4: 1.2rem null 1.8rem null
+);
+
+/* Transitions */
+$transition: 0.4s ease;
 
 /* Colors */
-$body-color: #373a41;
-
 $base-0: #ffffff;
 $base-100: #f3f5f7;
 $base-200: #e7eaed;
@@ -14,6 +80,10 @@ $base-500: #5f6473;
 $base-600: #373a41;
 $base-800: #1c1e26;
 $base-900: #111;
+
+$primary: #a35440;
+$primary-hover: #964734;
+$primary-active: #823e2e;
 
 $success-400: #e9f7e9;
 $success-500: #68cc58;
@@ -26,42 +96,3 @@ $soup-pot: #f87531;
 $clay-pot-0: #a35440;
 $clay-pot-100: #964734;
 $clay-pot-200: #823e2e;
-
-/* Font formats */
-$font-formats: (
-    ttf: 'truetype',
-    otf: 'opentype',
-    woff: 'woff',
-    woff2: 'woff2',
-);
-
-/* Text */
-$text-properties: 'font-size' 'line-height' 'letter-spacing';
-$text-sizes: (
-    // Headings
-    h0: 4rem 5rem -0.8px,
-    h1: 3.2rem 4rem -0.64px,
-    h2: 2.4rem 3.2rem -0.48px,
-
-    // Labels
-    l1: 2rem 2.2rem -0.2px,
-    l2: 1.6rem 1.8rem -0.16px,
-    l3: 1.4rem 1.6rem -0.14px,
-    l4: 1.2rem 1.4rem -0.12px,
-
-    // Text
-    t0: 2rem 2.4rem null,
-    t1: 1.8rem 2.4rem null,
-    t2: 1.6rem 2.2rem null,
-    t3: 1.4rem 2rem null,
-    t4: 1.2rem 1.6rem null,
-
-    // Paragraphs
-    p1: 1.8rem 2.8rem null,
-    p2: 1.6rem 2.4rem null,
-    p3: 1.4rem 2.2rem null,
-    p4: 1.2rem 1.8rem null
-);
-
-/* Transitions */
-$default-transition: 0.4s ease;

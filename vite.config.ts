@@ -14,9 +14,7 @@ export default defineConfig({
     plugins: [
         vue(),
         svgLoader(),
-        potKit({
-            transition: '.2s ease'
-        })
+        potKit()
     ],
 
     css: {

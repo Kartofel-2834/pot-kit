@@ -17,6 +17,8 @@ import { EBreakpoints } from '@/enums/config';
 // поэтому мы можем легко их вычислить и отбросить
 export const ALL_DEVICES = Object.keys(EBreakpoints).filter(key => !/^[0-9]+$/.test(key)) as DeviceBreakpoint[];
 
+export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
+
 /**
  * Хук для определения текущего разрешения экрана по брейкпоинтам
  *

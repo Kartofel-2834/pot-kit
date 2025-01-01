@@ -2,7 +2,7 @@
     // Fade
     .fade-enter-active,
     .fade-leave-active {
-        transition: opacity $default-transition;
+        transition: opacity $transition;
     }
 
     .fade-enter-from,

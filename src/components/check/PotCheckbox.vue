@@ -110,7 +110,7 @@ function onChange(event: Event): void {
     font-size: inherit;
     cursor: pointer;
     user-select: none;
-    transition: opacity $default-transition;
+    transition: opacity $transition;
 
     /* --- Colors --- */
     @include modificator(color, clay) {
@@ -148,14 +148,14 @@ function onChange(event: Event): void {
     aspect-ratio: 1 / 1;
     border: 1px solid;
     transition:
-        color $default-transition,
-        border-color $default-transition,
-        background-color $default-transition;
+        color $transition,
+        border-color $transition,
+        background-color $transition;
 }
 
 .icon {
     width: 0.8em;
     transform: scale(0);
-    transition: transform $default-transition;
+    transition: transform $transition;
 }
 </style>

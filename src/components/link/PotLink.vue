@@ -92,8 +92,8 @@ const currentLink = computed<string | null>(() => {
     user-select: none;
     cursor: pointer;
     transition:
-        opacity $default-transition,
-        color $default-transition;
+        opacity $transition,
+        color $transition;
 
     /* --- Colors --- */
     @include modificator(color, clay) {
@@ -136,7 +136,7 @@ const currentLink = computed<string | null>(() => {
         background-color: currentColor;
         transform-origin: left;
         transform: translateY(100%) scaleX(0);
-        transition: transform $default-transition;
+        transition: transform $transition;
     }
 }
 </style>

@@ -2,6 +2,7 @@
     <component
         :is="tag"
         :class="[$style.PotButton, 'pot-button', classList]"
+        :style="colorThemeCssVars"
         :disabled="disabled"
     >
         <slot name="preicon">
@@ -39,9 +40,13 @@ import { defineAsyncComponent, computed } from 'vue';
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+import { useColorTheme } from '@/composables/color-theme';
+
+// Enums
+import { EColorTheme } from '@/enums/config';
 
 // Constants
-import { ALL_DEVICES } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
@@ -49,9 +54,9 @@ const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
     size: '32',
-    color: 'clay',
     radius: '6',
-    breakpoints: () => ALL_DEVICES,
+    color: () => EColorTheme.PRIMARY,
+    breakpoints: () => ALL_DEVICES_REVERSED,
     icon: '',
     preicon: '',
     square: false,
@@ -63,22 +68,24 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({
-        devices: $props.breakpoints,
-        properties: {
-            size: $props.size,
+    return useDeviceProperties(
+        {
             color: $props.color,
+            size: $props.size,
             radius: $props.radius,
         },
-    });
+        $props.breakpoints,
+    );
 });
 
-/**
- * Классы модификаторы компонента
- */
+/** Цветовая тема */
+const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
+
+/** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
         ...properties.value.value,
+        color: Boolean($props.color),
         square: $props.square,
     }),
 );
@@ -95,7 +102,7 @@ const classList = computed(() =>
     outline: none;
     cursor: pointer;
     user-select: none;
-    transition: background-color $default-transition;
+    transition: background-color $transition;
 
     /* --- Sizes --- */
     @include modificator(size, 32) {
@@ -127,13 +134,17 @@ const classList = computed(() =>
     }
 
     /* --- Colors --- */
-    @include modificator(color, clay) {
-        background-color: $clay-pot-100;
-        color: $base-0;
+    @include modificator(color) {
+        background-color: var(--color);
+        color: var(--color-text);
+
+        &:active:not(:disabled) {
+            background-color: var(--color-active);
+        }
 
         &:not(:active, :disabled) {
             &:hover {
-                background-color: $clay-pot-0;
+                background-color: var(--color-hover);
             }
         }
     }
