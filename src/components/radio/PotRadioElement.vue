@@ -2,6 +2,7 @@
     <component
         :is="tag"
         :class="[$style.PotRadioElement, 'pot-radio-element', classList]"
+        :style="colorThemeCssVars"
     >
         <span :class="[$style.marker, 'pot-radio-element__marker']" />
 
@@ -13,20 +14,25 @@
 // Types
 import type { IPotRadioElementProps } from '@/types/components';
 
+// Enums
+import { ERadius } from '@/enums/components';
+import { EColorTheme } from '@/enums/config';
+
 // Vue
 import { computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+import { useColorTheme } from '@/composables/color-theme';
 
 // Constants
 import { ALL_DEVICES } from '@/composables/device-is';
 
 const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     tag: 'div',
-    color: 'clay',
-    radius: '100',
+    color: EColorTheme.PRIMARY,
+    radius: ERadius.CIRCLE,
     active: false,
     disabled: false,
     breakpoints: () => ALL_DEVICES,
@@ -37,25 +43,27 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({
-        devices: $props.breakpoints,
-        properties: {
+    return useDeviceProperties(
+        {
             color: $props.color,
             radius: $props.radius,
         },
-    });
+        $props.breakpoints,
+    );
 });
 
-/**
- * Классы модификаторы компонента
- */
+/** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
         ...properties.value.value,
+        color: Boolean($props.color),
         active: $props.active,
         disabled: $props.disabled,
     }),
 );
+
+/** Цветовая тема */
+const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 </script>
 
 <style lang="scss" module>
@@ -65,45 +73,23 @@ const classList = computed(() =>
     gap: 0.4em;
     user-select: none;
     cursor: pointer;
-    transition: opacity $transition;
+    transition: opacity var(--transition);
 
     /* --- Colors --- */
-    @include modificator(color, clay) {
+    @include modificator(color) {
         .marker {
-            border-color: $base-400;
-            background-color: $base-0;
-            color: $clay-pot-0;
+            border-color: var(--color-border);
+            background-color: var(--base-0);
+            color: var(--color);
 
             &::before {
-                background-color: $base-0;
+                background-color: var(--base-0);
             }
         }
     }
 
-    /* --- Border radius --- */
-    @include modificator(radius, 4) {
-        .marker {
-            border-radius: 0.4rem;
-        }
-    }
-
-    @include modificator(radius, 6) {
-        .marker {
-            border-radius: 0.6rem;
-        }
-    }
-
-    @include modificator(radius, 8) {
-        .marker {
-            border-radius: 0.8rem;
-        }
-    }
-
-    @include modificator(radius, 100) {
-        .marker {
-            border-radius: 100rem;
-        }
-    }
+    /* --- Radius --- */
+    @include radius('.marker');
 
     /* --- Flags --- */
     @include modificator(active) {
@@ -128,11 +114,10 @@ const classList = computed(() =>
     display: block;
     width: 0.6em;
     height: 0.6em;
-    border-radius: 0.8rem;
     border: 1px solid;
     transition:
-        background-color $transition,
-        border-color $transition;
+        background-color var(--transition),
+        border-color var(--transition);
 
     &::before {
         content: '';
@@ -143,7 +128,7 @@ const classList = computed(() =>
         height: calc(100% - 0.2em);
         border-radius: inherit;
         transform: translate(-50%, -50%) scale(0);
-        transition: transform $transition;
+        transition: transform var(--transition);
     }
 }
 </style>

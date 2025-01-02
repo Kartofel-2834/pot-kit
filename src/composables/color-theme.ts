@@ -1,10 +1,7 @@
-// Types
-import type { IColorThemeCssVars } from "@/types/composables";
-
 // Enums
-import type { EColorThemes } from "@/enums/config";
+import type { EColorTheme } from "@/enums/config";
 
-export function useColorTheme(color?: EColorThemes): IColorThemeCssVars {
+export function useColorTheme(color?: EColorTheme): Record<string, string> {
     return {
         '--color': color ? `var(--${color})` : '',
         '--color-hover': color ? `var(--${color}-hover)` : '',

@@ -2,18 +2,18 @@
 import type { Ref } from 'vue';
 
 // Enums
-import { EDevices } from '@/enums/config';
+import { EDevice } from '@/enums/config';
 
-export type DeviceIsMediaQueries = Partial<Record<EDevices, MediaQueryList>>
+export type DeviceIsMediaQueries = Partial<Record<EDevice, MediaQueryList>>
 
-export type DeviceIsState = Partial<Record<EDevices, boolean>>
+export type DeviceIsState = Partial<Record<EDevice, boolean>>
 
 export type DeviceIs = {
     /** Акутальные статусы всех брейкпоинтов */
     state: Ref<DeviceIsState>;
 
     /** Текущий активный брейкпонт */
-    device: Ref<EDevices | null>;
+    device: Ref<EDevice | null>;
 
     /** Создает медиа-запросы для переданных брейкпоинтов */
     init: () => void;

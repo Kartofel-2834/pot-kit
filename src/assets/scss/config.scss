@@ -6,17 +6,11 @@
     --primary-hover: #964734;
     --primary-active: #823e2e;
     --primary-text: var(--base-0);
-
-    --custom: red;
-    --custom-hover: green;
-    --custom-active: blue;
-    --custom-text: var(--base-0);
 }
 
 /* Breakpoints */
 $breakpoints: (
     mobile: 0px,
-    tablet-sm: 768px,
     tablet: 1024px,
     laptop: 1280px,
     desktop: 1440px,

@@ -1,18 +1,19 @@
-// Types
-import type { DeviceBreakpoint } from "../composables";
+// Enums
+import { EDevice, EColorTheme } from "@/enums/config";
+import { ERadius } from "@/enums/components";
 
 export interface IPotRadioElementProps {
     /** HTML-тег элемента. По умолчанию - 'div' */
     tag?: string;
 
     /** Цвет элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: string | string[];
+    color?: EColorTheme | EColorTheme[];
 
     /** Скругление маркеров. Может быть одним значением или массивом значений для адаптивного дизайна */
-    radius?: string | string[];
+    radius?: ERadius | ERadius[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: DeviceBreakpoint[];
+    breakpoints?: EDevice[];
 
     /** Флаг, указывающий на то, активен ли элемент радио-списка */
     active?: boolean;

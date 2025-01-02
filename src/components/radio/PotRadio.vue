@@ -30,11 +30,15 @@
 import type { IPotRadioProps } from '@/types/components';
 import type { SpecValue } from '@/types/composables/specs-helper-types';
 
+// Enums
+import { EColorTheme } from '@/enums/config';
+
 // Vue
 import { computed, defineAsyncComponent } from 'vue';
 
 // Composables
 import { useSpecsHelper } from '@/composables/specs-helper';
+import { ERadius } from '@/enums/components';
 
 // Components
 const PotRadioElement = defineAsyncComponent(
@@ -44,9 +48,12 @@ const PotRadioElement = defineAsyncComponent(
 const $props = withDefaults(defineProps<IPotRadioProps>(), {
     tag: 'ul',
     radioTag: 'li',
+    value: null,
+    modelValue: null,
     specs: () => [],
     facets: null,
-    color: 'clay',
+    color: EColorTheme.PRIMARY,
+    radius: ERadius.CIRCLE,
     disabled: false,
 });
 
@@ -72,6 +79,6 @@ function onSpecClick(specValue: SpecValue, isDisabled: boolean): void {
 <style lang="scss" module>
 .PotRadio {
     display: flex;
-    gap: 2rem;
+    gap: var(--spacer-2);
 }
 </style>

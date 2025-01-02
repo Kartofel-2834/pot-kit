@@ -2,7 +2,7 @@
     // Fade
     .fade-enter-active,
     .fade-leave-active {
-        transition: opacity $transition;
+        transition: opacity var(--transition);
     }
 
     .fade-enter-from,

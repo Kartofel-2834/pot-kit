@@ -1,5 +1,5 @@
-// Types
-import type { DeviceBreakpoint } from "../composables";
+// Enums
+import type { EDevice, EColorTheme } from "@/enums/config";
 
 /**
  * Допустимый value для компонента PotCheckbox
@@ -29,8 +29,8 @@ export interface IPotCheckboxProps {
     icon?: string;
 
     /** Цвет чекбокса */
-    color?: string;
+    color?: EColorTheme | EColorTheme[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: DeviceBreakpoint[];
+    breakpoints?: EDevice[];
 }

@@ -43,19 +43,20 @@ import { useDeviceProperties } from '@/composables/device-properties';
 import { useColorTheme } from '@/composables/color-theme';
 
 // Enums
-import { EColorThemes } from '@/enums/config';
+import { EColorTheme } from '@/enums/config';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ESize } from '@/enums/components';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
-    size: '32',
-    radius: '6',
-    color: () => EColorThemes.PRIMARY,
+    radius: null,
+    size: ESize.MEDIUM,
+    color: EColorTheme.PRIMARY,
     breakpoints: () => ALL_DEVICES_REVERSED,
     icon: '',
     preicon: '',
@@ -96,37 +97,66 @@ const classList = computed(() =>
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
-    font-weight: 500;
-    line-height: 1;
     outline: none;
     cursor: pointer;
     user-select: none;
-    transition: background-color $transition;
+    transition: background-color var(--transition);
 
     /* --- Sizes --- */
-    @include modificator(size, 32) {
-        height: 3.2rem;
-        padding: 0 1rem;
-        font-size: 1.4rem;
+    @include modificator(size, tiny) {
+        height: var(--tiny-size);
+        padding: 0 var(--unit);
+
+        @include text(l4);
+
+        .label {
+            padding: 0 var(--spacer-0-750);
+        }
 
         @include modificator(square) {
             padding: 0;
         }
     }
 
-    @include modificator(size, 48) {
-        height: 4.8rem;
-        padding: 0 1.8rem;
+    @include modificator(size, small) {
+        height: var(--small-size);
+        padding: 0 var(--spacer-1-500);
+
+        @include text(l3);
+
+        .label {
+            padding: 0 var(--spacer);
+        }
 
         @include modificator(square) {
             padding: 0;
         }
     }
 
-    @include modificator(size, 56) {
-        height: 5.6rem;
-        padding: 0 1.8rem;
+    @include modificator(size, medium) {
+        height: var(--medium-size);
+        padding: 0 var(--spacer-1-500);
+
+        @include text(l2);
+
+        .label {
+            padding: 0 var(--spacer);
+        }
+
+        @include modificator(square) {
+            padding: 0;
+        }
+    }
+
+    @include modificator(size, large) {
+        height: var(--large-size);
+        padding: 0 var(--spacer-2-500);
+
+        @include text(l1);
+
+        .label {
+            padding: 0 var(--spacer-1-500);
+        }
 
         @include modificator(square) {
             padding: 0;
@@ -149,22 +179,8 @@ const classList = computed(() =>
         }
     }
 
-    /* --- Border radius --- */
-    @include modificator(radius, 4) {
-        border-radius: 0.4rem;
-    }
-
-    @include modificator(radius, 6) {
-        border-radius: 0.6rem;
-    }
-
-    @include modificator(radius, 8) {
-        border-radius: 0.8rem;
-    }
-
-    @include modificator(radius, 100) {
-        border-radius: 100rem;
-    }
+    /* --- Radius --- */
+    @include radius();
 
     /* --- Flags --- */
     @include modificator(square) {
@@ -174,10 +190,6 @@ const classList = computed(() =>
     &:disabled {
         opacity: 0.75;
         cursor: not-allowed;
-    }
-
-    .label {
-        padding: 0 1.4rem;
     }
 
     .icon {

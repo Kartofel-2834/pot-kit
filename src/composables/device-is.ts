@@ -10,11 +10,11 @@ import type {
 } from '@/types/composables';
 
 // Enums
-import { EBreakpoints, EDevices } from '@/enums/config';
+import { EBreakpoint, EDevice } from '@/enums/config';
 
 // В ключи enum-ов попадают и значения, у нас они числовые,
 // поэтому мы можем легко их вычислить и отбросить
-export const ALL_DEVICES = [...new Set(Object.keys(EDevices))] as EDevices[]; 
+export const ALL_DEVICES = [...new Set(Object.keys(EDevice))] as EDevice[]; 
 
 export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
 
@@ -30,7 +30,7 @@ export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
 export function useDeviceIs(mount: boolean = true): DeviceIs {
     const queries: Ref<DeviceIsMediaQueries> = ref({});
     const state: Ref<DeviceIsState> = ref({});
-    const device: Ref<EDevices | null> = ref(null);
+    const device: Ref<EDevice | null> = ref(null);
     const timeoutId: Ref<number | undefined> = ref(undefined);
 
     // Lifecycle hooks
@@ -48,10 +48,12 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
             return;
         }
 
+        clearQueries();
+
         const createdQueries: Partial<DeviceIsMediaQueries> = {};
         const updatedState: Partial<DeviceIsState> = {};
 
-        let currentDevice: EDevices | null = null;
+        let currentDevice: EDevice | null = null;
 
         for (let index = 0; index < ALL_DEVICES.length; index++) {
             const breakpoint = ALL_DEVICES[index];
@@ -81,7 +83,7 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
         clearTimeout(timeoutId.value);
 
         for (const breakpoint in queries.value) {
-            const mediaQuery = queries.value[breakpoint as EDevices];
+            const mediaQuery = queries.value[breakpoint as EDevice];
 
             if (!mediaQuery?.onchange) continue;
 
@@ -98,11 +100,11 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
      * @param nextBreakpoint - имя следующего брейкпоинта (для ограничения по max-width)
      */
     function createQuery(
-        currentBreakpoint: EDevices | null,
-        nextBreakpoint: EDevices | null,
+        currentBreakpoint: EDevice | null,
+        nextBreakpoint: EDevice | null,
     ): MediaQueryList | null {
-        const minWidth = currentBreakpoint ? EBreakpoints?.[currentBreakpoint] : NaN;
-        const maxWidth = nextBreakpoint ? EBreakpoints?.[nextBreakpoint] : NaN;
+        const minWidth = currentBreakpoint ? EBreakpoint?.[currentBreakpoint] : NaN;
+        const maxWidth = nextBreakpoint ? EBreakpoint?.[nextBreakpoint] : NaN;
 
         const minWidthQuery = isNaN(minWidth) ? '' : `(min-width: ${minWidth}px)`;
         const maxWidthQuery = isNaN(maxWidth) ? '' : `(max-width: ${maxWidth - 0.02}px)`;
@@ -127,7 +129,7 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
      */
     function updateState(): void {
         state.value = Object.keys(queries.value).reduce((res, breakpoint) => {
-            const isActive = Boolean(queries.value?.[breakpoint as EDevices]?.matches);
+            const isActive = Boolean(queries.value?.[breakpoint as EDevice]?.matches);
 
             return { ...res, [breakpoint]: isActive };
         }, {});
@@ -138,7 +140,7 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
      */
     function queryChangeListener(
         event: MediaQueryListEvent,
-        breakpoint: EDevices | null
+        breakpoint: EDevice | null
     ): void {
         clearTimeout(timeoutId.value);
         timeoutId.value = setTimeout(updateState);

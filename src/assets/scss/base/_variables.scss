@@ -16,6 +16,21 @@
     --spacer-8: calc(var(--spacer) * 8);
     --spacer-10: calc(var(--spacer) * 10);
 
+    /* Size */
+    --large-size: calc(var(--spacer) * 5.6);
+    --medium-size: calc(var(--spacer) * 4.8);
+    --small-size: calc(var(--spacer) * 3.2);
+    --tiny-size: calc(var(--spacer) * 2.4);
+
+    /* Radius */
+    --radius-a: calc(var(--spacer) * 0.4);
+    --radius-b: calc(var(--spacer) * 0.6);
+    --radius-c: calc(var(--spacer) * 0.8);
+    --radius-circle: calc(var(--spacer) * 100);
+
+    /* Transition */
+    --transition: 0.4s ease;
+
     /* Colors */
     --base-0: #ffffff;
     --base-100: #f3f5f7;
@@ -27,8 +42,43 @@
     --base-800: #1c1e26;
     --base-900: #111;
 
-    /* Transition */
-    --transition: 0.4s ease;
+    --color-blue-100: #c5dcf8;
+    --color-blue-200: #5e9dec;
+    --color-blue-300: #408be9;
+    --color-blue-400: #1762c0;
+    --color-blue-500: #5e9dec4d;
+
+    --color-green-100: #30f5a9;
+    --color-green-200: #0acf83;
+    --color-green-300: #09ba76;
+    --color-green-400: #078755;
+
+    --color-grey-100: #f5f5f5;
+    --color-grey-200: #cfcfcf;
+    --color-grey-300: #999;
+    --color-grey-400: #636363;
+    --color-grey-500: #2c2c2c;
+
+    --color-orange-100: #ffdcc1;
+    --color-orange-200: #ff994d;
+    --color-orange-300: #ff862c;
+    --color-orange-400: #d85c00;
+
+    --color-red-100: #f8bbc1;
+    --color-red-200: #ed5564;
+    --color-red-300: #ea3849;
+    --color-red-400: #bd1425;
+
+    --color-yellow-100: #fce7ae;
+    --color-yellow-200: #f7c844;
+    --color-yellow-300: #f6bf26;
+    --color-yellow-400: #c49308;
+
+    --color-border: var(--base-400);
+
+    --disabled-100: var(--base-300);
+    --disabled-200: var(--base-400);
+    --disabled-300: var(--base-500);
 }
 
 /* Font formats */
@@ -54,45 +104,15 @@ $text-sizes: (
     l4: 1.2rem 500 1.4rem -0.12px,
 
     // Text
-    t0: 2rem null 2.4rem null,
-    t1: 1.8rem null 2.4rem null,
-    t2: 1.6rem null 2.2rem null,
-    t3: 1.4rem null 2rem null,
-    t4: 1.2rem null 1.6rem null,
+    t0: 2rem 400 2.4rem null,
+    t1: 1.8rem 400 2.4rem null,
+    t2: 1.6rem 400 2.2rem null,
+    t3: 1.4rem 400 2rem null,
+    t4: 1.2rem 400 1.6rem null,
 
     // Paragraphs
-    p1: 1.8rem null 2.8rem null,
-    p2: 1.6rem null 2.4rem null,
-    p3: 1.4rem null 2.2rem null,
-    p4: 1.2rem null 1.8rem null
+    p1: 1.8rem 400 2.8rem null,
+    p2: 1.6rem 400 2.4rem null,
+    p3: 1.4rem 400 2.2rem null,
+    p4: 1.2rem 400 1.8rem null
 );
-
-/* Transitions */
-$transition: 0.4s ease;
-
-/* Colors */
-$base-0: #ffffff;
-$base-100: #f3f5f7;
-$base-200: #e7eaed;
-$base-300: #d3d9df;
-$base-400: #acaebb;
-$base-500: #5f6473;
-$base-600: #373a41;
-$base-800: #1c1e26;
-$base-900: #111;
-
-$primary: #a35440;
-$primary-hover: #964734;
-$primary-active: #823e2e;
-
-$success-400: #e9f7e9;
-$success-500: #68cc58;
-$error-300: #f2958b;
-$error-400: #e66355;
-$error-500: #ea4e3d;
-
-$soup-pot: #f87531;
-
-$clay-pot-0: #a35440;
-$clay-pot-100: #964734;
-$clay-pot-200: #823e2e;

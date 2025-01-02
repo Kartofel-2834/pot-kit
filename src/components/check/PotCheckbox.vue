@@ -1,5 +1,8 @@
 <template>
-    <label :class="[$style.PotCheckbox, 'pot-checkbox', classList]">
+    <label
+        :class="[$style.PotCheckbox, 'pot-checkbox', classList]"
+        :style="colorThemeCssVars"
+    >
         <input
             :value="currentValue"
             :class="[$style.input, 'pot-checkbox__input']"
@@ -31,10 +34,14 @@
 // Types
 import type { IPotCheckboxProps, CheckboxValue } from '@/types/components';
 
+// Enums
+import { EColorTheme } from '@/enums/config';
+
 // Vue
 import { computed } from 'vue';
 
 // Composables
+import { useColorTheme } from '@/composables/color-theme';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
@@ -51,7 +58,7 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     trueValue: true,
     falseValue: false,
     icon: 'check',
-    color: 'clay',
+    color: EColorTheme.PRIMARY,
     breakpoints: () => ALL_DEVICES,
 });
 
@@ -60,9 +67,7 @@ const $emit = defineEmits<{
     'update:modelValue': [newValue: CheckboxValue];
 }>();
 
-/**
- * value с поддержкой v-model
- */
+/** value с поддержкой v-model */
 const currentValue = computed<CheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
 
 /**
@@ -76,22 +81,25 @@ const isChecked = computed<boolean>(() => currentValue.value === $props.trueValu
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({
-        devices: $props.breakpoints,
-        properties: { color: $props.color },
-    });
+    return useDeviceProperties(
+        {
+            color: $props.color,
+        },
+        $props.breakpoints,
+    );
 });
 
-/**
- * Классы модификаторы компонента
- */
+/** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        color: Boolean($props.color),
         checked: isChecked.value,
         disabled: $props.disabled,
     }),
 );
+
+/** Цветовая тема */
+const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 
 function onChange(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -110,15 +118,15 @@ function onChange(event: Event): void {
     font-size: inherit;
     cursor: pointer;
     user-select: none;
-    transition: opacity $transition;
+    transition: opacity var(--transition);
 
     /* --- Colors --- */
-    @include modificator(color, clay) {
+    @include modificator(color) {
         @include modificator(checked) {
             .iconWrapper {
-                border-color: $clay-pot-0;
-                background-color: $clay-pot-0;
-                color: $base-0;
+                border-color: var(--color);
+                background-color: var(--color);
+                color: var(--color-text);
             }
         }
     }
@@ -148,14 +156,14 @@ function onChange(event: Event): void {
     aspect-ratio: 1 / 1;
     border: 1px solid;
     transition:
-        color $transition,
-        border-color $transition,
-        background-color $transition;
+        color var(--transition),
+        border-color var(--transition),
+        background-color var(--transition);
 }
 
 .icon {
     width: 0.8em;
     transform: scale(0);
-    transition: transform $transition;
+    transition: transform var(--transition);
 }
 </style>

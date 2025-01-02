@@ -13,7 +13,7 @@
 import type { IPotInputProps } from '@/types/components';
 
 // Vue
-import { computed, withDefaults } from 'vue';
+import { computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';

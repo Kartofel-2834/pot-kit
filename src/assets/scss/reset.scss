@@ -71,7 +71,7 @@ input {
 
     &[disabled],
     fieldset[disabled] {
-        -webkit-text-fill-color: $base-100;
+        -webkit-text-fill-color: var(--base-100);
         opacity: 1;
     }
 

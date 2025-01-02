@@ -102,7 +102,7 @@ class PotKitEnumsBuildPlugin {
             [themeName]: themeName
         }), {});
 
-        return PotKitEnumsBuildPlugin.getEnum('colorThemes', data);
+        return PotKitEnumsBuildPlugin.getEnum('colorTheme', data);
     }
 
     private static getDevicesEnum(breakpoints: IPotKitConfig['breakpoints']): string {
@@ -111,11 +111,11 @@ class PotKitEnumsBuildPlugin {
             [device]: toEnumKey(device)
         }), {});
 
-        return PotKitEnumsBuildPlugin.getEnum('devices', data);
+        return PotKitEnumsBuildPlugin.getEnum('device', data);
     }
 
     private static getBreakpointsEnum(breakpoints: IPotKitConfig['breakpoints']): string {
-        return PotKitEnumsBuildPlugin.getEnum('breakpoints', breakpoints);
+        return PotKitEnumsBuildPlugin.getEnum('breakpoint', breakpoints);
     }
 
     /** Генерация енама */
@@ -150,18 +150,11 @@ class PotKitBuildPlugin {
                 active: '#823e2e',
                 text: 'var(--base-0)',
             },
-    
-            custom: {
-                color: 'red',
-                hover: 'green',
-                active: 'blue',
-                text: 'var(--base-0)',
-            }
         },
     
         breakpoints: {
             mobile: 0,
-            'tablet-sm': 768,
+            // 'tablet-sm': 768,
             tablet: 1024,
             laptop: 1280,
             desktop: 1440,

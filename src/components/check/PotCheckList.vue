@@ -53,6 +53,9 @@
 import type { SpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
 
+// Enums
+import { EColorTheme } from '@/enums/config';
+
 // Vue
 import { defineAsyncComponent, computed } from 'vue';
 
@@ -69,7 +72,7 @@ const $props = withDefaults(defineProps<IPotCheckListProps>(), {
     resetLabel: 'Все',
     disabled: false,
     resetable: false,
-    color: 'clay',
+    color: EColorTheme.PRIMARY,
 });
 
 const $emit = defineEmits<{

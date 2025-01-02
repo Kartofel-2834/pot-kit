@@ -1,6 +1,9 @@
 // Types
 import type { ISpecsHelperOptions, SpecValue } from '@/types/composables/specs-helper-types';
 
+// Enums
+import { EColorTheme } from '@/enums/config';
+
 /**
  * Интерфейс пропсов для компонента PotCheckList
  */
@@ -21,5 +24,5 @@ export interface IPotCheckListProps extends ISpecsHelperOptions {
     resetable?: boolean;
 
     /** Цвет чекбоксов в списке */
-    color?: string;
+    color?: EColorTheme | EColorTheme[];
 }

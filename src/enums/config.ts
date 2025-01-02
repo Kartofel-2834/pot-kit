@@ -1,24 +1,21 @@
 /* NOT EDIT! This file generated automatically */
 
-/* ColorThemes */
-export enum EColorThemes {
-    PRIMARY = 'primary',
-    CUSTOM = 'custom'
+/* ColorTheme */
+export enum EColorTheme {
+    PRIMARY = 'primary'
 }
 
-/* Devices */
-export enum EDevices {
+/* Device */
+export enum EDevice {
     MOBILE = 'MOBILE',
-    TABLET_SM = 'TABLET_SM',
     TABLET = 'TABLET',
     LAPTOP = 'LAPTOP',
     DESKTOP = 'DESKTOP'
 }
 
-/* Breakpoints */
-export enum EBreakpoints {
+/* Breakpoint */
+export enum EBreakpoint {
     MOBILE = 0,
-    TABLET_SM = 768,
     TABLET = 1024,
     LAPTOP = 1280,
     DESKTOP = 1440

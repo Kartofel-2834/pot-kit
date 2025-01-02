@@ -125,3 +125,46 @@
         }
     }
 }
+
+/** Миксин для быстрой привязки настройки border-radius */
+@mixin radius($target: null) {
+    @include modificator(radius, 'rounded-a') {
+        @if $target != null {
+            #{$target} {
+                border-radius: var(--radius-a);
+            }
+        } @else {
+            border-radius: var(--radius-a);
+        }
+    }
+
+    @include modificator(radius, 'rounded-b') {
+        @if $target != null {
+            #{$target} {
+                border-radius: var(--radius-b);
+            }
+        } @else {
+            border-radius: var(--radius-b);
+        }
+    }
+
+    @include modificator(radius, 'rounded-c') {
+        @if $target != null {
+            #{$target} {
+                border-radius: var(--radius-c);
+            }
+        } @else {
+            border-radius: var(--radius-c);
+        }
+    }
+
+    @include modificator(radius, 'circle') {
+        @if $target != null {
+            #{$target} {
+                border-radius: var(--radius-circle);
+            }
+        } @else {
+            border-radius: var(--radius-circle);
+        }
+    }
+}

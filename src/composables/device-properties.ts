@@ -7,7 +7,7 @@ import type {
 } from '@/types/composables';
 
 // Enums
-import { EDevices } from '@/enums/config';
+import { EDevice } from '@/enums/config';
 
 // Vue
 import { inject, computed } from 'vue';
@@ -29,7 +29,7 @@ import { ALL_DEVICES_REVERSED } from './device-is';
  *  {
  *     size: ['56', '48', '32']
  *  },
- *  [EDevices.DESKTOP, EDevices.TABLET, EDevices.MOBILE]
+ *  [EDevice.DESKTOP, EDevice.TABLET, EDevice.MOBILE]
  * );
  *
  * // Для десктопа
@@ -43,7 +43,7 @@ import { ALL_DEVICES_REVERSED } from './device-is';
  */
 export function useDeviceProperties<T>(
     properties: T,
-    devices: EDevices[] = ALL_DEVICES_REVERSED,
+    devices: EDevice[] = ALL_DEVICES_REVERSED,
 ): DeviceProperties<T> {
     const $deviceIs = inject<DeviceIs>('deviceIs');
 
@@ -121,7 +121,7 @@ export function useDeviceProperties<T>(
     function getCurrentValue(
         breakpointValues: DevicePropertiesBreakpointsValues<T>[keyof T] = {}
     ): DevicePropertyValue<T[keyof T]> | null {
-        const breakpointKeys = Object.keys(breakpointValues) as EDevices[];
+        const breakpointKeys = Object.keys(breakpointValues) as EDevice[];
 
         if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {
             return breakpointValues?.[breakpointKeys[0]] || null;

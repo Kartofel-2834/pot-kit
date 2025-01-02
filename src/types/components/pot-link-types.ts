@@ -1,5 +1,5 @@
-// Types
-import type { DeviceBreakpoint } from "../composables";
+// Enums
+import { EDevice, EColorTheme } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotLink
@@ -18,10 +18,10 @@ export interface IPotLinkProps {
     target?: string | null;
 
     /** Цвет ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: string | string[];
+    color?: EColorTheme | EColorTheme[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: DeviceBreakpoint[];
+    breakpoints?: EDevice[];
 
     /** Иконка после текста ссылки */
     icon?: string;

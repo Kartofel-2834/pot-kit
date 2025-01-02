@@ -1,5 +1,6 @@
 // Enums
-import type { EColorThemes, EDevices } from "@/enums/config";
+import type { ESize, ERadius } from "@/enums/components";
+import type { EColorTheme, EDevice } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotButton
@@ -9,16 +10,16 @@ export interface IPotButtonProps {
     tag?: string;
 
     /** Размер кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: string | string[];
+    size?: ESize | ESize[];
 
     /** Цвет кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EColorThemes | EColorThemes[];
+    color?: EColorTheme | EColorTheme[];
 
     /** Радиус границ кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    radius?: string | string[];
+    radius?: ERadius | ERadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: EDevices[];
+    breakpoints?: EDevice[];
 
     /** Иконка после текста кнопки */
     icon?: string;

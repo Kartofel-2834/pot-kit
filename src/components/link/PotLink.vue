@@ -1,6 +1,7 @@
 <template>
     <component
         :class="[$style.PotLink, 'pot-link', classList]"
+        :style="colorThemeCssVars"
         :is="tag"
         :target="currentTarget"
         :[toAttribute]="currentLink"
@@ -13,12 +14,16 @@
 // Types
 import type { IPotLinkProps } from '@/types/components';
 
+// Enums
+import { EColorTheme } from '@/enums/config';
+
 // Components
 import { computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+import { useColorTheme } from '@/composables/color-theme';
 
 // Constants
 import { ALL_DEVICES } from '@/composables/device-is';
@@ -28,11 +33,11 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
     link: null,
     target: null,
     toAttribute: 'href',
-    color: 'clay',
     icon: '',
     preicon: '',
     disabled: false,
     underline: false,
+    color: EColorTheme.PRIMARY,
     breakpoints: () => ALL_DEVICES,
 });
 
@@ -41,22 +46,20 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({
-        devices: $props.breakpoints,
-        properties: { color: $props.color },
-    });
+    return useDeviceProperties({ color: $props.color }, $props.breakpoints);
 });
 
-/**
- * Классы модификаторы компонента
- */
+/** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        color: Boolean($props.color),
         disabled: $props.disabled,
         underline: $props.underline,
     }),
 );
+
+/** Цветовая тема */
+const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 
 /**
  * Вычисляет и возвращает атрибут target для ссылки на основе свойств link и target.
@@ -92,14 +95,18 @@ const currentLink = computed<string | null>(() => {
     user-select: none;
     cursor: pointer;
     transition:
-        opacity $transition,
-        color $transition;
+        opacity var(--transition),
+        color var(--transition);
 
     /* --- Colors --- */
-    @include modificator(color, clay) {
+    @include modificator(color) {
         @include exclude-modificators(disabled) {
-            &:hover {
-                color: $clay-pot-100;
+            &:not(:active):hover {
+                color: var(--color);
+            }
+
+            &:active {
+                color: var(--color-active);
             }
         }
     }
@@ -109,22 +116,20 @@ const currentLink = computed<string | null>(() => {
         &:after {
             content: '';
         }
-    }
 
-    @include modificator(disabled) {
-        cursor: not-allowed;
-    }
-
-    @include exclude-modificators(disabled) {
-        &:hover {
-            &:after {
-                transform: translateY(100%) scaleX(1);
+        @include exclude-modificators(disabled) {
+            &:hover {
+                &:after {
+                    transform: translateY(100%) scaleX(1);
+                }
             }
         }
+    }
 
-        &:active {
-            opacity: 0.8;
-        }
+    /* --- Disabled --- */
+    @include modificator(disabled) {
+        color: var(--disabled-200);
+        cursor: not-allowed;
     }
 
     &:after {
@@ -136,7 +141,7 @@ const currentLink = computed<string | null>(() => {
         background-color: currentColor;
         transform-origin: left;
         transform: translateY(100%) scaleX(0);
-        transition: transform $transition;
+        transition: transform var(--transition);
     }
 }
 </style>

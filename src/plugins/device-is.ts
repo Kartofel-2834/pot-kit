@@ -5,6 +5,9 @@ import type { DeviceIs } from '@/types/composables/device-is-types';
 // Composables
 import { useDeviceIs } from '@/composables/device-is';
 
+// Utils
+import { debounce } from '@/utils/timer-utils';
+
 /**
  * Этот плагин позволяет компонентам легко определять текущий размер
  * экрана на основе предопределенных брейкпоинтов
@@ -14,14 +17,17 @@ import { useDeviceIs } from '@/composables/device-is';
 function deviceIsPluginInit(app: App): void {
     const deviceIs: DeviceIs = useDeviceIs(false);
 
-    app.mixin({
-        mounted() {
-            deviceIs.init();
-        },
+    let isInited = false;
 
-        unmounted() {
-            deviceIs.clear();
-        },
+    app.mixin({
+        mounted: debounce(() => {
+            if (isInited) {
+                return;
+            }
+    
+            deviceIs.init();
+            isInited = true;
+        }),
     });
 
     app.provide('deviceIs', deviceIs);
