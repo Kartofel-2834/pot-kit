@@ -15,6 +15,7 @@
                 :key="`PotRadioElement_${spec.value}`"
                 :tag="radioTag"
                 :color="color"
+                :size="size"
                 :disabled="disabled || spec.isDisabled"
                 :active="spec.isSelected"
                 @click="onSpecClick(spec.value, spec.isDisabled)"
@@ -38,7 +39,7 @@ import { computed, defineAsyncComponent } from 'vue';
 
 // Composables
 import { useSpecsHelper } from '@/composables/specs-helper';
-import { ERadius } from '@/enums/components';
+import { ERadius, ESize } from '@/enums/components';
 
 // Components
 const PotRadioElement = defineAsyncComponent(
@@ -53,6 +54,7 @@ const $props = withDefaults(defineProps<IPotRadioProps>(), {
     specs: () => [],
     facets: null,
     color: EColorTheme.PRIMARY,
+    size: ESize.MEDIUM,
     radius: ERadius.CIRCLE,
     disabled: false,
 });
@@ -79,6 +81,6 @@ function onSpecClick(specValue: SpecValue, isDisabled: boolean): void {
 <style lang="scss" module>
 .PotRadio {
     display: flex;
-    gap: var(--spacer-2);
+    gap: var(--pot-spacer-2);
 }
 </style>

@@ -1,12 +1,27 @@
 <template>
     <component
         :class="[$style.PotLink, 'pot-link', classList]"
-        :style="colorThemeCssVars"
         :is="tag"
         :target="currentTarget"
         :[toAttribute]="currentLink"
     >
+        <slot name="preicon">
+            <PotIcon
+                v-if="preicon"
+                :class="[$style.icon, 'pot-link__icon', 'pot-link__icon_pre']"
+                :icon="preicon"
+            />
+        </slot>
+
         <slot />
+
+        <slot name="icon">
+            <PotIcon
+                v-if="icon"
+                :class="[$style.icon, 'pot-link__icon', 'pot-link__icon_post']"
+                :icon="icon"
+            />
+        </slot>
     </component>
 </template>
 
@@ -17,28 +32,36 @@ import type { IPotLinkProps } from '@/types/components';
 // Enums
 import { EColorTheme } from '@/enums/config';
 
+// Vue
+import { defineAsyncComponent } from 'vue';
+
 // Components
 import { computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
-import { useColorTheme } from '@/composables/color-theme';
 
 // Constants
-import { ALL_DEVICES } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ESize } from '@/enums/components';
+
+// Components
+const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 const $props = withDefaults(defineProps<IPotLinkProps>(), {
     tag: 'a',
     link: null,
     target: null,
     toAttribute: 'href',
-    icon: '',
-    preicon: '',
+    icon: null,
+    preicon: null,
     disabled: false,
     underline: false,
+    active: false,
+    size: ESize.MEDIUM,
     color: EColorTheme.PRIMARY,
-    devices: () => ALL_DEVICES,
+    devices: () => ALL_DEVICES_REVERSED,
 });
 
 /**
@@ -46,20 +69,24 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({ color: $props.color }, $props.devices);
+    return useDeviceProperties(
+        {
+            color: $props.color,
+            size: $props.size,
+        },
+        $props.devices,
+    );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        color: Boolean($props.color),
+        ...properties.value.value,
         disabled: $props.disabled,
         underline: $props.underline,
+        active: $props.active,
     }),
 );
-
-/** Цветовая тема */
-const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 
 /**
  * Вычисляет и возвращает атрибут target для ссылки на основе свойств link и target.
@@ -91,23 +118,74 @@ const currentLink = computed<string | null>(() => {
 <style lang="scss" module>
 .PotLink {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+    width: fit-content;
     font-size: inherit;
     user-select: none;
     cursor: pointer;
     transition:
-        opacity var(--transition),
-        color var(--transition);
+        opacity var(--pot-transition),
+        color var(--pot-transition);
+
+    /* --- Sizes ---  */
+    @include modificator(size, tiny) {
+        @include text(l7);
+
+        &:after {
+            height: 1px;
+        }
+    }
+
+    @include modificator(size, small) {
+        @include text(l6);
+
+        &:after {
+            height: 1px;
+        }
+    }
+
+    @include modificator(size, medium) {
+        @include text(l4);
+    }
+
+    @include modificator(size, big) {
+        @include text(l3);
+    }
+
+    @include modificator(size, large) {
+        @include text(l2);
+
+        &:after {
+            height: 4px;
+        }
+    }
 
     /* --- Colors --- */
-    @include modificator(color) {
+    @include color-theme() using ($theme) {
+        $active: map-get($theme, 'active');
+        $hover: map-get($theme, 'hover');
+        $disabled: map-get($theme, 'disabled');
+
         @include exclude-modificators(disabled) {
-            &:not(:active):hover {
-                color: var(--color);
+            @include exclude-modificators(active) {
+                &:not(:active):hover {
+                    color: map-get($hover, 'color');
+                }
+
+                &:active {
+                    color: map-get($active, 'color');
+                }
             }
 
-            &:active {
-                color: var(--color-active);
+            @include modificator(active) {
+                color: map-get($active, 'color');
             }
+        }
+
+        @include modificator(disabled) {
+            color: map-get($disabled, 'color');
         }
     }
 
@@ -123,7 +201,18 @@ const currentLink = computed<string | null>(() => {
                     transform: translateY(100%) scaleX(1);
                 }
             }
+
+            @include modificator(active) {
+                &:after {
+                    transform: translateY(100%) scaleX(1);
+                }
+            }
         }
+    }
+
+    /* --- Active --- */
+    @include modificator(active) {
+        cursor: default;
     }
 
     /* --- Disabled --- */
@@ -141,7 +230,12 @@ const currentLink = computed<string | null>(() => {
         background-color: currentColor;
         transform-origin: left;
         transform: translateY(100%) scaleX(0);
-        transition: transform var(--transition);
+        transition: transform var(--pot-transition);
+    }
+
+    .icon {
+        flex-shrink: 0;
+        width: 1em;
     }
 }
 </style>

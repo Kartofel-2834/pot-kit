@@ -96,6 +96,7 @@ const classList = computed(() =>
     user-select: none;
     border-style: solid;
     transition:
+        color var(--pot-transition),
         border-color var(--pot-transition),
         background-color var(--pot-transition);
 

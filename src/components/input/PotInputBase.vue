@@ -1,15 +1,14 @@
 <template>
-    <label
-        :class="[$style.PotInputBase, 'pot-input-base', classList]"
-        :style="colorThemeCssVars"
-    >
+    <label :class="[$style.PotInputBase, 'pot-input-base', classList]">
         <slot name="prepend" />
 
-        <PotIcon
-            v-if="preicon"
-            :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_left']"
-            :icon="preicon"
-        />
+        <slot name="preicon">
+            <PotIcon
+                v-if="preicon"
+                :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_left']"
+                :icon="preicon"
+            />
+        </slot>
 
         <input
             :value="visibleValue"
@@ -22,11 +21,13 @@
             @blur="onBlur"
         />
 
-        <PotIcon
-            v-if="icon"
-            :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_right']"
-            :icon="icon"
-        />
+        <slot name="icon">
+            <PotIcon
+                v-if="icon"
+                :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_right']"
+                :icon="icon"
+            />
+        </slot>
 
         <slot name="append" />
     </label>
@@ -49,7 +50,6 @@ import { ref, computed, defineAsyncComponent } from 'vue';
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
-import { useColorTheme } from '@/composables/color-theme';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
@@ -57,7 +57,7 @@ const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue
 const $props = withDefaults(defineProps<IPotInputBaseProps>(), {
     size: ESize.MEDIUM,
     color: EColorTheme.PRIMARY,
-    radius: ERadius.ROUNDED_B,
+    radius: ERadius.MEDIUM,
     disabled: false,
     devices: () => ALL_DEVICES_REVERSED,
 });
@@ -102,14 +102,10 @@ const properties = computed(() => {
 const classList = computed(() =>
     useClassList({
         ...properties.value.value,
-        color: Boolean($props.color),
         focused: isFocused.value,
         disabled: $props.disabled,
     }),
 );
-
-/** Цветовая тема */
-const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color ?? undefined));
 
 // Methods
 function onInput(event: Event): void {
@@ -149,83 +145,95 @@ function getParsedValue(newValue: string): unknown {
     width: 100%;
     border: 2px solid;
     cursor: text;
-    transition: border-color var(--transition);
+    background-color: inherit;
+    color: inherit;
+    transition:
+        color var(--pot-transition),
+        background-color var(--pot-transition),
+        border-color var(--pot-transition);
 
     /* --- Colors --- */
-    @include modificator(color) {
-        border-color: var(--base-400);
+    @include color-theme() using ($theme) {
+        $target: map-get($theme, 'target');
+        $hover: map-get($theme, 'hover');
+        $disabled: map-get($theme, 'disabled');
+
+        border-color: map-get($target, 'subcolor');
 
         @include modificator(disabled) {
             .input {
-                color: var(--base-400);
+                color: map-get($disabled, 'color');
             }
         }
 
         @include exclude-modificators(disabled) {
-            &:hover {
-                border-color: var(--base-500);
-
-                .icon {
-                    color: var(--base-500);
-                }
-            }
-
             @include modificator(focused) {
-                border-color: var(--color);
+                border-color: map-get($target, 'color');
 
                 .icon {
-                    color: currentColor;
+                    color: map-get($target, 'color');
                 }
             }
         }
 
         .icon {
-            color: var(--base-400);
+            color: map-get($target, 'subcolor');
         }
     }
 
     /* --- Sizes --- */
     @include modificator(size, tiny) {
-        @include text(t4);
+        @include text(t8);
 
-        padding: 0 var(--spacer);
-        gap: var(--unit);
+        padding: 0 var(--pot-spacer);
+        gap: var(--pot-unit);
 
         .input {
-            height: var(--tiny-size);
+            height: var(--pot-size-tiny);
         }
     }
 
     @include modificator(size, small) {
-        @include text(t3);
+        @include text(t7);
 
-        padding: 0 var(--spacer);
-        gap: var(--spacer-0-750);
+        padding: 0 var(--pot-spacer);
+        gap: var(--pot-spacer-0-800);
 
         .input {
-            height: var(--small-size);
+            height: var(--pot-size-small);
         }
     }
 
     @include modificator(size, medium) {
-        @include text(t1);
+        @include text(t6);
 
-        padding: 0 var(--spacer-1-500);
-        gap: var(--spacer);
+        padding: 0 var(--pot-spacer-1-200);
+        gap: var(--pot-spacer);
 
         .input {
-            height: var(--medium-size);
+            height: var(--pot-size-medium);
+        }
+    }
+
+    @include modificator(size, big) {
+        @include text(t5);
+
+        padding: 0 var(--pot-spacer-1-400);
+        gap: var(--pot-spacer);
+
+        .input {
+            height: var(--pot-size-big);
         }
     }
 
     @include modificator(size, large) {
-        @include text(t0);
+        @include text(t4);
 
-        padding: 0 var(--spacer-2);
-        gap: var(--spacer-1-500);
+        padding: 0 var(--pot-spacer-1-600);
+        gap: var(--pot-spacer-1-600);
 
         .input {
-            height: var(--large-size);
+            height: var(--pot-size-large);
         }
     }
 
@@ -274,7 +282,7 @@ function getParsedValue(newValue: string): unknown {
         pointer-events: none;
         width: 1.4em;
         font-size: inherit;
-        transition: var(--transition);
+        transition: var(--pot-transition);
     }
 }
 </style>

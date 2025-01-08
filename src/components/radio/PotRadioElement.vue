@@ -2,7 +2,6 @@
     <component
         :is="tag"
         :class="[$style.PotRadioElement, 'pot-radio-element', classList]"
-        :style="colorThemeCssVars"
     >
         <span :class="[$style.marker, 'pot-radio-element__marker']" />
 
@@ -15,7 +14,7 @@
 import type { IPotRadioElementProps } from '@/types/components';
 
 // Enums
-import { ERadius } from '@/enums/components';
+import { ERadius, ESize } from '@/enums/components';
 import { EColorTheme } from '@/enums/config';
 
 // Vue
@@ -24,7 +23,6 @@ import { computed } from 'vue';
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
-import { useColorTheme } from '@/composables/color-theme';
 
 // Constants
 import { ALL_DEVICES } from '@/composables/device-is';
@@ -32,6 +30,7 @@ import { ALL_DEVICES } from '@/composables/device-is';
 const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     tag: 'div',
     color: EColorTheme.PRIMARY,
+    size: ESize.MEDIUM,
     radius: ERadius.CIRCLE,
     active: false,
     disabled: false,
@@ -45,6 +44,7 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
 const properties = computed(() => {
     return useDeviceProperties(
         {
+            size: $props.size,
             color: $props.color,
             radius: $props.radius,
         },
@@ -56,14 +56,10 @@ const properties = computed(() => {
 const classList = computed(() =>
     useClassList({
         ...properties.value.value,
-        color: Boolean($props.color),
         active: $props.active,
         disabled: $props.disabled,
     }),
 );
-
-/** Цветовая тема */
-const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 </script>
 
 <style lang="scss" module>
@@ -71,21 +67,45 @@ const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.co
     display: flex;
     align-items: center;
     gap: 0.4em;
+    font-size: inherit;
     user-select: none;
     cursor: pointer;
-    transition: opacity var(--transition);
+    transition: opacity var(--pot-transition);
 
     /* --- Colors --- */
-    @include modificator(color) {
+    @include color-theme() using ($theme) {
+        $target: map-get($theme, 'target');
+
         .marker {
-            border-color: var(--base-400);
-            background-color: var(--base-0);
-            color: var(--color);
+            border-color: var(--pot-base-400);
+            background-color: var(--pot-base-0);
+            color: map-get($target, 'color');
 
             &::before {
-                background-color: var(--base-0);
+                background-color: var(--pot-base-0);
             }
         }
+    }
+
+    /* --- Sizes --- */
+    @include modificator(size, tiny) {
+        @include text(t7);
+    }
+
+    @include modificator(size, small) {
+        @include text(t6);
+    }
+
+    @include modificator(size, medium) {
+        @include text(t4);
+    }
+
+    @include modificator(size, big) {
+        @include text(t3);
+    }
+
+    @include modificator(size, large) {
+        @include text(t2);
     }
 
     /* --- Radius --- */
@@ -96,10 +116,6 @@ const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.co
         .marker {
             border-color: currentColor;
             background-color: currentColor;
-
-            &::before {
-                transform: translate(-50%, -50%) scale(1);
-            }
         }
     }
 
@@ -110,25 +126,22 @@ const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.co
 }
 
 .marker {
-    position: relative;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 0.6em;
     height: 0.6em;
     border: 1px solid;
     transition:
-        background-color var(--transition),
-        border-color var(--transition);
+        background-color var(--pot-transition),
+        border-color var(--pot-transition);
 
     &::before {
         content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
         width: calc(100% - 0.2em);
         height: calc(100% - 0.2em);
         border-radius: inherit;
-        transform: translate(-50%, -50%) scale(0);
-        transition: transform var(--transition);
+        transition: transform var(--pot-transition);
     }
 }
 </style>

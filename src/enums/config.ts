@@ -3,10 +3,10 @@
 /* ColorTheme */
 export enum EColorTheme {
     PRIMARY = 'primary',
-    PRIMARY_OUTLINED = 'primary-outlined',
+    ONION = 'onion',
     CUCUMBER = 'cucumber',
-    PEPPER = 'pepper',
-    POTATO = 'potato',
+    BEETROT = 'beetrot',
+    CORN = 'corn',
     POT = 'pot'
 }
 

@@ -5,7 +5,7 @@ export interface IPotKitColorThemeState {
     text: string;
     subcolor: string;
     border: string;
-    background: string;
+    color: string;
 }
 
 export interface IPotKitColorTheme {
@@ -35,61 +35,61 @@ export const potKitConfig: IPotKitConfig = {
         /** PRIMARY */
         primary: {
             target: {
-                background: 'var(--pot-color-sea-400)',
+                color: 'var(--pot-color-sea-400)',
                 border: 'var(--pot-color-sea-400)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-sea-300)',
+                color: 'var(--pot-color-sea-300)',
                 border: 'var(--pot-color-sea-300)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-sea-400)',
+                color: 'var(--pot-color-sea-400)',
                 border: 'var(--pot-color-sea-400)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-400)',
+                color: 'var(--pot-base-400)',
                 border: 'var(--pot-base-400)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             }
         },
 
-        /** PRIMARY-OUTLINED */
-        'primary-outlined': {
+        /** Onion */
+        onion: {
             target: {
-                background: 'var(--pot-base-0)',
-                border: 'var(--pot-color-sea-400)',
-                text: 'var(--pot-color-sea-400)',
+                color: 'var(--pot-color-peach-400)',
+                border: 'var(--pot-color-peach-400)',
+                text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-pale-200)',
-                border: 'var(--pot-color-sea-400)',
-                text: 'var(--pot-color-sea-400)',
-                subcolor: 'var(--pot-base-400)',
+                color: 'var(--pot-color-peach-300)',
+                border: 'var(--pot-color-peach-300)',
+                text: 'var(--pot-base-0)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-pale-400)',
-                border: 'var(--pot-color-sea-400)',
-                text: 'var(--pot-color-sea-400)',
-                subcolor: 'var(--pot-base-400)',
+                color: 'var(--pot-color-peach-400)',
+                border: 'var(--pot-color-peach-400)',
+                text: 'var(--pot-base-0)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-0)',
+                color: 'var(--pot-base-400)',
                 border: 'var(--pot-base-400)',
-                text: 'var(--pot-base-400)',
+                text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             }
         },
@@ -97,90 +97,90 @@ export const potKitConfig: IPotKitConfig = {
         /** Сucumber */
         cucumber: {
             target: {
-                background: 'var(--pot-color-green-300)',
+                color: 'var(--pot-color-green-300)',
                 border: 'var(--pot-color-green-300)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-green-200)',
+                color: 'var(--pot-color-green-200)',
                 border: 'var(--pot-color-green-200)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-green-400)',
+                color: 'var(--pot-color-green-400)',
                 border: 'var(--pot-color-green-400)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-400)',
+                color: 'var(--pot-base-400)',
                 border: 'var(--pot-base-400)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             }
         },
 
-        /** Tomato */
-        pepper: {
+        /** Beetrot */
+        beetrot: {
             target: {
-                background: 'var(--pot-color-red-300)',
+                color: 'var(--pot-color-red-300)',
                 border: 'var(--pot-color-red-300)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-red-200)',
+                color: 'var(--pot-color-red-200)',
                 border: 'var(--pot-color-red-200)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-red-400)',
+                color: 'var(--pot-color-red-400)',
                 border: 'var(--pot-color-red-400)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-400)',
+                color: 'var(--pot-base-400)',
                 border: 'var(--pot-base-400)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             }
         },
 
-        /** Potato */
-        potato: {
+        /** Corn */
+        corn: {
             target: {
-                background: 'var(--pot-color-yellow-300)',
+                color: 'var(--pot-color-yellow-300)',
                 border: 'var(--pot-color-yellow-300)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-yellow-200)',
+                color: 'var(--pot-color-yellow-200)',
                 border: 'var(--pot-color-yellow-200)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-yellow-400)',
+                color: 'var(--pot-color-yellow-400)',
                 border: 'var(--pot-color-yellow-400)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-400)',
+                color: 'var(--pot-base-400)',
                 border: 'var(--pot-base-400)',
                 text: 'var(--pot-base-0)',
                 subcolor: 'var(--pot-base-400)',
@@ -190,31 +190,31 @@ export const potKitConfig: IPotKitConfig = {
         /** Pot */
         pot: {
             target: {
-                background: 'var(--pot-color-grey-200)',
+                color: 'var(--pot-color-grey-200)',
                 border: 'var(--pot-color-grey-200)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-200)',
+                subcolor: 'var(--pot-base-400)',
             },
 
             hover: {
-                background: 'var(--pot-color-grey-300)',
+                color: 'var(--pot-color-grey-300)',
                 border: 'var(--pot-color-grey-300)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             active: {
-                background: 'var(--pot-color-grey-200)',
+                color: 'var(--pot-color-grey-200)',
                 border: 'var(--pot-color-grey-200)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-400)',
+                subcolor: 'var(--pot-base-500)',
             },
 
             disabled: {
-                background: 'var(--pot-base-300)',
+                color: 'var(--pot-base-300)',
                 border: 'var(--pot-base-300)',
                 text: 'var(--pot-base-0)',
-                subcolor: 'var(--pot-base-200)',
+                subcolor: 'var(--pot-base-400)',
             }
         },
     },

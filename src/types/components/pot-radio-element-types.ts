@@ -1,6 +1,6 @@
 // Enums
 import { EDevice, EColorTheme } from "@/enums/config";
-import { ERadius } from "@/enums/components";
+import { ERadius, ESize } from "@/enums/components";
 
 export interface IPotRadioElementProps {
     /** HTML-тег элемента. По умолчанию - 'div' */
@@ -8,6 +8,9 @@ export interface IPotRadioElementProps {
 
     /** Цвет элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
     color?: EColorTheme | EColorTheme[];
+
+    /** Размер элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
+    size?: ESize | ESize[] | null;
 
     /** Скругление маркеров. Может быть одним значением или массивом значений для адаптивного дизайна */
     radius?: ERadius | ERadius[];

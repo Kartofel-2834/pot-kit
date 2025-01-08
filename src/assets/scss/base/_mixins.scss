@@ -144,7 +144,7 @@
     $theme-state: map-get($theme, $state);
 
     border-color: map-get($theme-state, 'border');
-    background-color: map-get($theme-state, 'background');
+    background-color: map-get($theme-state, 'color');
     color: map-get($theme-state, 'text');
     @content;
 }

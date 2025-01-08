@@ -115,28 +115,28 @@
 $pot-themes: (
     primary: (
         target: (
-            background: var(--pot-color-sea-400),
+            color: var(--pot-color-sea-400),
             border: var(--pot-color-sea-400),
             text: var(--pot-base-0),
             subcolor: var(--pot-base-200),
         ),
 
         hover: (
-            background: var(--pot-color-sea-300),
+            color: var(--pot-color-sea-300),
             border: var(--pot-color-sea-300),
             text: var(--pot-base-0),
             subcolor: var(--pot-base-200),
         ),
 
         active: (
-            background: var(--pot-color-sea-400),
+            color: var(--pot-color-sea-400),
             border: var(--pot-color-sea-400),
             text: var(--pot-base-0),
             subcolor: var(--pot-base-200),
         ),
 
         disabled: (
-            background: var(--pot-base-500),
+            color: var(--pot-base-500),
             border: var(--pot-base-500),
             text: var(--pot-base-0),
             subcolor: var(--pot-base-200),

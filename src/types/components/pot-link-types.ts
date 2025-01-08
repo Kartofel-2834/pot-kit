@@ -1,5 +1,6 @@
 // Enums
-import { EDevice, EColorTheme } from "@/enums/config";
+import type { ESize } from "@/enums/components";
+import { EDevice, EColorTheme, EIcon } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotLink
@@ -20,18 +21,24 @@ export interface IPotLinkProps {
     /** Цвет ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
     color?: EColorTheme | EColorTheme[];
 
+    /** Размер ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
+    size?: ESize | ESize[] | null;
+
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];
 
     /** Иконка после текста ссылки */
-    icon?: string;
+    icon?: EIcon | null;
 
     /** Иконка до текста ссылки */
-    preicon?: string;
+    preicon?: EIcon | null;
 
     /** Если true, то ссылка будет заблокирована и не активна */
     disabled?: boolean;
 
     /** Если true, то ссылка будет подчеркиваться снизу при наведении */
     underline?: boolean;
+
+    /** Если true, то ссылка будет в активном состоянии */
+    active?: boolean;
 }

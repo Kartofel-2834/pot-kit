@@ -3,7 +3,7 @@ import type { ISpecsProps } from '@/types/composables/specs-helper-types';
 
 // Enums
 import { EDevice, EColorTheme } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import { ERadius, ESize } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotRadio
@@ -17,6 +17,9 @@ export interface IPotRadioProps extends ISpecsProps {
 
     /** Цвет элементов списка */
     color?: EColorTheme | EColorTheme[];
+
+    /** Цвет элементов списка */
+    size?: ESize | ESize[] | null;
 
     /** Скругление маркеров элементов списка */
     radius?: ERadius | ERadius[];
