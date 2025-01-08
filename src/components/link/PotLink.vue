@@ -38,7 +38,7 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
     disabled: false,
     underline: false,
     color: EColorTheme.PRIMARY,
-    breakpoints: () => ALL_DEVICES,
+    devices: () => ALL_DEVICES,
 });
 
 /**
@@ -46,7 +46,7 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
  * брейкпоинтов и текущего размера экрана
  */
 const properties = computed(() => {
-    return useDeviceProperties({ color: $props.color }, $props.breakpoints);
+    return useDeviceProperties({ color: $props.color }, $props.devices);
 });
 
 /** Классы модификаторы компонента */
@@ -128,7 +128,7 @@ const currentLink = computed<string | null>(() => {
 
     /* --- Disabled --- */
     @include modificator(disabled) {
-        color: var(--disabled-200);
+        color: var(--base-400);
         cursor: not-allowed;
     }
 

@@ -21,7 +21,7 @@ export interface IPotLinkProps {
     color?: EColorTheme | EColorTheme[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: EDevice[];
+    devices?: EDevice[];
 
     /** Иконка после текста ссылки */
     icon?: string;

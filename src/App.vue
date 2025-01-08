@@ -1,27 +1,42 @@
 <template>
     <main :class="$style.main">
-        {{ value }}
-
-        <PotButton
-            :color="EColorTheme.PRIMARY"
-            :size="[ESize.LARGE, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
-            disabled
-        >
-            Test
-        </PotButton>
-
-        <PotLink
-            underline
-            disabled
-        >
-            Kamal
-        </PotLink>
-
-        <PotRadio
-            v-model="kamal"
-            :specs="[1, 2, 3]"
-        >
-        </PotRadio>
+        <div style="width: 50%; display: flex; flex-direction: column; gap: 2rem">
+            <PotCheckbox
+                v-model="flag"
+                :color="EColorTheme.CUCUMBER"
+                :size="ESize.TINY"
+            >
+                Kamal
+            </PotCheckbox>
+            <PotCheckbox
+                v-model="flag"
+                :color="EColorTheme.PEPPER"
+                :size="ESize.SMALL"
+            >
+                Kamal
+            </PotCheckbox>
+            <PotCheckbox
+                v-model="flag"
+                :color="EColorTheme.POTATO"
+                :size="ESize.MEDIUM"
+            >
+                Kamal
+            </PotCheckbox>
+            <PotCheckbox
+                v-model="flag"
+                :color="EColorTheme.POT"
+                :size="ESize.BIG"
+            >
+                Kamal
+            </PotCheckbox>
+            <PotCheckbox
+                v-model="flag"
+                :color="EColorTheme.PRIMARY_OUTLINED"
+                :size="ESize.LARGE"
+            >
+                Kamal
+            </PotCheckbox>
+        </div>
     </main>
 </template>
 
@@ -30,18 +45,12 @@
 import { ref } from 'vue';
 
 // Enums
-import { ESize } from './enums/components';
-import { EColorTheme } from './enums/config';
+import { EColorTheme, EIcon } from './enums/config';
+import { ERadius, ESize } from './enums/components';
 
 // Components
 import PotCheckbox from './components/check/PotCheckbox.vue';
-import PotInput from './components/input/PotInput.vue';
-import PotButton from './components/button/PotButton.vue';
-import PotLink from './components/link/PotLink.vue';
-import PotRadio from './components/radio/PotRadio.vue';
 
-const value = ref<string>('');
-const kamal = ref<number>(1);
 const flag = ref<boolean>(false);
 </script>
 

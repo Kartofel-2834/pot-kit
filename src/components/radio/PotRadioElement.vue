@@ -35,7 +35,7 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     radius: ERadius.CIRCLE,
     active: false,
     disabled: false,
-    breakpoints: () => ALL_DEVICES,
+    devices: () => ALL_DEVICES,
 });
 
 /**
@@ -48,7 +48,7 @@ const properties = computed(() => {
             color: $props.color,
             radius: $props.radius,
         },
-        $props.breakpoints,
+        $props.devices,
     );
 });
 
@@ -78,7 +78,7 @@ const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.co
     /* --- Colors --- */
     @include modificator(color) {
         .marker {
-            border-color: var(--color-border);
+            border-color: var(--base-400);
             background-color: var(--base-0);
             color: var(--color);
 

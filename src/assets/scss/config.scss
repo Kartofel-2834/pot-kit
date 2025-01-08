@@ -1,17 +1,169 @@
 /* NOT EDIT! This file generated automatically */
 
 /* Color themes */
-:root {
-    --primary: #a35440;
-    --primary-hover: #964734;
-    --primary-active: #823e2e;
-    --primary-text: var(--base-0);
-}
+$pot-themes: (
+    primary: (
+        target: (
+            background: var(--pot-color-sea-400),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        hover: (
+            background: var(--pot-color-sea-300),
+            border: var(--pot-color-sea-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-sea-400),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-400),
+            border: var(--pot-base-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+    ),
+    primary-outlined: (
+        target: (
+            background: var(--pot-base-0),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-color-sea-400),
+            subcolor: var(--pot-base-400),
+        ),
+        hover: (
+            background: var(--pot-color-pale-200),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-color-sea-400),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-pale-400),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-color-sea-400),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-0),
+            border: var(--pot-base-400),
+            text: var(--pot-base-400),
+            subcolor: var(--pot-base-400),
+        ),
+    ),
+    cucumber: (
+        target: (
+            background: var(--pot-color-green-300),
+            border: var(--pot-color-green-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        hover: (
+            background: var(--pot-color-green-200),
+            border: var(--pot-color-green-200),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-green-400),
+            border: var(--pot-color-green-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-400),
+            border: var(--pot-base-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+    ),
+    pepper: (
+        target: (
+            background: var(--pot-color-red-300),
+            border: var(--pot-color-red-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        hover: (
+            background: var(--pot-color-red-200),
+            border: var(--pot-color-red-200),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-red-400),
+            border: var(--pot-color-red-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-400),
+            border: var(--pot-base-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+    ),
+    potato: (
+        target: (
+            background: var(--pot-color-yellow-300),
+            border: var(--pot-color-yellow-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        hover: (
+            background: var(--pot-color-yellow-200),
+            border: var(--pot-color-yellow-200),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-yellow-400),
+            border: var(--pot-color-yellow-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-400),
+            border: var(--pot-base-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+    ),
+    pot: (
+        target: (
+            background: var(--pot-color-grey-200),
+            border: var(--pot-color-grey-200),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+        hover: (
+            background: var(--pot-color-grey-300),
+            border: var(--pot-color-grey-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        active: (
+            background: var(--pot-color-grey-200),
+            border: var(--pot-color-grey-200),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-400),
+        ),
+        disabled: (
+            background: var(--pot-base-300),
+            border: var(--pot-base-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+    ),
+);
 
 /* Breakpoints */
 $breakpoints: (
     mobile: 0px,
-    tablet: 1024px,
+    tablet: 768px,
     laptop: 1280px,
     desktop: 1440px,
 )

@@ -2,7 +2,12 @@
 
 /* ColorTheme */
 export enum EColorTheme {
-    PRIMARY = 'primary'
+    PRIMARY = 'primary',
+    PRIMARY_OUTLINED = 'primary-outlined',
+    CUCUMBER = 'cucumber',
+    PEPPER = 'pepper',
+    POTATO = 'potato',
+    POT = 'pot'
 }
 
 /* Device */
@@ -16,7 +21,14 @@ export enum EDevice {
 /* Breakpoint */
 export enum EBreakpoint {
     MOBILE = 0,
-    TABLET = 1024,
+    TABLET = 768,
     LAPTOP = 1280,
     DESKTOP = 1440
+}
+
+/* Icon */
+export enum EIcon {
+    CHECK = 'check',
+    PHONE = 'phone',
+    POT = 'pot'
 }

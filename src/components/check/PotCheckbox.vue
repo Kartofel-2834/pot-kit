@@ -1,8 +1,5 @@
 <template>
-    <label
-        :class="[$style.PotCheckbox, 'pot-checkbox', classList]"
-        :style="colorThemeCssVars"
-    >
+    <label :class="[$style.PotCheckbox, 'pot-checkbox', classList]">
         <input
             :value="currentValue"
             :class="[$style.input, 'pot-checkbox__input']"
@@ -35,13 +32,13 @@
 import type { IPotCheckboxProps, CheckboxValue } from '@/types/components';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
+import { EIcon, EColorTheme } from '@/enums/config';
+import { ESize } from '@/enums/components';
 
 // Vue
 import { computed } from 'vue';
 
 // Composables
-import { useColorTheme } from '@/composables/color-theme';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
@@ -57,9 +54,10 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     disabled: false,
     trueValue: true,
     falseValue: false,
-    icon: 'check',
+    icon: EIcon.CHECK,
     color: EColorTheme.PRIMARY,
-    breakpoints: () => ALL_DEVICES,
+    size: ESize.MEDIUM,
+    devices: () => ALL_DEVICES,
 });
 
 const $emit = defineEmits<{
@@ -84,22 +82,20 @@ const properties = computed(() => {
     return useDeviceProperties(
         {
             color: $props.color,
+            size: $props.size,
         },
-        $props.breakpoints,
+        $props.devices,
     );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        color: Boolean($props.color),
+        ...properties.value.value,
         checked: isChecked.value,
         disabled: $props.disabled,
     }),
 );
-
-/** Цветовая тема */
-const colorThemeCssVars = computed(() => useColorTheme(properties.value.value.color));
 
 function onChange(event: Event): void {
     const target = event.target as HTMLInputElement;
@@ -118,16 +114,55 @@ function onChange(event: Event): void {
     font-size: inherit;
     cursor: pointer;
     user-select: none;
-    transition: opacity var(--transition);
+    transition: opacity var(--pot-transition);
 
     /* --- Colors --- */
-    @include modificator(color) {
+    @include color-theme() using ($theme) {
         @include modificator(checked) {
             .iconWrapper {
-                border-color: var(--color);
-                background-color: var(--color);
-                color: var(--color-text);
+                @include color-theme-state($theme, 'target');
             }
+        }
+    }
+
+    /* --- Sizes --- */
+    @include modificator(size, tiny) {
+        @include text(t6);
+
+        .iconWrapper {
+            width: var(--pot-size-tiny);
+        }
+    }
+
+    @include modificator(size, small) {
+        @include text(t5);
+
+        .iconWrapper {
+            width: var(--pot-size-small);
+        }
+    }
+
+    @include modificator(size, medium) {
+        @include text(t4);
+
+        .iconWrapper {
+            width: var(--pot-size-medium);
+        }
+    }
+
+    @include modificator(size, big) {
+        @include text(t3);
+
+        .iconWrapper {
+            width: var(--pot-size-big);
+        }
+    }
+
+    @include modificator(size, large) {
+        @include text(t2);
+
+        .iconWrapper {
+            width: var(--pot-size-large);
         }
     }
 
@@ -156,14 +191,14 @@ function onChange(event: Event): void {
     aspect-ratio: 1 / 1;
     border: 1px solid;
     transition:
-        color var(--transition),
-        border-color var(--transition),
-        background-color var(--transition);
+        color var(--pot-transition),
+        border-color var(--pot-transition),
+        background-color var(--pot-transition);
 }
 
 .icon {
-    width: 0.8em;
+    width: 1em;
     transform: scale(0);
-    transition: transform var(--transition);
+    transition: transform var(--pot-transition);
 }
 </style>

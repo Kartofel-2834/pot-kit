@@ -1,118 +1,219 @@
 :root {
-    --unit: 0.5rem;
-    --spacer: calc(var(--unit) * 2);
+    --pot-unit: 0.5rem;
+    --pot-spacer: calc(var(--pot-unit) * 2);
 
     /* Spacing */
-    --spacer-0-125: calc(var(--spacer) * 0.125);
-    --spacer-0-250: calc(var(--spacer) * 0.25);
-    --spacer-0-500: calc(var(--spacer) * 0.5);
-    --spacer-0-750: calc(var(--spacer) * 0.75);
-    --spacer-1-500: calc(var(--spacer) * 1.5);
-    --spacer-2: calc(var(--spacer) * 2);
-    --spacer-2-500: calc(var(--spacer) * 2.5);
-    --spacer-3: calc(var(--spacer) * 3);
-    --spacer-4: calc(var(--spacer) * 4);
-    --spacer-6: calc(var(--spacer) * 6);
-    --spacer-8: calc(var(--spacer) * 8);
-    --spacer-10: calc(var(--spacer) * 10);
+    --pot-spacer-0-400: calc(var(--pot-spacer) * 0.4);
+    --pot-spacer-0-600: calc(var(--pot-spacer) * 0.6);
+    --pot-spacer-0-800: calc(var(--pot-spacer) * 0.8);
+    --pot-spacer-1-200: calc(var(--pot-spacer) * 1.2);
+    --pot-spacer-1-400: calc(var(--pot-spacer) * 1.4);
+    --pot-spacer-1-600: calc(var(--pot-spacer) * 1.6);
+    --pot-spacer-1-800: calc(var(--pot-spacer) * 1.8);
+    --pot-spacer-2: calc(var(--pot-spacer) * 2);
+    --pot-spacer-2-400: calc(var(--pot-spacer) * 2.4);
+    --pot-spacer-3: calc(var(--pot-spacer) * 3);
+    --pot-spacer-3-200: calc(var(--pot-spacer) * 3.2);
+    --pot-spacer-4: calc(var(--pot-spacer) * 4);
+    --pot-spacer-4-800: calc(var(--pot-spacer) * 4.8);
+    --pot-spacer-5-600: calc(var(--pot-spacer) * 5.6);
+    --pot-spacer-6: calc(var(--pot-spacer) * 6);
+    --pot-spacer-6-400: calc(var(--pot-spacer) * 6.4);
+    --pot-spacer-7-200: calc(var(--pot-spacer) * 7.2);
+    --pot-spacer-8: calc(var(--pot-spacer) * 8);
+    --pot-spacer-10: calc(var(--pot-spacer) * 10);
 
     /* Size */
-    --large-size: calc(var(--spacer) * 5.6);
-    --medium-size: calc(var(--spacer) * 4.8);
-    --small-size: calc(var(--spacer) * 3.2);
-    --tiny-size: calc(var(--spacer) * 2.4);
+    --pot-size-large: var(--pot-spacer-5-600);
+    --pot-size-big: var(--pot-spacer-4-800);
+    --pot-size-medium: var(--pot-spacer-4);
+    --pot-size-small: var(--pot-spacer-3-200);
+    --pot-size-tiny: var(--pot-spacer-2-400);
 
     /* Radius */
-    --radius-a: calc(var(--spacer) * 0.4);
-    --radius-b: calc(var(--spacer) * 0.6);
-    --radius-c: calc(var(--spacer) * 0.8);
-    --radius-circle: calc(var(--spacer) * 100);
+    --pot-radius-circle: calc(var(--pot-spacer) * 100);
+    --pot-radius-large: var(--pot-spacer-1-400);
+    --pot-radius-big: var(--pot-spacer-1-200);
+    --pot-radius-medium: var(--pot-spacer-0-800);
+    --pot-radius-small: var(--pot-spacer-0-600);
+    --pot-radius-tiny: var(--pot-spacer-0-400);
+
+    /* Font-size */
+    --pot-font-size-0: var(--pot-spacer);
+    --pot-font-size-100: var(--pot-spacer-1-200);
+    --pot-font-size-200: var(--pot-spacer-1-400);
+    --pot-font-size-300: var(--pot-spacer-1-600);
+    --pot-font-size-400: var(--pot-spacer-1-800);
+    --pot-font-size-500: var(--pot-spacer-2);
+    --pot-font-size-600: var(--pot-spacer-2-400);
+    --pot-font-size-700: var(--pot-spacer-3-200);
+    --pot-font-size-800: var(--pot-spacer-4-800);
+    --pot-font-size-900: var(--pot-spacer-6-400);
+    --pot-font-size-1000: var(--pot-spacer-7-200);
 
     /* Transition */
-    --transition: 0.4s ease;
+    --pot-transition: 0.4s ease;
 
     /* Colors */
-    --base-0: #ffffff;
-    --base-100: #f3f5f7;
-    --base-200: #e7eaed;
-    --base-300: #d3d9df;
-    --base-400: #acaebb;
-    --base-500: #5f6473;
-    --base-600: #373a41;
-    --base-800: #1c1e26;
-    --base-900: #111;
+    --pot-base-0: #ffffff;
+    --pot-base-100: #f3f5f7;
+    --pot-base-200: #e7eaed;
+    --pot-base-300: #d3d9df;
+    --pot-base-400: #acaebb;
+    --pot-base-500: #5f6473;
+    --pot-base-600: #373a41;
+    --pot-base-800: #1c1e26;
+    --pot-base-900: #111;
 
-    --color-blue-100: #c5dcf8;
-    --color-blue-200: #5e9dec;
-    --color-blue-300: #408be9;
-    --color-blue-400: #1762c0;
-    --color-blue-500: #5e9dec4d;
+    --pot-color-blue-100: #c5dcf8;
+    --pot-color-blue-200: #5e9dec;
+    --pot-color-blue-300: #408be9;
+    --pot-color-blue-400: #1762c0;
 
-    --color-green-100: #30f5a9;
-    --color-green-200: #0acf83;
-    --color-green-300: #09ba76;
-    --color-green-400: #078755;
+    --pot-color-sea-100: #abaaff;
+    --pot-color-sea-200: #8988ff;
+    --pot-color-sea-300: #7977ff;
+    --pot-color-sea-400: #5755ff;
 
-    --color-grey-100: #f5f5f5;
-    --color-grey-200: #cfcfcf;
-    --color-grey-300: #999;
-    --color-grey-400: #636363;
-    --color-grey-500: #2c2c2c;
+    --pot-color-peach-100: #ffc7b5;
+    --pot-color-peach-200: #ffb197;
+    --pot-color-peach-300: #ffa589;
+    --pot-color-peach-400: #ff8f6b;
 
-    --color-orange-100: #ffdcc1;
-    --color-orange-200: #ff994d;
-    --color-orange-300: #ff862c;
-    --color-orange-400: #d85c00;
+    --pot-color-pale-100: #f4f3ff;
+    --pot-color-pale-200: #ecebff;
+    --pot-color-pale-300: #e1dfff;
+    --pot-color-pale-400: #d9d7ff;
 
-    --color-red-100: #f8bbc1;
-    --color-red-200: #ed5564;
-    --color-red-300: #ea3849;
-    --color-red-400: #bd1425;
+    --pot-color-green-100: #30f5a9;
+    --pot-color-green-200: #0acf83;
+    --pot-color-green-300: #09ba76;
+    --pot-color-green-400: #078755;
 
-    --color-yellow-100: #fce7ae;
-    --color-yellow-200: #f7c844;
-    --color-yellow-300: #f6bf26;
-    --color-yellow-400: #c49308;
+    --pot-color-grey-100: var(--pot-base-300);
+    --pot-color-grey-200: var(--pot-base-400);
+    --pot-color-grey-300: var(--pot-base-500);
+    --pot-color-grey-400: var(--pot-base-600);
 
-    --color-border: var(--base-400);
+    --pot-color-orange-100: #ffdcc1;
+    --pot-color-orange-200: #ff994d;
+    --pot-color-orange-300: #ff862c;
+    --pot-color-orange-400: #d85c00;
 
-    --disabled-100: var(--base-300);
-    --disabled-200: var(--base-400);
-    --disabled-300: var(--base-500);
+    --pot-color-red-100: #f8bbc1;
+    --pot-color-red-200: #ed5564;
+    --pot-color-red-300: #ea3849;
+    --pot-color-red-400: #bd1425;
+
+    --pot-color-yellow-100: #fce7ae;
+    --pot-color-yellow-200: #f7c844;
+    --pot-color-yellow-300: #f6bf26;
+    --pot-color-yellow-400: #c49308;
 }
 
+/* Theme */
+$pot-themes: (
+    primary: (
+        target: (
+            background: var(--pot-color-sea-400),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+
+        hover: (
+            background: var(--pot-color-sea-300),
+            border: var(--pot-color-sea-300),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+
+        active: (
+            background: var(--pot-color-sea-400),
+            border: var(--pot-color-sea-400),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+
+        disabled: (
+            background: var(--pot-base-500),
+            border: var(--pot-base-500),
+            text: var(--pot-base-0),
+            subcolor: var(--pot-base-200),
+        ),
+    ),
+);
+
 /* Font formats */
-$font-formats: (
+$pot-font-formats: (
     ttf: 'truetype',
     otf: 'opentype',
     woff: 'woff',
     woff2: 'woff2',
 );
 
+/* Border radius */
+$pot-radius: (
+    circle: var(--pot-radius-circle),
+    large: var(--pot-radius-large),
+    big: var(--pot-radius-big),
+    medium: var(--pot-radius-medium),
+    small: var(--pot-radius-small),
+    tiny: var(--pot-radius-tiny),
+);
+
 /* Text */
-$text-properties: 'font-size' 'font-weight' 'line-height' 'letter-spacing';
-$text-sizes: (
+$pot-text-properties: 'font-size' 'font-weight' 'line-height' 'letter-spacing';
+$pot-text-sizes: (
     // Headings
-    h0: 4rem 500 5rem -0.8px,
-    h1: 3.2rem 500 4rem -0.64px,
-    h2: 2.4rem 500 3.2rem -0.48px,
+    h0: var(--pot-font-size-1000) 500 150% null,
+    h1: var(--pot-font-size-900) 500 150% null,
+    h2: var(--pot-font-size-800) 500 150% null,
+    h3: var(--pot-font-size-700) 500 150% null,
+    h4: var(--pot-font-size-600) 500 150% null,
+    h5: var(--pot-font-size-500) 500 150% null,
+    h6: var(--pot-font-size-400) 500 150% null,
+    h7: var(--pot-font-size-300) 500 150% null,
+    h8: var(--pot-font-size-200) 500 150% null,
+    h9: var(--pot-font-size-100) 500 150% null,
+    h10: var(--pot-font-size-0) 500 150% null,
 
     // Labels
-    l1: 2rem 500 2.2rem -0.2px,
-    l2: 1.6rem 500 1.8rem -0.16px,
-    l3: 1.4rem 500 1.6rem -0.14px,
-    l4: 1.2rem 500 1.4rem -0.12px,
-
-    // Text
-    t0: 2rem 400 2.4rem null,
-    t1: 1.8rem 400 2.4rem null,
-    t2: 1.6rem 400 2.2rem null,
-    t3: 1.4rem 400 2rem null,
-    t4: 1.2rem 400 1.6rem null,
+    l0: var(--pot-font-size-1000) 500 1 null,
+    l1: var(--pot-font-size-900) 500 1 null,
+    l2: var(--pot-font-size-800) 500 1 null,
+    l3: var(--pot-font-size-700) 500 1 null,
+    l4: var(--pot-font-size-600) 500 1 null,
+    l5: var(--pot-font-size-500) 500 1 null,
+    l6: var(--pot-font-size-400) 500 1 null,
+    l7: var(--pot-font-size-300) 500 1 null,
+    l8: var(--pot-font-size-200) 500 1 null,
+    l9: var(--pot-font-size-100) 500 1 null,
+    l10: var(--pot-font-size-0) 500 150% null,
 
     // Paragraphs
-    p1: 1.8rem 400 2.8rem null,
-    p2: 1.6rem 400 2.4rem null,
-    p3: 1.4rem 400 2.2rem null,
-    p4: 1.2rem 400 1.8rem null
+    p0: var(--pot-font-size-1000) 400 150% null,
+    p1: var(--pot-font-size-900) 400 150% null,
+    p2: var(--pot-font-size-800) 400 150% null,
+    p3: var(--pot-font-size-700) 400 150% null,
+    p4: var(--pot-font-size-600) 400 150% null,
+    p5: var(--pot-font-size-500) 400 150% null,
+    p6: var(--pot-font-size-400) 400 150% null,
+    p7: var(--pot-font-size-300) 400 150% null,
+    p8: var(--pot-font-size-200) 400 150% null,
+    p9: var(--pot-font-size-100) 400 150% null,
+    p10: var(--pot-font-size-0) 500 150% null,
+
+    // Text
+    t0: var(--pot-font-size-1000) 400 1 null,
+    t1: var(--pot-font-size-900) 400 1 null,
+    t2: var(--pot-font-size-800) 400 1 null,
+    t3: var(--pot-font-size-700) 400 1 null,
+    t4: var(--pot-font-size-600) 400 1 null,
+    t5: var(--pot-font-size-500) 400 1 null,
+    t6: var(--pot-font-size-400) 400 1 null,
+    t7: var(--pot-font-size-300) 400 1 null,
+    t8: var(--pot-font-size-200) 400 1 null,
+    t9: var(--pot-font-size-100) 400 1 null,
+    t10: var(--pot-font-size-0) 400 1 null
 );

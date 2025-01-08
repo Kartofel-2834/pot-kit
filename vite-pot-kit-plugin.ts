@@ -1,5 +1,9 @@
+// Types
+import type { IPotKitConfig, IPotKitColorTheme } from './pot-kit-config';
+
 // Node
 import fs from 'fs/promises';
+import path from 'path';
 
 // Types
 import type { Plugin } from "vite";
@@ -7,17 +11,8 @@ import type { Plugin } from "vite";
 // Libs
 import moment from 'moment';
 
-interface IPotKitColorThemeConfig {
-    color: string,
-    hover: string,
-    active: string;
-    text: string;
-}
-
-interface IPotKitConfig {
-    colorThemes: Record<string, IPotKitColorThemeConfig>;
-    breakpoints: Record<string, number>; 
-}
+// DEFAULT CONFIG
+import { potKitConfig as $defaultConfig } from './pot-kit-config';
 
 // Local utils
 /** @example capitalize('name') // 'Name' */
@@ -27,7 +22,10 @@ function capitalize(str: string): string {
 
 /** @example toEnumKey('some-name') // 'SOME_NAME' */
 function toEnumKey(str: string): string {
-    return str.toUpperCase().split('-').join('_');
+    const data = str.replace(/[^a-zA-Z\-_0-9]/gm, '');
+    const prefix = /[0-9]/.test(str?.[0]) ? '_' : '';
+
+    return prefix + data.toUpperCase().split('-').join('_');
 }
 
 class PotKitStylesBuildPlugin {
@@ -54,22 +52,34 @@ class PotKitStylesBuildPlugin {
             return '';
         }
 
-        const cssVars = Object.entries(colorThemes).map(([name, theme]) => {
-            return PotKitStylesBuildPlugin.getStyle({
-                [`--${name}`]: theme.color,
-                [`--${name}-hover`]: theme.hover,
-                [`--${name}-active`]: theme.active,
-                [`--${name}-text`]: theme.text,
-            });    
-        });
+        const getThemeStyle = (theme: IPotKitColorTheme): string => {
+            const stateStyles = Object.entries(theme).reduce((res, [key, state]) => {
+                return {
+                    ...res,
+                    [key]: `(\n${PotKitStylesBuildPlugin.getStyle(state, ',', 3)}\n${' '.repeat(8)})`
+                };
+            }, {});
 
-        return `/* Color themes */\n:root {\n${cssVars.join('\n\n')}\n}`;
+            return `(\n${PotKitStylesBuildPlugin.getStyle(stateStyles, ',', 2)}\n${' '.repeat(4)})`;
+        };
+
+        const preparedThemes = Object.entries(colorThemes).reduce((res, [name, theme]) => {
+            return {
+                ...res,
+                [name]: getThemeStyle(theme),
+            };
+        }, {});
+
+        const styles = PotKitStylesBuildPlugin.getStyle(preparedThemes, ',', 1);
+
+        return `/* Color themes */\n$pot-themes: (\n${styles}\n);`;
     }
 
     /** Генерация стилей */
-    private static getStyle(
-        data?: Record<string, string | number>,
-        separator: string = ';'
+    private static getStyle<T = Record<string, string | number>>(
+        data?: T,
+        separator: string = ';',
+        tabs: number = 1
     ): string {
         if (!data || typeof data !== 'object') {
             return '';
@@ -79,7 +89,7 @@ class PotKitStylesBuildPlugin {
             .map(([key, value]) => {
                 const formattedValue = typeof value === 'number' ? `${value}px` : value;
             
-                return `    ${key}: ${formattedValue}${separator}`;
+                return `${' '.repeat(tabs * 4)}${key}: ${formattedValue}${separator}`;
             })
             .join(`\n`);
     }
@@ -87,12 +97,16 @@ class PotKitStylesBuildPlugin {
 
 class PotKitEnumsBuildPlugin {
     static async init(config: IPotKitConfig) {
+        const asyncData = await Promise.all([
+            PotKitEnumsBuildPlugin.getIconsEnum(config.iconsPath)
+        ]);
+
         await fs.writeFile('./src/enums/config.ts', [
             `/* NOT EDIT! This file generated automatically */`,
-            
             PotKitEnumsBuildPlugin.getColorThemesEnum(config.colorThemes),
             PotKitEnumsBuildPlugin.getDevicesEnum(config.breakpoints),
-            PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints)
+            PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints),
+            ...asyncData
         ].join('\n\n'));
     }
 
@@ -118,6 +132,24 @@ class PotKitEnumsBuildPlugin {
         return PotKitEnumsBuildPlugin.getEnum('breakpoint', breakpoints);
     }
 
+    private static async getIconsEnum(iconsPath: IPotKitConfig['iconsPath']): Promise<string> {
+        const data = await fs.readdir(iconsPath); 
+        const enumData = data.reduce((res, iconFileName) => {
+            if (!/\.svg$/.test(iconFileName)) {
+                return res;
+            }
+ 
+            const nameWithoutExt = path.basename(iconFileName, '.svg');
+
+            return {
+                ...res,
+                [nameWithoutExt]: nameWithoutExt
+            };
+        }, {});
+
+        return PotKitEnumsBuildPlugin.getEnum('icon', enumData);
+    }
+
     /** Генерация енама */
     private static getEnum(
         name: string,
@@ -133,8 +165,13 @@ class PotKitEnumsBuildPlugin {
                 const fotmattedKey = toEnumKey(key);
                 const formattedValue = typeof value === 'number' ? value : `'${value}'`;
         
+                if (fotmattedKey === '' || formattedValue === '') {
+                    return '';
+                }
+
                 return `    ${fotmattedKey} = ${formattedValue}`;
             })
+            .filter(Boolean)
             .join(',\n');
         
         return `${comment}\nexport enum E${capitalize(name)} {\n${values}\n}`;
@@ -142,24 +179,7 @@ class PotKitEnumsBuildPlugin {
 }
 
 class PotKitBuildPlugin {
-    private static defaultConfig: IPotKitConfig = {
-        colorThemes: {
-            primary: {
-                color: '#a35440',
-                hover: '#964734',
-                active: '#823e2e',
-                text: 'var(--base-0)',
-            },
-        },
-    
-        breakpoints: {
-            mobile: 0,
-            // 'tablet-sm': 768,
-            tablet: 1024,
-            laptop: 1280,
-            desktop: 1440,
-        },
-    };
+    private static defaultConfig: IPotKitConfig = $defaultConfig;
 
     static async init(userConfig: Partial<IPotKitConfig>) {
         const currentConfig = PotKitBuildPlugin.prepareConfig(userConfig);

@@ -13,7 +13,7 @@ export interface IPotRadioElementProps {
     radius?: ERadius | ERadius[];
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: EDevice[];
+    devices?: EDevice[];
 
     /** Флаг, указывающий на то, активен ли элемент радио-списка */
     active?: boolean;

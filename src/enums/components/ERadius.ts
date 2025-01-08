@@ -1,6 +1,8 @@
 export enum ERadius {
-    ROUNDED_A = 'rounded-a',
-    ROUNDED_B = 'rounded-b',
-    ROUNDED_C = 'rounded-c',
+    TINY = 'tiny',
+    SMALL = 'small',
+    MEDIUM = 'medium',
+    BIG = 'big',
+    LARGE = 'large',
     CIRCLE = 'circle',
 }

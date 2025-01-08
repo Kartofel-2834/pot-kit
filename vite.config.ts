@@ -13,7 +13,9 @@ import potKit from './vite-pot-kit-plugin';
 export default defineConfig({
     plugins: [
         vue(),
-        svgLoader(),
+        svgLoader({
+            defaultImport: 'raw'
+        }),
         potKit()
     ],
 

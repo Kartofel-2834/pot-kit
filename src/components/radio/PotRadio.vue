@@ -69,7 +69,7 @@ const updatedSpecs = computed(() => specsHelper.value.getModifiedSpecs());
 
 // Methods
 function onSpecClick(specValue: SpecValue, isDisabled: boolean): void {
-    if (isDisabled) return;
+    if ($props.disabled || isDisabled) return;
 
     $emit('change', specValue);
     $emit('update:modelValue', specValue);

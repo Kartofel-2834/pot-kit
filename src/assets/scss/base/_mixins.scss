@@ -1,18 +1,18 @@
 /**
  * Миксин для типографики
- * добавить тип текста можно в $text-sizes
- * добавить свойство текста можно в $text-properties
+ * добавить тип текста можно в $pot-text-sizes
+ * добавить свойство текста можно в $pot-text-properties
  *
  * @param {String} $name - Имя размера текста
  */
 @mixin text($name) {
-    $font-styles: map-get($text-sizes, $name);
+    $font-styles: map-get($pot-text-sizes, $name);
 
-    @for $index from 1 through length($text-properties) {
+    @for $index from 1 through length($pot-text-properties) {
         $value: nth($font-styles, $index);
 
         @if value != null {
-            #{nth($text-properties, $index)}: nth($font-styles, $index);
+            #{nth($pot-text-properties, $index)}: nth($font-styles, $index);
         }
     }
 }
@@ -47,7 +47,7 @@
  * @param {String} $ext - Расширение файла шрифта (по умолчанию: 'ttf')
  */
 @mixin font($alias, $name, $weight, $ext: 'ttf') {
-    $format: map-get($font-formats, $ext);
+    $format: map-get($pot-font-formats, $ext);
 
     @if $format == null {
         @error "Invalid font file extension: #{$ext}";
@@ -126,45 +126,45 @@
     }
 }
 
+/** Миксин для использования цветовой темы */
+@mixin color-theme() {
+    $themes-names-list: map-keys($pot-themes);
+
+    @for $index from 1 through length($themes-names-list) {
+        $theme-name: nth($themes-names-list, $index);
+        $theme: map-get($pot-themes, $theme-name);
+
+        @include modificator(color, $theme-name) {
+            @content ($theme);
+        }
+    }
+}
+
+@mixin color-theme-state($theme, $state) {
+    $theme-state: map-get($theme, $state);
+
+    border-color: map-get($theme-state, 'border');
+    background-color: map-get($theme-state, 'background');
+    color: map-get($theme-state, 'text');
+    @content;
+}
+
 /** Миксин для быстрой привязки настройки border-radius */
 @mixin radius($target: null) {
-    @include modificator(radius, 'rounded-a') {
-        @if $target != null {
-            #{$target} {
-                border-radius: var(--radius-a);
-            }
-        } @else {
-            border-radius: var(--radius-a);
-        }
-    }
+    $keys-list: map-keys($pot-radius);
 
-    @include modificator(radius, 'rounded-b') {
-        @if $target != null {
-            #{$target} {
-                border-radius: var(--radius-b);
-            }
-        } @else {
-            border-radius: var(--radius-b);
-        }
-    }
+    @for $index from 1 through length($keys-list) {
+        $key: nth($keys-list, $index);
+        $value: map-get($pot-radius, $key);
 
-    @include modificator(radius, 'rounded-c') {
-        @if $target != null {
-            #{$target} {
-                border-radius: var(--radius-c);
+        @include modificator(radius, $key) {
+            @if $target != null {
+                #{$target} {
+                    border-radius: $value;
+                }
+            } @else {
+                border-radius: $value;
             }
-        } @else {
-            border-radius: var(--radius-c);
-        }
-    }
-
-    @include modificator(radius, 'circle') {
-        @if $target != null {
-            #{$target} {
-                border-radius: var(--radius-circle);
-            }
-        } @else {
-            border-radius: var(--radius-circle);
         }
     }
 }

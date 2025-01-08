@@ -1,5 +1,6 @@
 // Enums
-import type { EDevice, EColorTheme } from "@/enums/config";
+import type { ESize } from "@/enums/components";
+import type { EDevice, EColorTheme, EIcon } from "@/enums/config";
 
 /**
  * Допустимый value для компонента PotCheckbox
@@ -26,11 +27,14 @@ export interface IPotCheckboxProps {
     disabled?: boolean;
 
     /** Иконка в чекбоксе, галочка по-умолчанию */
-    icon?: string;
+    icon?: EIcon | null;
 
     /** Цвет чекбокса */
     color?: EColorTheme | EColorTheme[];
 
+    /** Размер чекбокса, null для скейла от шрифта */
+    size?: ESize | ESize[] | null;
+
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: EDevice[];
+    devices?: EDevice[];
 }
