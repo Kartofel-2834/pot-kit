@@ -182,21 +182,21 @@ const classList = computed(() =>
     }
 
     /* --- Colors --- */
-    @include color-theme() using ($theme) {
-        @include color-theme-state($theme, 'target');
+    @include color-theme() {
+        @include color-theme-state('target');
 
         &:active:not(:disabled) {
-            @include color-theme-state($theme, 'active');
+            @include color-theme-state('active');
         }
 
         &:not(:active, :disabled) {
             &:hover {
-                @include color-theme-state($theme, 'hover');
+                @include color-theme-state('hover');
             }
         }
 
         &:disabled {
-            @include color-theme-state($theme, 'disabled');
+            @include color-theme-state('disabled');
         }
     }
 

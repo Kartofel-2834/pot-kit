@@ -24,9 +24,9 @@ export default defineConfig({
             scss: {
                 additionalData: `
                     @import "@/assets/scss/bundle";
+                    @import "@/assets/scss/config";
                     @import "@/assets/scss/default";
                     @import "@/assets/scss/reset";
-                    @import "@/assets/scss/config";
                 `,
             },
         },

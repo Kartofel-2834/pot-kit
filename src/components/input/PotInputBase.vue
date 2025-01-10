@@ -153,31 +153,27 @@ function getParsedValue(newValue: string): unknown {
         border-color var(--pot-transition);
 
     /* --- Colors --- */
-    @include color-theme() using ($theme) {
-        $target: map-get($theme, 'target');
-        $hover: map-get($theme, 'hover');
-        $disabled: map-get($theme, 'disabled');
-
-        border-color: map-get($target, 'subcolor');
+    @include color-theme() {
+        border-color: var(--pot-theme-target-subcolor);
 
         @include modificator(disabled) {
             .input {
-                color: map-get($disabled, 'color');
+                color: var(--pot-theme-disabled-color);
             }
         }
 
         @include exclude-modificators(disabled) {
             @include modificator(focused) {
-                border-color: map-get($target, 'color');
+                border-color: var(--pot-theme-target-color);
 
                 .icon {
-                    color: map-get($target, 'color');
+                    color: var(--pot-theme-target-color);
                 }
             }
         }
 
         .icon {
-            color: map-get($target, 'subcolor');
+            color: var(--pot-theme-target-subcolor);
         }
     }
 

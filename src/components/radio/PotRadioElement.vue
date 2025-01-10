@@ -73,13 +73,11 @@ const classList = computed(() =>
     transition: opacity var(--pot-transition);
 
     /* --- Colors --- */
-    @include color-theme() using ($theme) {
-        $target: map-get($theme, 'target');
-
+    @include color-theme() {
         .marker {
             border-color: var(--pot-base-400);
             background-color: var(--pot-base-0);
-            color: map-get($target, 'color');
+            color: var(--pot-theme-target-color);
 
             &::before {
                 background-color: var(--pot-base-0);

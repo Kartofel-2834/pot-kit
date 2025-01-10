@@ -163,29 +163,25 @@ const currentLink = computed<string | null>(() => {
     }
 
     /* --- Colors --- */
-    @include color-theme() using ($theme) {
-        $active: map-get($theme, 'active');
-        $hover: map-get($theme, 'hover');
-        $disabled: map-get($theme, 'disabled');
-
+    @include color-theme() {
         @include exclude-modificators(disabled) {
             @include exclude-modificators(active) {
                 &:not(:active):hover {
-                    color: map-get($hover, 'color');
+                    color: var(--pot-theme-hover-color);
                 }
 
                 &:active {
-                    color: map-get($active, 'color');
+                    color: var(--pot-theme-active-color);
                 }
             }
 
             @include modificator(active) {
-                color: map-get($active, 'color');
+                color: var(--pot-theme-active-color);
             }
         }
 
         @include modificator(disabled) {
-            color: map-get($disabled, 'color');
+            color: var(--pot-theme-disabled-color);
         }
     }
 

@@ -117,10 +117,10 @@ function onChange(event: Event): void {
     transition: opacity var(--pot-transition);
 
     /* --- Colors --- */
-    @include color-theme() using ($theme) {
+    @include color-theme() {
         @include modificator(checked) {
             .iconWrapper {
-                @include color-theme-state($theme, 'target');
+                @include color-theme-state('target');
             }
         }
     }

@@ -127,25 +127,47 @@
 }
 
 /** Миксин для использования цветовой темы */
-@mixin color-theme() {
+@mixin setup-color-themes() {
     $themes-names-list: map-keys($pot-themes);
 
     @for $index from 1 through length($themes-names-list) {
         $theme-name: nth($themes-names-list, $index);
         $theme: map-get($pot-themes, $theme-name);
+        $state-names-list: map-keys($theme);
 
         @include modificator(color, $theme-name) {
-            @content ($theme);
+            @for $stateIndex from 1 through length($state-names-list) {
+                $state-name: nth($state-names-list, $stateIndex);
+                $state: map-get($theme, $state-name);
+                $color-names-list: map-keys($state);
+
+                @for $colorIndex from 1 through length($color-names-list) {
+                    $color-name: nth($color-names-list, $colorIndex);
+                    $color: map-get($state, $color-name);
+
+                    --pot-theme-#{$state-name}-#{$color-name}: #{$color};
+                }
+            }
         }
     }
 }
 
-@mixin color-theme-state($theme, $state) {
-    $theme-state: map-get($theme, $state);
+@mixin color-theme() {
+    $themes-names-list: map-keys($pot-themes);
 
-    border-color: map-get($theme-state, 'border');
-    background-color: map-get($theme-state, 'color');
-    color: map-get($theme-state, 'text');
+    @for $index from 1 through length($themes-names-list) {
+        $theme-name: nth($themes-names-list, $index);
+
+        @include modificator(color, $theme-name) {
+            @content;
+        }
+    }
+}
+
+@mixin color-theme-state($state-name) {
+    border-color: var(--pot-theme-#{$state-name}-border);
+    background-color: var(--pot-theme-#{$state-name}-color);
+    color: var(--pot-theme-#{$state-name}-text);
     @content;
 }
 
