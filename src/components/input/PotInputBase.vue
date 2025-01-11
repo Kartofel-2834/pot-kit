@@ -1,6 +1,6 @@
 <template>
     <label :class="[$style.PotInputBase, 'pot-input-base', classList]">
-        <slot name="prepend" />
+        <slot name="prepend"></slot>
 
         <slot name="preicon">
             <PotIcon
@@ -11,7 +11,7 @@
         </slot>
 
         <input
-            :value="visibleValue"
+            v-model="visibleValue"
             :class="[$style.input, 'pot-input-base__target']"
             :disabled="disabled"
             v-bind="$attrs"
@@ -45,7 +45,7 @@ import { ERadius, ESize } from '@/enums/components';
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Vue
-import { ref, computed, defineAsyncComponent } from 'vue';
+import { ref, computed, defineAsyncComponent, watch } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -69,23 +69,10 @@ const $emit = defineEmits<{
 }>();
 
 const isFocused = ref<boolean>(false);
+const visibleValue = ref<string>('');
 
 // Computed
-const currentValue = computed<unknown>(() =>
-    typeof $props.value === 'string' ? $props.value : $props.modelValue,
-);
-
-const visibleValue = computed<string>(() => {
-    if (typeof $props.formatter === 'function') {
-        return $props.formatter(currentValue.value);
-    }
-
-    if (typeof currentValue.value === 'string' || typeof currentValue.value === 'number') {
-        return String(currentValue.value);
-    }
-
-    return '';
-});
+const currentValue = computed<unknown>(() => $props.value ?? $props.modelValue);
 
 const properties = computed(() => {
     return useDeviceProperties(
@@ -107,12 +94,25 @@ const classList = computed(() =>
     }),
 );
 
+// Watch
+watch(
+    () => currentValue.value,
+    newValue => {
+        visibleValue.value = getFormattedValue(newValue);
+    },
+    {
+        immediate: true,
+    },
+);
+
 // Methods
 function onInput(event: Event): void {
     event.stopPropagation();
 
     const target = event.target as HTMLInputElement;
     const parsedValue = getParsedValue(target.value);
+
+    visibleValue.value = getFormattedValue(parsedValue);
 
     $emit('update:modelValue', parsedValue);
     $emit('input', parsedValue);
@@ -131,6 +131,18 @@ function onFocus() {
 
 function onBlur() {
     isFocused.value = false;
+}
+
+function getFormattedValue(newValue: unknown): string {
+    if (typeof $props.formatter === 'function') {
+        return $props.formatter(newValue);
+    }
+
+    if (typeof newValue === 'string' || typeof newValue === 'number') {
+        return String(newValue);
+    }
+
+    return '';
 }
 
 function getParsedValue(newValue: string): unknown {

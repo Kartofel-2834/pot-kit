@@ -3,20 +3,14 @@ import { ESize, ERadius } from "@/enums/components";
 import { EColorTheme, EDevice, EIcon } from "@/enums/config";
 
 /**
- * Пропсы для компонента PotInputBase
+ * Пропсы для компонента PotInputMasked
  */
-export interface IPotInputBaseProps {
+export interface IPotInputMaskedProps {
     /** Текущее значение */
     value?: unknown;
 
     /** То же, что и `value`, добавлен для поддержки v-model */
     modelValue?: unknown;
-
-    /** Преобразование переданного значения в отображаемую в инпуте строку */
-    formatter?: (value: unknown) => string;
-
-    /** Преобразование значения инпута перед эмитом событий изменения */
-    parser?: (value: string) => unknown;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];
@@ -38,4 +32,6 @@ export interface IPotInputBaseProps {
 
     /** Если true, то инпут будет заблокирован и не активен */
     disabled?: boolean;
+
+    mask: string;
 }

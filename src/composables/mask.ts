@@ -6,7 +6,6 @@ const defaultPlaceholders: Record<string, MaskPlaceholder>  = {
     'N': /^[a-zA-Z0-9]$/,
     'X': /^.$/,
     'Я': /^[\wа-яА-Я]$/,
-    '?': NaN,
 };
 
 function getPlaceholderTest(placeholder: MaskPlaceholder): (v: string) => boolean {
@@ -39,7 +38,7 @@ export function useMask(
         ...placeholders
     };
 
-    let isRequired = true;
+    let lastPlaceholderIndex = 0;
     const result = Array.from(mask);
 
     for (let index = 0; index < result.length; index++) {
@@ -49,26 +48,50 @@ export function useMask(
             continue;
         }
 
-        if (typeof placeholder === 'number' && isNaN(placeholder)) {
-            isRequired = false;
-            result[index] = '';
-            continue;
-        }
-
         const letterIndex = letters.findIndex(getPlaceholderTest(placeholder));
 
-        if (letterIndex !== -1) {
-            const currentLetter = letters[letterIndex];
-            letters.splice(letterIndex, 1);
-            result[index] = currentLetter;
-        } else if (isRequired) {
+        if (letterIndex === -1) {
             result[index] = '';
-            return result.slice(0, index).filter(Boolean).join('');
-        } else {
-            result[index] = '';
-            isRequired = true;
+            return result.slice(0, lastPlaceholderIndex + 1).filter(Boolean).join('');
         }
+
+        const currentLetter = letters[letterIndex];
+        letters.splice(letterIndex, 1);
+        result[index] = currentLetter;
+        lastPlaceholderIndex = index;
     }
 
     return result.filter(Boolean).join('');
+}
+
+    
+export function removeMask(
+    value: string,
+    mask: string,
+    placeholders: Record<string, MaskPlaceholder> = {}
+): string {
+    if (!value || typeof value !== 'string') {
+        return value;
+    }
+
+    const currentPlaceholders = {
+        ...defaultPlaceholders,
+        ...placeholders
+    };
+
+    let result = '';
+
+    for (let index = 0; index < mask.length; index++) {
+        if (!value[index]) {
+            break;
+        }
+
+        const placeholder = currentPlaceholders[mask[index]];
+
+        if (placeholder || value[index] !== mask[index]) {
+            result += value[index];
+        }
+    }
+
+    return result;
 }

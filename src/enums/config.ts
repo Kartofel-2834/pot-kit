@@ -29,6 +29,7 @@ export enum EBreakpoint {
 /* Icon */
 export enum EIcon {
     CHECK = 'check',
+    EYE = 'eye',
     PHONE = 'phone',
     POT = 'pot'
 }

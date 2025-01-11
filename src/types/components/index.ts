@@ -6,4 +6,5 @@ export * from './pot-link-types';
 export * from './pot-radio-element-types';
 export * from './pot-radio-types';
 export * from './pot-input-base-types';
-export * from './pot-input-phone-types';
+export * from './pot-input-masked-types';
+export * from './pot-input-password-types';
