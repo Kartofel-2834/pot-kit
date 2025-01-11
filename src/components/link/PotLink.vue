@@ -129,6 +129,54 @@ const currentLink = computed<string | null>(() => {
         opacity var(--pot-transition),
         color var(--pot-transition);
 
+    /* --- Colors - START --- */
+    color: var(--pot-link-text-color);
+
+    &:after {
+        background-color: var(--pot-link-underline-color);
+    }
+
+    @include exclude-modificators(disabled) {
+        @include exclude-modificators(active) {
+            &:not(:active):hover {
+                color: var(--pot-link-hover-text-color);
+
+                &:after {
+                    background-color: var(--pot-link-underline-hover-color);
+                }
+            }
+
+            &:active {
+                color: var(--pot-link-active-text-color);
+
+                &:after {
+                    background-color: var(--pot-link-underline-active-color);
+                }
+            }
+
+            @include modificator(underline) {
+                &:not(:active):hover {
+                    color: var(--pot-link-underline-hover-text-color);
+                }
+
+                &:active {
+                    color: var(--pot-link-underline-active-text-color);
+                }
+            }
+        }
+    }
+
+    @include exclude-modificators(disabled) {
+        @include modificator(active) {
+            color: var(--pot-link-active-text-color);
+
+            @include modificator(underline) {
+                color: var(--pot-link-underline-active-text-color);
+            }
+        }
+    }
+    /* --- Colors - END --- */
+
     /* --- Sizes ---  */
     @include modificator(size, tiny) {
         @include text(l7);
@@ -162,29 +210,6 @@ const currentLink = computed<string | null>(() => {
         }
     }
 
-    /* --- Colors --- */
-    @include color-theme() {
-        @include exclude-modificators(disabled) {
-            @include exclude-modificators(active) {
-                &:not(:active):hover {
-                    color: var(--pot-theme-hover-color);
-                }
-
-                &:active {
-                    color: var(--pot-theme-active-color);
-                }
-            }
-
-            @include modificator(active) {
-                color: var(--pot-theme-active-color);
-            }
-        }
-
-        @include modificator(disabled) {
-            color: var(--pot-theme-disabled-color);
-        }
-    }
-
     /* --- Flags --- */
     @include modificator(underline) {
         &:after {
@@ -213,7 +238,6 @@ const currentLink = computed<string | null>(() => {
 
     /* --- Disabled --- */
     @include modificator(disabled) {
-        color: var(--base-400);
         cursor: not-allowed;
     }
 
@@ -223,10 +247,11 @@ const currentLink = computed<string | null>(() => {
         bottom: 0;
         width: 100%;
         height: 2px;
-        background-color: currentColor;
         transform-origin: left;
         transform: translateY(100%) scaleX(0);
-        transition: transform var(--pot-transition);
+        transition:
+            background-color var(--pot-transition),
+            transform var(--pot-transition);
     }
 
     .icon {

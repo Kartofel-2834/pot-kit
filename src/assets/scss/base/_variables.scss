@@ -111,6 +111,76 @@
     --pot-color-yellow-400: #c49308;
 }
 
+/* --- COMPONENTS - COLORS --- */
+* {
+    /* --- PotButton --- */
+    --pot-button-border-color: var(--pot-theme-target-border);
+    --pot-button-background-color: var(--pot-theme-target-color);
+    --pot-button-text-color: var(--pot-theme-target-text);
+
+    --pot-button-active-border-color: var(--pot-theme-active-border);
+    --pot-button-active-background-color: var(--pot-theme-active-color);
+    --pot-button-active-text-color: var(--pot-theme-active-text);
+
+    --pot-button-hover-border-color: var(--pot-theme-hover-border);
+    --pot-button-hover-background-color: var(--pot-theme-hover-color);
+    --pot-button-hover-text-color: var(--pot-theme-hover-text);
+
+    --pot-button-disabled-border-color: var(--pot-theme-disabled-border);
+    --pot-button-disabled-background-color: var(--pot-theme-disabled-color);
+    --pot-button-disabled-text-color: var(--pot-theme-disabled-text);
+
+    /* --- PotCheckbox --- */
+    --pot-checkbox-text-color: inherit;
+    --pot-checkbox-background-color: transparent;
+    --pot-checkbox-border-color: var(--pot-base-600);
+    --pot-checkbox-icon-color: var(--pot-theme-target-text);
+
+    --pot-checkbox-checked-background-color: var(--pot-theme-target-color);
+    --pot-checkbox-checked-border-color: var(--pot-theme-target-border);
+    --pot-checkbox-checked-icon-color: var(--pot-theme-target-text);
+
+    /* --- PotRadioElement --- */
+    --pot-radio-text-color: inherit;
+    --pot-radio-marker-border-color: var(--pot-base-400);
+    --pot-radio-marker-background-color: transparent;
+    --pot-radio-marker-color: var(--pot-theme-target-color);
+    --pot-radio-marker-point-color: var(--pot-base-0);
+
+    /* --- PotLink --- */
+    --pot-link-text-color: inherit;
+    --pot-link-hover-text-color: var(--pot-theme-hover-color);
+    --pot-link-active-text-color: var(--pot-theme-active-color);
+    --pot-link-disabled-text-color: var(--pot-theme-disabled-color);
+
+    --pot-link-underline-color: var(--pot-theme-target-color);
+    --pot-link-underline-hover-color: var(--pot-theme-target-color);
+    --pot-link-underline-active-color: var(--pot-theme-active-color);
+
+    --pot-link-underline-text-color: inherit;
+    --pot-link-underline-hover-text-color: inherit;
+    --pot-link-underline-active-text-color: inherit;
+
+    /* --- PotInputBase --- */
+    --pot-input-text-color: inherit;
+    --pot-input-border-color: var(--pot-theme-target-subcolor);
+    --pot-input-icon-color: var(--pot-theme-target-subcolor);
+    --pot-input--target-text-color: inherit;
+    --pot-input-target-background-color: var(--pot-base-0);
+
+    --pot-input-disabled-text-color: inherit;
+    --pot-input-disabled-border-color: var(--pot-theme-disabled-color);
+    --pot-input-disabled-icon-color: var(--pot-theme-disabled-color);
+    --pot-input-disabled-target-text-color: var(--pot-theme-disabled-color);
+    --pot-input-disabled-target-background-color: var(--pot-base-0);
+
+    --pot-input-focused-text-color: inherit;
+    --pot-input-focused-border-color: var(--pot-theme-target-color);
+    --pot-input-focused-icon-color: var(--pot-theme-target-color);
+    --pot-input-focused-target-text-color: inherit;
+    --pot-input-focused-target-background-color: var(--pot-base-0);
+}
+
 /* Theme */
 $pot-themes: (
     primary: (

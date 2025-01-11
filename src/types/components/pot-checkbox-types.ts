@@ -1,5 +1,5 @@
 // Enums
-import type { ESize } from "@/enums/components";
+import type { ERadius, ESize } from "@/enums/components";
 import type { EDevice, EColorTheme, EIcon } from "@/enums/config";
 
 /**
@@ -34,6 +34,9 @@ export interface IPotCheckboxProps {
 
     /** Размер чекбокса, null для скейла от шрифта */
     size?: ESize | ESize[] | null;
+
+    /** Радиус границ чекбокса */
+    radius?: ERadius | ERadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];

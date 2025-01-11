@@ -13,7 +13,7 @@ export interface IPotRadioElementProps {
     size?: ESize | ESize[] | null;
 
     /** Скругление маркеров. Может быть одним значением или массивом значений для адаптивного дизайна */
-    radius?: ERadius | ERadius[];
+    radius?: ERadius | ERadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];

@@ -148,27 +148,10 @@
                     --pot-theme-#{$state-name}-#{$color-name}: #{$color};
                 }
             }
-        }
-    }
-}
 
-@mixin color-theme() {
-    $themes-names-list: map-keys($pot-themes);
-
-    @for $index from 1 through length($themes-names-list) {
-        $theme-name: nth($themes-names-list, $index);
-
-        @include modificator(color, $theme-name) {
             @content;
         }
     }
-}
-
-@mixin color-theme-state($state-name) {
-    border-color: var(--pot-theme-#{$state-name}-border);
-    background-color: var(--pot-theme-#{$state-name}-color);
-    color: var(--pot-theme-#{$state-name}-text);
-    @content;
 }
 
 /** Миксин для быстрой привязки настройки border-radius */

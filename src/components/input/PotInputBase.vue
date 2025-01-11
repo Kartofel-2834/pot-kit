@@ -146,36 +146,54 @@ function getParsedValue(newValue: string): unknown {
     border: 2px solid;
     cursor: text;
     background-color: inherit;
-    color: inherit;
     transition:
         color var(--pot-transition),
         background-color var(--pot-transition),
         border-color var(--pot-transition);
 
-    /* --- Colors --- */
-    @include color-theme() {
-        border-color: var(--pot-theme-target-subcolor);
+    /* --- Colors - START --- */
+    color: var(--pot-input-text-color);
+    border-color: var(--pot-input-border-color);
 
-        @include modificator(disabled) {
-            .input {
-                color: var(--pot-theme-disabled-color);
-            }
-        }
+    .input {
+        color: var(--pot-input-target-text-color);
+        background-color: var(--pot-input-target-background-color);
+    }
 
-        @include exclude-modificators(disabled) {
-            @include modificator(focused) {
-                border-color: var(--pot-theme-target-color);
+    .icon {
+        color: var(--pot-input-icon-color);
+    }
 
-                .icon {
-                    color: var(--pot-theme-target-color);
-                }
-            }
+    @include modificator(disabled) {
+        color: var(--pot-input-disabled-text-color);
+        border-color: var(--pot-input-disabled-border-color);
+
+        .input {
+            color: var(--pot-input-disabled-target-text-color);
+            background-color: var(--pot-input-disabled-target-background-color);
         }
 
         .icon {
-            color: var(--pot-theme-target-subcolor);
+            color: var(--pot-input-disabled-icon-color);
         }
     }
+
+    @include exclude-modificators(disabled) {
+        @include modificator(focused) {
+            color: var(--pot-input-focused-text-color);
+            border-color: var(--pot-input-focused-border-color);
+
+            .input {
+                color: var(--pot-input-focused-target-text-color);
+                background-color: var(--pot-input-focused-target-background-color);
+            }
+
+            .icon {
+                color: var(--pot-input-focused-icon-color);
+            }
+        }
+    }
+    /* --- Colors - END --- */
 
     /* --- Sizes --- */
     @include modificator(size, tiny) {
@@ -249,7 +267,6 @@ function getParsedValue(newValue: string): unknown {
         outline: none;
         padding: 0;
         border: none;
-        background-color: transparent;
         outline: none;
         font-family: inherit;
         -webkit-appearance: none;

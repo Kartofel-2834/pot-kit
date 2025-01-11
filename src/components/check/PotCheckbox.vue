@@ -33,7 +33,7 @@ import type { IPotCheckboxProps, CheckboxValue } from '@/types/components';
 
 // Enums
 import { EIcon, EColorTheme } from '@/enums/config';
-import { ESize } from '@/enums/components';
+import { ERadius, ESize } from '@/enums/components';
 
 // Vue
 import { computed } from 'vue';
@@ -57,6 +57,7 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     icon: EIcon.CHECK,
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
+    radius: ERadius.MEDIUM,
     devices: () => ALL_DEVICES,
 });
 
@@ -94,6 +95,7 @@ const classList = computed(() =>
         ...properties.value.value,
         checked: isChecked.value,
         disabled: $props.disabled,
+        radius: $props.radius,
     }),
 );
 
@@ -116,14 +118,23 @@ function onChange(event: Event): void {
     user-select: none;
     transition: opacity var(--pot-transition);
 
-    /* --- Colors --- */
-    @include color-theme() {
-        @include modificator(checked) {
-            .iconWrapper {
-                @include color-theme-state('target');
-            }
+    /* --- Colors - START --- */
+    color: var(--pot-checkbox-text-color);
+
+    .iconWrapper {
+        background-color: var(--pot-checkbox-background-color);
+        border-color: var(--pot-checkbox-border-color);
+        color: var(--pot-checkbox-icon-color);
+    }
+
+    @include modificator(checked) {
+        .iconWrapper {
+            background-color: var(--pot-checkbox-checked-background-color);
+            border-color: var(--pot-checkbox-checked-border-color);
+            color: var(--pot-checkbox-checked-icon-color);
         }
     }
+    /* --- Colors - END --- */
 
     /* --- Sizes --- */
     @include modificator(size, tiny) {
@@ -159,7 +170,7 @@ function onChange(event: Event): void {
     }
 
     @include modificator(size, large) {
-        @include text(t2);
+        @include text(t3);
 
         .iconWrapper {
             width: var(--pot-size-large);
@@ -172,6 +183,9 @@ function onChange(event: Event): void {
             transform: scale(1);
         }
     }
+
+    /* --- Radius --- */
+    @include radius('.iconWrapper');
 
     @include modificator(disabled) {
         opacity: 0.75;

@@ -100,6 +100,32 @@ const classList = computed(() =>
         border-color var(--pot-transition),
         background-color var(--pot-transition);
 
+    /* --- Colors - START --- */
+    border-color: var(--pot-button-border-color);
+    background-color: var(--pot-button-background-color);
+    color: var(--pot-button-text-color);
+
+    &:active:not(:disabled) {
+        border-color: var(--pot-button-active-border-color);
+        background-color: var(--pot-button-active-background-color);
+        color: var(--pot-button-active-text-color);
+    }
+
+    &:not(:active, :disabled) {
+        &:hover {
+            border-color: var(--pot-button-hover-border-color);
+            background-color: var(--pot-button-hover-background-color);
+            color: var(--pot-button-hover-text-color);
+        }
+    }
+
+    &:disabled {
+        border-color: var(--pot-button-disabled-border-color);
+        background-color: var(--pot-button-disabled-background-color);
+        color: var(--pot-button-disabled-text-color);
+    }
+    /* --- Colors - END --- */
+
     /* --- Sizes --- */
     @include modificator(size, tiny) {
         @include text(l8);
@@ -178,25 +204,6 @@ const classList = computed(() =>
 
         .label {
             padding: 0 var(--pot-spacer-1-800);
-        }
-    }
-
-    /* --- Colors --- */
-    @include color-theme() {
-        @include color-theme-state('target');
-
-        &:active:not(:disabled) {
-            @include color-theme-state('active');
-        }
-
-        &:not(:active, :disabled) {
-            &:hover {
-                @include color-theme-state('hover');
-            }
-        }
-
-        &:disabled {
-            @include color-theme-state('disabled');
         }
     }
 

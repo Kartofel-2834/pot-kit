@@ -22,10 +22,10 @@ export interface IPotRadioProps extends ISpecsProps {
     size?: ESize | ESize[] | null;
 
     /** Скругление маркеров элементов списка */
-    radius?: ERadius | ERadius[];
+    radius?: ERadius | ERadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    breakpoints?: EDevice | EDevice[];
+    devices?: EDevice[];
 
     /** Если true, то список будет заблокирован и не активен */
     disabled?: boolean;

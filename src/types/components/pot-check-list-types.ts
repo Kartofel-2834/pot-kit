@@ -3,7 +3,7 @@ import type { ISpecsHelperOptions, SpecValue } from '@/types/composables/specs-h
 
 // Enums
 import { EColorTheme } from '@/enums/config';
-import { ESize } from '@/enums/components';
+import { ESize, ERadius } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotCheckList
@@ -29,4 +29,7 @@ export interface IPotCheckListProps extends ISpecsHelperOptions {
 
     /** Размер чекбокса, null для скейла от шрифта */
     size?: ESize | ESize[] | null;
+
+    /** Радиус границ чекбокса */
+    radius?: ERadius | ERadius[] | null;
 }

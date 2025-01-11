@@ -42,6 +42,7 @@
                 :disabled="disabled || spec.isDisabled"
                 :color="color"
                 :size="size"
+                :radius="radius"
                 @change="onCheckboxChange(spec.value)"
             >
                 {{ spec.label }}
@@ -57,7 +58,7 @@ import type { IPotCheckListProps } from '@/types/components';
 
 // Enums
 import { EColorTheme } from '@/enums/config';
-import { ESize } from '@/enums/components';
+import { ERadius, ESize } from '@/enums/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';
@@ -77,6 +78,7 @@ const $props = withDefaults(defineProps<IPotCheckListProps>(), {
     resetable: false,
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
+    radius: ERadius.MEDIUM,
 });
 
 const $emit = defineEmits<{

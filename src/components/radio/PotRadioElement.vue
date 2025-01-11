@@ -72,18 +72,19 @@ const classList = computed(() =>
     cursor: pointer;
     transition: opacity var(--pot-transition);
 
-    /* --- Colors --- */
-    @include color-theme() {
-        .marker {
-            border-color: var(--pot-base-400);
-            background-color: var(--pot-base-0);
-            color: var(--pot-theme-target-color);
+    /* --- Colors - START --- */
+    color: var(--pot-radio-text-color);
 
-            &::before {
-                background-color: var(--pot-base-0);
-            }
+    .marker {
+        border-color: var(--pot-radio-marker-border-color);
+        background-color: var(--pot-radio-marker-background-color);
+        color: var(--pot-radio-marker-color);
+
+        &::before {
+            background-color: var(--pot-radio-marker-point-color);
         }
     }
+    /* --- Colors - END --- */
 
     /* --- Sizes --- */
     @include modificator(size, tiny) {
