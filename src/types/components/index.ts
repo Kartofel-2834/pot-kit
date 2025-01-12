@@ -8,3 +8,4 @@ export * from './pot-radio-types';
 export * from './pot-input-base-types';
 export * from './pot-input-masked-types';
 export * from './pot-input-password-types';
+export * from './pot-input-number-types';

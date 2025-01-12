@@ -19,6 +19,8 @@
             @change="onChange"
             @focus="onFocus"
             @blur="onBlur"
+            @keydown="$emit('keydown', $event)"
+            @keyup="$emit('keyup', $event)"
         />
 
         <slot name="icon">
@@ -66,6 +68,8 @@ const $emit = defineEmits<{
     input: [value: unknown];
     change: [value: unknown];
     'update:modelValue': [value: unknown];
+    keydown: [value: KeyboardEvent];
+    keyup: [value: KeyboardEvent];
 }>();
 
 const isFocused = ref<boolean>(false);
@@ -256,7 +260,7 @@ function getParsedValue(newValue: string): unknown {
         @include text(t4);
 
         padding: 0 var(--pot-spacer-1-600);
-        gap: var(--pot-spacer-1-600);
+        gap: var(--pot-spacer);
 
         .input {
             height: var(--pot-size-large);
