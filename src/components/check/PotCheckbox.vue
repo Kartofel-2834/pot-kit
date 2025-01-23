@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotCheckboxProps, CheckboxValue } from '@/types/components';
+import type { IPotCheckboxProps, TCheckboxValue } from '@/types/components';
 
 // Enums
 import { EIcon, EColorTheme } from '@/enums/config';
@@ -43,7 +43,7 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
-import { ALL_DEVICES } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
@@ -58,16 +58,16 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
     radius: ERadius.MEDIUM,
-    devices: () => ALL_DEVICES,
+    devices: () => ALL_DEVICES_REVERSED,
 });
 
 const $emit = defineEmits<{
-    change: [newValue: CheckboxValue];
-    'update:modelValue': [newValue: CheckboxValue];
+    change: [newValue: TCheckboxValue];
+    'update:modelValue': [newValue: TCheckboxValue];
 }>();
 
 /** value с поддержкой v-model */
-const currentValue = computed<CheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
+const currentValue = computed<TCheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
 
 /**
  * Чекбокс считается выбранным,

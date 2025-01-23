@@ -1,8 +1,8 @@
 // Types
 import type { Ref, ComputedRef, DeepReadonly } from 'vue';
-import type { Validator } from '@/types/composables/validators-types';
+import type { TValidator } from '@/types/composables/validators-types';
 
-export type FormValidators<T> = Partial<Record<keyof T, Validator<T>[]>>;
+export type FormValidators<T> = Partial<Record<keyof T, TValidator<T>[]>>;
 
 export type FormErrors<T> = Partial<Record<keyof T, string>>;
 

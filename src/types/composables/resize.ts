@@ -1,0 +1,1 @@
+export type TResizeCallback = (rect: DOMRectReadOnly, target: Element, entry: ResizeObserverEntry) => unknown

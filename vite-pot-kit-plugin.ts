@@ -182,18 +182,20 @@ class PotKitBuildPlugin {
     private static defaultConfig: IPotKitConfig = $defaultConfig;
 
     static async init(userConfig: Partial<IPotKitConfig>) {
+        const getCurrentTime = () => moment().format('HH:MM:SS');
+
         const currentConfig = PotKitBuildPlugin.prepareConfig(userConfig);
 
-        console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles generation started`);
+        console.info(`${getCurrentTime()} [POT-KIT]: enums and styles generation started`);
         
         try {
             await Promise.all([
                 PotKitStylesBuildPlugin.init(currentConfig),
                 PotKitEnumsBuildPlugin.init(currentConfig),
             ]);
-            console.info(`${moment().format('HH:MM:SS')} [POT-KIT]: enums and styles successfully generated`);
+            console.info(`${getCurrentTime()} [POT-KIT]: enums and styles successfully generated`);
         } catch (err) {
-            console.error(`[POT-KIT]: enums and styles generation error -`, err);
+            console.error(`${getCurrentTime()} [POT-KIT]: enums and styles generation error -`, err);
         }
     }
 

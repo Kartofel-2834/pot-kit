@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 // Types
 import type { IPotRadioProps } from '@/types/components';
-import type { SpecValue } from '@/types/composables/specs-helper-types';
+import type { TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
 import { EColorTheme } from '@/enums/config';
@@ -65,8 +65,8 @@ const $props = withDefaults(defineProps<IPotRadioProps>(), {
 });
 
 const $emit = defineEmits<{
-    change: [value: SpecValue];
-    'update:modelValue': [value: SpecValue];
+    change: [value: TSpecValue];
+    'update:modelValue': [value: TSpecValue];
 }>();
 
 // Computed
@@ -92,7 +92,7 @@ const classList = computed(() =>
 );
 
 // Methods
-function onSpecClick(specValue: SpecValue, isDisabled: boolean): void {
+function onSpecClick(specValue: TSpecValue, isDisabled: boolean): void {
     if ($props.disabled || isDisabled) return;
 
     $emit('change', specValue);

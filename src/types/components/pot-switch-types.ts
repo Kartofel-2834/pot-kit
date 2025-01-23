@@ -1,16 +1,11 @@
+// Types
+import type { TCheckboxValue } from "./pot-checkbox-types";
+
 // Enums
 import type { ERadius, ESize } from "@/enums/components";
 import type { EDevice, EColorTheme, EIcon } from "@/enums/config";
 
-/**
- * Допустимый value для компонента PotCheckbox
- */
-export type TCheckboxValue = string | number | boolean | null;
-
-/**
- * Интерфейс пропсов для компонента PotCheckbox
- */
-export interface IPotCheckboxProps {
+export interface IPotSwitchProps {
     /** Текущее значение чекбокса */
     value?: TCheckboxValue;
 

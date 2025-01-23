@@ -1,9 +1,9 @@
 // Types
 import type {
-    DeviceIs,
-    DeviceProperties,
-    DevicePropertiesBreakpointsValues,
-    DevicePropertyValue,
+    TDeviceIs,
+    TDeviceProperties,
+    TDevicePropertiesBreakpointsValues,
+    TDevicePropertyValue,
 } from '@/types/composables';
 
 // Enums
@@ -44,15 +44,15 @@ import { ALL_DEVICES_REVERSED } from './device-is';
 export function useDeviceProperties<T>(
     properties: T,
     devices: EDevice[] = ALL_DEVICES_REVERSED,
-): DeviceProperties<T> {
-    const $deviceIs = inject<DeviceIs>('deviceIs');
+): TDeviceProperties<T> {
+    const $deviceIs = inject<TDeviceIs>('deviceIs');
 
     /**
      * Объект c значениями из properties привязанными к брейкпоинтам из devices
      *
      * @example { size: { desktop: '56', tablet: '48' } }
      */
-    const breakpointValues = computed<DevicePropertiesBreakpointsValues<T>>(() => {
+    const breakpointValues = computed<TDevicePropertiesBreakpointsValues<T>>(() => {
         if (!properties || typeof properties !== 'object') return {};
 
         return Object.entries(properties).reduce((res, data) => {
@@ -70,10 +70,10 @@ export function useDeviceProperties<T>(
     /**
      * Объект с текущими устройство-специфическими свойствами.
      */
-    const currentProperties: DeviceProperties<T> = computed(() => {
+    const currentProperties: TDeviceProperties<T> = computed(() => {
         return Object.entries(breakpointValues.value).reduce((res, data) => {
             const property = data[0] as keyof T;
-            const values = data[1] as DevicePropertiesBreakpointsValues<T>[typeof property];
+            const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
 
             return {
                 ...res,
@@ -96,7 +96,7 @@ export function useDeviceProperties<T>(
      */
     function getBreakpointValues(
         values: Array<T[keyof T]> = []
-    ): DevicePropertiesBreakpointsValues<T>[keyof T] {
+    ): TDevicePropertiesBreakpointsValues<T>[keyof T] {
         if (devices.some(device => typeof device !== 'string')) return {};
 
         return devices.reduce((res, breakpoint, index) => {
@@ -119,8 +119,8 @@ export function useDeviceProperties<T>(
      * @returns Выбранное из properties значение или null, если значение не найдено
      */
     function getCurrentValue(
-        breakpointValues: DevicePropertiesBreakpointsValues<T>[keyof T] = {}
-    ): DevicePropertyValue<T[keyof T]> | null {
+        breakpointValues: TDevicePropertiesBreakpointsValues<T>[keyof T] = {}
+    ): TDevicePropertyValue<T[keyof T]> | null {
         const breakpointKeys = Object.keys(breakpointValues) as EDevice[];
 
         if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {

@@ -1,5 +1,5 @@
 // Types
-import type { ISpecsHelperOptions, SpecValue } from '@/types/composables/specs-helper-types';
+import type { ISpecsHelperOptions, TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
 import { EColorTheme } from '@/enums/config';
@@ -13,10 +13,10 @@ export interface IPotCheckListProps extends ISpecsHelperOptions {
     tag?: string;
 
     /** Список выбранных значений */
-    value?: SpecValue[];
+    value?: TSpecValue[];
 
     /** То же, что и `value`, добавлен для поддержки v-model */
-    modelValue?: SpecValue[];
+    modelValue?: TSpecValue[];
 
     /** Если true, то список будет заблокирован и не активен */
     disabled?: boolean;

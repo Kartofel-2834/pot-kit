@@ -1,6 +1,6 @@
 // Types
 import type { App, Plugin } from 'vue';
-import type { DeviceIs } from '@/types/composables/device-is-types';
+import type { TDeviceIs } from '@/types/composables/device-is-types';
 
 // Composables
 import { useDeviceIs } from '@/composables/device-is';
@@ -12,7 +12,7 @@ import { useDeviceIs } from '@/composables/device-is';
  * @param app - Экземпляр приложения Vue.
  */
 function deviceIsPluginInit(app: App): void {
-    const deviceIs: DeviceIs = useDeviceIs(false);
+    const deviceIs: TDeviceIs = useDeviceIs(false);
     deviceIs.init();
 
     app.provide('deviceIs', deviceIs);

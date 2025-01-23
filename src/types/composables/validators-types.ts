@@ -1,6 +1,6 @@
-export type ValidatorBuilder<T = unknown> = (
+export type TValidatorBuilder<T = unknown> = (
     message: string,
     fields?: Array<keyof T>
-) => Validator<T>;
+) => TValidator<T>;
 
-export type Validator<T = unknown> = (value?: T[keyof T], values?: Partial<T>) => string | null;
+export type TValidator<T = unknown> = (value?: T[keyof T], values?: Partial<T>) => string | null;

@@ -1,44 +1,44 @@
-export type RequestPrimitiveValue = string | number | boolean | null;
+export type TRequestPrimitiveValue = string | number | boolean | null;
 
-export type RequestMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type TRequestMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export type RequestInterceptor = (
+export type TRequestInterceptor = (
     options: RequestInit,
     resource: URL,
     abortId: symbol
 ) => RequestInit | symbol | void; 
 
-export type ResponseInterceptor = (response: Response) => void; 
+export type TResponseInterceptor = (response: Response) => void; 
 
-export type RequestContext = {
-    method?: RequestMethods;
+export type TRequestContext = {
+    method?: TRequestMethods;
 };
 
-export type RequestParams = Record<string, RequestPrimitiveValue | RequestPrimitiveValue[]>;
+export type TRequestParams = Record<string, TRequestPrimitiveValue | TRequestPrimitiveValue[]>;
 
-export type RequestInitOptions = {
+export type TRequestInitOptions = {
     options?: RequestInit;
     baseUrl?: string;
     bodyFormatter?: ((v: unknown) => BodyInit) | null;
 };
 
-export type RequestOptions = RequestInitOptions & {
+export type RequestOptions = TRequestInitOptions & {
     body?: unknown;
-    params?: RequestParams;
+    params?: TRequestParams;
 };
 
-export type RequestSender = (
+export type TRequestSender = (
     endpoint: string,
     requestOptions?: RequestOptions,
 ) => Promise<Response>;
 
-export type RequestBindedSenders = {
-    [K in Lowercase<RequestMethods>]: RequestSender;
+export type TRequestBindedSenders = {
+    [K in Lowercase<TRequestMethods>]: TRequestSender;
 };
 
-export type RequestHelper = RequestBindedSenders & {
-    send: RequestSender;
-    addRequestInterceptor: (interceptor: RequestInterceptor) => symbol;
-    addResponseInterceptor: (interceptor: ResponseInterceptor) => symbol;
+export type TRequestHelper = TRequestBindedSenders & {
+    send: TRequestSender;
+    addRequestInterceptor: (interceptor: TRequestInterceptor) => symbol;
+    addResponseInterceptor: (interceptor: TResponseInterceptor) => symbol;
     removeInterceptor: (type: 'request' | 'response', interceptorId: symbol) => boolean;
 };

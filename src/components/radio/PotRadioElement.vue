@@ -25,7 +25,7 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
-import { ALL_DEVICES } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     tag: 'div',
@@ -34,7 +34,7 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     radius: ERadius.CIRCLE,
     active: false,
     disabled: false,
-    devices: () => ALL_DEVICES,
+    devices: () => ALL_DEVICES_REVERSED,
 });
 
 /**

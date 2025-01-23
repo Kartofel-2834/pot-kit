@@ -53,7 +53,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { SpecValue } from '@/types/composables/specs-helper-types';
+import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
 
 // Enums
@@ -82,15 +82,15 @@ const $props = withDefaults(defineProps<IPotCheckListProps>(), {
 });
 
 const $emit = defineEmits<{
-    change: [value: SpecValue[]];
-    'update:modelValue': [value: SpecValue[]];
+    change: [value: TSpecValue[]];
+    'update:modelValue': [value: TSpecValue[]];
 }>();
 
 // Computed
 const specsHelper = computed(() => useSpecsHelper($props));
 const updatedSpecs = computed(() => specsHelper.value.getModifiedSpecs());
 
-const currentValue = computed<SpecValue[]>(() => $props.value || $props.modelValue || []);
+const currentValue = computed<TSpecValue[]>(() => $props.value || $props.modelValue || []);
 const isAllSelected = computed(() => {
     if (!$props.resetable) return false;
 
@@ -98,7 +98,7 @@ const isAllSelected = computed(() => {
 });
 
 // Methods
-function onCheckboxChange(specValue: SpecValue): void {
+function onCheckboxChange(specValue: TSpecValue): void {
     let updatedValue = [...currentValue.value];
     const index = updatedValue.indexOf(specValue);
 

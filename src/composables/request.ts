@@ -1,12 +1,12 @@
 // Types
 import type {
-    RequestHelper,
-    RequestContext,
-    RequestInitOptions,
+    TRequestHelper,
+    TRequestContext,
+    TRequestInitOptions,
     RequestOptions,
-    RequestInterceptor,
-    ResponseInterceptor,
-    RequestParams
+    TRequestInterceptor,
+    TResponseInterceptor,
+    TRequestParams
 } from '@/types/composables';
 
 /**
@@ -19,9 +19,9 @@ import type {
  * 
  * @returns - возвращает набор методов для отправки fetch запросов и методы для добавления интерцепторов
 */
-export function useRequest(initRequestOptions: RequestInitOptions = {}): RequestHelper {
-    const requestInterceptors: Map<symbol, RequestInterceptor> = new Map();
-    const responseInterceptors: Map<symbol, ResponseInterceptor> = new Map();
+export function useRequest(initRequestOptions: TRequestInitOptions = {}): TRequestHelper {
+    const requestInterceptors: Map<symbol, TRequestInterceptor> = new Map();
+    const responseInterceptors: Map<symbol, TResponseInterceptor> = new Map();
 
     const defaultRequestOptions: RequestOptions = {
         baseUrl: window?.location?.href || '/',
@@ -47,7 +47,7 @@ export function useRequest(initRequestOptions: RequestInitOptions = {}): Request
      * @returns - результат отправки браузерного fetch запроса
     */
     async function request(
-        this: RequestContext,
+        this: TRequestContext,
         url: string,
         requestOptions: RequestOptions = {},
     ): Promise<Response> {
@@ -97,7 +97,7 @@ export function useRequest(initRequestOptions: RequestInitOptions = {}): Request
 
     function createUrl(
         url: string,
-        params?: RequestParams,
+        params?: TRequestParams,
         base?: string,
     ): URL {
         const createdUrl = new URL(url, base);
@@ -117,13 +117,13 @@ export function useRequest(initRequestOptions: RequestInitOptions = {}): Request
         return createdUrl;
     }
 
-    function addRequestInterceptor(interceptor: RequestInterceptor): symbol {
+    function addRequestInterceptor(interceptor: TRequestInterceptor): symbol {
         const id = createId();
         requestInterceptors.set(id, interceptor);
         return id;
     }
     
-    function addResponseInterceptor(interceptor: ResponseInterceptor): symbol {
+    function addResponseInterceptor(interceptor: TResponseInterceptor): symbol {
         const id = createId();
         responseInterceptors.set(id, interceptor);
         return id;

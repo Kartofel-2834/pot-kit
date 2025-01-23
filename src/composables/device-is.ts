@@ -4,9 +4,9 @@ import { ref, onMounted, onUnmounted } from 'vue';
 // Types
 import type { Ref } from 'vue';
 import type {
-    DeviceIs,
-    DeviceIsMediaQueries,
-    DeviceIsState
+    TDeviceIs,
+    TDeviceIsMediaQueries,
+    TDeviceIsState
 } from '@/types/composables';
 
 // Enums
@@ -27,9 +27,9 @@ export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
  * state - акутальные статусы всех брейкпоинтов,
  * device - текущий активный брейкпонт
  */
-export function useDeviceIs(mount: boolean = true): DeviceIs {
-    const queries: Ref<DeviceIsMediaQueries> = ref({});
-    const state: Ref<DeviceIsState> = ref({});
+export function useDeviceIs(mount: boolean = true): TDeviceIs {
+    const queries: Ref<TDeviceIsMediaQueries> = ref({});
+    const state: Ref<TDeviceIsState> = ref({});
     const device: Ref<EDevice | null> = ref(null);
     const timeoutId: Ref<number | undefined> = ref(undefined);
 
@@ -50,8 +50,8 @@ export function useDeviceIs(mount: boolean = true): DeviceIs {
 
         clearQueries();
 
-        const createdQueries: Partial<DeviceIsMediaQueries> = {};
-        const updatedState: Partial<DeviceIsState> = {};
+        const createdQueries: Partial<TDeviceIsMediaQueries> = {};
+        const updatedState: Partial<TDeviceIsState> = {};
 
         let currentDevice: EDevice | null = null;
 

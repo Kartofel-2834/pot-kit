@@ -1,10 +1,10 @@
 // Types
-import type { ValidatorBuilder } from "@/types/composables";
+import type { TValidatorBuilder } from "@/types/composables";
 
 // Constants
 import { ValidatorsMessages } from "@/assets/ts/constants/validators-messages";
 
-export function useValidators<T = unknown>(): Record<string, ValidatorBuilder<T>> {
+export function useValidators<T = unknown>(): Record<string, TValidatorBuilder<T>> {
     return {
         REQUIRED: (msg = ValidatorsMessages.required) => {
             return v => v ? null : msg;

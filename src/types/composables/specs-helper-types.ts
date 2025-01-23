@@ -1,15 +1,15 @@
 // Types
 import type { ComputedRef } from 'vue';
 
-export type SpecValue = string | number | boolean | null;
+export type TSpecValue = string | number | boolean | null;
 
 /** Тип для спека, может быть объектом или простым значением */
-export type Spec = Record<string, unknown> | SpecValue;
+export type TSpec = Record<string, unknown> | TSpecValue;
 
 /** Модифицированный спек с состоянием */
-export type ModifiedSpec = {
-    target: Spec;
-    value: SpecValue;
+export type TModifiedSpec = {
+    target: TSpec;
+    value: TSpecValue;
     label: string;
     isDisabled: boolean;
     isSelected: boolean;
@@ -18,30 +18,30 @@ export type ModifiedSpec = {
 /**
  * Интерфейс пропсов для компонентов использующих фасетный поиск
  *
- * @property {Spec[]} [specs] - 
- * @property {SpecValue[] | null} [facets] - 
+ * @property {TSpec[]} [specs] - 
+ * @property {TSpecValue[] | null} [facets] - 
  *                                           
- * @property {SpecValue} [value] - Значение выбранного спека
- * @property {SpecValue} [modelValue] - То же, что и `value`, добавлен для удобства использования
+ * @property {TSpecValue} [value] - Значение выбранного спека
+ * @property {TSpecValue} [modelValue] - То же, что и `value`, добавлен для удобства использования
  *                                      
  * @property {string} [labelName] - ключ по которому будет извлекаться label из спека, если спек объект.
  * @property {string} [valueName] - ключ по которому будет извлекаться значение из спека, если спек объект.
  */
 export interface ISpecsProps {
     /** Массив объектов или значений доступных для выбора и называемых спеками */
-    specs?: Spec[];
+    specs?: TSpec[];
 
     /** Массив значений спеков доступных для выбора, если есть спек значения, которого нет в `facets`, то он будет задизейблен */
-    facets?: SpecValue[] | null;
+    facets?: TSpecValue[] | null;
 
     /** Значение выбранного спека */
-    value?: SpecValue | SpecValue[];
+    value?: TSpecValue | TSpecValue[];
 
     /**
      * То же, что и `value`, добавлен для удобства использования
      * компосабла в компонентах поддерживающих v-model
     */
-    modelValue?: SpecValue | SpecValue[];
+    modelValue?: TSpecValue | TSpecValue[];
 
     /** Ключ по которому будет извлекаться label из спека, если спек объект */
     labelName?: string;
@@ -64,28 +64,28 @@ export interface ISpecsHelperOptions extends ISpecsProps {
     resetLabel?: string;
 }
 
-export type SpecsHelper = {
+export type TSpecsHelper = {
     /** Выбранное значение */
-    currentValue: ComputedRef<SpecValue | SpecValue[]>;
+    currentValue: ComputedRef<TSpecValue | TSpecValue[]>;
 
     /** Проверяет, задизейблен ли спек */
-    checkIsDisabled(spec: Spec): boolean;
+    checkIsDisabled(spec: TSpec): boolean;
 
     /** Проверяет, выбран ли спек */
-    checkIsSelected(spec: Spec): boolean;
+    checkIsSelected(spec: TSpec): boolean;
 
     /** Проверяет, валидно ли значение спека */
     checkIsValueValid(possibleValue: unknown): boolean;
 
     /** Возвращает значение спека */
-    getSpecValue(spec: Spec): SpecValue;
+    getSpecValue(spec: TSpec): TSpecValue;
 
     /** Возвращает label спека */
-    getSpecLabel: (spec: Spec) => string;
+    getSpecLabel: (spec: TSpec) => string;
 
     /** Возвращает выбранный спек */
-    getCurrentSpec(): Spec;
+    getCurrentSpec(): TSpec;
 
     /** Возвращает спеки с их текущим состоянием */
-    getModifiedSpecs(specsArg?: Spec[]): ModifiedSpec[];
+    getModifiedSpecs(specsArg?: TSpec[]): TModifiedSpec[];
 };

@@ -1,6 +1,6 @@
-export type MaskPlaceholder = RegExp | string | number | null;
+export type TMaskPlaceholder = RegExp | string | number | null;
 
-const defaultPlaceholders: Record<string, MaskPlaceholder>  = {
+const defaultPlaceholders: Record<string, TMaskPlaceholder>  = {
     '#': /^[0-9]$/,
     'A': /^[a-zA-Z]$/,
     'N': /^[a-zA-Z0-9]$/,
@@ -8,7 +8,7 @@ const defaultPlaceholders: Record<string, MaskPlaceholder>  = {
     'Я': /^[\wа-яА-Я]$/,
 };
 
-function getPlaceholderTest(placeholder: MaskPlaceholder): (v: string) => boolean {
+function getPlaceholderTest(placeholder: TMaskPlaceholder): (v: string) => boolean {
     if (
         typeof placeholder === 'string' ||
         (typeof placeholder === 'number' && !isNaN(placeholder) && isFinite(placeholder))
@@ -26,7 +26,7 @@ function getPlaceholderTest(placeholder: MaskPlaceholder): (v: string) => boolea
 export function useMask(
     data: string,
     mask: string,
-    placeholders: Record<string, MaskPlaceholder> = {}
+    placeholders: Record<string, TMaskPlaceholder> = {}
 ): string {
     if (!data || typeof data !== 'string') {
         return data;
@@ -68,7 +68,7 @@ export function useMask(
 export function removeMask(
     value: string,
     mask: string,
-    placeholders: Record<string, MaskPlaceholder> = {}
+    placeholders: Record<string, TMaskPlaceholder> = {}
 ): string {
     if (!value || typeof value !== 'string') {
         return value;
