@@ -3,7 +3,6 @@
         :value="value"
         :model-value="modelValue"
         :class="[$style.PotSwitch, 'pot-switch', classList]"
-        :style="{ '--width': `${targetWidth}px` }"
         :size="size"
         :color="color"
         :radius="radius"
@@ -14,13 +13,12 @@
         @update:model-value="$emit('update:modelValue', $event)"
     >
         <template #content>
-            <div
-                v-resize
-                :class="[$style.wrapper, 'pot-switch__wrapper']"
-            >
-                <span :class="[$style.ball, 'pot-switch__wrapper__ball']">
-                    <slot> </slot>
-                </span>
+            <div :class="[$style.wrapper, 'pot-switch__wrapper']">
+                <div :class="[$style.line, 'pot-switch__wrapper__line']">
+                    <div :class="[$style.ball, 'pot-switch__wrapper__line__ball']">
+                        <slot> </slot>
+                    </div>
+                </div>
             </div>
         </template>
     </PotCheckbox>
@@ -33,22 +31,21 @@ import type { TCheckboxValue } from '@/types/components';
 
 // Enums
 import { ESize, ERadius } from '@/enums/components';
-import { EIcon, EColorTheme } from '@/enums/config';
+import { EColorTheme } from '@/enums/config';
 
 // Vue
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Composables
-import { useResize } from '@/composables/resize';
 import { useClassList } from '@/composables/class-list';
 
 // Components
 import PotCheckbox from '@/components/check/PotCheckbox.vue';
 
-withDefaults(defineProps<IPotSwitchProps>(), {
+const $props = withDefaults(defineProps<IPotSwitchProps>(), {
     value: null,
     modelValue: null,
     disabled: false,
@@ -65,33 +62,20 @@ const $emit = defineEmits<{
     'update:modelValue': [newValue: TCheckboxValue];
 }>();
 
-// Model
-const isResizeStarted = ref<boolean>(false);
-const targetWidth = ref<number>(0);
-
-// Directives
-const vResize = useResize({
-    onStart() {
-        isResizeStarted.value = true;
-    },
-
-    onEnd(rect) {
-        targetWidth.value = Math.floor(rect.width || 0);
-    },
-});
-
 // Computed
+const currentValue = computed<TCheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
+
+const isChecked = computed<boolean>(() => currentValue.value === $props.trueValue);
+
 const classList = computed(() =>
     useClassList({
-        resizeStarted: isResizeStarted.value,
+        'not-checked': !isChecked.value,
     }),
 );
 </script>
 
 <style lang="scss" module>
 .PotSwitch {
-    width: 100%;
-
     /* --- Colors - START --- */
     .wrapper {
         background-color: var(--pot-theme-target-subcolor);
@@ -101,8 +85,12 @@ const classList = computed(() =>
         background-color: var(--pot-base-0);
     }
 
+    .line {
+        background-color: transparent;
+    }
+
     @include modificator(checked) {
-        .wrapper {
+        .line {
             background-color: var(--pot-theme-target-color);
         }
     }
@@ -113,12 +101,12 @@ const classList = computed(() =>
         min-width: calc(var(--pot-size-tiny) * 2);
 
         .wrapper {
-            padding: 0 calc(var(--pot-spacer) / 4);
             height: var(--pot-size-tiny);
         }
 
-        .ball {
-            height: calc(100% - var(--pot-unit));
+        .line {
+            padding: calc(var(--pot-spacer) / 2.5);
+            transform: translateX(calc(-100% + var(--pot-size-tiny)));
         }
     }
 
@@ -126,12 +114,12 @@ const classList = computed(() =>
         min-width: calc(var(--pot-size-small) * 2);
 
         .wrapper {
-            padding: 0 calc(var(--pot-spacer) / 2);
             height: var(--pot-size-small);
         }
 
-        .ball {
-            height: calc(100% - var(--pot-spacer));
+        .line {
+            padding: calc(var(--pot-spacer) / 2);
+            transform: translateX(calc(-100% + var(--pot-size-small)));
         }
     }
 
@@ -139,12 +127,12 @@ const classList = computed(() =>
         min-width: calc(var(--pot-size-medium) * 2);
 
         .wrapper {
-            padding: 0 var(--pot-unit);
             height: var(--pot-size-medium);
         }
 
-        .ball {
-            height: calc(100% - var(--pot-unit));
+        .line {
+            padding: calc(var(--pot-spacer) / 2);
+            transform: translateX(calc(-100% + var(--pot-size-medium)));
         }
     }
 
@@ -152,12 +140,12 @@ const classList = computed(() =>
         min-width: calc(var(--pot-size-big) * 2);
 
         .wrapper {
-            padding: 0 var(--pot-unit);
             height: var(--pot-size-big);
         }
 
-        .ball {
-            height: calc(100% - var(--pot-unit));
+        .line {
+            padding: calc(var(--pot-spacer) / 1.75);
+            transform: translateX(calc(-100% + var(--pot-size-big)));
         }
     }
 
@@ -165,34 +153,50 @@ const classList = computed(() =>
         min-width: calc(var(--pot-size-large) * 2);
 
         .wrapper {
-            padding: 0 var(--pot-unit);
             height: var(--pot-size-large);
         }
 
-        .ball {
-            height: calc(100% - var(--pot-unit));
+        .line {
+            padding: calc(var(--pot-spacer) / 1.5);
+            transform: translateX(calc(-100% + var(--pot-size-large)));
         }
     }
 
     /* --- Active --- */
     @include modificator(checked) {
-        .ball {
-            transform: translateX(calc(var(--width) - 100%));
+        .line {
+            transform: none;
+            transition:
+                background-color 0.4s cubic-bezier(0, 1, 1, 1),
+                transform var(--pot-transition);
         }
     }
 }
 
 .wrapper {
+    overflow: hidden;
     display: flex;
     align-items: center;
     width: 100%;
+    height: 0;
     border-radius: var(--pot-radius-circle);
     transition: background-color var(--pot-transition);
 }
 
+.line {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition:
+        background-color 0.4s ease-in,
+        transform var(--pot-transition);
+}
+
 .ball {
     aspect-ratio: 1 / 1;
+    height: 100%;
     border-radius: inherit;
-    transition: transform var(--pot-transition);
 }
 </style>

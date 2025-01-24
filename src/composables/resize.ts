@@ -1,23 +1,9 @@
 // Types
 import type { Directive, DirectiveBinding } from 'vue';
-import type { TResizeCallback } from '@/types/composables';
+import type { TResizeCallback, IResizeConfig } from '@/types/composables';
 
 // Vue
 import { ref, computed } from 'vue';
-
-interface IResizeConfig {
-    /** Кол-во мс. через которое будет вызван onEnd, после изменения размеров элемента */
-    endDelay: number;
-
-    /** Функция вызываемая при начале изменения размеров элемента */
-    onStart: TResizeCallback;
-
-    /** Функия вызываемая на каждое изменение размеров элемента */
-    onProgress: TResizeCallback;
-
-    /** Функия вызываемая через endDelay после изменения размеров элемента */
-    onEnd: TResizeCallback;
-}
 
 const defaultConfig: IResizeConfig = {
     endDelay: 200,
