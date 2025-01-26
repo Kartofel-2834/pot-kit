@@ -6,31 +6,37 @@ import type { ERadius, ESize } from "@/enums/components";
 import type { EDevice, EColorTheme, EIcon } from "@/enums/config";
 
 export interface IPotSwitchProps {
-    /** Текущее значение чекбокса */
+    /** Текущее значение переключателя */
     value?: TCheckboxValue;
 
-    /** Текущее значение чекбокса */
+    /** Текущее значение переключателя */
     modelValue?: TCheckboxValue;
 
-    /** Если чекбокс в состоянии checked, то value = trueValue */
+    /** Если переключатель в состоянии checked, то value = trueValue */
     trueValue?: TCheckboxValue;
 
-    /** Если чекбокс не в состоянии checked, то value = falseValue */
+    /** Если переключатель не в состоянии checked, то value = falseValue */
     falseValue?: TCheckboxValue;
 
-    /** Если true, то чекбокс будет задизейблен */
+    /** Контент переключателя в активном состоянии */
+    trueLabel?: string;
+
+    /** Контент переключателя в не активном состоянии */
+    falseLabel?: string;
+
+    /** Если true, то переключатель будет задизейблен */
     disabled?: boolean;
 
-    /** Иконка в чекбоксе, галочка по-умолчанию */
+    /** Иконка в переключателе, пустая по-умолчанию */
     icon?: EIcon | null;
 
-    /** Цвет чекбокса */
+    /** Цвет переключателя */
     color?: EColorTheme | EColorTheme[];
 
-    /** Размер чекбокса, null для скейла от шрифта */
+    /** Размер переключателя, null для скейла от шрифта */
     size?: ESize | ESize[] | null;
 
-    /** Радиус границ чекбокса */
+    /** Радиус границ переключателя */
     radius?: ERadius | ERadius[] | null;
 
     /** Точки останова для адаптивного дизайна */

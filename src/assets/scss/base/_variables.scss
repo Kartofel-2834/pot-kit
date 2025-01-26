@@ -1,6 +1,6 @@
 :root {
-    --pot-unit: 0.5rem;
-    --pot-spacer: calc(var(--pot-unit) * 2);
+    --pot-spacer: 1rem;
+    --pot-unit: calc(var(--pot-spacer) / 2);
 
     /* Spacing */
     --pot-spacer-0-400: calc(var(--pot-spacer) * 0.4);
@@ -22,13 +22,6 @@
     --pot-spacer-7-200: calc(var(--pot-spacer) * 7.2);
     --pot-spacer-8: calc(var(--pot-spacer) * 8);
     --pot-spacer-10: calc(var(--pot-spacer) * 10);
-
-    /* Size */
-    --pot-size-large: var(--pot-spacer-5-600);
-    --pot-size-big: var(--pot-spacer-4-800);
-    --pot-size-medium: var(--pot-spacer-4);
-    --pot-size-small: var(--pot-spacer-3-200);
-    --pot-size-tiny: var(--pot-spacer-2-400);
 
     /* Radius */
     --pot-radius-circle: calc(var(--pot-spacer) * 100);
@@ -109,11 +102,31 @@
     --pot-color-yellow-200: #f7c844;
     --pot-color-yellow-300: #f6bf26;
     --pot-color-yellow-400: #c49308;
+
+    /* --- Sizes --- */
+    --pot-standard-size-height: var(--pot-spacer-4);
+    --pot-standard-size-text: var(--pot-font-size-400);
+
+    /* --- COMPONENTS SIZES --- */
+    /* --- PotSwitch - sizes - START ---*/
+    --pot-switch-size-height: var(--pot-standard-size-height);
+    --pot-switch-size-text: var(--pot-standard-size-text);
+    --pot-switch-size-wrapper-padding: var(--pot-spacer-0-400);
+    --pot-switch-size-label-padding: var(--pot-spacer-1-200);
+    /* --- PotSwitch - sizes - END --- */
+
+    /* --- PotButton - sizes - START ---*/
+    --pot-button-size-height: var(--pot-standard-size-height);
+    --pot-button-size-text: var(--pot-standard-size-text);
+    --pot-button-size-border: 1px;
+    --pot-button-size-padding: var(--pot-spacer-1-400);
+    --pot-button-size-label-padding: var(--pot-spacer-1-200);
+    /* --- PotButton - sizes - END ---*/
 }
 
 /* --- COMPONENTS - COLORS --- */
 * {
-    /* --- PotButton --- */
+    /* --- PotButton - START --- */
     --pot-button-border-color: var(--pot-theme-target-border);
     --pot-button-background-color: var(--pot-theme-target-color);
     --pot-button-text-color: var(--pot-theme-target-text);
@@ -129,8 +142,9 @@
     --pot-button-disabled-border-color: var(--pot-theme-disabled-border);
     --pot-button-disabled-background-color: var(--pot-theme-disabled-color);
     --pot-button-disabled-text-color: var(--pot-theme-disabled-text);
+    /* --- PotButton - END --- */
 
-    /* --- PotCheckbox --- */
+    /* --- PotCheckbox - START --- */
     --pot-checkbox-text-color: inherit;
     --pot-checkbox-background-color: transparent;
     --pot-checkbox-border-color: var(--pot-base-600);
@@ -139,15 +153,17 @@
     --pot-checkbox-checked-background-color: var(--pot-theme-target-color);
     --pot-checkbox-checked-border-color: var(--pot-theme-target-border);
     --pot-checkbox-checked-icon-color: var(--pot-theme-target-text);
+    /* --- PotCheckbox - END --- */
 
-    /* --- PotRadioElement --- */
+    /* --- PotRadioElement - START --- */
     --pot-radio-text-color: inherit;
     --pot-radio-marker-border-color: var(--pot-base-400);
     --pot-radio-marker-background-color: transparent;
     --pot-radio-marker-color: var(--pot-theme-target-color);
     --pot-radio-marker-point-color: var(--pot-base-0);
+    /* --- PotRadioElement - END --- */
 
-    /* --- PotLink --- */
+    /* --- PotLink - START --- */
     --pot-link-text-color: inherit;
     --pot-link-hover-text-color: var(--pot-theme-hover-color);
     --pot-link-active-text-color: var(--pot-theme-active-color);
@@ -160,12 +176,13 @@
     --pot-link-underline-text-color: inherit;
     --pot-link-underline-hover-text-color: inherit;
     --pot-link-underline-active-text-color: inherit;
+    /* --- PotLink - END --- */
 
-    /* --- PotInputBase --- */
+    /* --- PotInputBase - START --- */
     --pot-input-text-color: inherit;
     --pot-input-border-color: var(--pot-theme-target-subcolor);
     --pot-input-icon-color: var(--pot-theme-target-subcolor);
-    --pot-input--target-text-color: inherit;
+    --pot-input-target-text-color: inherit;
     --pot-input-target-background-color: var(--pot-base-0);
 
     --pot-input-disabled-text-color: inherit;
@@ -179,7 +196,27 @@
     --pot-input-focused-icon-color: var(--pot-theme-target-color);
     --pot-input-focused-target-text-color: inherit;
     --pot-input-focused-target-background-color: var(--pot-base-0);
+    /* --- PotInputBase - END --- */
+
+    /* --- PotSwitch - START --- */
+    --pot-switch-false-color: var(--pot-theme-target-subcolor);
+    --pot-switch-true-color: var(--pot-theme-target-color);
+    --pot-switch-icon-false-color: var(--pot-theme-target-subcolor);
+    --pot-switch-icon-true-color: var(--pot-theme-target-color);
+    --pot-switch-ball-false-color: var(--pot-theme-target-text);
+    --pot-switch-ball-true-color: var(--pot-theme-target-text);
+    --pot-switch-content-false-color: var(--pot-theme-target-text);
+    --pot-switch-content-true-color: var(--pot-theme-target-text);
+    /* --- PotSwitch - END --- */
 }
+
+$pot-size-scales: (
+    tiny: 0.6,
+    small: 0.8,
+    medium: 1,
+    big: 1.2,
+    large: 1.4,
+);
 
 /* Theme */
 $pot-themes: (
@@ -272,7 +309,7 @@ $pot-text-sizes: (
     p7: var(--pot-font-size-300) 400 150% null,
     p8: var(--pot-font-size-200) 400 150% null,
     p9: var(--pot-font-size-100) 400 150% null,
-    p10: var(--pot-font-size-0) 500 150% null,
+    p10: var(--pot-font-size-0) 400 150% null,
 
     // Text
     t0: var(--pot-font-size-1000) 400 1 null,

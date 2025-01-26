@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 /**
  * Функция для получения значения по ключу с его смещением по индексу 
  *
@@ -22,4 +24,31 @@
     }
 
     @return map-get($map, nth($keys-list, $new-index));
+}
+
+/**
+ * Функция для получения карты с переменными перемноженными на коэф. scale
+ *
+ * @param {Map} $map - Карта значений
+ * @param {Number} $scale - Коэф. масштабирования значений
+ * @param {Number} $round - Величина, по которой перемноженные значения будут округляться
+ *
+ * @return {Map} - карта перемноженных значений
+ */
+@function get-scaled-value($value, $scale: 1, $round: 2px) {
+    @return round(up, calc(#{$value} * $scale), $round);
+}
+
+@function get-scaled-sizes-map($map, $scale: 1, $round: 2px) {
+    $keys-list: map-keys($map);
+    $result: ();
+
+    @for $index from 1 through length($keys-list) {
+        $var-name: nth($keys-list, $index);
+        $var-size: map-get($map, $var-name);
+
+        $result: map.set($result, $var-name, get-scaled-value($var-size, $scale, $round));
+    }
+
+    @return $result;
 }

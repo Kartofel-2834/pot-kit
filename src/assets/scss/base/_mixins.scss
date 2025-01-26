@@ -173,3 +173,20 @@
         }
     }
 }
+
+/** Миксин для использования масштабируемых размеров в компонентах */
+@mixin size($sizes-vars: null) {
+    $sizes-list: map-keys($pot-size-scales);
+    $vars-list: map-keys($sizes-vars);
+
+    @for $index from 1 through length($sizes-list) {
+        $size: nth($sizes-list, $index);
+        $scale: map-get($pot-size-scales, $size);
+
+        $current-size-vars: get-scaled-sizes-map($sizes-vars, $scale);
+
+        @include modificator(size, $size) {
+            @content ($current-size-vars, $size);
+        }
+    }
+}

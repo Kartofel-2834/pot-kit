@@ -127,83 +127,27 @@ const classList = computed(() =>
     /* --- Colors - END --- */
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        @include text(l8);
+    $standard-size: (
+        height: var(--pot-button-size-height),
+        text: var(--pot-button-size-text),
+        border: var(--pot-button-size-border),
+        padding: var(--pot-button-size-padding),
+        label-padding: var(--pot-button-size-label-padding),
+    );
 
-        height: var(--pot-size-tiny);
-        padding: 0 var(--pot-spacer);
-        border-width: 1px;
-
-        @include modificator(square) {
-            padding: 0;
-        }
-
-        .label {
-            padding: 0 var(--pot-spacer-0-800);
-        }
-    }
-
-    @include modificator(size, small) {
-        @include text(l7);
-
-        height: var(--pot-size-small);
-        padding: 0 var(--pot-spacer);
-        border-width: 1px;
+    @include size($standard-size) using ($size, $size-name) {
+        height: map-get($size, 'height');
+        padding: 0 map-get($size, 'padding');
+        border-width: map-get($size, 'border');
+        font-size: map-get($size, 'text');
+        font-weight: 500;
 
         @include modificator(square) {
             padding: 0;
         }
 
         .label {
-            padding: 0 var(--pot-spacer);
-        }
-    }
-
-    @include modificator(size, medium) {
-        @include text(l6);
-
-        height: var(--pot-size-medium);
-        padding: 0 var(--pot-spacer-1-400);
-        border-width: 2px;
-
-        @include modificator(square) {
-            padding: 0;
-        }
-
-        .label {
-            padding: 0 var(--pot-spacer-1-200);
-        }
-    }
-
-    @include modificator(size, big) {
-        @include text(l5);
-
-        height: var(--pot-size-big);
-        padding: 0 var(--pot-spacer-1-800);
-        border-width: 2px;
-
-        @include modificator(square) {
-            padding: 0;
-        }
-
-        .label {
-            padding: 0 var(--pot-spacer-1-600);
-        }
-    }
-
-    @include modificator(size, large) {
-        @include text(l4);
-
-        height: var(--pot-size-large);
-        padding: 0 var(--pot-spacer-2);
-        border-width: 2px;
-
-        @include modificator(square) {
-            padding: 0;
-        }
-
-        .label {
-            padding: 0 var(--pot-spacer-1-800);
+            padding: 0 map-get($size, 'label-padding');
         }
     }
 

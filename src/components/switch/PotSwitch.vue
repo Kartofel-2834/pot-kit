@@ -2,7 +2,7 @@
     <PotCheckbox
         :value="value"
         :model-value="modelValue"
-        :class="[$style.PotSwitch, 'pot-switch', classList]"
+        :class="[$style.PotSwitch, 'pot-switch']"
         :size="size"
         :color="color"
         :radius="radius"
@@ -14,10 +14,45 @@
     >
         <template #content>
             <div :class="[$style.wrapper, 'pot-switch__wrapper']">
+                <div
+                    v-if="$slots['true-content'] || trueLabel"
+                    :class="[
+                        $style.content,
+                        $style.trueContent,
+                        'pot-switch__wrapper__content',
+                        'pot-switch__wrapper__content_true',
+                    ]"
+                >
+                    <slot name="true-content">
+                        {{ trueLabel }}
+                    </slot>
+                </div>
+
                 <div :class="[$style.line, 'pot-switch__wrapper__line']">
                     <div :class="[$style.ball, 'pot-switch__wrapper__line__ball']">
-                        <slot> </slot>
+                        <transition name="fade">
+                            <PotIcon
+                                v-if="icon"
+                                :key="icon"
+                                :class="[$style.icon, 'pot-switch__wrapper__line__ball__icon']"
+                                :icon="icon"
+                            />
+                        </transition>
                     </div>
+                </div>
+
+                <div
+                    v-if="$slots['false-content'] || falseLabel"
+                    :class="[
+                        $style.content,
+                        $style.falseContent,
+                        'pot-switch__wrapper__content',
+                        'pot-switch__wrapper__content_false',
+                    ]"
+                >
+                    <slot name="false-content">
+                        {{ falseLabel }}
+                    </slot>
                 </div>
             </div>
         </template>
@@ -33,56 +68,64 @@ import type { TCheckboxValue } from '@/types/components';
 import { ESize, ERadius } from '@/enums/components';
 import { EColorTheme } from '@/enums/config';
 
-// Vue
-import { computed } from 'vue';
-
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
-// Composables
-import { useClassList } from '@/composables/class-list';
+// Vue
+import { defineAsyncComponent } from 'vue';
 
 // Components
 import PotCheckbox from '@/components/check/PotCheckbox.vue';
 
-const $props = withDefaults(defineProps<IPotSwitchProps>(), {
+const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
+
+withDefaults(defineProps<IPotSwitchProps>(), {
     value: null,
     modelValue: null,
+    fixed: false,
     disabled: false,
     trueValue: true,
     falseValue: false,
+    trueLabel: '',
+    falseLabel: '',
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
     radius: ERadius.MEDIUM,
+    icon: null,
     devices: () => ALL_DEVICES_REVERSED,
 });
+
+defineSlots<{
+    default: () => unknown;
+    'true-content': () => unknown;
+    'false-content': () => unknown;
+}>();
 
 const $emit = defineEmits<{
     change: [newValue: TCheckboxValue];
     'update:modelValue': [newValue: TCheckboxValue];
 }>();
-
-// Computed
-const currentValue = computed<TCheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
-
-const isChecked = computed<boolean>(() => currentValue.value === $props.trueValue);
-
-const classList = computed(() =>
-    useClassList({
-        'not-checked': !isChecked.value,
-    }),
-);
 </script>
 
 <style lang="scss" module>
 .PotSwitch {
+    width: fit-content;
+
     /* --- Colors - START --- */
     .wrapper {
-        background-color: var(--pot-theme-target-subcolor);
+        background-color: var(--pot-switch-false-color);
     }
 
     .ball {
-        background-color: var(--pot-base-0);
+        background-color: var(--pot-switch-ball-false-color);
+    }
+
+    .icon {
+        color: var(--pot-switch-icon-false-color);
+    }
+
+    .content {
+        color: var(--pot-switch-content-false-color);
     }
 
     .line {
@@ -90,113 +133,138 @@ const classList = computed(() =>
     }
 
     @include modificator(checked) {
-        .line {
-            background-color: var(--pot-theme-target-color);
+        .wrapper {
+            background-color: var(--pot-switch-true-color);
+        }
+
+        .icon {
+            color: var(--pot-switch-icon-true-color);
+        }
+
+        .ball {
+            background-color: var(--pot-switch-ball-true-color);
+        }
+
+        .content {
+            color: var(--pot-switch-content-true-color);
         }
     }
     /* --- Colors - END --- */
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        min-width: calc(var(--pot-size-tiny) * 2);
+    $standard-size: (
+        height: var(--pot-switch-size-height),
+        text: var(--pot-switch-size-text),
+        wrapper-padding: var(--pot-switch-size-wrapper-padding),
+        content-padding: var(--pot-switch-size-label-padding),
+    );
+
+    @include size($standard-size) using ($size, $size-name) {
+        $ball-size: calc(#{map-get($size, 'height')} - (#{map-get($size, 'wrapper-padding')} * 2));
+
+        height: map-get($size, 'height');
+        min-width: calc(#{map-get($size, 'height')} * 2);
+        font-size: map-get($size, 'text');
+        font-weight: 500;
 
         .wrapper {
-            height: var(--pot-size-tiny);
+            height: map-get($size, 'height');
+            padding: map-get($size, 'wrapper-padding');
         }
 
-        .line {
-            padding: calc(var(--pot-spacer) / 2.5);
-            transform: translateX(calc(-100% + var(--pot-size-tiny)));
-        }
-    }
-
-    @include modificator(size, small) {
-        min-width: calc(var(--pot-size-small) * 2);
-
-        .wrapper {
-            height: var(--pot-size-small);
+        .content {
+            padding: map-get($size, 'wrapper-padding') map-get($size, 'content-padding');
         }
 
-        .line {
-            padding: calc(var(--pot-spacer) / 2);
-            transform: translateX(calc(-100% + var(--pot-size-small)));
-        }
-    }
-
-    @include modificator(size, medium) {
-        min-width: calc(var(--pot-size-medium) * 2);
-
-        .wrapper {
-            height: var(--pot-size-medium);
+        .trueContent {
+            margin-right: $ball-size;
         }
 
-        .line {
-            padding: calc(var(--pot-spacer) / 2);
-            transform: translateX(calc(-100% + var(--pot-size-medium)));
-        }
-    }
-
-    @include modificator(size, big) {
-        min-width: calc(var(--pot-size-big) * 2);
-
-        .wrapper {
-            height: var(--pot-size-big);
+        .falseContent {
+            margin-left: $ball-size;
         }
 
-        .line {
-            padding: calc(var(--pot-spacer) / 1.75);
-            transform: translateX(calc(-100% + var(--pot-size-big)));
-        }
-    }
-
-    @include modificator(size, large) {
-        min-width: calc(var(--pot-size-large) * 2);
-
-        .wrapper {
-            height: var(--pot-size-large);
-        }
-
-        .line {
-            padding: calc(var(--pot-spacer) / 1.5);
-            transform: translateX(calc(-100% + var(--pot-size-large)));
+        @include exclude-modificators(checked) {
+            .line {
+                transform: translateX(calc(-100% + map-get($size, 'height')));
+            }
         }
     }
 
     /* --- Active --- */
     @include modificator(checked) {
+        .falseContent {
+            opacity: 0;
+            transform: translateX(-10%);
+        }
+
+        .trueContent {
+            opacity: 1;
+            transform: none;
+        }
+
         .line {
             transform: none;
-            transition:
-                background-color 0.4s cubic-bezier(0, 1, 1, 1),
-                transform var(--pot-transition);
         }
     }
 }
 
 .wrapper {
+    position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: center;
+    display: grid;
     width: 100%;
     height: 0;
+    transition: var(--pot-transition);
     border-radius: var(--pot-radius-circle);
-    transition: background-color var(--pot-transition);
 }
 
-.line {
+.content {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
+    align-items: center;
     transition:
-        background-color 0.4s ease-in,
+        background-color var(--pot-transition),
+        opacity var(--pot-transition),
         transform var(--pot-transition);
 }
 
-.ball {
-    aspect-ratio: 1 / 1;
+.trueContent {
+    opacity: 0;
+    transform: translateX(10%);
+}
+
+.line {
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
     height: 100%;
+    padding: inherit;
     border-radius: inherit;
+    background-color: transparent;
+    transition: transform var(--pot-transition);
+}
+
+.ball {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: inherit;
+    transition: background-color var(--pot-transition);
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    transform: translate(-50%, -50%);
+    transition: color var(--pot-transition);
 }
 </style>
