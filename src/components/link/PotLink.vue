@@ -121,6 +121,8 @@ const currentLink = computed<string | null>(() => {
     display: flex;
     align-items: center;
     gap: 0.2em;
+    font-weight: 500;
+    line-height: 1;
     width: fit-content;
     font-size: inherit;
     user-select: none;
@@ -178,35 +180,19 @@ const currentLink = computed<string | null>(() => {
     /* --- Colors - END --- */
 
     /* --- Sizes ---  */
-    @include modificator(size, tiny) {
-        @include text(l7);
+    $standard-size: (
+        text: var(--pot-link-size-text),
+    );
+
+    @include size($standard-size) using ($size, $size-name) {
+        font-size: map-get($size, 'text');
 
         &:after {
-            height: 1px;
-        }
-    }
-
-    @include modificator(size, small) {
-        @include text(l6);
-
-        &:after {
-            height: 1px;
-        }
-    }
-
-    @include modificator(size, medium) {
-        @include text(l4);
-    }
-
-    @include modificator(size, big) {
-        @include text(l3);
-    }
-
-    @include modificator(size, large) {
-        @include text(l2);
-
-        &:after {
-            height: 4px;
+            @if $size-name == 'tiny' {
+                height: 1px;
+            } @else {
+                height: 2px;
+            }
         }
     }
 
@@ -246,7 +232,6 @@ const currentLink = computed<string | null>(() => {
         left: 0;
         bottom: 0;
         width: 100%;
-        height: 2px;
         transform-origin: left;
         transform: translateY(100%) scaleX(0);
         transition:

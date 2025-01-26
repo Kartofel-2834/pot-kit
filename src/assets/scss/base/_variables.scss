@@ -109,7 +109,7 @@
 
     /* --- COMPONENTS SIZES --- */
     /* --- PotSwitch - sizes ---*/
-    --pot-switch-size-height: var(--pot-standard-size-height);
+    --pot-switch-size-height: var(--pot-spacer-3-200);
     --pot-switch-size-text: var(--pot-standard-size-text);
     --pot-switch-size-wrapper-padding: var(--pot-spacer-0-400);
     --pot-switch-size-label-padding: var(--pot-spacer-1-200);
@@ -122,13 +122,22 @@
     --pot-button-size-label-padding: var(--pot-spacer-1-200);
 
     /* --- PotCheckbox - sizes ---*/
-    --pot-checkbox-size-height: var(--pot-spacer-2-400);
+    --pot-checkbox-size-height: var(--pot-spacer-3-200);
     --pot-checkbox-size-text: var(--pot-standard-size-text);
 
     /* --- PotRadioElement - sizes ---*/
     --pot-radio-size-text: var(--pot-standard-size-text);
-    --pot-radio-size-marker: var(--pot-spacer-1-200);
+    --pot-radio-size-marker: var(--pot-spacer-1-400);
     --pot-radio-gap: var(--pot-spacer-1-600);
+
+    /* --- PotLink - sizes ---*/
+    --pot-link-size-text: var(--pot-standard-size-text);
+
+    /* --- PotInput - sizes --- */
+    --pot-input-size-height: var(--pot-standard-size-height);
+    --pot-input-size-text: var(--pot-standard-size-text);
+    --pot-input-size-padding: var(--pot-spacer-1-200);
+    --pot-input-size-gap: var(--pot-spacer);
 }
 
 /* --- COMPONENTS - COLORS --- */

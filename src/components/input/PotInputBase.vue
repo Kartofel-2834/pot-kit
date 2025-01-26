@@ -217,8 +217,8 @@ function getParsedValue(newValue: string): unknown {
     $standard-size: (
         height: var(--pot-input-size-height),
         text: var(--pot-input-size-text),
-        padding: var(--pot-spacer-1-200),
-        gap: var(--pot-spacer),
+        padding: var(--pot-input-size-padding),
+        gap: var(--pot-input-size-gap),
     );
 
     @include size($standard-size) using ($size, $size-name) {
@@ -232,7 +232,7 @@ function getParsedValue(newValue: string): unknown {
     }
 
     /* --- Radius --- */
-    // @include radius();
+    @include radius();
 
     /* --- Flags --- */
     @include modificator(disabled) {
