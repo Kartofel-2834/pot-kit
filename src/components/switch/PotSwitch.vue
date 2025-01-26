@@ -110,6 +110,8 @@ const $emit = defineEmits<{
 <style lang="scss" module>
 .PotSwitch {
     width: fit-content;
+    font-weight: 500;
+    line-height: 1;
 
     /* --- Colors - START --- */
     .wrapper {
@@ -165,7 +167,6 @@ const $emit = defineEmits<{
         height: map-get($size, 'height');
         min-width: calc(#{map-get($size, 'height')} * 2);
         font-size: map-get($size, 'text');
-        font-weight: 500;
 
         .wrapper {
             height: map-get($size, 'height');

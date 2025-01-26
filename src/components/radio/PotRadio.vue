@@ -106,24 +106,12 @@ function onSpecClick(specValue: TSpecValue, isDisabled: boolean): void {
     gap: var(--pot-spacer-2);
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        gap: var(--pot-spacer);
-    }
+    $standard-size: (
+        gap: var(--pot-radio-gap),
+    );
 
-    @include modificator(size, small) {
-        gap: var(--pot-spacer-1-200);
-    }
-
-    @include modificator(size, medium) {
-        gap: var(--pot-spacer-1-600);
-    }
-
-    @include modificator(size, big) {
-        gap: var(--pot-spacer-2);
-    }
-
-    @include modificator(size, large) {
-        gap: var(--pot-spacer-2-400);
+    @include size($standard-size) using ($size, $size-name) {
+        gap: map-get($size, 'gap');
     }
 }
 </style>

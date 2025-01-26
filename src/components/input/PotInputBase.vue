@@ -162,6 +162,8 @@ function getParsedValue(newValue: string): unknown {
     border: 2px solid;
     cursor: text;
     background-color: inherit;
+    font-weight: 400;
+    line-height: 1;
     transition:
         color var(--pot-transition),
         background-color var(--pot-transition),
@@ -212,63 +214,25 @@ function getParsedValue(newValue: string): unknown {
     /* --- Colors - END --- */
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        @include text(t8);
+    $standard-size: (
+        height: var(--pot-input-size-height),
+        text: var(--pot-input-size-text),
+        padding: var(--pot-spacer-1-200),
+        gap: var(--pot-spacer),
+    );
 
-        padding: 0 var(--pot-spacer);
-        gap: var(--pot-unit);
-
-        .input {
-            height: var(--pot-size-tiny);
-        }
-    }
-
-    @include modificator(size, small) {
-        @include text(t7);
-
-        padding: 0 var(--pot-spacer);
-        gap: var(--pot-spacer-0-800);
+    @include size($standard-size) using ($size, $size-name) {
+        padding: 0 map-get($size, 'padding');
+        gap: map-get($size, 'gap');
+        font-size: map-get($size, 'text');
 
         .input {
-            height: var(--pot-size-small);
-        }
-    }
-
-    @include modificator(size, medium) {
-        @include text(t6);
-
-        padding: 0 var(--pot-spacer-1-200);
-        gap: var(--pot-spacer);
-
-        .input {
-            height: var(--pot-size-medium);
-        }
-    }
-
-    @include modificator(size, big) {
-        @include text(t5);
-
-        padding: 0 var(--pot-spacer-1-400);
-        gap: var(--pot-spacer);
-
-        .input {
-            height: var(--pot-size-big);
-        }
-    }
-
-    @include modificator(size, large) {
-        @include text(t4);
-
-        padding: 0 var(--pot-spacer-1-600);
-        gap: var(--pot-spacer);
-
-        .input {
-            height: var(--pot-size-large);
+            height: map-get($size, 'height');
         }
     }
 
     /* --- Radius --- */
-    @include radius();
+    // @include radius();
 
     /* --- Flags --- */
     @include modificator(disabled) {

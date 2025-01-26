@@ -68,6 +68,8 @@ const classList = computed(() =>
     align-items: center;
     gap: 0.4em;
     font-size: inherit;
+    font-weight: 400;
+    line-height: 1;
     user-select: none;
     cursor: pointer;
     transition: opacity var(--pot-transition);
@@ -87,24 +89,18 @@ const classList = computed(() =>
     /* --- Colors - END --- */
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        @include text(t7);
-    }
+    $standard-size: (
+        text: var(--pot-radio-size-text),
+        marker: var(--pot-radio-size-marker),
+    );
 
-    @include modificator(size, small) {
-        @include text(t6);
-    }
+    @include size($standard-size) using ($size, $size-name) {
+        font-size: map-get($size, 'text');
 
-    @include modificator(size, medium) {
-        @include text(t4);
-    }
-
-    @include modificator(size, big) {
-        @include text(t3);
-    }
-
-    @include modificator(size, large) {
-        @include text(t2);
+        .marker {
+            width: map-get($size, 'marker');
+            height: map-get($size, 'marker');
+        }
     }
 
     /* --- Radius --- */
@@ -125,11 +121,7 @@ const classList = computed(() =>
 }
 
 .marker {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 0.6em;
-    height: 0.6em;
+    position: relative;
     border: 1px solid;
     transition:
         background-color var(--pot-transition),
@@ -137,10 +129,14 @@ const classList = computed(() =>
 
     &::before {
         content: '';
-        width: calc(100% - 0.2em);
-        height: calc(100% - 0.2em);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: round(60%, 2px);
+        aspect-ratio: 1 / 1;
         border-radius: inherit;
         transition: transform var(--pot-transition);
+        transform: translate(-50%, -50%);
     }
 }
 </style>

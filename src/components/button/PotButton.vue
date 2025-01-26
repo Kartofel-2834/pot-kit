@@ -95,6 +95,8 @@ const classList = computed(() =>
     cursor: pointer;
     user-select: none;
     border-style: solid;
+    font-weight: 500;
+    line-height: 1;
     transition:
         color var(--pot-transition),
         border-color var(--pot-transition),
@@ -140,7 +142,6 @@ const classList = computed(() =>
         padding: 0 map-get($size, 'padding');
         border-width: map-get($size, 'border');
         font-size: map-get($size, 'text');
-        font-weight: 500;
 
         @include modificator(square) {
             padding: 0;

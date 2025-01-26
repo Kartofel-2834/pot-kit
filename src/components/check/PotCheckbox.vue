@@ -114,6 +114,8 @@ function onChange(event: Event): void {
     align-items: center;
     gap: 0.4em;
     font-size: inherit;
+    font-weight: 400;
+    line-height: 1;
     cursor: pointer;
     user-select: none;
     transition: opacity var(--pot-transition);
@@ -137,43 +139,16 @@ function onChange(event: Event): void {
     /* --- Colors - END --- */
 
     /* --- Sizes --- */
-    @include modificator(size, tiny) {
-        @include text(t6);
+    $standard-size: (
+        height: var(--pot-checkbox-size-height),
+        text: var(--pot-checkbox-size-text),
+    );
+
+    @include size($standard-size) using ($size, $size-name) {
+        font-size: map-get($size, 'text');
 
         .iconWrapper {
-            width: var(--pot-size-tiny);
-        }
-    }
-
-    @include modificator(size, small) {
-        @include text(t5);
-
-        .iconWrapper {
-            width: var(--pot-size-small);
-        }
-    }
-
-    @include modificator(size, medium) {
-        @include text(t4);
-
-        .iconWrapper {
-            width: var(--pot-size-medium);
-        }
-    }
-
-    @include modificator(size, big) {
-        @include text(t3);
-
-        .iconWrapper {
-            width: var(--pot-size-big);
-        }
-    }
-
-    @include modificator(size, large) {
-        @include text(t3);
-
-        .iconWrapper {
-            width: var(--pot-size-large);
+            width: map-get($size, 'height');
         }
     }
 
@@ -211,7 +186,7 @@ function onChange(event: Event): void {
 }
 
 .icon {
-    width: 1em;
+    width: 75%;
     transform: scale(0);
     transition: transform var(--pot-transition);
 }
