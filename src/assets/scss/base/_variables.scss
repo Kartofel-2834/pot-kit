@@ -25,11 +25,11 @@
 
     /* Radius */
     --pot-radius-circle: calc(var(--pot-spacer) * 100);
-    --pot-radius-large: var(--pot-spacer-1-400);
-    --pot-radius-big: var(--pot-spacer-1-200);
-    --pot-radius-medium: var(--pot-spacer-0-800);
-    --pot-radius-small: var(--pot-spacer-0-600);
-    --pot-radius-tiny: var(--pot-spacer-0-400);
+    --pot-radius-large: 14px;
+    --pot-radius-big: 10px;
+    --pot-radius-medium: 6px;
+    --pot-radius-small: 4px;
+    --pot-radius-tiny: 2px;
 
     /* Font-size */
     --pot-font-size-0: var(--pot-spacer);

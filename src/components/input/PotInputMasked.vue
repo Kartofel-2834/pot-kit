@@ -7,6 +7,7 @@
         :size="size"
         :color="color"
         :icon="icon"
+        :radius="radius"
         :preicon="preicon"
         :disabled="disabled"
         :parser="parser"
