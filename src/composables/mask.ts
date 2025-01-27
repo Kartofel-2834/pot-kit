@@ -1,6 +1,6 @@
 export type TMaskPlaceholder = RegExp | string | number | null;
 
-const defaultPlaceholders: Record<string, TMaskPlaceholder>  = {
+export const defaultPlaceholders: Record<string, TMaskPlaceholder>  = {
     '#': /^[0-9]$/,
     'A': /^[a-zA-Z]$/,
     'N': /^[a-zA-Z0-9]$/,

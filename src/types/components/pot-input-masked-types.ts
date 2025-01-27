@@ -1,3 +1,6 @@
+// Types
+import type { TMaskPlaceholder } from "@/types/composables";
+
 // Enums
 import { ESize, ERadius } from "@/enums/components";
 import { EColorTheme, EDevice, EIcon } from "@/enums/config";
@@ -35,4 +38,7 @@ export interface IPotInputMaskedProps {
 
     /** Маска для видимого значения инпута */
     mask: string;
+
+    /** Конфигурация символов подстановки для маски */
+    maskPlaceholders?: Record<string, TMaskPlaceholder>;
 }

@@ -1,0 +1,1 @@
+export type TMaskPlaceholder = RegExp | string | number | null;

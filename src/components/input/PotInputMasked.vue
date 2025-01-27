@@ -12,6 +12,7 @@
         :disabled="disabled"
         :parser="parser"
         :formatter="formatter"
+        @keydown="onKeyDown"
         @input="$emit('input', $event)"
         @change="$emit('change', $event)"
         @update:model-value="$emit('update:modelValue', $event)"
@@ -43,9 +44,13 @@
 <script setup lang="ts">
 // Types
 import type { IPotInputMaskedProps } from '@/types/components';
+import type { TMaskPlaceholder } from '@/types/composables';
+
+// Vue
+import { computed } from 'vue';
 
 // Composables
-import { useMask, removeMask } from '@/composables/mask';
+import { useMask, removeMask, defaultPlaceholders } from '@/composables/mask';
 
 // Components
 import PotInputBase from '@/components/input/PotInputBase.vue';
@@ -58,7 +63,55 @@ const $emit = defineEmits<{
     'update:modelValue': [value: unknown];
 }>();
 
+// Computed
+const maskPlaceholders = computed<Record<string, TMaskPlaceholder>>(() => ({
+    ...defaultPlaceholders,
+    ...$props.maskPlaceholders,
+}));
+
+const maskPlaceholdersRegex = computed(() => {
+    return new RegExp(
+        Object.keys(maskPlaceholders.value)
+            .map(v => `\\${v}`)
+            .join('|'),
+        'gm',
+    );
+});
+
 // Methods
+function onKeyDown(event: KeyboardEvent) {
+    if (!$props.mask || event.key !== 'Backspace') {
+        return;
+    }
+
+    const target = event.target as HTMLInputElement;
+    const selectedText = $props.mask.substring(
+        target.selectionStart || 0,
+        target.selectionEnd || 0,
+    );
+
+    const hasPlaceholderInSelection = maskPlaceholdersRegex.value.test(selectedText);
+
+    // Если в выборке на удаление есть фактические значения,
+    // а не части маски, то позволяем удалить их
+    if (hasPlaceholderInSelection) {
+        return;
+    }
+
+    // Удаляем последний символ значения с конца
+    event.preventDefault();
+    let currentValue = parser(target.value);
+
+    if (!currentValue) {
+        return;
+    }
+
+    currentValue = currentValue.slice(0, -1);
+
+    $emit('update:modelValue', currentValue);
+    $emit('input', currentValue);
+}
+
 function formatter(value: unknown): string {
     const striginfiedValue =
         typeof value === 'string' || typeof value === 'number' ? String(value) : '';
@@ -67,14 +120,15 @@ function formatter(value: unknown): string {
         return striginfiedValue;
     }
 
-    return useMask(striginfiedValue, $props.mask);
+    return useMask(striginfiedValue, $props.mask, $props.maskPlaceholders);
 }
 
 function parser(value: string): string {
     if (!$props.mask) {
         return value;
     }
-    return removeMask(value, $props.mask);
+
+    return removeMask(value, $props.mask, $props.maskPlaceholders);
 }
 </script>
 
