@@ -5,18 +5,18 @@ import { EColorTheme, EDevice, EIcon } from "@/enums/config";
 /**
  * Пропсы для компонента PotInputBase
  */
-export interface IPotInputBaseProps {
+export interface IPotInputBaseProps<T = string> {
     /** Текущее значение */
-    value?: unknown;
+    value?: T;
 
     /** То же, что и `value`, добавлен для поддержки v-model */
-    modelValue?: unknown;
+    modelValue?: T;
 
     /** Преобразование переданного значения в отображаемую в инпуте строку */
-    formatter?: (value: unknown) => string;
+    formatter?: (value: T) => string;
 
     /** Преобразование значения инпута перед эмитом событий изменения */
-    parser?: (value: string) => unknown;
+    parser?: (value: string) => T;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];

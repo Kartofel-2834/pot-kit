@@ -41,7 +41,7 @@
     </PotInputBase>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 // Types
 import type { IPotInputMaskedProps } from '@/types/components';
 import type { TMaskPlaceholder } from '@/types/composables';
@@ -58,9 +58,9 @@ import PotInputBase from '@/components/input/PotInputBase.vue';
 const $props = defineProps<IPotInputMaskedProps>();
 
 const $emit = defineEmits<{
-    input: [value: unknown];
-    change: [value: unknown];
-    'update:modelValue': [value: unknown];
+    input: [value: string];
+    change: [value: string];
+    'update:modelValue': [value: string];
 }>();
 
 // Computed
@@ -112,7 +112,7 @@ function onKeyDown(event: KeyboardEvent) {
     $emit('input', currentValue);
 }
 
-function formatter(value: unknown): string {
+function formatter(value: string): string {
     const striginfiedValue =
         typeof value === 'string' || typeof value === 'number' ? String(value) : '';
 

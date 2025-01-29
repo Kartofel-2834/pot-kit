@@ -8,12 +8,12 @@ import { EColorTheme, EDevice, EIcon } from "@/enums/config";
 /**
  * Пропсы для компонента PotInputMasked
  */
-export interface IPotInputMaskedProps {
+export interface IPotInputMaskedProps<T = string> {
     /** Текущее значение */
-    value?: unknown;
+    value?: T;
 
     /** То же, что и `value`, добавлен для поддержки v-model */
-    modelValue?: unknown;
+    modelValue?: T;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];

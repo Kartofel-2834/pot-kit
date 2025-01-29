@@ -67,9 +67,9 @@ const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue
 defineProps<IPotInputPasswordProps>();
 
 const $emit = defineEmits<{
-    input: [value: unknown];
-    change: [value: unknown];
-    'update:modelValue': [value: unknown];
+    input: [value: string];
+    change: [value: string];
+    'update:modelValue': [value: string];
 }>();
 
 const inputType = ref<'text' | 'password'>('password');

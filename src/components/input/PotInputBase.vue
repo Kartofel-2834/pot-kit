@@ -35,7 +35,7 @@
     </label>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" generic="T = string" setup>
 // Types
 import type { IPotInputBaseProps } from '@/types/components';
 
@@ -56,7 +56,7 @@ import { useDeviceProperties } from '@/composables/device-properties';
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
-const $props = withDefaults(defineProps<IPotInputBaseProps>(), {
+const $props = withDefaults(defineProps<IPotInputBaseProps<T>>(), {
     size: ESize.MEDIUM,
     color: EColorTheme.PRIMARY,
     radius: ERadius.MEDIUM,
@@ -65,9 +65,9 @@ const $props = withDefaults(defineProps<IPotInputBaseProps>(), {
 });
 
 const $emit = defineEmits<{
-    input: [value: unknown];
-    change: [value: unknown];
-    'update:modelValue': [value: unknown];
+    input: [value: T];
+    change: [value: T];
+    'update:modelValue': [value: T];
     keydown: [value: KeyboardEvent];
     keyup: [value: KeyboardEvent];
 }>();
@@ -76,7 +76,7 @@ const isFocused = ref<boolean>(false);
 const visibleValue = ref<string>('');
 
 // Computed
-const currentValue = computed<unknown>(() => $props.value ?? $props.modelValue);
+const currentValue = computed<T>(() => ($props.value ?? $props.modelValue) as T);
 
 const properties = computed(() => {
     return useDeviceProperties(
@@ -137,7 +137,7 @@ function onBlur() {
     isFocused.value = false;
 }
 
-function getFormattedValue(newValue: unknown): string {
+function getFormattedValue(newValue: T): string {
     if (typeof $props.formatter === 'function') {
         return $props.formatter(newValue);
     }
@@ -149,8 +149,8 @@ function getFormattedValue(newValue: unknown): string {
     return '';
 }
 
-function getParsedValue(newValue: string): unknown {
-    return typeof $props.parser === 'function' ? $props.parser(newValue) : newValue;
+function getParsedValue(newValue: string): T {
+    return typeof $props.parser === 'function' ? $props.parser(newValue) : (newValue as T);
 }
 </script>
 
