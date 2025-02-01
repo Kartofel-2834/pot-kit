@@ -15,4 +15,10 @@ export interface IPotIconProps {
      * <PotIcon icon="pot" size="24" /> // Иконка с width и height 2.4rem
      */
     size?: string | number | null;
+
+
+    /**
+     * Функция подгрузки возвращающая файл иконки в виде строки
+     */
+    loader?: (iconName: string) => Promise<string>;
 }

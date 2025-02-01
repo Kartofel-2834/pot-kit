@@ -16,6 +16,10 @@ import { ref, computed, watch, onMounted } from 'vue';
 
 const $props = withDefaults(defineProps<IPotIconProps>(), {
     size: null,
+    loader: async (iconName: string) => {
+        const icon = await import(`../../assets/icons/${iconName}.svg`);
+        return icon?.default && typeof icon?.default === 'string' ? icon.default : '';
+    },
 });
 
 const iconData = ref<string>('');
@@ -46,8 +50,7 @@ watch(() => $props.icon, updateIcon);
  */
 async function updateIcon(): Promise<void> {
     try {
-        const icon = await import(`../../assets/icons/${$props.icon}.svg`);
-        const data = icon?.default && typeof icon?.default === 'string' ? icon.default : '';
+        const data = await $props.loader($props.icon);
 
         const iconWrapper = document.createElement('div');
         iconWrapper.innerHTML = data;
