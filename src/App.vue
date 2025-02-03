@@ -1,31 +1,9 @@
 <template>
     <main :class="$style.main">
         <div style="width: 50%; display: flex; flex-direction: column; gap: 2rem">
-            <PotSwitch
-                v-model="flag"
-                :size="ESize.TINY"
-                :color="EColorTheme.BEETROT"
-            />
-            <PotSwitch
-                v-model="flag"
-                :size="ESize.SMALL"
-                :color="EColorTheme.CORN"
-            />
-            <PotSwitch
-                v-model="flag"
-                :size="ESize.MEDIUM"
-                :color="EColorTheme.CUCUMBER"
-            />
-            <PotSwitch
-                v-model="flag"
-                :size="ESize.BIG"
-                :color="EColorTheme.ONION"
-            />
-            <PotSwitch
-                v-model="flag"
-                :size="ESize.LARGE"
-                :color="EColorTheme.PRIMARY"
-            />
+            <PotTooltip>
+                <PotButton> Kamal </PotButton>
+            </PotTooltip>
         </div>
     </main>
 </template>
@@ -40,8 +18,17 @@ import { ERadius, ESize } from './enums/components';
 
 // Components
 import PotSwitch from './components/switch/PotSwitch.vue';
+import PotInputNumber from './components/input/PotInputNumber.vue';
+import PotInputMasked from './components/input/PotInputMasked.vue';
+import PotIcon from './components/icon/PotIcon.vue';
+import PotButton from './components/button/PotButton.vue';
+import PotCheckbox from './components/check/PotCheckbox.vue';
+import PotLink from './components/link/PotLink.vue';
+import PotRadio from './components/radio/PotRadio.vue';
+import PotInputBase from './components/input/PotInputBase.vue';
+import PotTooltip from './components/tooltip/PotTooltip.vue';
 
-const flag = ref<boolean>(false);
+const flag = ref<boolean>(true);
 const ilmu = ref<number | null>(-123);
 const kamal = ref<string>('');
 </script>

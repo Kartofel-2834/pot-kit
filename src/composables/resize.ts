@@ -4,6 +4,7 @@ import type { TResizeCallback, IResizeConfig } from '@/types/composables';
 
 // Vue
 import { ref, computed } from 'vue';
+import { multiActionListener } from '@/utils/timer-utils';
 
 const defaultConfig: IResizeConfig = {
     endDelay: 200,
@@ -12,33 +13,36 @@ const defaultConfig: IResizeConfig = {
     onEnd: () => undefined,
 };
 
-export function useResize(config: Partial<IResizeConfig> = {}): Directive {
-    let isStarted = false;
-    let endTimeoutId = NaN;
-    
-    const directiveConfig = ref<Partial<IResizeConfig>>({});
-    const currentConfig = computed<IResizeConfig>(() => ({
+export function getResizeObserver(config: Partial<IResizeConfig> = {}): ResizeObserver {
+    const listeners = new Map<Element, TResizeCallback>();
+    const currentConfig = {
         ...defaultConfig,
+        ...config,
+    };
+
+    return new ResizeObserver((entries: ResizeObserverEntry[]) => {
+        for (const entry of entries) {
+            if (!listeners.has(entry.target)) {
+                listeners.set(entry.target, multiActionListener(currentConfig, currentConfig.endDelay));
+            }
+
+            const currentListener = listeners.get(entry.target);
+
+            if (typeof currentListener === 'function') {
+                currentListener(entry.contentRect, entry.target, entry);
+            }
+        }
+    });
+}
+
+export function useResize(config: Partial<IResizeConfig> = {}): Directive {
+    const directiveConfig = ref<Partial<IResizeConfig>>({});
+    const mixedConfig = computed<Partial<IResizeConfig>>(() => ({
         ...config,
         ...directiveConfig.value
     }));
 
-    const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-        for (const entry of entries) {
-            if (!isStarted) {
-                isStarted = true;
-                currentConfig.value.onStart(entry.contentRect, entry.target, entry);
-            }
-
-            currentConfig.value.onProgress(entry.contentRect, entry.target, entry);
-            
-            clearTimeout(endTimeoutId);
-            endTimeoutId = setTimeout(() => {
-                currentConfig.value.onEnd(entry.contentRect, entry.target, entry);
-                isStarted = false;
-            }, currentConfig.value.endDelay);
-        }
-    });
+    const observer = getResizeObserver(mixedConfig.value);
 
     function setupDirective(el: Element, binding: DirectiveBinding<TResizeCallback>) {
         observer.observe(el);
