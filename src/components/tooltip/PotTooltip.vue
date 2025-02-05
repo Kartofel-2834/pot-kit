@@ -17,6 +17,9 @@
 // Types
 import type { VNode, RendererNode, RendererElement } from 'vue';
 
+// Enums
+import { ETooltipPosition } from '@/enums/components';
+
 // Vue
 import { ref, computed, cloneVNode, watch, onMounted, onUnmounted } from 'vue';
 
@@ -26,6 +29,7 @@ import { multiActionListener } from '@/utils/timer-utils';
 
 interface IPotTooltipProps {
     to?: string | RendererElement | null;
+    position?: ETooltipPosition;
     offset?: number;
 }
 
@@ -43,6 +47,7 @@ const emptyRect = {
 const $props = withDefaults(defineProps<IPotTooltipProps>(), {
     to: '#pot-modal-lay',
     offset: 12,
+    position: ETooltipPosition.TOP_CENTER,
 });
 
 const $slots = defineSlots<{
@@ -79,22 +84,31 @@ function render() {
         return null;
     }
 
-    const defaultSlotVNodes = $slots.default();
+    let defaultSlotVNodes = $slots.default();
 
     if (!defaultSlotVNodes.length) {
         return null;
     }
 
-    // Используем первый VNode в качестве цели к которой мы прикрепим тултип
-    defaultSlotVNodes[0] = cloneVNode(defaultSlotVNodes[0], {
-        onVnodeMounted(vnode) {
-            targetRef.value = vnode.el;
-        },
+    let targetId: number = NaN;
 
-        onVnodeUnmounted() {
-            targetRef.value = null;
-        },
-    });
+    // Используем первый вмонтированный VNode в качестве цели, к которой мы прикрепим тултип
+    defaultSlotVNodes = defaultSlotVNodes.map((currentVNode, index) =>
+        cloneVNode(currentVNode, {
+            onVnodeMounted(vnode) {
+                if (isNaN(targetId) && vnode.el) {
+                    targetRef.value = vnode.el;
+                    targetId = index;
+                }
+            },
+
+            onVnodeUnmounted() {
+                if (targetId === index) {
+                    targetRef.value = null;
+                }
+            },
+        }),
+    );
 
     return defaultSlotVNodes;
 }
@@ -112,16 +126,79 @@ onUnmounted(() => {
 
 // Computed
 const x = computed<number>(() => {
-    return (
-        targetSizes.value.x +
-        targetSizes.value.width / 2 -
-        tooltipSizes.value.width / 2 +
-        window.scrollX
-    );
+    const { x: targetX, width: targetWidth } = targetSizes.value;
+    const { width: tooltipWidth } = tooltipSizes.value;
+
+    let xPosition: number = 0;
+
+    switch ($props.position) {
+        case ETooltipPosition.TOP_CENTER:
+        case ETooltipPosition.BOTTOM_CENTER:
+            xPosition = targetX + targetWidth / 2 - tooltipWidth / 2;
+            break;
+
+        case ETooltipPosition.TOP_START:
+        case ETooltipPosition.BOTTOM_START:
+            xPosition = targetX;
+            break;
+
+        case ETooltipPosition.TOP_END:
+        case ETooltipPosition.BOTTOM_END:
+            xPosition = targetX + targetWidth - tooltipWidth;
+            break;
+
+        case ETooltipPosition.RIGHT_END:
+        case ETooltipPosition.RIGHT_START:
+        case ETooltipPosition.RIGHT_CENTER:
+            xPosition = targetX + targetWidth;
+            break;
+
+        case ETooltipPosition.LEFT_END:
+        case ETooltipPosition.LEFT_START:
+        case ETooltipPosition.LEFT_CENTER:
+            xPosition = targetX - tooltipWidth;
+            break;
+    }
+
+    return xPosition + window.scrollX;
 });
 
 const y = computed<number>(() => {
-    return targetSizes.value.y - tooltipSizes.value.height - $props.offset + window.scrollY;
+    const { y: targetY, height: targetHeight } = targetSizes.value;
+    const { height: tooltipHeight } = tooltipSizes.value;
+
+    let yPosition: number = 0;
+
+    switch ($props.position) {
+        case ETooltipPosition.TOP_START:
+        case ETooltipPosition.TOP_END:
+        case ETooltipPosition.TOP_CENTER:
+            yPosition = targetY - tooltipHeight;
+            break;
+
+        case ETooltipPosition.BOTTOM_START:
+        case ETooltipPosition.BOTTOM_END:
+        case ETooltipPosition.BOTTOM_CENTER:
+            yPosition = targetY + targetHeight;
+            break;
+
+        case ETooltipPosition.RIGHT_START:
+        case ETooltipPosition.LEFT_START:
+            yPosition = targetY;
+            break;
+
+        case ETooltipPosition.RIGHT_END:
+        case ETooltipPosition.LEFT_END:
+            yPosition = targetY + targetHeight - tooltipHeight;
+            break;
+
+        case ETooltipPosition.RIGHT_CENTER:
+        case ETooltipPosition.LEFT_CENTER:
+            yPosition = targetY + targetHeight / 2 - tooltipHeight / 2;
+            break;
+    }
+
+    return yPosition + window.scrollY;
 });
 
 // Watchers

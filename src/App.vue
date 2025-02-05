@@ -2,7 +2,7 @@
     <main :class="$style.main">
         <div style="width: 50%; display: flex; flex-direction: column; gap: 2rem">
             <PotTooltip>
-                <PotButton> Kamal </PotButton>
+                <div style="width: 100%; height: 600px; background-color: lightblue"></div>
             </PotTooltip>
         </div>
     </main>
@@ -14,7 +14,7 @@ import { ref } from 'vue';
 
 // Enums
 import { EColorTheme, EIcon } from './enums/config';
-import { ERadius, ESize } from './enums/components';
+import { ERadius, ESize, ETooltipPosition } from './enums/components';
 
 // Components
 import PotSwitch from './components/switch/PotSwitch.vue';
