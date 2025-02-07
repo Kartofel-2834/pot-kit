@@ -30,14 +30,14 @@
 
                 <div :class="[$style.line, 'pot-switch__wrapper__line']">
                     <div :class="[$style.ball, 'pot-switch__wrapper__line__ball']">
-                        <transition name="fade">
+                        <Transition name="fade">
                             <PotIcon
                                 v-if="icon"
                                 :key="icon"
                                 :class="[$style.icon, 'pot-switch__wrapper__line__ball__icon']"
                                 :icon="icon"
                             />
-                        </transition>
+                        </Transition>
                     </div>
                 </div>
 

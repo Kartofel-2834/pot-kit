@@ -2,14 +2,17 @@
     <render />
 
     <Teleport :to="to">
-        <div
-            v-tooltip-resize
-            ref="tooltipRef"
-            :class="$style.PotTooltip"
-            :style="{ transform: `translate(${x}px, ${y}px)` }"
-        >
-            Kamal
-        </div>
+        <Transition name="fade">
+            <div
+                v-show="isOpen"
+                v-tooltip-resize
+                ref="tooltipRef"
+                :class="$style.PotTooltip"
+                :style="{ transform: `translate(${x}px, ${y}px)` }"
+            >
+                Kamal
+            </div>
+        </Transition>
     </Teleport>
 </template>
 
@@ -21,16 +24,16 @@ import type { VNode, RendererNode, RendererElement } from 'vue';
 import { ETooltipPosition } from '@/enums/components';
 
 // Vue
-import { ref, computed, cloneVNode, watch, onMounted, onUnmounted } from 'vue';
+import { ref, cloneVNode, watch, onMounted, onUnmounted } from 'vue';
 
 // Composables
 import { getResizeObserver, useResize } from '@/composables/resize';
-import { multiActionListener } from '@/utils/timer-utils';
 
 interface IPotTooltipProps {
     to?: string | RendererElement | null;
     position?: ETooltipPosition;
     offset?: number;
+    screenOffset?: number;
 }
 
 const emptyRect = {
@@ -44,9 +47,46 @@ const emptyRect = {
     y: 0,
 } as DOMRect;
 
+const xOppositePositions: Record<ETooltipPosition, ETooltipPosition | null> = {
+    [ETooltipPosition.TOP_START]: ETooltipPosition.TOP_END,
+    [ETooltipPosition.TOP_END]: ETooltipPosition.TOP_START,
+    [ETooltipPosition.TOP_CENTER]: null,
+
+    [ETooltipPosition.BOTTOM_START]: ETooltipPosition.BOTTOM_END,
+    [ETooltipPosition.BOTTOM_END]: ETooltipPosition.BOTTOM_START,
+    [ETooltipPosition.BOTTOM_CENTER]: null,
+
+    [ETooltipPosition.LEFT_START]: ETooltipPosition.RIGHT_START,
+    [ETooltipPosition.LEFT_END]: ETooltipPosition.RIGHT_END,
+    [ETooltipPosition.LEFT_CENTER]: ETooltipPosition.RIGHT_CENTER,
+
+    [ETooltipPosition.RIGHT_START]: ETooltipPosition.LEFT_START,
+    [ETooltipPosition.RIGHT_END]: ETooltipPosition.LEFT_END,
+    [ETooltipPosition.RIGHT_CENTER]: ETooltipPosition.LEFT_CENTER,
+};
+
+const yOppositePositions: Record<ETooltipPosition, ETooltipPosition | null> = {
+    [ETooltipPosition.TOP_START]: ETooltipPosition.BOTTOM_START,
+    [ETooltipPosition.TOP_END]: ETooltipPosition.BOTTOM_END,
+    [ETooltipPosition.TOP_CENTER]: ETooltipPosition.BOTTOM_CENTER,
+
+    [ETooltipPosition.BOTTOM_START]: ETooltipPosition.TOP_START,
+    [ETooltipPosition.BOTTOM_END]: ETooltipPosition.TOP_END,
+    [ETooltipPosition.BOTTOM_CENTER]: ETooltipPosition.TOP_CENTER,
+
+    [ETooltipPosition.LEFT_START]: null,
+    [ETooltipPosition.LEFT_END]: null,
+    [ETooltipPosition.LEFT_CENTER]: null,
+
+    [ETooltipPosition.RIGHT_START]: null,
+    [ETooltipPosition.RIGHT_END]: null,
+    [ETooltipPosition.RIGHT_CENTER]: null,
+};
+
 const $props = withDefaults(defineProps<IPotTooltipProps>(), {
     to: '#pot-modal-lay',
     offset: 12,
+    screenOffset: 12,
     position: ETooltipPosition.TOP_CENTER,
 });
 
@@ -54,29 +94,18 @@ const $slots = defineSlots<{
     default: () => VNode[];
 }>();
 
+const isOpen = ref<boolean>(false);
+const x = ref<number>(0);
+const y = ref<number>(0);
+
 const targetRef = ref<RendererNode | null>(null);
 const tooltipRef = ref<Element | null>(null);
 
 const targetSizes = ref<DOMRect>({ ...emptyRect });
 const tooltipSizes = ref<DOMRect>({ ...emptyRect });
 
-const vTooltipResize = useResize({ onEnd: updateTooltipSizes });
-
-const targetResizeObserver = getResizeObserver({ onEnd: updateTargetSizes });
-
-const windowScrollListener = multiActionListener({
-    onEnd: () => {
-        updateTargetSizes();
-        updateTooltipSizes();
-    },
-});
-
-const windowResizeListener = multiActionListener({
-    onEnd: () => {
-        updateTargetSizes();
-        updateTooltipSizes();
-    },
-});
+const vTooltipResize = useResize({ onProgress: refresh });
+const targetResizeObserver = getResizeObserver({ onProgress: refresh });
 
 // Render function
 function render() {
@@ -115,90 +144,13 @@ function render() {
 
 // Lifecycle hooks
 onMounted(() => {
-    window.addEventListener('scroll', windowScrollListener);
-    window.addEventListener('resize', windowResizeListener);
+    window.addEventListener('scroll', refresh);
+    window.addEventListener('resize', refresh);
 });
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', windowScrollListener);
-    window.removeEventListener('resize', windowResizeListener);
-});
-
-// Computed
-const x = computed<number>(() => {
-    const { x: targetX, width: targetWidth } = targetSizes.value;
-    const { width: tooltipWidth } = tooltipSizes.value;
-
-    let xPosition: number = 0;
-
-    switch ($props.position) {
-        case ETooltipPosition.TOP_CENTER:
-        case ETooltipPosition.BOTTOM_CENTER:
-            xPosition = targetX + targetWidth / 2 - tooltipWidth / 2;
-            break;
-
-        case ETooltipPosition.TOP_START:
-        case ETooltipPosition.BOTTOM_START:
-            xPosition = targetX;
-            break;
-
-        case ETooltipPosition.TOP_END:
-        case ETooltipPosition.BOTTOM_END:
-            xPosition = targetX + targetWidth - tooltipWidth;
-            break;
-
-        case ETooltipPosition.RIGHT_END:
-        case ETooltipPosition.RIGHT_START:
-        case ETooltipPosition.RIGHT_CENTER:
-            xPosition = targetX + targetWidth;
-            break;
-
-        case ETooltipPosition.LEFT_END:
-        case ETooltipPosition.LEFT_START:
-        case ETooltipPosition.LEFT_CENTER:
-            xPosition = targetX - tooltipWidth;
-            break;
-    }
-
-    return xPosition + window.scrollX;
-});
-
-const y = computed<number>(() => {
-    const { y: targetY, height: targetHeight } = targetSizes.value;
-    const { height: tooltipHeight } = tooltipSizes.value;
-
-    let yPosition: number = 0;
-
-    switch ($props.position) {
-        case ETooltipPosition.TOP_START:
-        case ETooltipPosition.TOP_END:
-        case ETooltipPosition.TOP_CENTER:
-            yPosition = targetY - tooltipHeight;
-            break;
-
-        case ETooltipPosition.BOTTOM_START:
-        case ETooltipPosition.BOTTOM_END:
-        case ETooltipPosition.BOTTOM_CENTER:
-            yPosition = targetY + targetHeight;
-            break;
-
-        case ETooltipPosition.RIGHT_START:
-        case ETooltipPosition.LEFT_START:
-            yPosition = targetY;
-            break;
-
-        case ETooltipPosition.RIGHT_END:
-        case ETooltipPosition.LEFT_END:
-            yPosition = targetY + targetHeight - tooltipHeight;
-            break;
-
-        case ETooltipPosition.RIGHT_CENTER:
-        case ETooltipPosition.LEFT_CENTER:
-            yPosition = targetY + targetHeight / 2 - tooltipHeight / 2;
-            break;
-    }
-
-    return yPosition + window.scrollY;
+    window.removeEventListener('scroll', refresh);
+    window.removeEventListener('resize', refresh);
 });
 
 // Watchers
@@ -214,7 +166,23 @@ watch(
     },
 );
 
+watch(() => $props.offset, refresh);
+watch(() => $props.screenOffset, refresh);
+watch(() => $props.position, refresh);
+
 // Methods
+function refresh() {
+    if (isOpen.value) {
+        updateSizes();
+    }
+}
+
+function updateSizes() {
+    updateTargetSizes();
+    updateTooltipSizes();
+    calculatePosition();
+}
+
 function updateTooltipSizes() {
     if (tooltipRef.value) {
         tooltipSizes.value = tooltipRef.value.getBoundingClientRect() as DOMRect;
@@ -226,13 +194,131 @@ function updateTargetSizes() {
         targetSizes.value = targetRef.value.getBoundingClientRect() as DOMRect;
     }
 }
+
+function calculatePosition() {
+    calculateX();
+    calculateY();
+}
+
+function calculateX() {
+    const { width: tooltipWidth } = tooltipSizes.value;
+    const oppositeSide = xOppositePositions[$props.position];
+
+    let xPosition = calculateXForPosition($props.position);
+    const leftLimit = $props.screenOffset;
+    const rightLimit = window.innerWidth - tooltipWidth - $props.screenOffset;
+
+    if (xPosition < leftLimit && oppositeSide) {
+        // Если тултип заходит за ЛЕВЫЙ край экрана, пробуем перенести его на другую сторону
+        const xOpposite = calculateXForPosition(oppositeSide);
+        xPosition = Math.max(xOpposite, xPosition);
+    } else if (xPosition > rightLimit && oppositeSide) {
+        // Если тултип заходит за ПРАВЫЙ край экрана, пробуем перенести его на другую сторону
+        const xOpposite = calculateXForPosition(oppositeSide);
+        xPosition = Math.min(xOpposite, xPosition); //  xOpposite + tooltipWidth < window.innerWidth ? xOpposite : xPosition;
+    }
+
+    x.value = xPosition + window.scrollX;
+}
+
+function calculateY() {
+    const { y: targetY, height: targetHeight } = targetSizes.value;
+    const { height: tooltipHeight } = tooltipSizes.value;
+    const oppositeSide = yOppositePositions[$props.position];
+
+    let yPosition = calculateYForPosition($props.position);
+
+    const topLimit = $props.screenOffset;
+    const bottomLimit = window.innerHeight - tooltipHeight - $props.screenOffset;
+
+    if (yPosition < topLimit) {
+        // Если тултип заходит за ВЕРХНИЙ край экрана, то пробуем перенести
+        // его на другую сторону, если она указана, иначе имитируем sticky
+        if (oppositeSide) {
+            const yOpposite = calculateYForPosition(oppositeSide);
+            yPosition = Math.max(yOpposite, yPosition);
+        } else {
+            yPosition = Math.min(
+                Math.max(yPosition, topLimit),
+                targetY + targetHeight - tooltipHeight,
+            );
+        }
+    } else if (yPosition > bottomLimit) {
+        // Если тултип заходит за НИЖНИЙ край экрана, то пробуем перенести
+        // его на другую сторону, если она указана, иначе имитируем sticky
+        if (oppositeSide) {
+            const yOpposite = calculateYForPosition(oppositeSide);
+            yPosition = Math.max(yOpposite, yPosition);
+        } else {
+            yPosition = Math.max(Math.min(yPosition, bottomLimit), targetY);
+        }
+    }
+
+    y.value = yPosition + window.scrollY;
+}
+
+function calculateXForPosition(somePosition: ETooltipPosition): number {
+    const { x: targetX, width: targetWidth } = targetSizes.value;
+    const { width: tooltipWidth } = tooltipSizes.value;
+
+    switch (somePosition) {
+        case ETooltipPosition.TOP_CENTER:
+        case ETooltipPosition.BOTTOM_CENTER:
+            return targetX + targetWidth / 2 - tooltipWidth / 2;
+
+        case ETooltipPosition.TOP_START:
+        case ETooltipPosition.BOTTOM_START:
+            return targetX;
+
+        case ETooltipPosition.TOP_END:
+        case ETooltipPosition.BOTTOM_END:
+            return targetX + targetWidth - tooltipWidth;
+
+        case ETooltipPosition.RIGHT_END:
+        case ETooltipPosition.RIGHT_START:
+        case ETooltipPosition.RIGHT_CENTER:
+            return targetX + targetWidth + $props.offset;
+
+        case ETooltipPosition.LEFT_END:
+        case ETooltipPosition.LEFT_START:
+        case ETooltipPosition.LEFT_CENTER:
+            return targetX - tooltipWidth - $props.offset;
+    }
+}
+
+function calculateYForPosition(somePosition: ETooltipPosition): number {
+    const { y: targetY, height: targetHeight } = targetSizes.value;
+    const { height: tooltipHeight } = tooltipSizes.value;
+
+    switch (somePosition) {
+        case ETooltipPosition.TOP_START:
+        case ETooltipPosition.TOP_END:
+        case ETooltipPosition.TOP_CENTER:
+            return targetY - tooltipHeight - $props.offset;
+
+        case ETooltipPosition.BOTTOM_START:
+        case ETooltipPosition.BOTTOM_END:
+        case ETooltipPosition.BOTTOM_CENTER:
+            return targetY + targetHeight + $props.offset;
+
+        case ETooltipPosition.RIGHT_START:
+        case ETooltipPosition.LEFT_START:
+            return targetY;
+
+        case ETooltipPosition.RIGHT_END:
+        case ETooltipPosition.LEFT_END:
+            return targetY + targetHeight - tooltipHeight;
+
+        case ETooltipPosition.RIGHT_CENTER:
+        case ETooltipPosition.LEFT_CENTER:
+            return targetY + targetHeight / 2 - tooltipHeight / 2;
+    }
+}
 </script>
 
 <style lang="scss" module>
 .PotTooltip {
     position: absolute;
-    transition: transform var(--pot-transition);
-
     display: flex;
     justify-content: center;
     align-items: center;

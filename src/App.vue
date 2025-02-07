@@ -1,10 +1,10 @@
 <template>
     <main :class="$style.main">
-        <div style="width: 50%; display: flex; flex-direction: column; gap: 2rem">
-            <PotTooltip>
-                <div style="width: 100%; height: 600px; background-color: lightblue"></div>
-            </PotTooltip>
-        </div>
+        <div style="display: flex; flex-direction: column; gap: 2rem"></div>
+
+        <PotTooltip :position="ETooltipPosition.RIGHT_END">
+            <div style="width: 50px; height: 600px; background-color: lightblue"></div>
+        </PotTooltip>
     </main>
 </template>
 
@@ -40,7 +40,8 @@ const kamal = ref<string>('');
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    min-height: 100vh;
+    // min-width: 900vh;
+    min-height: 300vh;
 
     @include text(h0);
 }
