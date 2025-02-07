@@ -2,8 +2,18 @@
     <main :class="$style.main">
         <div style="display: flex; flex-direction: column; gap: 2rem"></div>
 
-        <PotTooltip :position="ETooltipPosition.RIGHT_END">
-            <div style="width: 50px; height: 600px; background-color: lightblue"></div>
+        <PotTooltip
+            :visible="flag"
+            :position="ETooltipPosition.TOP_CENTER"
+        >
+            <div
+                style="width: 50px; height: 600px; background-color: lightblue"
+                @click="flag = !flag"
+            ></div>
+
+            <template #content>
+                <PotButton @click="flag = false">Test</PotButton>
+            </template>
         </PotTooltip>
     </main>
 </template>

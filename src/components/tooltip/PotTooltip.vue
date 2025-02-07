@@ -2,15 +2,28 @@
     <render />
 
     <Teleport :to="to">
-        <Transition name="fade">
+        <Transition :name="transition">
             <div
-                v-show="isOpen"
+                v-if="isVisible"
                 v-tooltip-resize
                 ref="tooltipRef"
-                :class="$style.PotTooltip"
+                :class="[$style.PotTooltip, 'pot-tooltip']"
                 :style="{ transform: `translate(${x}px, ${y}px)` }"
+                v-bind="$attrs"
+                @mouseover="open"
+                @mouseout="close"
             >
-                Kamal
+                <slot
+                    name="tooltip"
+                    :visible="isVisible"
+                >
+                    <div :class="[$style.wrapper, 'pot-tooltip__wrapper']">
+                        <slot
+                            name="content"
+                            :visible="isVisible"
+                        />
+                    </div>
+                </slot>
             </div>
         </Transition>
     </Teleport>
@@ -24,16 +37,19 @@ import type { VNode, RendererNode, RendererElement } from 'vue';
 import { ETooltipPosition } from '@/enums/components';
 
 // Vue
-import { ref, cloneVNode, watch, onMounted, onUnmounted } from 'vue';
+import { ref, cloneVNode, watch, computed, onMounted, onUnmounted } from 'vue';
 
 // Composables
 import { getResizeObserver, useResize } from '@/composables/resize';
 
 interface IPotTooltipProps {
+    visible?: boolean;
     to?: string | RendererElement | null;
     position?: ETooltipPosition;
     offset?: number;
     screenOffset?: number;
+    closeDelay?: number;
+    transition: string;
 }
 
 const emptyRect = {
@@ -88,15 +104,21 @@ const $props = withDefaults(defineProps<IPotTooltipProps>(), {
     offset: 12,
     screenOffset: 12,
     position: ETooltipPosition.TOP_CENTER,
+    visible: undefined,
+    closeDelay: 100,
+    transition: 'fade',
 });
 
 const $slots = defineSlots<{
     default: () => VNode[];
+    content: () => VNode[];
 }>();
 
-const isOpen = ref<boolean>(false);
 const x = ref<number>(0);
 const y = ref<number>(0);
+
+const isOpen = ref<boolean>(false);
+const closeTimeoutId = ref<number>(0);
 
 const targetRef = ref<RendererNode | null>(null);
 const tooltipRef = ref<Element | null>(null);
@@ -143,15 +165,12 @@ function render() {
 }
 
 // Lifecycle hooks
-onMounted(() => {
-    window.addEventListener('scroll', refresh);
-    window.addEventListener('resize', refresh);
-});
+onMounted(setupListeners);
 
-onUnmounted(() => {
-    window.removeEventListener('scroll', refresh);
-    window.removeEventListener('resize', refresh);
-});
+onUnmounted(removeListeners);
+
+// Computed
+const isVisible = computed<boolean>(() => $props.visible ?? isOpen.value);
 
 // Watchers
 watch(
@@ -169,12 +188,50 @@ watch(
 watch(() => $props.offset, refresh);
 watch(() => $props.screenOffset, refresh);
 watch(() => $props.position, refresh);
+watch(
+    () => isVisible.value,
+    newValue => {
+        if (newValue) {
+            updateSizes();
+        }
+    },
+);
 
 // Methods
 function refresh() {
-    if (isOpen.value) {
+    if (isVisible.value) {
         updateSizes();
     }
+}
+
+function setupListeners() {
+    window.addEventListener('scroll', refresh);
+    window.addEventListener('resize', refresh);
+
+    if (targetRef.value) {
+        targetRef.value.addEventListener('mouseover', open);
+        targetRef.value.addEventListener('mouseout', close);
+    }
+}
+
+function removeListeners() {
+    window.removeEventListener('scroll', refresh);
+    window.removeEventListener('resize', refresh);
+
+    if (targetRef.value) {
+        targetRef.value.removeEventListener('mouseover', open);
+        targetRef.value.removeEventListener('mouseout', close);
+    }
+}
+
+function open() {
+    clearInterval(closeTimeoutId.value);
+    closeTimeoutId.value = NaN;
+    isOpen.value = true;
+}
+
+function close() {
+    closeTimeoutId.value = setTimeout(() => (isOpen.value = false), $props.closeDelay);
 }
 
 function updateSizes() {
@@ -248,7 +305,7 @@ function calculateY() {
         // его на другую сторону, если она указана, иначе имитируем sticky
         if (oppositeSide) {
             const yOpposite = calculateYForPosition(oppositeSide);
-            yPosition = Math.max(yOpposite, yPosition);
+            yPosition = Math.min(yOpposite, yPosition);
         } else {
             yPosition = Math.max(Math.min(yPosition, bottomLimit), targetY);
         }
@@ -319,12 +376,13 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
 <style lang="scss" module>
 .PotTooltip {
     position: absolute;
+}
+
+.wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 400px;
-    height: 50px;
-    background-color: green;
-    color: white;
+    padding: var(--pot-spacer-2);
+    background-color: var(--pot-base-600);
 }
 </style>
