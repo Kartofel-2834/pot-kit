@@ -133,6 +133,11 @@ const $props = withDefaults(defineProps<IPotTooltipProps>(), {
     radius: ERadius.MEDIUM,
 });
 
+const $emit = defineEmits<{
+    open: [];
+    close: [];
+}>();
+
 const $slots = defineSlots<{
     default: () => VNode[];
     content: () => VNode[];
@@ -244,11 +249,13 @@ watch(
 watch(
     () => isVisible.value,
     newValue => {
-        if (newValue) {
+        if (newValue === true) {
             setupListeners();
             updateSizes();
-        } else {
+            $emit('open');
+        } else if (newValue === false) {
             removeListeners();
+            $emit('close');
         }
     },
     { immediate: true },
