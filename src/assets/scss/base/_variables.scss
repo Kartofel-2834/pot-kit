@@ -47,6 +47,15 @@
     /* Transition */
     --pot-transition: 0.4s ease;
 
+    /* Box-shadow */
+    --pot-shadow-100: 0px 12px 32px 4px rgba(0, 0, 0, 0.04);
+    --pot-shadow-200: 0px 8px 20px rgba(0, 0, 0, 0.08);
+    --pot-shadow-300: 0px 16px 48px 16px rgba(0, 0, 0, 0.08);
+    --pot-shadow-400: 0px 0px 6px rgba(0, 0, 0, 0.12);
+    --pot-shadow-500: 0px 0px 12px rgba(0, 0, 0, 0.12);
+    --pot-shadow-600: 0px 12px 32px rgba(0, 0, 0, 0.12);
+    --pot-shadow-700: 0px 8px 16px -8px rgba(0, 0, 0, 0.16);
+
     /* Colors */
     --pot-base-0: #ffffff;
     --pot-base-100: #f3f5f7;
@@ -138,6 +147,10 @@
     --pot-input-size-text: var(--pot-standard-size-text);
     --pot-input-size-padding: var(--pot-spacer-1-200);
     --pot-input-size-gap: var(--pot-spacer);
+
+    /* PotTooltip - sizes */
+    --pot-tooltip-size-padding: var(--pot-spacer-1-200);
+    --pot-tooltip-size-text: var(--pot-standard-size-text);
 }
 
 /* --- COMPONENTS - COLORS --- */
@@ -218,6 +231,11 @@
     --pot-switch-ball-true-color: var(--pot-theme-target-text);
     --pot-switch-content-false-color: var(--pot-theme-target-text);
     --pot-switch-content-true-color: var(--pot-theme-target-text);
+
+    /* --- PotTooltip --- */
+    --pot-tooltip-shadow: var(--pot-shadow-500);
+    --pot-tooltip-background-color: var(--pot-base-0);
+    --pot-tooltip-text-color: var(--pot-base-600);
 }
 
 $pot-size-scales: (

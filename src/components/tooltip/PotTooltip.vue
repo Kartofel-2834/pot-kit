@@ -2,15 +2,16 @@
     <render />
 
     <Teleport :to="to">
-        <Transition :name="transition">
+        <Transition :name="properties.value.transition ?? undefined">
             <div
-                v-if="isVisible"
-                v-tooltip-resize
+                v-if="persistent || isVisible"
+                v-show="isVisible"
                 ref="tooltipRef"
-                :class="[$style.PotTooltip, 'pot-tooltip']"
+                :class="[$style.PotTooltip, 'pot-tooltip', classList]"
                 :style="{ transform: `translate(${x}px, ${y}px)` }"
                 v-bind="$attrs"
-                @mouseover="open"
+                v-on="$attrs"
+                @mouseover="clearCloseTimeout"
                 @mouseout="close"
             >
                 <slot
@@ -21,7 +22,9 @@
                         <slot
                             name="content"
                             :visible="isVisible"
-                        />
+                        >
+                            {{ text }}
+                        </slot>
                     </div>
                 </slot>
             </div>
@@ -31,25 +34,38 @@
 
 <script lang="ts" setup>
 // Types
-import type { VNode, RendererNode, RendererElement } from 'vue';
+import type { VNode, RendererElement } from 'vue';
 
 // Enums
-import { ETooltipPosition } from '@/enums/components';
+import { ERadius, ESize, ETooltipPosition } from '@/enums/components';
 
 // Vue
-import { ref, cloneVNode, watch, computed, onMounted, onUnmounted } from 'vue';
+import { ref, cloneVNode, watch, computed } from 'vue';
 
 // Composables
-import { getResizeObserver, useResize } from '@/composables/resize';
+import { useResizeObserver } from '@/composables/resize';
+import { EColorTheme, EDevice } from '@/enums/config';
+import { useDeviceProperties } from '@/composables/device-properties';
+import { useClassList } from '@/composables/class-list';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 interface IPotTooltipProps {
     visible?: boolean;
     to?: string | RendererElement | null;
-    position?: ETooltipPosition;
-    offset?: number;
-    screenOffset?: number;
+    target?: HTMLElement | null;
     closeDelay?: number;
-    transition: string;
+    fixed?: boolean;
+    persistent?: boolean;
+    text?: string;
+
+    position?: ETooltipPosition | ETooltipPosition[];
+    size?: ESize | ESize[];
+    color?: EColorTheme | EColorTheme[];
+    radius?: ERadius | ERadius[] | null;
+    devices?: EDevice[];
+    transition?: string | string[] | null;
+    offset?: number | number[];
+    screenOffset?: number | number[];
 }
 
 const emptyRect = {
@@ -100,13 +116,21 @@ const yOppositePositions: Record<ETooltipPosition, ETooltipPosition | null> = {
 };
 
 const $props = withDefaults(defineProps<IPotTooltipProps>(), {
+    visible: undefined,
     to: '#pot-modal-lay',
+    target: null,
     offset: 12,
     screenOffset: 12,
-    position: ETooltipPosition.TOP_CENTER,
-    visible: undefined,
-    closeDelay: 100,
+    closeDelay: 300,
     transition: 'fade',
+    text: '',
+    fixed: false,
+    persistent: false,
+    devices: () => ALL_DEVICES_REVERSED,
+    position: ETooltipPosition.TOP_CENTER,
+    size: ESize.MEDIUM,
+    color: EColorTheme.PRIMARY,
+    radius: ERadius.MEDIUM,
 });
 
 const $slots = defineSlots<{
@@ -120,14 +144,14 @@ const y = ref<number>(0);
 const isOpen = ref<boolean>(false);
 const closeTimeoutId = ref<number>(0);
 
-const targetRef = ref<RendererNode | null>(null);
-const tooltipRef = ref<Element | null>(null);
+const tooltipRef = ref<HTMLElement | null>(null);
+const targetRef = ref<HTMLElement | null>(null);
 
 const targetSizes = ref<DOMRect>({ ...emptyRect });
 const tooltipSizes = ref<DOMRect>({ ...emptyRect });
 
-const vTooltipResize = useResize({ onProgress: refresh });
-const targetResizeObserver = getResizeObserver({ onProgress: refresh });
+const tooltipResizeObserver = useResizeObserver({ onProgress: refresh });
+const targetResizeObserver = useResizeObserver({ onProgress: refresh });
 
 // Render function
 function render() {
@@ -148,7 +172,7 @@ function render() {
         cloneVNode(currentVNode, {
             onVnodeMounted(vnode) {
                 if (isNaN(targetId) && vnode.el) {
-                    targetRef.value = vnode.el;
+                    targetRef.value = vnode.el as HTMLElement;
                     targetId = index;
                 }
             },
@@ -164,74 +188,114 @@ function render() {
     return defaultSlotVNodes;
 }
 
-// Lifecycle hooks
-onMounted(setupListeners);
-
-onUnmounted(removeListeners);
-
 // Computed
+const currentTarget = computed<HTMLElement | null>(() => $props.target ?? targetRef.value);
+
 const isVisible = computed<boolean>(() => $props.visible ?? isOpen.value);
+
+const properties = computed(() => {
+    return useDeviceProperties(
+        {
+            position: $props.position,
+            color: $props.color,
+            size: $props.size,
+            radius: $props.radius,
+            transition: $props.transition,
+            offset: $props.offset,
+            screenOffset: $props.screenOffset,
+        },
+        $props.devices,
+    );
+});
+
+const classList = computed(() => useClassList(properties.value.value));
 
 // Watchers
 watch(
-    () => targetRef.value,
-    newTarget => {
-        if (!newTarget) {
-            targetResizeObserver.disconnect();
-            return;
-        }
+    () => tooltipRef.value,
+    newTooltip => {
+        tooltipResizeObserver.disconnect();
 
-        targetResizeObserver.observe(newTarget as Element);
+        if (newTooltip) {
+            tooltipResizeObserver.observe(newTooltip);
+        }
+    },
+    {
+        immediate: true,
     },
 );
 
-watch(() => $props.offset, refresh);
-watch(() => $props.screenOffset, refresh);
-watch(() => $props.position, refresh);
+watch(
+    () => currentTarget.value,
+    (newTarget, oldTarget) => {
+        if (oldTarget) {
+            oldTarget.removeEventListener('mouseover', open);
+            oldTarget.removeEventListener('mouseout', close);
+        }
+
+        if (newTarget) {
+            newTarget.addEventListener('mouseover', open);
+            newTarget.addEventListener('mouseout', close);
+        }
+    },
+    { immediate: true },
+);
+
 watch(
     () => isVisible.value,
     newValue => {
         if (newValue) {
+            setupListeners();
             updateSizes();
+        } else {
+            removeListeners();
         }
     },
+    { immediate: true },
 );
 
-// Methods
-function refresh() {
-    if (isVisible.value) {
-        updateSizes();
-    }
-}
+watch(() => properties.value.value.offset, refresh);
+watch(() => properties.value.value.screenOffset, refresh);
+watch(() => properties.value.value.position, refresh);
 
+// Methods
 function setupListeners() {
     window.addEventListener('scroll', refresh);
     window.addEventListener('resize', refresh);
 
-    if (targetRef.value) {
-        targetRef.value.addEventListener('mouseover', open);
-        targetRef.value.addEventListener('mouseout', close);
+    if (currentTarget.value) {
+        targetResizeObserver.observe(currentTarget.value);
     }
 }
 
 function removeListeners() {
     window.removeEventListener('scroll', refresh);
     window.removeEventListener('resize', refresh);
-
-    if (targetRef.value) {
-        targetRef.value.removeEventListener('mouseover', open);
-        targetRef.value.removeEventListener('mouseout', close);
-    }
+    targetResizeObserver.disconnect();
+    tooltipResizeObserver.disconnect();
 }
 
 function open() {
-    clearInterval(closeTimeoutId.value);
-    closeTimeoutId.value = NaN;
     isOpen.value = true;
+    clearCloseTimeout();
 }
 
 function close() {
-    closeTimeoutId.value = setTimeout(() => (isOpen.value = false), $props.closeDelay);
+    closeTimeoutId.value = setTimeout(() => {
+        isOpen.value = false;
+        clearCloseTimeout();
+    }, $props.closeDelay);
+}
+
+function clearCloseTimeout() {
+    clearInterval(closeTimeoutId.value);
+    closeTimeoutId.value = NaN;
+}
+
+function refresh() {
+    if (isVisible.value) {
+        updateSizes();
+    }
 }
 
 function updateSizes() {
@@ -247,71 +311,110 @@ function updateTooltipSizes() {
 }
 
 function updateTargetSizes() {
-    if (targetRef.value) {
-        targetSizes.value = targetRef.value.getBoundingClientRect() as DOMRect;
+    if (currentTarget.value) {
+        targetSizes.value = currentTarget.value.getBoundingClientRect() as DOMRect;
     }
 }
 
+/* --- TOOLTIP POSITION CALCULATIONS - START --- */
 function calculatePosition() {
     calculateX();
     calculateY();
 }
 
 function calculateX() {
-    const { width: tooltipWidth } = tooltipSizes.value;
-    const oppositeSide = xOppositePositions[$props.position];
+    const currentPosition = properties.value.value.position;
 
-    let xPosition = calculateXForPosition($props.position);
-    const leftLimit = $props.screenOffset;
-    const rightLimit = window.innerWidth - tooltipWidth - $props.screenOffset;
-
-    if (xPosition < leftLimit && oppositeSide) {
-        // Если тултип заходит за ЛЕВЫЙ край экрана, пробуем перенести его на другую сторону
-        const xOpposite = calculateXForPosition(oppositeSide);
-        xPosition = Math.max(xOpposite, xPosition);
-    } else if (xPosition > rightLimit && oppositeSide) {
-        // Если тултип заходит за ПРАВЫЙ край экрана, пробуем перенести его на другую сторону
-        const xOpposite = calculateXForPosition(oppositeSide);
-        xPosition = Math.min(xOpposite, xPosition); //  xOpposite + tooltipWidth < window.innerWidth ? xOpposite : xPosition;
+    if (!currentPosition) {
+        close();
+        return;
     }
 
-    x.value = xPosition + window.scrollX;
+    x.value = calculateLimitedX(currentPosition) + window.scrollX;
 }
 
 function calculateY() {
-    const { y: targetY, height: targetHeight } = targetSizes.value;
-    const { height: tooltipHeight } = tooltipSizes.value;
-    const oppositeSide = yOppositePositions[$props.position];
+    const currentPosition = properties.value.value.position;
 
-    let yPosition = calculateYForPosition($props.position);
-
-    const topLimit = $props.screenOffset;
-    const bottomLimit = window.innerHeight - tooltipHeight - $props.screenOffset;
-
-    if (yPosition < topLimit) {
-        // Если тултип заходит за ВЕРХНИЙ край экрана, то пробуем перенести
-        // его на другую сторону, если она указана, иначе имитируем sticky
-        if (oppositeSide) {
-            const yOpposite = calculateYForPosition(oppositeSide);
-            yPosition = Math.max(yOpposite, yPosition);
-        } else {
-            yPosition = Math.min(
-                Math.max(yPosition, topLimit),
-                targetY + targetHeight - tooltipHeight,
-            );
-        }
-    } else if (yPosition > bottomLimit) {
-        // Если тултип заходит за НИЖНИЙ край экрана, то пробуем перенести
-        // его на другую сторону, если она указана, иначе имитируем sticky
-        if (oppositeSide) {
-            const yOpposite = calculateYForPosition(oppositeSide);
-            yPosition = Math.min(yOpposite, yPosition);
-        } else {
-            yPosition = Math.max(Math.min(yPosition, bottomLimit), targetY);
-        }
+    if (!currentPosition) {
+        close();
+        return;
     }
 
-    y.value = yPosition + window.scrollY;
+    y.value = calculateLimitedY(currentPosition) + window.scrollY;
+}
+
+function calculateLimitedX(somePosition: ETooltipPosition): number {
+    const xPosition = calculateXForPosition(somePosition);
+    const oppositeSide = xOppositePositions[somePosition];
+
+    if ($props.fixed || !oppositeSide) {
+        return xPosition;
+    }
+
+    const { width: tooltipWidth } = tooltipSizes.value;
+
+    const screenOffset = properties.value.value.screenOffset || 0;
+    const leftLimit = screenOffset;
+    const rightLimit = window.innerWidth - tooltipWidth - screenOffset;
+
+    // Если тултип заходит за ЛЕВЫЙ край экрана, пробуем перенести его на другую сторону
+    if (xPosition < leftLimit) {
+        const xOpposite = calculateXForPosition(oppositeSide);
+        return Math.max(xOpposite, xPosition);
+    }
+
+    // Если тултип заходит за ПРАВЫЙ край экрана, пробуем перенести его на другую сторону
+    if (xPosition > rightLimit) {
+        const xOpposite = calculateXForPosition(oppositeSide);
+        return Math.min(xOpposite, xPosition);
+    }
+
+    return xPosition;
+}
+
+function calculateLimitedY(somePosition: ETooltipPosition): number {
+    if ($props.fixed) {
+        return calculateYForPosition(somePosition);
+    }
+
+    const { y: targetY, height: targetHeight } = targetSizes.value;
+    const { height: tooltipHeight } = tooltipSizes.value;
+
+    const yPosition = calculateYForPosition(somePosition);
+    const oppositeSide = yOppositePositions[somePosition];
+
+    const screenOffset = properties.value.value.screenOffset || 0;
+    const topLimit = screenOffset;
+    const bottomLimit = window.innerHeight - tooltipHeight - screenOffset;
+
+    // Если тултип заходит за ВЕРХНИЙ край экрана,
+    // то пробуем перенести его на другую сторону
+    if (yPosition < topLimit && oppositeSide) {
+        const yOpposite = calculateYForPosition(oppositeSide);
+        return Math.max(yOpposite, yPosition);
+    }
+
+    // Если тултип заходит за ВЕРХНИЙ край экрана и его некуда переносить,
+    // то пробуем имитировать sticky поведение
+    if (yPosition < topLimit && !oppositeSide) {
+        return Math.min(Math.max(yPosition, topLimit), targetY + targetHeight - tooltipHeight);
+    }
+
+    // Если тултип заходит за НИЖНИЙ край экрана,
+    // то пробуем перенести его на другую сторону
+    if (yPosition > bottomLimit && oppositeSide) {
+        const yOpposite = calculateYForPosition(oppositeSide);
+        return Math.min(yOpposite, yPosition);
+    }
+
+    // Если тултип заходит за НИЖНИЙ край экрана и его некуда переносить,
+    // то пробуем имитировать sticky поведение
+    if (yPosition < topLimit && !oppositeSide) {
+        return Math.max(Math.min(yPosition, bottomLimit), targetY);
+    }
+
+    return yPosition;
 }
 
 function calculateXForPosition(somePosition: ETooltipPosition): number {
@@ -334,12 +437,12 @@ function calculateXForPosition(somePosition: ETooltipPosition): number {
         case ETooltipPosition.RIGHT_END:
         case ETooltipPosition.RIGHT_START:
         case ETooltipPosition.RIGHT_CENTER:
-            return targetX + targetWidth + $props.offset;
+            return targetX + targetWidth + (properties.value.value.offset || 0);
 
         case ETooltipPosition.LEFT_END:
         case ETooltipPosition.LEFT_START:
         case ETooltipPosition.LEFT_CENTER:
-            return targetX - tooltipWidth - $props.offset;
+            return targetX - tooltipWidth - (properties.value.value.offset || 0);
     }
 }
 
@@ -351,12 +454,12 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
         case ETooltipPosition.TOP_START:
         case ETooltipPosition.TOP_END:
         case ETooltipPosition.TOP_CENTER:
-            return targetY - tooltipHeight - $props.offset;
+            return targetY - tooltipHeight - (properties.value.value.offset || 0);
 
         case ETooltipPosition.BOTTOM_START:
         case ETooltipPosition.BOTTOM_END:
         case ETooltipPosition.BOTTOM_CENTER:
-            return targetY + targetHeight + $props.offset;
+            return targetY + targetHeight + (properties.value.value.offset || 0);
 
         case ETooltipPosition.RIGHT_START:
         case ETooltipPosition.LEFT_START:
@@ -371,18 +474,35 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
             return targetY + targetHeight / 2 - tooltipHeight / 2;
     }
 }
+/* --- TOOLTIP POSITION CALCULATIONS - END --- */
 </script>
 
 <style lang="scss" module>
 .PotTooltip {
     position: absolute;
-}
 
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--pot-spacer-2);
-    background-color: var(--pot-base-600);
+    /* --- Colors - START --- */
+    .wrapper {
+        box-shadow: var(--pot-tooltip-shadow);
+        background-color: var(--pot-tooltip-background-color);
+        color: var(--pot-tooltip-text-color);
+    }
+    /* --- Colors - END --- */
+
+    /* --- Sizes --- */
+    $standard-size: (
+        padding: var(--pot-tooltip-size-padding),
+        text: var(--pot-tooltip-size-text),
+    );
+
+    @include size($standard-size) using ($size, $size-name) {
+        .wrapper {
+            padding: map-get($size, 'padding');
+            font-size: map-get($size, 'text');
+        }
+    }
+
+    /* --- Radius --- */
+    @include radius('.wrapper');
 }
 </style>

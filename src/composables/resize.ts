@@ -13,7 +13,7 @@ const defaultConfig: IResizeConfig = {
     onEnd: () => undefined,
 };
 
-export function getResizeObserver(config: Partial<IResizeConfig> = {}): ResizeObserver {
+export function useResizeObserver(config: Partial<IResizeConfig> = {}): ResizeObserver {
     const listeners = new Map<Element, TResizeCallback>();
     const currentConfig = {
         ...defaultConfig,
@@ -42,7 +42,7 @@ export function useResize(config: Partial<IResizeConfig> = {}): Directive {
         ...directiveConfig.value
     }));
 
-    const observer = getResizeObserver(mixedConfig.value);
+    const observer = useResizeObserver(mixedConfig.value);
 
     function setupDirective(el: Element, binding: DirectiveBinding<TResizeCallback>) {
         observer.observe(el);
