@@ -33,8 +33,8 @@ import type { IPotRadioProps } from '@/types/components';
 import type { TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
-import { ERadius, ESize } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 // Vue
 import { computed, defineAsyncComponent } from 'vue';

@@ -1,6 +1,6 @@
 // Enums
-import type { ERadius, ESize } from "@/enums/components";
-import type { EDevice, EColorTheme, EIcon } from "@/enums/config";
+import type { ERadius } from "@/enums/components";
+import type { EDevice, EColorTheme, EIcon, ESize } from "@/enums/config";
 
 /**
  * Допустимый value для компонента PotCheckbox

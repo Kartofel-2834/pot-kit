@@ -1,6 +1,5 @@
 // Enums
-import type { ESize } from "@/enums/components";
-import { EDevice, EColorTheme, EIcon } from "@/enums/config";
+import { EDevice, EColorTheme, EIcon, ESize } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotLink

@@ -41,8 +41,8 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
-import { ERadius, ESize } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';

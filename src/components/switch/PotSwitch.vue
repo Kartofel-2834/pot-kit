@@ -65,8 +65,8 @@ import type { IPotSwitchProps } from '@/types/components/pot-switch-types';
 import type { TCheckboxValue } from '@/types/components';
 
 // Enums
-import { ESize, ERadius } from '@/enums/components';
-import { EColorTheme } from '@/enums/config';
+import { ERadius } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';

@@ -1,6 +1,6 @@
 // Enums
-import { EDevice, EColorTheme } from "@/enums/config";
-import { ERadius, ESize } from "@/enums/components";
+import { EDevice, EColorTheme, ESize } from "@/enums/config";
+import { ERadius } from "@/enums/components";
 
 export interface IPotRadioElementProps {
     /** HTML-тег элемента. По умолчанию - 'div' */

@@ -2,8 +2,8 @@
 import type { ISpecsHelperOptions, TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
-import { ESize, ERadius } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotCheckList

@@ -32,8 +32,8 @@
 import type { IPotCheckboxProps, TCheckboxValue } from '@/types/components';
 
 // Enums
-import { EIcon, EColorTheme } from '@/enums/config';
-import { ERadius, ESize } from '@/enums/components';
+import { EIcon, EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 // Vue
 import { computed } from 'vue';

@@ -37,10 +37,11 @@
 import type { VNode, RendererElement } from 'vue';
 
 // Enums
-import { ERadius, ESize, ETooltipPosition } from '@/enums/components';
+import { ESize } from '@/enums/config';
+import { ERadius, ETooltipPosition } from '@/enums/components';
 
 // Vue
-import { ref, cloneVNode, watch, computed } from 'vue';
+import { ref, cloneVNode, watch, computed, shallowRef } from 'vue';
 
 // Composables
 import { useResizeObserver } from '@/composables/resize';
@@ -152,8 +153,8 @@ const closeTimeoutId = ref<number>(0);
 const tooltipRef = ref<HTMLElement | null>(null);
 const targetRef = ref<HTMLElement | null>(null);
 
-const targetSizes = ref<DOMRect>({ ...emptyRect });
-const tooltipSizes = ref<DOMRect>({ ...emptyRect });
+const targetSizes = shallowRef<DOMRect>({ ...emptyRect });
+const tooltipSizes = shallowRef<DOMRect>({ ...emptyRect });
 
 const tooltipResizeObserver = useResizeObserver({ onProgress: refresh });
 const targetResizeObserver = useResizeObserver({ onProgress: refresh });

@@ -18,7 +18,8 @@ export interface IPotKitColorTheme {
 export interface IPotKitConfig {
     iconsPath: PathLike;
     colorThemes: Record<string, IPotKitColorTheme>;
-    breakpoints: Record<string, number>; 
+    breakpoints: Record<string, number>;
+    sizes: Record<string, number>;
 }
 
 export const potKitConfig: IPotKitConfig = {
@@ -29,6 +30,14 @@ export const potKitConfig: IPotKitConfig = {
         tablet: 768,
         laptop: 1280,
         desktop: 1440,
+    },
+
+    sizes: {
+        tiny: 0.6,
+        small: 0.8,
+        medium: 1,
+        big: 1.2,
+        large: 1.4,
     },
 
     colorThemes: {

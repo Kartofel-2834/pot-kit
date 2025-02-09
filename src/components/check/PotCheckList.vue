@@ -57,8 +57,8 @@ import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
-import { ERadius, ESize } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';

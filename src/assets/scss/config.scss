@@ -166,4 +166,13 @@ $breakpoints: (
     tablet: 768px,
     laptop: 1280px,
     desktop: 1440px,
-)
+);
+
+/* Sizes */
+$pot-size-scales: (
+    tiny: 0.6,
+    small: 0.8,
+    medium: 1,
+    big: 1.2,
+    large: 1.4,
+);

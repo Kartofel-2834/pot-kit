@@ -3,7 +3,7 @@ import type { Directive, DirectiveBinding } from 'vue';
 import type { TResizeCallback, IResizeConfig } from '@/types/composables';
 
 // Vue
-import { ref, computed } from 'vue';
+import { computed, shallowRef } from 'vue';
 import { multiActionListener } from '@/utils/timer-utils';
 
 const defaultConfig: IResizeConfig = {
@@ -36,7 +36,7 @@ export function useResizeObserver(config: Partial<IResizeConfig> = {}): ResizeOb
 }
 
 export function useResize(config: Partial<IResizeConfig> = {}): Directive {
-    const directiveConfig = ref<Partial<IResizeConfig>>({});
+    const directiveConfig = shallowRef<Partial<IResizeConfig>>({});
     const mixedConfig = computed<Partial<IResizeConfig>>(() => ({
         ...config,
         ...directiveConfig.value

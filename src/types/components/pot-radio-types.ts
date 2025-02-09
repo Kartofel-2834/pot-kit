@@ -2,8 +2,8 @@
 import type { ISpecsProps } from '@/types/composables/specs-helper-types';
 
 // Enums
-import { EDevice, EColorTheme } from '@/enums/config';
-import { ERadius, ESize } from '@/enums/components';
+import { EDevice, EColorTheme, ESize } from '@/enums/config';
+import { ERadius } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotRadio

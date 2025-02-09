@@ -26,6 +26,15 @@ export enum EBreakpoint {
     DESKTOP = 1440
 }
 
+/* Size */
+export enum ESize {
+    TINY = 'tiny',
+    SMALL = 'small',
+    MEDIUM = 'medium',
+    BIG = 'big',
+    LARGE = 'large'
+}
+
 /* Icon */
 export enum EIcon {
     CHECK = 'check',

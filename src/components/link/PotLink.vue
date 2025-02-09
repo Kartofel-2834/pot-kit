@@ -44,7 +44,7 @@ import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-import { ESize } from '@/enums/components';
+import { ESize } from '@/enums/config';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));

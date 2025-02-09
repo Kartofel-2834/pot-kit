@@ -1,6 +1,6 @@
 // Enums
-import { ESize, ERadius } from "@/enums/components";
-import { EColorTheme, EDevice, EIcon } from "@/enums/config";
+import { ERadius } from "@/enums/components";
+import { EColorTheme, EDevice, EIcon, ESize } from "@/enums/config";
 
 /**
  * Пропсы для компонента PotInputBase

@@ -14,8 +14,8 @@
 import type { IPotRadioElementProps } from '@/types/components';
 
 // Enums
-import { ERadius, ESize } from '@/enums/components';
-import { EColorTheme } from '@/enums/config';
+import { ERadius } from '@/enums/components';
+import { EColorTheme, ESize } from '@/enums/config';
 
 // Vue
 import { computed } from 'vue';

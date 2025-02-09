@@ -1,6 +1,6 @@
 // Enums
-import type { ESize, ERadius } from "@/enums/components";
-import type { EColorTheme, EDevice, EIcon } from "@/enums/config";
+import type { ERadius } from "@/enums/components";
+import type { EColorTheme, EDevice, EIcon, ESize } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotButton

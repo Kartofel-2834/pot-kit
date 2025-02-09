@@ -35,13 +35,25 @@ class PotKitStylesBuildPlugin {
             
             PotKitStylesBuildPlugin.getColorThemesStyles(config.colorThemes),
             PotKitStylesBuildPlugin.getBreakpointsStyles(config.breakpoints),
+            PotKitStylesBuildPlugin.getSizesStyles(config.sizes)
         ].join('\n\n'));
     }
 
     /** Генерация переменных для брейкпоинтов и адаптивного дизайна */
     private static getBreakpointsStyles(breakpoints: IPotKitConfig['breakpoints']): string {
         const values = PotKitStylesBuildPlugin.getStyle(breakpoints, ',');
-        return `/* Breakpoints */\n$breakpoints: (\n${values}\n)`; 
+        return `/* Breakpoints */\n$breakpoints: (\n${values}\n);`; 
+    }
+
+    /** Генерация переменных для масштабирования компонентов */
+    private static getSizesStyles(sizes: IPotKitConfig['sizes']): string {
+        const sizesStyleData = Object.keys(sizes).reduce((res, key) => ({
+            ...res,
+            [key]: String(sizes[key])
+        }), {});
+
+        const values = PotKitStylesBuildPlugin.getStyle(sizesStyleData, ',');
+        return `/* Sizes */\n$pot-size-scales: (\n${values}\n);`; 
     }
 
     /** Генерация переменных для цветовых тем компонентов */
@@ -106,6 +118,7 @@ class PotKitEnumsBuildPlugin {
             PotKitEnumsBuildPlugin.getColorThemesEnum(config.colorThemes),
             PotKitEnumsBuildPlugin.getDevicesEnum(config.breakpoints),
             PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints),
+            PotKitEnumsBuildPlugin.getSizesEnum(config.sizes),
             ...asyncData
         ].join('\n\n'));
     }
@@ -130,6 +143,15 @@ class PotKitEnumsBuildPlugin {
 
     private static getBreakpointsEnum(breakpoints: IPotKitConfig['breakpoints']): string {
         return PotKitEnumsBuildPlugin.getEnum('breakpoint', breakpoints);
+    }
+
+    private static getSizesEnum(sizes: IPotKitConfig['sizes']): string {
+        const sizesEnumData = Object.keys(sizes).reduce((res, key) => ({
+            ...res,
+            [key]: key
+        }), {});
+
+        return PotKitEnumsBuildPlugin.getEnum('size', sizesEnumData);
     }
 
     private static async getIconsEnum(iconsPath: IPotKitConfig['iconsPath']): Promise<string> {
@@ -206,10 +228,15 @@ class PotKitBuildPlugin {
         };
 
         // Primary тема должна гарантированно присутствовать
-        currentConfig.colorThemes.primary = (
-            userConfig?.colorThemes?.primary ||
-            PotKitBuildPlugin.defaultConfig.colorThemes.primary
-        );
+        currentConfig.colorThemes = {
+            ...PotKitBuildPlugin.defaultConfig.colorThemes,
+            ...(userConfig?.colorThemes || {})
+        };
+
+        currentConfig.sizes = {
+            ...PotKitBuildPlugin.defaultConfig.sizes,
+            ...(userConfig?.sizes || {})
+        };
 
         // Сортируем брейкпоинты на всякий случай, если они были указаны не в порядке возрастания
         currentConfig.breakpoints = Object.keys(currentConfig.breakpoints)
