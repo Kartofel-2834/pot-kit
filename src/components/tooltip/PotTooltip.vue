@@ -34,10 +34,11 @@
 
 <script lang="ts" setup>
 // Types
-import type { VNode, RendererElement } from 'vue';
+import type { VNode } from 'vue';
+import type { IPotTooltipProps } from '@/types/components';
 
 // Enums
-import { ESize } from '@/enums/config';
+import { ESize, EColorTheme } from '@/enums/config';
 import { ERadius, ETooltipPosition } from '@/enums/components';
 
 // Vue
@@ -45,29 +46,11 @@ import { ref, cloneVNode, watch, computed, shallowRef } from 'vue';
 
 // Composables
 import { useResizeObserver } from '@/composables/resize';
-import { EColorTheme, EDevice } from '@/enums/config';
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useClassList } from '@/composables/class-list';
+
+// Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-
-interface IPotTooltipProps {
-    visible?: boolean;
-    to?: string | RendererElement | null;
-    target?: HTMLElement | null;
-    closeDelay?: number;
-    fixed?: boolean;
-    persistent?: boolean;
-    text?: string;
-
-    position?: ETooltipPosition | ETooltipPosition[];
-    size?: ESize | ESize[];
-    color?: EColorTheme | EColorTheme[];
-    radius?: ERadius | ERadius[] | null;
-    devices?: EDevice[];
-    transition?: string | string[] | null;
-    offset?: number | number[];
-    screenOffset?: number | number[];
-}
 
 const emptyRect = {
     bottom: 0,

@@ -175,7 +175,7 @@
 }
 
 /** Миксин для использования масштабируемых размеров в компонентах */
-@mixin size($sizes-vars: null) {
+@mixin size($sizes-vars: null, $direction: up) {
     $sizes-list: map-keys($pot-size-scales);
     $vars-list: map-keys($sizes-vars);
 
@@ -183,7 +183,7 @@
         $size: nth($sizes-list, $index);
         $scale: map-get($pot-size-scales, $size);
 
-        $current-size-vars: get-scaled-sizes-map($sizes-vars, $scale);
+        $current-size-vars: get-scaled-sizes-map($sizes-vars, $scale, 2px, $direction);
 
         @include modificator(size, $size) {
             @content ($current-size-vars, $size);

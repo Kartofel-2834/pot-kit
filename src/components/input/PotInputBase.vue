@@ -242,40 +242,40 @@ function getParsedValue(newValue: string): T {
             cursor: not-allowed;
         }
     }
+}
 
-    .input {
-        outline: none;
-        padding: 0;
-        border: none;
-        outline: none;
-        font-family: inherit;
+.input {
+    outline: none;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    flex-basis: 100%;
+    font-size: inherit;
+
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
         -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-
-        flex-basis: 100%;
-        font-size: inherit;
-
-        &[type='number']::-webkit-inner-spin-button,
-        &[type='number']::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        &[disabled] {
-            opacity: 1;
-        }
-
-        &::-ms-clear {
-            display: none;
-        }
+        margin: 0;
     }
 
-    .icon {
-        pointer-events: none;
-        width: 1.4em;
-        font-size: inherit;
-        transition: var(--pot-transition);
+    &[disabled] {
+        opacity: 1;
     }
+
+    &::-ms-clear {
+        display: none;
+    }
+}
+
+.icon {
+    pointer-events: none;
+    width: 1.4em;
+    font-size: inherit;
+    transition: var(--pot-transition);
 }
 </style>

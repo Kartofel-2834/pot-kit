@@ -35,11 +35,11 @@
  *
  * @return {Map} - карта перемноженных значений
  */
-@function get-scaled-value($value, $scale: 1, $round: 2px) {
-    @return round(up, calc(#{$value} * $scale), $round);
+@function get-scaled-value($value, $scale: 1, $round: 2px, $direction: up) {
+    @return round($direction, calc(#{$value} * $scale), $round);
 }
 
-@function get-scaled-sizes-map($map, $scale: 1, $round: 2px) {
+@function get-scaled-sizes-map($map, $scale: 1, $round: 2px, $direction: up) {
     $keys-list: map-keys($map);
     $result: ();
 
@@ -47,7 +47,11 @@
         $var-name: nth($keys-list, $index);
         $var-size: map-get($map, $var-name);
 
-        $result: map.set($result, $var-name, get-scaled-value($var-size, $scale, $round));
+        $result: map.set(
+            $result,
+            $var-name,
+            get-scaled-value($var-size, $scale, $round, $direction)
+        );
     }
 
     @return $result;

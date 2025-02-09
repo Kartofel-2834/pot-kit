@@ -47,12 +47,29 @@ export function useDeviceProperties<T>(
 ): TDeviceProperties<T> {
     const $deviceIs = inject<TDeviceIs>('deviceIs');
 
+    const breakpointValues = getAllBreakpointsValues();
+
     /**
-     * Объект c значениями из properties привязанными к брейкпоинтам из devices
-     *
-     * @example { size: { desktop: '56', tablet: '48' } }
+     * Объект с текущими устройство-специфическими свойствами.
      */
-    const breakpointValues = computed<TDevicePropertiesBreakpointsValues<T>>(() => {
+    const currentProperties: TDeviceProperties<T> = computed(() => {
+        return Object.entries(breakpointValues).reduce((res, data) => {
+            const property = data[0] as keyof T;
+            const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
+
+            return {
+                ...res,
+                [property]: getCurrentValue(values),
+            };
+        }, {});
+    });
+
+    /**
+     * Возвращает объект c значениями из properties привязанными к брейкпоинтам из devices
+     *
+     * @example { size: { desktop: ESize.MEDIUM, tablet: ESize.SMALL } }
+     */
+    function getAllBreakpointsValues(): TDevicePropertiesBreakpointsValues<T> {
         if (!properties || typeof properties !== 'object') return {};
 
         return Object.entries(properties).reduce((res, data) => {
@@ -65,22 +82,7 @@ export function useDeviceProperties<T>(
 
             return { ...res, [property]: getBreakpointValues(updatedValues) };
         }, {});
-    });
-
-    /**
-     * Объект с текущими устройство-специфическими свойствами.
-     */
-    const currentProperties: TDeviceProperties<T> = computed(() => {
-        return Object.entries(breakpointValues.value).reduce((res, data) => {
-            const property = data[0] as keyof T;
-            const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
-
-            return {
-                ...res,
-                [property]: getCurrentValue(values),
-            };
-        }, {});
-    });
+    }
 
     /**
      * Возвращает объект, в котором ключи - имена брейкпоинтов из devices,
@@ -127,11 +129,11 @@ export function useDeviceProperties<T>(
             return breakpointValues?.[breakpointKeys[0]] || null;
         }
 
-        const deviceIndex = ALL_DEVICES_REVERSED.indexOf($deviceIs?.device?.value);
+        const deviceIndex = ALL_DEVICES_REVERSED.indexOf($deviceIs.device.value);
 
         if (deviceIndex === -1) return null;
 
-        for (let index = deviceIndex; index < ALL_DEVICES_REVERSED.length; index++) {
+        for (let index = deviceIndex; index >= 0; index--) {
             const device = ALL_DEVICES_REVERSED[index];
             const value = breakpointValues?.[device];
 
