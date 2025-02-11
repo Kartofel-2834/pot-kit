@@ -31,6 +31,13 @@
     --pot-radius-small: 4px;
     --pot-radius-tiny: 2px;
 
+    /* Gap */
+    --pot-gap-large: var(--pot-spacer-3-200);
+    --pot-gap-big: var(--pot-spacer-2);
+    --pot-gap-medium: var(--pot-spacer-1-600);
+    --pot-gap-small: var(--pot-spacer);
+    --pot-gap-tiny: var(--pot-spacer-0-600);
+
     /* Font-size */
     --pot-font-size-0: var(--pot-spacer);
     --pot-font-size-100: var(--pot-spacer-1-200);
@@ -287,6 +294,14 @@ $pot-radius: (
     medium: var(--pot-radius-medium),
     small: var(--pot-radius-small),
     tiny: var(--pot-radius-tiny),
+);
+
+$pot-gap: (
+    large: var(--pot-gap-large),
+    big: var(--pot-gap-big),
+    medium: var(--pot-gap-medium),
+    small: var(--pot-gap-small),
+    tiny: var(--pot-gap-tiny),
 );
 
 /* Text */

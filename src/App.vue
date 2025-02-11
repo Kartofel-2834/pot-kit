@@ -2,20 +2,35 @@
     <main :class="$style.main">
         <div style="display: flex; flex-direction: column; gap: 2rem"></div>
 
-        <PotGrid :size="ESize.MEDIUM">
-            <PotInputBase placeholder="Login" />
+        <PotGrid>
+            <div>
+                {{ form.errors }}
+            </div>
 
-            <PotInputPassword placeholder="Password" />
+            <PotInputBase
+                :value="form.values.login"
+                placeholder="Login"
+                @input="form.change('login', $event)"
+            />
+
+            <PotInputPassword
+                :value="form.values.password"
+                placeholder="Password"
+                @input="form.change('password', $event)"
+            />
 
             <PotGridCell :devices="[EDevice.DESKTOP, EDevice.MOBILE]">
                 <PotInputMasked
+                    :value="form.values.phone"
                     placeholder="Phone"
                     mask="+7 ### ### ##-##"
+                    @input="form.change('phone', $event)"
                 />
             </PotGridCell>
 
             <PotRadio
                 v-model="ilmu"
+                :size="ESize.MEDIUM"
                 :specs="[1, 2, 3]"
             >
             </PotRadio>
@@ -27,7 +42,11 @@
                     :size="ESize.TINY"
                     fixed
                 >
-                    <PotButton style="width: 100%">Submit</PotButton>
+                    <PotButton
+                        style="width: 100%"
+                        @click="form.validate"
+                        >Submit</PotButton
+                    >
                 </PotTooltip>
             </PotGridCell>
         </PotGrid>
@@ -39,7 +58,7 @@
 import { ref } from 'vue';
 
 // Enums
-import { EDevice, ESize } from './enums/config';
+import { EColorTheme, EDevice, ESize } from './enums/config';
 
 // Components
 import PotGrid from './components/grid/PotGrid.vue';
@@ -51,16 +70,26 @@ import PotTooltip from './components/tooltip/PotTooltip.vue';
 import { ETooltipPosition } from './enums/components';
 import PotInputMasked from './components/input/PotInputMasked.vue';
 import PotRadio from './components/radio/PotRadio.vue';
+import { useForm, FormValidators as FV } from './composables/form';
+
+const form = useForm(
+    {
+        login: '',
+        password: '',
+        phone: '',
+        age: 1,
+    },
+    {
+        login: [FV.REQUIRED('Обязательное поле')],
+        password: [FV.REQUIRED('Обязательное поле')],
+        phone: [FV.REQUIRED('Обязательное поле')],
+    },
+);
 
 const flag = ref<boolean>(true);
 const ilmu = ref<number | null>(-123);
 const kamal = ref<string>('');
 const kurban = ref<HTMLElement | null>(null);
-
-function test(event: MouseEvent) {
-    console.log(event.target as HTMLElement);
-    kurban.value = event.target as HTMLElement;
-}
 </script>
 
 <style lang="scss" module>
@@ -72,7 +101,5 @@ function test(event: MouseEvent) {
     gap: 2rem;
     // min-width: 900vh;
     min-height: 100vh;
-
-    @include text(h0);
 }
 </style>
