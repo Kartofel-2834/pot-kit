@@ -1,6 +1,3 @@
-// Types
-import type { PathLike } from 'fs';
-
 export interface IPotKitColorThemeState {
     text: string;
     subcolor: string;
@@ -16,15 +13,12 @@ export interface IPotKitColorTheme {
 }
 
 export interface IPotKitConfig {
-    iconsPath: PathLike;
     colorThemes: Record<string, IPotKitColorTheme>;
     breakpoints: Record<string, number>;
     sizes: Record<string, number>;
 }
 
 export const potKitConfig: IPotKitConfig = {
-    iconsPath: './src/assets/icons/',
-
     breakpoints: {
         mobile: 0,
         tablet: 768,

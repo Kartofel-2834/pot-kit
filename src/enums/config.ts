@@ -34,11 +34,3 @@ export enum ESize {
     BIG = 'big',
     LARGE = 'large'
 }
-
-/* Icon */
-export enum EIcon {
-    CHECK = 'check',
-    EYE = 'eye',
-    PHONE = 'phone',
-    POT = 'pot'
-}

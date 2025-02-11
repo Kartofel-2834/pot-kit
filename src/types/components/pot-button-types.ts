@@ -1,6 +1,6 @@
 // Enums
 import type { ERadius } from "@/enums/components";
-import type { EColorTheme, EDevice, EIcon, ESize } from "@/enums/config";
+import type { EColorTheme, EDevice, ESize } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotButton
@@ -22,10 +22,10 @@ export interface IPotButtonProps {
     devices?: EDevice[];
 
     /** Иконка после текста кнопки */
-    icon?: EIcon | null;
+    icon?: string;
 
     /** Иконка до текста кнопки */
-    preicon?: EIcon | null;
+    preicon?: string;
 
     /** Если true, то длина кнопки будет равна ширине из пропа size */
     square?: boolean;

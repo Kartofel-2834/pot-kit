@@ -56,8 +56,8 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     size: ESize.MEDIUM,
     color: EColorTheme.PRIMARY,
     devices: () => ALL_DEVICES_REVERSED,
-    icon: null,
-    preicon: null,
+    icon: '',
+    preicon: '',
     square: false,
     disabled: false,
 });

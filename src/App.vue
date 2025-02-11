@@ -7,8 +7,28 @@
 
             <PotInputPassword placeholder="Password" />
 
-            <PotGridCell>
-                <PotButton style="width: 100%">Submit</PotButton>
+            <PotGridCell :devices="[EDevice.DESKTOP, EDevice.MOBILE]">
+                <PotInputMasked
+                    placeholder="Phone"
+                    mask="+7 ### ### ##-##"
+                />
+            </PotGridCell>
+
+            <PotRadio
+                v-model="ilmu"
+                :specs="[1, 2, 3]"
+            >
+            </PotRadio>
+
+            <PotGridCell :devices="[EDevice.DESKTOP, EDevice.MOBILE]">
+                <PotTooltip
+                    text="Кто нажмет тот ЛОХ"
+                    :position="ETooltipPosition.RIGHT_CENTER"
+                    :size="ESize.TINY"
+                    fixed
+                >
+                    <PotButton style="width: 100%">Submit</PotButton>
+                </PotTooltip>
             </PotGridCell>
         </PotGrid>
     </main>
@@ -19,7 +39,7 @@
 import { ref } from 'vue';
 
 // Enums
-import { ESize } from './enums/config';
+import { EDevice, ESize } from './enums/config';
 
 // Components
 import PotGrid from './components/grid/PotGrid.vue';
@@ -29,6 +49,8 @@ import PotButton from './components/button/PotButton.vue';
 import PotInputPassword from './components/input/PotInputPassword.vue';
 import PotTooltip from './components/tooltip/PotTooltip.vue';
 import { ETooltipPosition } from './enums/components';
+import PotInputMasked from './components/input/PotInputMasked.vue';
+import PotRadio from './components/radio/PotRadio.vue';
 
 const flag = ref<boolean>(true);
 const ilmu = ref<number | null>(-123);

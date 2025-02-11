@@ -1,12 +1,9 @@
-// Enums
-import { EIcon } from "@/enums/config";
-
 /**
  * Интерфейс пропсов для компонента PotIcon
  */
 export interface IPotIconProps {
     /** Название svg файла без расширения */
-    icon: EIcon;
+    icon: string;
 
     /**
      * Размер иконки в ремах * 10

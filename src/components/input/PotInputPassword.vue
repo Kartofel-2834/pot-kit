@@ -34,7 +34,7 @@
             <slot name="eye">
                 <PotIcon
                     :class="[$style.icon, 'pot-input-password__eye']"
-                    :icon="EIcon.EYE"
+                    :icon="toggleIcon"
                     @click="onTypeToggle"
                 />
             </slot>
@@ -50,9 +50,6 @@
 // Types
 import type { IPotInputPasswordProps } from '@/types/components';
 
-// Enums
-import { EIcon } from '@/enums/config';
-
 // Vue
 import { ref, defineAsyncComponent, computed } from 'vue';
 
@@ -64,7 +61,9 @@ import PotInputBase from '@/components/input/PotInputBase.vue';
 
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
-defineProps<IPotInputPasswordProps>();
+withDefaults(defineProps<IPotInputPasswordProps>(), {
+    toggleIcon: 'eye',
+});
 
 const $emit = defineEmits<{
     input: [value: string];

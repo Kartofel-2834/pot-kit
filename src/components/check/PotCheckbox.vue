@@ -32,7 +32,7 @@
 import type { IPotCheckboxProps, TCheckboxValue } from '@/types/components';
 
 // Enums
-import { EIcon, EColorTheme, ESize } from '@/enums/config';
+import { EColorTheme, ESize } from '@/enums/config';
 import { ERadius } from '@/enums/components';
 
 // Vue
@@ -54,7 +54,7 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     disabled: false,
     trueValue: true,
     falseValue: false,
-    icon: EIcon.CHECK,
+    icon: 'check',
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
     radius: ERadius.MEDIUM,

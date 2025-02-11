@@ -3,7 +3,6 @@ import type { IPotKitConfig, IPotKitColorTheme } from './pot-kit-config';
 
 // Node
 import fs from 'fs/promises';
-import path from 'path';
 
 // Types
 import type { Plugin } from "vite";
@@ -109,17 +108,12 @@ class PotKitStylesBuildPlugin {
 
 class PotKitEnumsBuildPlugin {
     static async init(config: IPotKitConfig) {
-        const asyncData = await Promise.all([
-            PotKitEnumsBuildPlugin.getIconsEnum(config.iconsPath)
-        ]);
-
         await fs.writeFile('./src/enums/config.ts', [
             `/* NOT EDIT! This file generated automatically */`,
             PotKitEnumsBuildPlugin.getColorThemesEnum(config.colorThemes),
             PotKitEnumsBuildPlugin.getDevicesEnum(config.breakpoints),
             PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints),
             PotKitEnumsBuildPlugin.getSizesEnum(config.sizes),
-            ...asyncData
         ].join('\n\n'));
     }
 
@@ -152,24 +146,6 @@ class PotKitEnumsBuildPlugin {
         }), {});
 
         return PotKitEnumsBuildPlugin.getEnum('size', sizesEnumData);
-    }
-
-    private static async getIconsEnum(iconsPath: IPotKitConfig['iconsPath']): Promise<string> {
-        const data = await fs.readdir(iconsPath); 
-        const enumData = data.reduce((res, iconFileName) => {
-            if (!/\.svg$/.test(iconFileName)) {
-                return res;
-            }
- 
-            const nameWithoutExt = path.basename(iconFileName, '.svg');
-
-            return {
-                ...res,
-                [nameWithoutExt]: nameWithoutExt
-            };
-        }, {});
-
-        return PotKitEnumsBuildPlugin.getEnum('icon', enumData);
     }
 
     /** Генерация енама */

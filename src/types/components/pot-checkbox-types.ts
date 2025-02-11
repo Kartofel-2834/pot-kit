@@ -1,6 +1,6 @@
 // Enums
 import type { ERadius } from "@/enums/components";
-import type { EDevice, EColorTheme, EIcon, ESize } from "@/enums/config";
+import type { EDevice, EColorTheme, ESize } from "@/enums/config";
 
 /**
  * Допустимый value для компонента PotCheckbox
@@ -27,7 +27,7 @@ export interface IPotCheckboxProps {
     disabled?: boolean;
 
     /** Иконка в чекбоксе, галочка по-умолчанию */
-    icon?: EIcon | null;
+    icon?: string;
 
     /** Цвет чекбокса */
     color?: EColorTheme | EColorTheme[];

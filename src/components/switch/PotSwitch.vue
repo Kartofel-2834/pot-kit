@@ -91,7 +91,7 @@ withDefaults(defineProps<IPotSwitchProps>(), {
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
     radius: ERadius.MEDIUM,
-    icon: null,
+    icon: '',
     devices: () => ALL_DEVICES_REVERSED,
 });
 

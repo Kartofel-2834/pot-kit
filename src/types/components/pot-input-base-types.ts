@@ -1,6 +1,6 @@
 // Enums
 import { ERadius } from "@/enums/components";
-import { EColorTheme, EDevice, EIcon, ESize } from "@/enums/config";
+import { EColorTheme, EDevice, ESize } from "@/enums/config";
 
 /**
  * Пропсы для компонента PotInputBase
@@ -31,10 +31,10 @@ export interface IPotInputBaseProps<T = string> {
     color?: EColorTheme | EColorTheme[] | null;
 
     /** Правая иконка */
-    icon?: EIcon | null;
+    icon?: string;
 
     /** Левая иконка */
-    preicon?: EIcon | null;
+    preicon?: string;
 
     /** Если true, то инпут будет заблокирован и не активен */
     disabled?: boolean;
