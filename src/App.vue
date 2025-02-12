@@ -4,7 +4,7 @@
 
         <PotGrid>
             <div>
-                {{ form.errors }}
+                {{ form.fullErrors }}
             </div>
 
             <PotInputBase
@@ -45,8 +45,9 @@
                     <PotButton
                         style="width: 100%"
                         @click="form.validate"
-                        >Submit</PotButton
                     >
+                        Submit
+                    </PotButton>
                 </PotTooltip>
             </PotGridCell>
         </PotGrid>
@@ -70,7 +71,10 @@ import PotTooltip from './components/tooltip/PotTooltip.vue';
 import { ETooltipPosition } from './enums/components';
 import PotInputMasked from './components/input/PotInputMasked.vue';
 import PotRadio from './components/radio/PotRadio.vue';
-import { useForm, FormValidators as FV } from './composables/form';
+import { useForm } from './composables/form';
+
+import * as yup from 'yup';
+import { z } from 'zod';
 
 const form = useForm(
     {
@@ -80,9 +84,8 @@ const form = useForm(
         age: 1,
     },
     {
-        login: [FV.REQUIRED('Обязательное поле')],
-        password: [FV.REQUIRED('Обязательное поле')],
-        phone: [FV.REQUIRED('Обязательное поле')],
+        login: yup.string().required('Kamal is required').min(5),
+        password: z.string().min(5),
     },
 );
 
