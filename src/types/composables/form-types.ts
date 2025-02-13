@@ -13,7 +13,7 @@ export type TFormFullErrorsList<T extends object> = {
 };
 
 export type TFormErrorsList<T extends object> = {
-    [field in keyof T]?: string;
+    [field in keyof T]?: TFormError;
 };
 
 export type TFormValidator<T extends object, U extends keyof T> = (

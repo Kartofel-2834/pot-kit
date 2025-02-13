@@ -77,7 +77,7 @@ export function useForm<T extends object>(
 
         if (firstError?.message) {
             // @ts-ignore
-            errors[field] = firstError.message;
+            errors[field] = { ...firstError };
         }
         
         // @ts-ignore
@@ -123,6 +123,7 @@ export function useForm<T extends object>(
         for (const field in defaultValues) {
             form[field] = defaultValues[field];
             delete errors[field];
+            delete fullErrors[field];
         }
 
         return defaultValues;
