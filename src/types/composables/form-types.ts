@@ -34,9 +34,10 @@ export type TForm<T extends object> = {
     /** Значения полей формы */
     values: ShallowReactive<T>;
 
-    /** Ошибки валидации */
+    /** Сообщения ошибок валидации */
     errors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormErrorsList<T>>>>;
 
+    /** Ошибки валидации */
     fullErrors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormFullErrorsList<T>>>>;
 
     /** Флаг указывающий на валидность фомы */
@@ -48,8 +49,14 @@ export type TForm<T extends object> = {
     /** Валидировать поле формы */
     validateField: (field: keyof T) => TFormError | null;
 
-    /** Изменить значение поля формы с последующей валидацией */
+    /**
+     * Изменить значение поля формы.
+     * Валидирует поле, если форма в strict-mode или у поля есть ошибка
+    */
     change: (field: keyof T, newValue: T[typeof field]) => T[typeof field];
+
+    /** Валидирует поле, если форма в strict-mode или у поля есть ошибка */
+    toggle: (field: keyof T) => TFormError | null;
     
     /** Изменить несколько полей формы с последующей валидацией */
     update: (payload: Partial<T>) => T;

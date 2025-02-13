@@ -1,52 +1,34 @@
 <template>
     <main :class="$style.main">
-        <PotGrid>
-            <PotInputBase
-                :value="form.values.login"
-                placeholder="Login"
-                @input="form.change('login', $event)"
-            />
-
-            <PotInputPassword
-                :value="form.values.password"
-                placeholder="Password"
-                @input="form.change('password', $event)"
-            />
-
-            <PotGridCell :devices="[EDevice.DESKTOP, EDevice.MOBILE]">
-                <PotInputMasked
-                    :value="form.values.phone"
-                    placeholder="Phone"
-                    mask="+7 ### ### ##-##"
-                    @input="form.change('phone', $event)"
+        <PotForm
+            :default-values="tazhu"
+            :validators="tazhuValidators"
+            v-slot="$form"
+            strict
+        >
+            <PotGrid>
+                <PotInputBase
+                    v-model="$form.values.login"
+                    placeholder="Login"
+                    @blur="$form.toggle('login')"
                 />
-            </PotGridCell>
 
-            <PotRadio
-                v-model="ilmu"
-                :specs="[1, 2, 3]"
-            >
-            </PotRadio>
+                <PotInputPassword
+                    :value="$form.values.password"
+                    placeholder="password"
+                    @input="$form.change('password', $event)"
+                />
 
-            <PotCheckbox v-model="flag"> Test </PotCheckbox>
+                <PotInputMasked
+                    :value="$form.values.phone"
+                    mask="+7 ### ### ##-##"
+                    placeholder="phone"
+                    @input="$form.change('phone', $event)"
+                />
 
-            <PotSwitch v-model="flag"></PotSwitch>
-
-            <PotGridCell>
-                <PotTooltip
-                    text="Кто нажмет тот ЛОХ"
-                    :position="ETooltipPosition.RIGHT_CENTER"
-                    fixed
-                >
-                    <PotButton
-                        style="width: 100%"
-                        @click="form.validate"
-                    >
-                        Submit
-                    </PotButton>
-                </PotTooltip>
-            </PotGridCell>
-        </PotGrid>
+                <PotButton @click="$form.validate"> Submit </PotButton>
+            </PotGrid>
+        </PotForm>
     </main>
 </template>
 
@@ -73,19 +55,20 @@ import * as yup from 'yup';
 import { z } from 'zod';
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
+import PotForm from './components/form/PotForm.vue';
+import { errorMessages } from 'vue/compiler-sfc';
 
-const form = useForm(
-    {
-        login: '',
-        password: '',
-        phone: '',
-        age: 1,
-    },
-    {
-        login: yup.string().required('Kamal is required').min(5),
-        password: z.string().min(5),
-    },
-);
+const tazhu = {
+    login: '',
+    password: '',
+    phone: '',
+    age: 1,
+};
+
+const tazhuValidators = {
+    login: yup.string().required('Kamal is required').min(5),
+    password: z.string().min(5),
+};
 
 const flag = ref<boolean>(true);
 const ilmu = ref<number | null>(-123);
