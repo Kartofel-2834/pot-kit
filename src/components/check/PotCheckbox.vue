@@ -36,7 +36,7 @@ import { EColorTheme, ESize } from '@/enums/config';
 import { ERadius } from '@/enums/components';
 
 // Vue
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -47,6 +47,7 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
+import type { TDeviceIs } from '@/types/composables';
 
 const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
     value: null,
@@ -66,6 +67,8 @@ const $emit = defineEmits<{
     'update:modelValue': [newValue: TCheckboxValue];
 }>();
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 /** value с поддержкой v-model */
 const currentValue = computed<TCheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
 
@@ -84,18 +87,19 @@ const properties = computed(() => {
         {
             color: $props.color,
             size: $props.size,
+            radius: $props.radius,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        ...properties.value,
         checked: isChecked.value,
         disabled: $props.disabled,
-        radius: $props.radius,
     }),
 );
 

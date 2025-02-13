@@ -11,9 +11,10 @@
 <script lang="ts" setup>
 // Types
 import type { IPotGridCell } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Vue
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
 // Composables
 import { useDeviceProperties } from '@/composables/device-properties';
@@ -28,6 +29,8 @@ const $props = withDefaults(defineProps<IPotGridCell>(), {
     devices: () => ALL_DEVICES_REVERSED,
 });
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 // Computed
 const properties = computed(() => {
     return useDeviceProperties(
@@ -36,13 +39,14 @@ const properties = computed(() => {
             row: $props.row,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 const currentStyles = computed(() => {
     return {
-        '--pot-grid-cell-col': properties.value.value.col,
-        '--pot-grid-cell-row': properties.value.value.row,
+        '--pot-grid-cell-col': properties.value.col,
+        '--pot-grid-cell-row': properties.value.row,
     };
 });
 </script>

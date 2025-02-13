@@ -12,13 +12,14 @@
 <script lang="ts" setup>
 // Types
 import type { IPotRadioElementProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { ERadius } from '@/enums/components';
 import { EColorTheme, ESize } from '@/enums/config';
 
 // Vue
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -37,6 +38,8 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     devices: () => ALL_DEVICES_REVERSED,
 });
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 /**
  * Вычисляет и возвращает свойства компонента на основе
  * брейкпоинтов и текущего размера экрана
@@ -49,13 +52,14 @@ const properties = computed(() => {
             radius: $props.radius,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        ...properties.value,
         active: $props.active,
         disabled: $props.disabled,
     }),

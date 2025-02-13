@@ -34,7 +34,7 @@
 import type { IPotButtonProps } from '@/types/components';
 
 // Vue
-import { defineAsyncComponent, computed } from 'vue';
+import { defineAsyncComponent, computed, inject } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -46,6 +46,7 @@ import { ERadius } from '@/enums/components';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import type { TDeviceIs } from '@/types/composables';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
@@ -62,6 +63,8 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     disabled: false,
 });
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 /**
  * Вычисляет и возвращает свойства компонента на основе
  * брейкпоинтов и текущего размера экрана
@@ -74,13 +77,14 @@ const properties = computed(() => {
             radius: $props.radius,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        ...properties.value,
         square: $props.square,
     }),
 );

@@ -38,6 +38,7 @@
 <script lang="ts" generic="T = string" setup>
 // Types
 import type { IPotInputBaseProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
@@ -47,7 +48,7 @@ import { ERadius } from '@/enums/components';
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Vue
-import { ref, computed, defineAsyncComponent, watch } from 'vue';
+import { ref, computed, defineAsyncComponent, watch, inject } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -72,6 +73,8 @@ const $emit = defineEmits<{
     keyup: [value: KeyboardEvent];
 }>();
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 const isFocused = ref<boolean>(false);
 const visibleValue = ref<string>('');
 
@@ -86,13 +89,14 @@ const properties = computed(() => {
             radius: $props.radius,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 /** Классы модификаторы */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        ...properties.value,
         focused: isFocused.value,
         disabled: $props.disabled,
     }),
@@ -159,7 +163,7 @@ function getParsedValue(newValue: string): T {
     display: flex;
     align-items: center;
     width: 100%;
-    border: 2px solid;
+    border-style: solid;
     cursor: text;
     background-color: inherit;
     font-weight: 400;
@@ -225,6 +229,8 @@ function getParsedValue(newValue: string): T {
         padding: 0 map-get($size, 'padding');
         gap: map-get($size, 'gap');
         font-size: map-get($size, 'text');
+
+        border-width: var(--pot-input-size-border);
 
         .input {
             height: map-get($size, 'height');

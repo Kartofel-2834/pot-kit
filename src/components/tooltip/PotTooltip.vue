@@ -2,7 +2,7 @@
     <render />
 
     <Teleport :to="to">
-        <Transition :name="properties.value.transition ?? undefined">
+        <Transition :name="properties.transition ?? undefined">
             <div
                 v-if="persistent || isVisible"
                 v-show="isVisible"
@@ -42,7 +42,7 @@ import { ESize, EColorTheme } from '@/enums/config';
 import { ERadius, ETooltipPosition } from '@/enums/components';
 
 // Vue
-import { ref, cloneVNode, watch, computed, shallowRef } from 'vue';
+import { ref, cloneVNode, watch, computed, shallowRef, inject } from 'vue';
 
 // Composables
 import { useResizeObserver } from '@/composables/resize';
@@ -51,6 +51,7 @@ import { useClassList } from '@/composables/class-list';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import type { TDeviceIs } from '@/types/composables';
 
 const emptyRect = {
     bottom: 0,
@@ -127,6 +128,8 @@ const $slots = defineSlots<{
     content: () => VNode[];
 }>();
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 const x = ref<number>(0);
 const y = ref<number>(0);
 
@@ -194,10 +197,18 @@ const properties = computed(() => {
             screenOffset: $props.screenOffset,
         },
         $props.devices,
+        $deviceIs?.device.value,
     );
 });
 
-const classList = computed(() => useClassList(properties.value.value));
+const classList = computed(() =>
+    useClassList({
+        size: properties.value.size,
+        position: properties.value.position,
+        color: properties.value.color,
+        radius: properties.value.radius,
+    }),
+);
 
 // Watchers
 watch(
@@ -245,9 +256,9 @@ watch(
     { immediate: true },
 );
 
-watch(() => properties.value.value.offset, refresh);
-watch(() => properties.value.value.screenOffset, refresh);
-watch(() => properties.value.value.position, refresh);
+watch(() => properties.value.offset, refresh);
+watch(() => properties.value.screenOffset, refresh);
+watch(() => properties.value.position, refresh);
 
 // Methods
 function setupListeners() {
@@ -314,7 +325,7 @@ function calculatePosition() {
 }
 
 function calculateX() {
-    const currentPosition = properties.value.value.position;
+    const currentPosition = properties.value.position;
 
     if (!currentPosition) {
         close();
@@ -325,7 +336,7 @@ function calculateX() {
 }
 
 function calculateY() {
-    const currentPosition = properties.value.value.position;
+    const currentPosition = properties.value.position;
 
     if (!currentPosition) {
         close();
@@ -345,7 +356,7 @@ function calculateLimitedX(somePosition: ETooltipPosition): number {
 
     const { width: tooltipWidth } = tooltipSizes.value;
 
-    const screenOffset = properties.value.value.screenOffset || 0;
+    const screenOffset = properties.value.screenOffset || 0;
     const leftLimit = screenOffset;
     const rightLimit = window.innerWidth - tooltipWidth - screenOffset;
 
@@ -375,7 +386,7 @@ function calculateLimitedY(somePosition: ETooltipPosition): number {
     const yPosition = calculateYForPosition(somePosition);
     const oppositeSide = yOppositePositions[somePosition];
 
-    const screenOffset = properties.value.value.screenOffset || 0;
+    const screenOffset = properties.value.screenOffset || 0;
     const topLimit = screenOffset;
     const bottomLimit = window.innerHeight - tooltipHeight - screenOffset;
 
@@ -428,12 +439,12 @@ function calculateXForPosition(somePosition: ETooltipPosition): number {
         case ETooltipPosition.RIGHT_END:
         case ETooltipPosition.RIGHT_START:
         case ETooltipPosition.RIGHT_CENTER:
-            return targetX + targetWidth + (properties.value.value.offset || 0);
+            return targetX + targetWidth + (properties.value.offset || 0);
 
         case ETooltipPosition.LEFT_END:
         case ETooltipPosition.LEFT_START:
         case ETooltipPosition.LEFT_CENTER:
-            return targetX - tooltipWidth - (properties.value.value.offset || 0);
+            return targetX - tooltipWidth - (properties.value.offset || 0);
     }
 }
 
@@ -445,12 +456,12 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
         case ETooltipPosition.TOP_START:
         case ETooltipPosition.TOP_END:
         case ETooltipPosition.TOP_CENTER:
-            return targetY - tooltipHeight - (properties.value.value.offset || 0);
+            return targetY - tooltipHeight - (properties.value.offset || 0);
 
         case ETooltipPosition.BOTTOM_START:
         case ETooltipPosition.BOTTOM_END:
         case ETooltipPosition.BOTTOM_CENTER:
-            return targetY + targetHeight + (properties.value.value.offset || 0);
+            return targetY + targetHeight + (properties.value.offset || 0);
 
         case ETooltipPosition.RIGHT_START:
         case ETooltipPosition.LEFT_START:

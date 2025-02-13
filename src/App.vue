@@ -1,12 +1,6 @@
 <template>
     <main :class="$style.main">
-        <div style="display: flex; flex-direction: column; gap: 2rem"></div>
-
         <PotGrid>
-            <div>
-                {{ form.fullErrors }}
-            </div>
-
             <PotInputBase
                 :value="form.values.login"
                 placeholder="Login"
@@ -30,16 +24,18 @@
 
             <PotRadio
                 v-model="ilmu"
-                :size="ESize.MEDIUM"
                 :specs="[1, 2, 3]"
             >
             </PotRadio>
 
-            <PotGridCell :devices="[EDevice.DESKTOP, EDevice.MOBILE]">
+            <PotCheckbox v-model="flag"> Test </PotCheckbox>
+
+            <PotSwitch v-model="flag"></PotSwitch>
+
+            <PotGridCell>
                 <PotTooltip
                     text="Кто нажмет тот ЛОХ"
                     :position="ETooltipPosition.RIGHT_CENTER"
-                    :size="ESize.TINY"
                     fixed
                 >
                     <PotButton
@@ -75,6 +71,8 @@ import { useForm } from './composables/form';
 
 import * as yup from 'yup';
 import { z } from 'zod';
+import PotCheckbox from './components/check/PotCheckbox.vue';
+import PotSwitch from './components/switch/PotSwitch.vue';
 
 const form = useForm(
     {
@@ -101,8 +99,5 @@ const kurban = ref<HTMLElement | null>(null);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    // min-width: 900vh;
-    min-height: 100vh;
 }
 </style>

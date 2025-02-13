@@ -14,9 +14,9 @@
             <PotRadioElement
                 :key="`PotRadioElement_${spec.value}`"
                 :tag="radioTag"
-                :color="properties.value.color"
-                :size="properties.value.size"
-                :radius="properties.value.radius"
+                :color="properties.color"
+                :size="properties.size"
+                :radius="properties.radius"
                 :disabled="disabled || spec.isDisabled"
                 :active="spec.isSelected"
                 @click="onSpecClick(spec.value, spec.isDisabled)"
@@ -30,14 +30,14 @@
 <script lang="ts" setup>
 // Types
 import type { IPotRadioProps } from '@/types/components';
-import type { TSpecValue } from '@/types/composables/specs-helper-types';
+import type { TDeviceIs, TSpecValue } from '@/types/composables';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
 import { ERadius } from '@/enums/components';
 
 // Vue
-import { computed, defineAsyncComponent } from 'vue';
+import { computed, defineAsyncComponent, inject } from 'vue';
 
 // Composables
 import { useSpecsHelper } from '@/composables/specs-helper';
@@ -69,6 +69,8 @@ const $emit = defineEmits<{
     'update:modelValue': [value: TSpecValue];
 }>();
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 // Computed
 const specsHelper = computed(() => useSpecsHelper($props));
 
@@ -82,12 +84,13 @@ const properties = computed(() => {
             color: $props.color,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 const classList = computed(() =>
     useClassList({
-        size: properties.value.value.size,
+        size: properties.value.size,
     }),
 );
 

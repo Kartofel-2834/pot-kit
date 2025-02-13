@@ -12,6 +12,7 @@
     --pot-spacer-1-800: calc(var(--pot-spacer) * 1.8);
     --pot-spacer-2: calc(var(--pot-spacer) * 2);
     --pot-spacer-2-400: calc(var(--pot-spacer) * 2.4);
+    --pot-spacer-2-800: calc(var(--pot-spacer) * 2.8);
     --pot-spacer-3: calc(var(--pot-spacer) * 3);
     --pot-spacer-3-200: calc(var(--pot-spacer) * 3.2);
     --pot-spacer-4: calc(var(--pot-spacer) * 4);
@@ -125,7 +126,7 @@
 
     /* --- COMPONENTS SIZES --- */
     /* --- PotSwitch - sizes ---*/
-    --pot-switch-size-height: var(--pot-spacer-3-200);
+    --pot-switch-size-height: var(--pot-spacer-2-400);
     --pot-switch-size-text: var(--pot-standard-size-text);
     --pot-switch-size-wrapper-padding: var(--pot-spacer-0-400);
     --pot-switch-size-label-padding: var(--pot-spacer-1-200);
@@ -138,7 +139,7 @@
     --pot-button-size-label-padding: var(--pot-spacer-1-200);
 
     /* --- PotCheckbox - sizes ---*/
-    --pot-checkbox-size-height: var(--pot-spacer-3-200);
+    --pot-checkbox-size-height: var(--pot-spacer-2-400);
     --pot-checkbox-size-text: var(--pot-standard-size-text);
 
     /* --- PotRadioElement - sizes ---*/
@@ -150,7 +151,10 @@
     --pot-link-size-text: var(--pot-standard-size-text);
 
     /* --- PotInput - sizes --- */
-    --pot-input-size-height: var(--pot-standard-size-height);
+    --pot-input-size-border: 2px;
+    --pot-input-size-height: calc(
+        var(--pot-standard-size-height) - var(--pot-input-size-border) * 2
+    );
     --pot-input-size-text: var(--pot-standard-size-text);
     --pot-input-size-padding: var(--pot-spacer-1-200);
     --pot-input-size-gap: var(--pot-spacer);

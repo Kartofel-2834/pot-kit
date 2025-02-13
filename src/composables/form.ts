@@ -140,11 +140,12 @@ export function useForm<T extends object>(
 function mapYupValidator<T extends object, U extends keyof T>(
     yupValidator: YupSchema<T[U]>
 ): TFormValidator<T, U>[] {
-    const validator = (v: T[U]) => {
+    const validator = (value: T[U]) => {
         try {
-            yupValidator.validateSync(v, {
+            yupValidator.validateSync(value, {
                 abortEarly: false
             });
+
             return null;
         } catch (err) {
             const validationError = err as YupValidationError;
@@ -162,8 +163,8 @@ function mapYupValidator<T extends object, U extends keyof T>(
 function mapZodValidator<T extends object, U extends keyof T>(
     zodValidator: ZodSchema<T[U]>
 ): TFormValidator<T, U>[] {
-    const validator = (v: T[U]) => {
-        const result = zodValidator.safeParse(v);
+    const validator = (value: T[U]) => {
+        const result = zodValidator.safeParse(value);
 
         if (result.success) {
             return null;

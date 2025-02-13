@@ -1,6 +1,5 @@
 // Types
 import type {
-    TDeviceIs,
     TDeviceProperties,
     TDevicePropertiesBreakpointsValues,
     TDevicePropertyValue,
@@ -9,14 +8,11 @@ import type {
 // Enums
 import { EDevice } from '@/enums/config';
 
-// Vue
-import { inject, computed } from 'vue';
-
 // Constants
 import { ALL_DEVICES_REVERSED } from './device-is';
 
 /**
- * Компосабл возвращающий computed свойство с значениями расчитаными на основе текущего размера экрана
+ * Компосабл возвращающий значения расчитанные на основе текущего размера экрана
  *
  * @param properties - Объект, где ключи - имена свойств, а значения - массивы значений,
  *                     соответствующих устройствам из options.devices
@@ -44,25 +40,9 @@ import { ALL_DEVICES_REVERSED } from './device-is';
 export function useDeviceProperties<T>(
     properties: T,
     devices: EDevice[] = ALL_DEVICES_REVERSED,
+    currentDevice?: EDevice | null,
 ): TDeviceProperties<T> {
-    const $deviceIs = inject<TDeviceIs>('deviceIs');
-
     const breakpointValues = getAllBreakpointsValues();
-
-    /**
-     * Объект с текущими устройство-специфическими свойствами.
-     */
-    const currentProperties: TDeviceProperties<T> = computed(() => {
-        return Object.entries(breakpointValues).reduce((res, data) => {
-            const property = data[0] as keyof T;
-            const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
-
-            return {
-                ...res,
-                [property]: getCurrentValue(values),
-            };
-        }, {});
-    });
 
     /**
      * Возвращает объект c значениями из properties привязанными к брейкпоинтам из devices
@@ -125,11 +105,11 @@ export function useDeviceProperties<T>(
     ): TDevicePropertyValue<T[keyof T]> | null {
         const breakpointKeys = Object.keys(breakpointValues) as EDevice[];
 
-        if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {
+        if (breakpointKeys.length === 1 || !currentDevice) {
             return breakpointValues?.[breakpointKeys[0]] || null;
         }
 
-        const deviceIndex = ALL_DEVICES_REVERSED.indexOf($deviceIs.device.value);
+        const deviceIndex = ALL_DEVICES_REVERSED.indexOf(currentDevice);
 
         if (deviceIndex === -1) return null;
 
@@ -148,5 +128,16 @@ export function useDeviceProperties<T>(
         return (Array.isArray(notFormattedValues) ? notFormattedValues : [notFormattedValues]);
     }
 
-    return currentProperties;
+    /**
+     * Объект с текущими устройство-специфическими свойствами.
+     */
+    return Object.entries(breakpointValues).reduce((res, data) => {
+        const property = data[0] as keyof T;
+        const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
+
+        return {
+            ...res,
+            [property]: getCurrentValue(values),
+        };
+    }, {});
 }

@@ -11,12 +11,13 @@
 <script lang="ts" setup>
 // Types
 import type { IPotGridProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { EGap } from '@/enums/components/EGap';
 
 // Vue
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
 // Composables
 import { useDeviceProperties } from '@/composables/device-properties';
@@ -36,6 +37,8 @@ const $props = withDefaults(defineProps<IPotGridProps>(), {
     devices: () => ALL_DEVICES_REVERSED,
 });
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 // Computed
 const properties = computed(() => {
     return useDeviceProperties(
@@ -48,26 +51,26 @@ const properties = computed(() => {
             gap: $props.gap,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 const classList = computed(() =>
     useClassList({
-        gap: typeof properties.value.value.gap === 'string' ? properties.value.value.gap : null,
+        gap: typeof properties.value.gap === 'string' ? properties.value.gap : null,
     }),
 );
 
 const currentStyles = computed(() => {
-    const gap =
-        typeof properties.value.value.gap === 'number' ? `${properties.value.value.gap}px` : null;
+    const gap = typeof properties.value.gap === 'number' ? `${properties.value.gap}px` : null;
 
     return {
         '--pot-grid-gap': gap,
-        '--pot-grid-columns': formatNumberToFr(properties.value.value.cols),
-        '--pot-grid-rows': formatNumberToFr(properties.value.value.rows),
-        '--pot-grid-flow': properties.value.value.flow,
-        '--pot-grid-auto-row': properties.value.value.autoRows,
-        '--pot-grid-auto-col': properties.value.value.autoCols,
+        '--pot-grid-columns': formatNumberToFr(properties.value.cols),
+        '--pot-grid-rows': formatNumberToFr(properties.value.rows),
+        '--pot-grid-flow': properties.value.flow,
+        '--pot-grid-auto-row': properties.value.autoRows,
+        '--pot-grid-auto-col': properties.value.autoCols,
     };
 });
 

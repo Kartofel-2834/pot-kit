@@ -28,12 +28,13 @@
 <script lang="ts" setup>
 // Types
 import type { IPotLinkProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { EColorTheme } from '@/enums/config';
 
 // Vue
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, inject } from 'vue';
 
 // Components
 import { computed } from 'vue';
@@ -64,6 +65,8 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
     devices: () => ALL_DEVICES_REVERSED,
 });
 
+const $deviceIs = inject<TDeviceIs>('deviceIs');
+
 /**
  * Вычисляет и возвращает свойства компонента на основе
  * брейкпоинтов и текущего размера экрана
@@ -75,13 +78,14 @@ const properties = computed(() => {
             size: $props.size,
         },
         $props.devices,
+        $deviceIs?.device?.value,
     );
 });
 
 /** Классы модификаторы компонента */
 const classList = computed(() =>
     useClassList({
-        ...properties.value.value,
+        ...properties.value,
         disabled: $props.disabled,
         underline: $props.underline,
         active: $props.active,
