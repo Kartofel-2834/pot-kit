@@ -10,8 +10,10 @@ import { ERadius } from '@/enums/components';
  */
 export interface IPotRadioProps<
     T extends TSpecValue,
-    U extends TSpec = TSpecValue
-> extends ISpecsProps<T, U> {
+    L extends string,
+    V extends string,
+    S extends T | TSpec<T, L, V>
+> extends ISpecsProps<T, L, V, S> {
     /** HTML-тег радио-листа. По умолчанию - 'ul' */
     tag?: string;
 

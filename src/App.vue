@@ -73,11 +73,12 @@
                     <PotRadio
                         :value="$form.values.age"
                         :specs="[
-                            { value: 1, label: 'adun' },
+                            { value: 1, label: 'adun', test: 22 },
                             { value: 2, label: 'daun' },
                         ]"
+                        value-name="value"
+                        label-name="label"
                         invalid
-                        value-name="label"
                         @change="$field.change"
                     />
                 </PotFormField>

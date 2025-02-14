@@ -28,7 +28,11 @@
     </component>
 </template>
 
-<script lang="ts" generic="T extends TSpecValue, U extends TSpec = TSpecValue" setup>
+<script
+    lang="ts"
+    generic="T extends TSpecValue, L extends string, V extends string, S extends T | TSpec<T, L, V>"
+    setup
+>
 // Types
 import type { IPotRadioProps } from '@/types/components';
 import type { TDeviceIs, TSpecValue, TSpec } from '@/types/composables';
@@ -51,7 +55,7 @@ const PotRadioElement = defineAsyncComponent(
     () => import('@/components/radio/PotRadioElement.vue'),
 );
 
-const $props = withDefaults(defineProps<IPotRadioProps<T, U>>(), {
+const $props = withDefaults(defineProps<IPotRadioProps<T, L, V, S>>(), {
     tag: 'ul',
     radioTag: 'li',
     value: null,

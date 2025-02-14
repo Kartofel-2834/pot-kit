@@ -34,19 +34,21 @@ import { computed } from 'vue';
  */
 export function useSpecsHelper<
     T extends TSpecValue,
-    U extends TSpec = TSpecValue
+    L extends string,
+    V extends string,
+    S extends T | TSpec<T, L, V>
 >({
     specs = [],
     facets = null,
     value = null,
     modelValue = null,
-    labelName = 'label',
-    valueName = 'value',
+    labelName = 'label' as L,
+    valueName = 'value' as V,
 
     trueLabel = 'Да',
     falseLabel = 'Нет',
     resetLabel = 'Все',
-}: ISpecsHelperOptions<T, U>): TSpecsHelper<T, U> {
+}: ISpecsHelperOptions<T, L, V, S>): TSpecsHelper<T, L, V, S> {
     const currentValue = computed<T | T[] | null>(() => value ?? modelValue);
 
     /**
@@ -61,7 +63,7 @@ export function useSpecsHelper<
      * Если значения спека нет в `facets`, то он задизейблен.
      * Проверку по наличию в `facets` можно отключить передав в `facets` null.
      */
-    function checkIsDisabled(spec: U): boolean {
+    function checkIsDisabled(spec: S): boolean {
         if (facets === null) return false;
 
         const specValue = getSpecValue(spec);
@@ -78,14 +80,14 @@ export function useSpecsHelper<
      *
      * @returns Логическое значение, указывающее на то выбран спек или нет.
      */
-    function checkIsSelected(spec: U): boolean {
+    function checkIsSelected(spec: S): boolean {
         if (checkIsDisabled(spec)) return false;
 
         const value = getSpecValue(spec);
 
         if (!Array.isArray(currentValue.value)) return value === currentValue.value;
 
-        return currentValue.value.includes(value as T);
+        return value !== null && currentValue.value.includes(value);
     }
 
     /**
@@ -97,13 +99,11 @@ export function useSpecsHelper<
      * @description функция используется в основном для определения является ли сам спек значением
      * или же значение нужно извлечь из него по ключу `valueName`
      */
-    function checkIsValueValid(possibleValue: unknown): TSpecValue | undefined {
+    function checkIsValueValid(possibleValue: unknown): boolean {
         return (
             ['string', 'number', 'boolean'].includes(typeof possibleValue) ||
             possibleValue === null
-        )
-            ? possibleValue as TSpecValue
-            : undefined;
+        );
     }
 
     /**
@@ -116,18 +116,20 @@ export function useSpecsHelper<
      * - Если `spec` является объектом и содержит действительное значение, она рекурсивно вызывается с этим значением.
      * - Если ни одно из вышеперечисленных условий не выполняется, возвращается null.
      */
-    function getSpecValue(spec: U): T {
-        const specAsValue = checkIsValueValid(spec);
+    function getSpecValue(spec: S): T | null {
+        const isSpecAValue = checkIsValueValid(spec);
 
-        if (specAsValue !== undefined) {
-            return specAsValue as T;
-        }
+        if (isSpecAValue) {
+            return spec as T;
+        } 
 
-        if (typeof spec !== 'object' || spec === null) return null as T;
+        if (typeof spec !== 'object' || spec === null) return null;
 
-        if (!checkIsValueValid(spec[valueName])) return null as T;
+        const value = (spec as TSpec<T, L, V>)[valueName];
 
-        return spec[valueName] as T;
+        if (!checkIsValueValid(value)) return null;
+
+        return value as T;
     }
 
     /**
@@ -143,22 +145,25 @@ export function useSpecsHelper<
      * - Если `spec` является объектом, то получаем значение по `labelName` и применяем к нему первые 3 пункта.
      * - Если ни одно из вышеперечисленных условий не выполняется, возвращается пустая строка.
      */
-    function getSpecLabel(spec: TSpec): string {
+    function getSpecLabel(spec: unknown): string {
         if (['string', 'number'].includes(typeof spec)) return `${spec}`;
 
         if (typeof spec === 'boolean') return spec ? trueLabel : falseLabel;
 
         if (spec === null) return resetLabel;
 
-        if (typeof spec !== 'object' || !checkIsValueValid(spec[labelName])) return '';
+        if (typeof spec !== 'object') return '';
 
-        return getSpecLabel(spec[labelName] as TSpec);
+        const label = (spec as TSpec<T, L, V>)[labelName]; 
+
+        return getSpecLabel(label);
     }
+
 
     /**
      * Хелпер-функция для получения выбранного спека
      */
-    function getCurrentSpec(): U | null {
+    function getCurrentSpec(): S | null {
         return specs.find(checkIsSelected) || null;
     }
 
@@ -169,7 +174,7 @@ export function useSpecsHelper<
      *
      * @returns Список обновленных спеков с состоянием.
      */
-    function getModifiedSpecs(specsArg = specs): TModifiedSpec<T, U>[] {
+    function getModifiedSpecs(specsArg = specs): TModifiedSpec<T, S>[] {
         return specsArg.map(spec => ({
             target: spec,
             value: getSpecValue(spec) as T,
