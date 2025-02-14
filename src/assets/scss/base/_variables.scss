@@ -120,6 +120,13 @@
     --pot-color-yellow-300: #f6bf26;
     --pot-color-yellow-400: #c49308;
 
+    --pot-color-invalid-100: var(--pot-color-red-100);
+    --pot-color-invalid-200: var(--pot-color-red-200);
+    --pot-color-invalid-300: var(--pot-color-red-300);
+    --pot-color-invalid-400: var(--pot-color-red-400);
+    --pot-color-invalid: var(--pot-color-invalid-300);
+    --pot-color-invalid-text: var(--pot-base-0);
+
     /* --- Sizes --- */
     --pot-standard-size-height: var(--pot-spacer-4);
     --pot-standard-size-text: var(--pot-font-size-400);

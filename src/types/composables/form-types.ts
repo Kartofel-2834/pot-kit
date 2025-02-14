@@ -41,7 +41,7 @@ export type TForm<T extends object> = {
     fullErrors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormFullErrorsList<T>>>>;
 
     /** Флаг указывающий на валидность фомы */
-    isValid: ComputedRef<boolean>;
+    valid: ComputedRef<boolean>;
 
     /** Валидировать всю форму */
     validate: () => boolean;
@@ -53,7 +53,7 @@ export type TForm<T extends object> = {
      * Изменить значение поля формы.
      * Валидирует поле, если форма в strict-mode или у поля есть ошибка
     */
-    change: (field: keyof T, newValue: T[typeof field]) => T[typeof field];
+    change: <U extends keyof T>(field: U, newValue: T[U]) => T[U];
 
     /** Валидирует поле, если форма в strict-mode или у поля есть ошибка */
     toggle: (field: keyof T) => TFormError | null;

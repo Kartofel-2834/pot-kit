@@ -56,7 +56,7 @@ export function useForm<T extends object>(
     const fullErrors = shallowReactive<TFormFullErrorsList<T>>({});
     const errors = shallowReactive<TFormErrorsList<T>>({});
 
-    const isValid = computed<boolean>(() => !Object.values(errors).some(Boolean));
+    const valid = computed<boolean>(() => !Object.values(errors).some(Boolean));
 
     function validateField(field: keyof T): TFormError | null {
         const validatorsList = preparedValidators[field] || [];
@@ -133,7 +133,7 @@ export function useForm<T extends object>(
         values: form,
         errors: readonly(errors),
         fullErrors: readonly(fullErrors),
-        isValid,
+        valid,
         toggle,
         change,
         update,

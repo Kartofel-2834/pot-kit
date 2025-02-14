@@ -13,3 +13,4 @@ export * from './pot-tooltip-types';
 export * from './pot-grid-types';
 export * from './pot-grid-cell-types';
 export * from './pot-form-types';
+export * from './pot-form-field-types';

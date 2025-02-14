@@ -5,26 +5,77 @@
             :validators="tazhuValidators"
             v-slot="$form"
             strict
+            @change="tazhu = $event"
         >
             <PotGrid>
-                <PotInputBase
-                    v-model="$form.values.login"
-                    placeholder="Login"
-                    @blur="$form.toggle('login')"
-                />
+                <!-- Login -->
+                <PotFormField
+                    :form="$form"
+                    field="login"
+                    v-slot="$field"
+                >
+                    <PotInputBase
+                        :value="$form.values.login"
+                        placeholder="Login"
+                        @input="$field.change"
+                    />
+                </PotFormField>
 
-                <PotInputPassword
-                    :value="$form.values.password"
-                    placeholder="password"
-                    @input="$form.change('password', $event)"
-                />
+                <!-- Password -->
+                <PotFormField
+                    :form="$form"
+                    field="password"
+                    v-slot="$field"
+                >
+                    <PotInputPassword
+                        v-model="$form.values.password"
+                        placeholder="password"
+                        @blur="$field.toggle"
+                    />
+                </PotFormField>
 
-                <PotInputMasked
-                    :value="$form.values.phone"
-                    mask="+7 ### ### ##-##"
-                    placeholder="phone"
-                    @input="$form.change('phone', $event)"
-                />
+                <!-- Phone -->
+                <PotFormField
+                    :form="$form"
+                    field="phone"
+                    v-slot="$field"
+                >
+                    <PotInputMasked
+                        :value="$form.values.phone"
+                        mask="+7 ### ### ##-##"
+                        placeholder="phone"
+                        @input="$field.change"
+                    />
+                </PotFormField>
+
+                <!-- Married -->
+                <PotFormField
+                    :form="$form"
+                    field="married"
+                    v-slot="$field"
+                >
+                    <PotCheckbox
+                        :value="$form.values.married"
+                        :invalid="!$field.valid"
+                        @change="$field.change"
+                    >
+                        Kamal {{ $field.error?.message }}
+                    </PotCheckbox>
+                </PotFormField>
+
+                <!-- Age -->
+                <PotFormField
+                    :form="$form"
+                    field="age"
+                    v-slot="$field"
+                >
+                    <PotRadio
+                        :value="$form.values.age"
+                        :specs="[1, 2, 3]"
+                        invalid
+                        @change="$field.change"
+                    />
+                </PotFormField>
 
                 <PotButton @click="$form.validate"> Submit </PotButton>
             </PotGrid>
@@ -52,22 +103,26 @@ import PotRadio from './components/radio/PotRadio.vue';
 import { useForm } from './composables/form';
 
 import * as yup from 'yup';
-import { z } from 'zod';
+import { boolean, z } from 'zod';
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
 import PotForm from './components/form/PotForm.vue';
-import { errorMessages } from 'vue/compiler-sfc';
+import PotFormField from './components/form/PotFormField.vue';
+import { format } from 'path';
+import { EGap } from './enums/components/EGap';
 
-const tazhu = {
+const tazhu = ref({
     login: '',
     password: '',
     phone: '',
     age: 1,
-};
+    married: false,
+});
 
 const tazhuValidators = {
     login: yup.string().required('Kamal is required').min(5),
     password: z.string().min(5),
+    married: yup.bool().not([false], 'You must be married'),
 };
 
 const flag = ref<boolean>(true);
@@ -82,5 +137,6 @@ const kurban = ref<HTMLElement | null>(null);
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
 }
 </style>

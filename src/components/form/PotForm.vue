@@ -1,5 +1,8 @@
 <template>
-    <component :is="tag">
+    <component
+        :is="tag"
+        class="pot-form"
+    >
         <slot v-bind="{ ...formHelper }" />
     </component>
 </template>

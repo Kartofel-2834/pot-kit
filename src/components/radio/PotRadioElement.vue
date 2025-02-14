@@ -35,6 +35,7 @@ const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     radius: ERadius.CIRCLE,
     active: false,
     disabled: false,
+    invalid: false,
     devices: () => ALL_DEVICES_REVERSED,
 });
 
@@ -62,6 +63,7 @@ const classList = computed(() =>
         ...properties.value,
         active: $props.active,
         disabled: $props.disabled,
+        invalid: $props.invalid,
     }),
 );
 </script>
@@ -88,6 +90,20 @@ const classList = computed(() =>
 
         &::before {
             background-color: var(--pot-radio-marker-point-color);
+        }
+    }
+
+    @include modificator(invalid) {
+        color: inherit;
+
+        .marker {
+            border-color: var(--pot-color-invalid);
+            background-color: transparent;
+            color: var(--pot-color-invalid);
+
+            &::before {
+                background-color: var(--pot-color-invalid-text);
+            }
         }
     }
     /* --- Colors - END --- */

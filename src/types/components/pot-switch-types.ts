@@ -42,3 +42,10 @@ export interface IPotSwitchProps {
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];
 }
+
+export interface IPotSwitchSlots {
+    default: () => unknown;
+    'true-content': () => unknown;
+    'false-content': () => unknown;
+}
+

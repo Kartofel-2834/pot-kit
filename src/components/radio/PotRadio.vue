@@ -18,6 +18,7 @@
                 :size="properties.size"
                 :radius="properties.radius"
                 :disabled="disabled || spec.isDisabled"
+                :invalid="invalid"
                 :active="spec.isSelected"
                 @click="onSpecClick(spec.value, spec.isDisabled)"
             >
@@ -62,6 +63,7 @@ const $props = withDefaults(defineProps<IPotRadioProps>(), {
     size: ESize.MEDIUM,
     radius: ERadius.CIRCLE,
     disabled: false,
+    invalid: false,
 });
 
 const $emit = defineEmits<{

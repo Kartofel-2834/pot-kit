@@ -27,7 +27,7 @@
     </label>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" generic="T extends TCheckboxValue = boolean" setup>
 // Types
 import type { IPotCheckboxProps, TCheckboxValue } from '@/types/components';
 
@@ -49,12 +49,13 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 import PotIcon from '@/components/icon/PotIcon.vue';
 import type { TDeviceIs } from '@/types/composables';
 
-const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
-    value: null,
-    modelValue: null,
+const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
+    value: undefined,
+    modelValue: undefined,
+    trueValue: undefined,
+    falseValue: undefined,
     disabled: false,
-    trueValue: true,
-    falseValue: false,
+    invalid: false,
     icon: 'check',
     color: EColorTheme.PRIMARY,
     size: ESize.MEDIUM,
@@ -63,20 +64,23 @@ const $props = withDefaults(defineProps<IPotCheckboxProps>(), {
 });
 
 const $emit = defineEmits<{
-    change: [newValue: TCheckboxValue];
-    'update:modelValue': [newValue: TCheckboxValue];
+    change: [newValue: T | boolean];
+    'update:modelValue': [newValue: T | boolean];
 }>();
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
 
 /** value с поддержкой v-model */
-const currentValue = computed<TCheckboxValue>(() => $props.value ?? $props.modelValue ?? null);
+const currentValue = computed<T | null>(() => $props.value ?? $props.modelValue ?? null);
 
 /**
  * Чекбокс считается выбранным,
  * если его текущее значение равно свойству `trueValue`.
  */
-const isChecked = computed<boolean>(() => currentValue.value === $props.trueValue);
+const isChecked = computed<boolean>(() => {
+    const currentTrueValue = $props.trueValue === undefined ? true : $props.trueValue;
+    return currentValue.value === currentTrueValue;
+});
 
 /**
  * Вычисляет и возвращает свойства компонента на основе
@@ -99,13 +103,21 @@ const classList = computed(() =>
     useClassList({
         ...properties.value,
         checked: isChecked.value,
+        invalid: $props.invalid,
         disabled: $props.disabled,
     }),
 );
 
 function onChange(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const updatedValue = target.checked ? $props.trueValue : $props.falseValue;
+
+    let updatedValue: T | boolean;
+
+    if (target.checked) {
+        updatedValue = $props.trueValue === undefined ? true : $props.trueValue;
+    } else {
+        updatedValue = $props.falseValue === undefined ? false : $props.falseValue;
+    }
 
     $emit('change', updatedValue);
     $emit('update:modelValue', updatedValue);
@@ -138,6 +150,24 @@ function onChange(event: Event): void {
             background-color: var(--pot-checkbox-checked-background-color);
             border-color: var(--pot-checkbox-checked-border-color);
             color: var(--pot-checkbox-checked-icon-color);
+        }
+    }
+
+    @include modificator(invalid) {
+        color: var(--pot-color-invalid);
+
+        .iconWrapper {
+            background-color: transparent;
+            border-color: var(--pot-color-invalid);
+            color: var(--pot-color-invalid-text);
+        }
+
+        @include modificator(checked) {
+            .iconWrapper {
+                background-color: var(--pot-color-invalid);
+                border-color: var(--pot-color-invalid);
+                color: var(--pot-color-invalid-text);
+            }
         }
     }
     /* --- Colors - END --- */

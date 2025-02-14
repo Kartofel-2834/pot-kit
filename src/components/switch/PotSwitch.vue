@@ -61,8 +61,7 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotSwitchProps } from '@/types/components/pot-switch-types';
-import type { TCheckboxValue } from '@/types/components';
+import type { IPotSwitchProps, IPotSwitchSlots } from '@/types/components/pot-switch-types';
 
 // Enums
 import { ERadius } from '@/enums/components';
@@ -76,6 +75,7 @@ import { defineAsyncComponent } from 'vue';
 
 // Components
 import PotCheckbox from '@/components/check/PotCheckbox.vue';
+import type { TCheckboxValue } from '@/types/components';
 
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
@@ -95,11 +95,7 @@ withDefaults(defineProps<IPotSwitchProps>(), {
     devices: () => ALL_DEVICES_REVERSED,
 });
 
-defineSlots<{
-    default: () => unknown;
-    'true-content': () => unknown;
-    'false-content': () => unknown;
-}>();
+defineSlots<IPotSwitchSlots>();
 
 const $emit = defineEmits<{
     change: [newValue: TCheckboxValue];

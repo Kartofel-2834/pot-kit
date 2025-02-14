@@ -1,5 +1,5 @@
 // Types
-import type { RendererElement } from "vue";
+import type { RendererElement, VNode } from "vue";
 
 // Enums
 import { EColorTheme, ESize, EDevice } from "@/enums/config";
@@ -59,4 +59,11 @@ export interface IPotTooltipProps {
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];
+}
+
+
+/** Интерфейс слотов для компонента PotTooltip */
+export interface IPotTooltipSlots {
+    default: () => VNode[];
+    content: () => VNode[];
 }

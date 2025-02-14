@@ -10,21 +10,24 @@ export type TCheckboxValue = string | number | boolean | null;
 /**
  * Интерфейс пропсов для компонента PotCheckbox
  */
-export interface IPotCheckboxProps {
+export interface IPotCheckboxProps<T extends TCheckboxValue> {
     /** Текущее значение чекбокса */
-    value?: TCheckboxValue;
+    value?: T;
 
     /** Текущее значение чекбокса */
-    modelValue?: TCheckboxValue;
+    modelValue?: T;
 
     /** Если чекбокс в состоянии checked, то value = trueValue */
-    trueValue?: TCheckboxValue;
+    trueValue?: T;
 
     /** Если чекбокс не в состоянии checked, то value = falseValue */
-    falseValue?: TCheckboxValue;
+    falseValue?: T;
 
     /** Если true, то чекбокс будет задизейблен */
     disabled?: boolean;
+
+    /** Если true, то чекбокс будет невалиден */
+    invalid?: boolean;
 
     /** Иконка в чекбоксе, галочка по-умолчанию */
     icon?: string;

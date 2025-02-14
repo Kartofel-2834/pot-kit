@@ -34,8 +34,8 @@
 
 <script lang="ts" setup>
 // Types
-import type { VNode } from 'vue';
-import type { IPotTooltipProps } from '@/types/components';
+import type { IPotTooltipProps, IPotTooltipSlots } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { ESize, EColorTheme } from '@/enums/config';
@@ -51,7 +51,6 @@ import { useClassList } from '@/composables/class-list';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-import type { TDeviceIs } from '@/types/composables';
 
 const emptyRect = {
     bottom: 0,
@@ -123,10 +122,7 @@ const $emit = defineEmits<{
     close: [];
 }>();
 
-const $slots = defineSlots<{
-    default: () => VNode[];
-    content: () => VNode[];
-}>();
+const $slots = defineSlots<IPotTooltipSlots>();
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
 

@@ -29,4 +29,7 @@ export interface IPotRadioProps extends ISpecsProps {
 
     /** Если true, то список будет заблокирован и не активен */
     disabled?: boolean;
+
+    /** Если true, то список будет невалиден */
+    invalid?: boolean;
 }

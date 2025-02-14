@@ -23,4 +23,7 @@ export interface IPotRadioElementProps {
 
     /** Если true, то элемент списка будет заблокирован и не активен */
     disabled?: boolean;
+
+    /** Если true, то элемент списка будет невалиден */
+    invalid?: boolean;
 }
