@@ -2,9 +2,9 @@
 import type {
     TSpecsHelper,
     ISpecsHelperOptions,
-    TSpec,
     TSpecValue,
     TModifiedSpec,
+    TSpec,
 } from '@/types/composables';
 
 // Vue
@@ -32,7 +32,10 @@ import { computed } from 'vue';
  * - getCurrentSpec - возвращает выбранный спек.
  * - getModifiedSpecs - возвращает спеки с их текущим состоянием
  */
-export function useSpecsHelper({
+export function useSpecsHelper<
+    T extends TSpecValue,
+    U extends TSpec = TSpecValue
+>({
     specs = [],
     facets = null,
     value = null,
@@ -43,8 +46,8 @@ export function useSpecsHelper({
     trueLabel = 'Да',
     falseLabel = 'Нет',
     resetLabel = 'Все',
-}: ISpecsHelperOptions): TSpecsHelper {
-    const currentValue = computed<TSpecValue | TSpecValue[]>(() => value ?? modelValue);
+}: ISpecsHelperOptions<T, U>): TSpecsHelper<T, U> {
+    const currentValue = computed<T | T[] | null>(() => value ?? modelValue);
 
     /**
      * Хелпер-функция для определения, задизейблен ли спек.
@@ -58,7 +61,7 @@ export function useSpecsHelper({
      * Если значения спека нет в `facets`, то он задизейблен.
      * Проверку по наличию в `facets` можно отключить передав в `facets` null.
      */
-    function checkIsDisabled(spec: TSpec): boolean {
+    function checkIsDisabled(spec: U): boolean {
         if (facets === null) return false;
 
         const specValue = getSpecValue(spec);
@@ -75,14 +78,14 @@ export function useSpecsHelper({
      *
      * @returns Логическое значение, указывающее на то выбран спек или нет.
      */
-    function checkIsSelected(spec: TSpec): boolean {
+    function checkIsSelected(spec: U): boolean {
         if (checkIsDisabled(spec)) return false;
 
         const value = getSpecValue(spec);
 
         if (!Array.isArray(currentValue.value)) return value === currentValue.value;
 
-        return currentValue.value.includes(value);
+        return currentValue.value.includes(value as T);
     }
 
     /**
@@ -94,10 +97,13 @@ export function useSpecsHelper({
      * @description функция используется в основном для определения является ли сам спек значением
      * или же значение нужно извлечь из него по ключу `valueName`
      */
-    function checkIsValueValid(possibleValue: unknown): boolean {
+    function checkIsValueValid(possibleValue: unknown): TSpecValue | undefined {
         return (
-            ['string', 'number', 'boolean'].includes(typeof possibleValue) || possibleValue === null
-        );
+            ['string', 'number', 'boolean'].includes(typeof possibleValue) ||
+            possibleValue === null
+        )
+            ? possibleValue as TSpecValue
+            : undefined;
     }
 
     /**
@@ -110,14 +116,18 @@ export function useSpecsHelper({
      * - Если `spec` является объектом и содержит действительное значение, она рекурсивно вызывается с этим значением.
      * - Если ни одно из вышеперечисленных условий не выполняется, возвращается null.
      */
-    function getSpecValue(spec: TSpec): TSpecValue {
-        if (checkIsValueValid(spec)) return spec as TSpecValue;
+    function getSpecValue(spec: U): T {
+        const specAsValue = checkIsValueValid(spec);
 
-        if (typeof spec !== 'object' || spec === null) return null;
+        if (specAsValue !== undefined) {
+            return specAsValue as T;
+        }
 
-        if (!checkIsValueValid(spec[valueName])) return null;
+        if (typeof spec !== 'object' || spec === null) return null as T;
 
-        return spec[valueName] as TSpecValue;
+        if (!checkIsValueValid(spec[valueName])) return null as T;
+
+        return spec[valueName] as T;
     }
 
     /**
@@ -142,13 +152,13 @@ export function useSpecsHelper({
 
         if (typeof spec !== 'object' || !checkIsValueValid(spec[labelName])) return '';
 
-        return getSpecLabel(spec[labelName] as TSpecValue);
+        return getSpecLabel(spec[labelName] as TSpec);
     }
 
     /**
      * Хелпер-функция для получения выбранного спека
      */
-    function getCurrentSpec(): TSpec {
+    function getCurrentSpec(): U | null {
         return specs.find(checkIsSelected) || null;
     }
 
@@ -159,10 +169,10 @@ export function useSpecsHelper({
      *
      * @returns Список обновленных спеков с состоянием.
      */
-    function getModifiedSpecs(specsArg = specs): TModifiedSpec[] {
+    function getModifiedSpecs(specsArg = specs): TModifiedSpec<T, U>[] {
         return specsArg.map(spec => ({
             target: spec,
-            value: getSpecValue(spec),
+            value: getSpecValue(spec) as T,
             label: getSpecLabel(spec),
             isDisabled: checkIsDisabled(spec),
             isSelected: checkIsSelected(spec),
@@ -170,7 +180,7 @@ export function useSpecsHelper({
     }
 
     return {
-        currentValue,
+        currentValue: currentValue,
         checkIsDisabled,
         checkIsSelected,
         checkIsValueValid,

@@ -28,10 +28,10 @@
     </component>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" generic="T extends TSpecValue, U extends TSpec = TSpecValue" setup>
 // Types
 import type { IPotRadioProps } from '@/types/components';
-import type { TDeviceIs, TSpecValue } from '@/types/composables';
+import type { TDeviceIs, TSpecValue, TSpec } from '@/types/composables';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
@@ -51,7 +51,7 @@ const PotRadioElement = defineAsyncComponent(
     () => import('@/components/radio/PotRadioElement.vue'),
 );
 
-const $props = withDefaults(defineProps<IPotRadioProps>(), {
+const $props = withDefaults(defineProps<IPotRadioProps<T, U>>(), {
     tag: 'ul',
     radioTag: 'li',
     value: null,
@@ -67,8 +67,8 @@ const $props = withDefaults(defineProps<IPotRadioProps>(), {
 });
 
 const $emit = defineEmits<{
-    change: [value: TSpecValue];
-    'update:modelValue': [value: TSpecValue];
+    change: [value: T];
+    'update:modelValue': [value: T];
 }>();
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
@@ -97,7 +97,7 @@ const classList = computed(() =>
 );
 
 // Methods
-function onSpecClick(specValue: TSpecValue, isDisabled: boolean): void {
+function onSpecClick(specValue: T, isDisabled: boolean): void {
     if ($props.disabled || isDisabled) return;
 
     $emit('change', specValue);

@@ -7,9 +7,12 @@ export type TSpecValue = string | number | boolean | null;
 export type TSpec = Record<string, unknown> | TSpecValue;
 
 /** Модифицированный спек с состоянием */
-export type TModifiedSpec = {
-    target: TSpec;
-    value: TSpecValue;
+export type TModifiedSpec<
+    T extends TSpecValue,
+    U extends TSpec = TSpecValue
+> = {
+    target: U;
+    value: T;
     label: string;
     isDisabled: boolean;
     isSelected: boolean;
@@ -17,43 +20,37 @@ export type TModifiedSpec = {
 
 /**
  * Интерфейс пропсов для компонентов использующих фасетный поиск
- *
- * @property {TSpec[]} [specs] - 
- * @property {TSpecValue[] | null} [facets] - 
- *                                           
- * @property {TSpecValue} [value] - Значение выбранного спека
- * @property {TSpecValue} [modelValue] - То же, что и `value`, добавлен для удобства использования
- *                                      
- * @property {string} [labelName] - ключ по которому будет извлекаться label из спека, если спек объект.
- * @property {string} [valueName] - ключ по которому будет извлекаться значение из спека, если спек объект.
  */
-export interface ISpecsProps {
+export interface ISpecsProps<T extends TSpecValue, U extends TSpec = TSpecValue> {
     /** Массив объектов или значений доступных для выбора и называемых спеками */
-    specs?: TSpec[];
+    specs?: U[];
 
     /** Массив значений спеков доступных для выбора, если есть спек значения, которого нет в `facets`, то он будет задизейблен */
-    facets?: TSpecValue[] | null;
+    facets?: T[] | null;
 
     /** Значение выбранного спека */
-    value?: TSpecValue | TSpecValue[];
+    value?: T | T[] | null;
 
     /**
      * То же, что и `value`, добавлен для удобства использования
      * компосабла в компонентах поддерживающих v-model
     */
-    modelValue?: TSpecValue | TSpecValue[];
+    modelValue?: T | T[] | null;
 
     /** Ключ по которому будет извлекаться label из спека, если спек объект */
-    labelName?: string;
+    labelName?: U extends object ? keyof U : undefined;
 
     /** Ключ по которому будет извлекаться значение из спека, если спек объект */
-    valueName?: string;
+    valueName?: U extends object ? keyof U : undefined;
 }
 
 /**
  * Интерфейс options компосабла для фасетного поиска
  */
-export interface ISpecsHelperOptions extends ISpecsProps {
+export interface ISpecsHelperOptions<
+    T extends TSpecValue,
+    U extends TSpec = TSpecValue
+> extends ISpecsProps<T, U> {
     /** Дефолтный label для true-спека */
     trueLabel?: string;
 
@@ -64,28 +61,31 @@ export interface ISpecsHelperOptions extends ISpecsProps {
     resetLabel?: string;
 }
 
-export type TSpecsHelper = {
+export type TSpecsHelper<
+    T extends TSpecValue,
+    U extends TSpec = TSpecValue
+> = {
     /** Выбранное значение */
-    currentValue: ComputedRef<TSpecValue | TSpecValue[]>;
+    currentValue: ComputedRef<T | T[] | null>;
 
     /** Проверяет, задизейблен ли спек */
-    checkIsDisabled(spec: TSpec): boolean;
+    checkIsDisabled(spec: U): boolean;
 
     /** Проверяет, выбран ли спек */
-    checkIsSelected(spec: TSpec): boolean;
+    checkIsSelected(spec: U): boolean;
 
     /** Проверяет, валидно ли значение спека */
-    checkIsValueValid(possibleValue: unknown): boolean;
+    checkIsValueValid(possibleValue: unknown): TSpecValue | undefined;
 
     /** Возвращает значение спека */
-    getSpecValue(spec: TSpec): TSpecValue;
+    getSpecValue(spec: U): T | null;
 
     /** Возвращает label спека */
-    getSpecLabel: (spec: TSpec) => string;
+    getSpecLabel: (spec: U) => string;
 
     /** Возвращает выбранный спек */
-    getCurrentSpec(): TSpec;
+    getCurrentSpec(): U | null;
 
     /** Возвращает спеки с их текущим состоянием */
-    getModifiedSpecs(specsArg?: TSpec[]): TModifiedSpec[];
+    getModifiedSpecs(specsArg?: U[]): TModifiedSpec<T, U>[];
 };

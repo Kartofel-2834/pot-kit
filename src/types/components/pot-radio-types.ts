@@ -1,5 +1,5 @@
 // Types
-import type { ISpecsProps } from '@/types/composables/specs-helper-types';
+import type { ISpecsProps, TSpec, TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
 import { EDevice, EColorTheme, ESize } from '@/enums/config';
@@ -8,7 +8,10 @@ import { ERadius } from '@/enums/components';
 /**
  * Интерфейс пропсов для компонента PotRadio
  */
-export interface IPotRadioProps extends ISpecsProps {
+export interface IPotRadioProps<
+    T extends TSpecValue,
+    U extends TSpec = TSpecValue
+> extends ISpecsProps<T, U> {
     /** HTML-тег радио-листа. По умолчанию - 'ul' */
     tag?: string;
 

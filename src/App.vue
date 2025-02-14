@@ -64,6 +64,7 @@
                 </PotFormField>
 
                 <!-- Age -->
+                {{ $form.values }}
                 <PotFormField
                     :form="$form"
                     field="age"
@@ -71,8 +72,12 @@
                 >
                     <PotRadio
                         :value="$form.values.age"
-                        :specs="[1, 2, 3]"
+                        :specs="[
+                            { value: 1, label: 'adun' },
+                            { value: 2, label: 'daun' },
+                        ]"
                         invalid
+                        value-name="label"
                         @change="$field.change"
                     />
                 </PotFormField>
@@ -108,7 +113,6 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
 import PotForm from './components/form/PotForm.vue';
 import PotFormField from './components/form/PotFormField.vue';
-import { format } from 'path';
 import { EGap } from './enums/components/EGap';
 
 const tazhu = ref({
