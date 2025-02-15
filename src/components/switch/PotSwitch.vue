@@ -198,7 +198,7 @@ const $emit = defineEmits<{
     display: grid;
     width: 100%;
     height: 0;
-    transition: var(--pot-transition);
+    transition: background-color var(--pot-transition);
     border-radius: var(--pot-radius-circle);
 }
 
