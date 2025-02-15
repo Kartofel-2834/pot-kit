@@ -27,9 +27,10 @@
     </label>
 </template>
 
-<script lang="ts" generic="T extends TCheckboxValue = boolean" setup>
+<script lang="ts" generic="T extends TSpecValue = boolean" setup>
 // Types
-import type { IPotCheckboxProps, TCheckboxValue } from '@/types/components';
+import type { TSpecValue } from '@/types/composables';
+import type { IPotCheckboxProps } from '@/types/components';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
@@ -128,6 +129,7 @@ function onChange(event: Event): void {
 .PotCheckbox {
     display: flex;
     align-items: center;
+    width: fit-content;
     gap: 0.4em;
     font-size: inherit;
     font-weight: 400;

@@ -33,6 +33,9 @@ export interface IPotInputNumberProps {
     /** Если true, то инпут будет заблокирован и не активен */
     disabled?: boolean;
 
+    /** Если true, то инпут будет невалиден */
+    invalid?: boolean;
+
     /** Длина дробной части  */
     precision?: number;
 

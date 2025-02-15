@@ -10,6 +10,7 @@
         :radius="radius"
         :preicon="preicon"
         :disabled="disabled"
+        :invalid="invalid"
         :parser="parser"
         :formatter="formatter"
         @keydown="onKeyDown"

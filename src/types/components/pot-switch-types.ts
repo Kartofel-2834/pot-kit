@@ -1,22 +1,22 @@
 // Types
-import type { TCheckboxValue } from "./pot-checkbox-types";
+import type { TSpecValue } from "../composables";
 
 // Enums
 import type { ERadius } from "@/enums/components";
 import type { EDevice, EColorTheme, ESize } from "@/enums/config";
 
-export interface IPotSwitchProps {
+export interface IPotSwitchProps<T extends TSpecValue> {
     /** Текущее значение переключателя */
-    value?: TCheckboxValue;
+    value?: T;
 
     /** Текущее значение переключателя */
-    modelValue?: TCheckboxValue;
+    modelValue?: T;
 
     /** Если переключатель в состоянии checked, то value = trueValue */
-    trueValue?: TCheckboxValue;
+    trueValue?: T;
 
     /** Если переключатель не в состоянии checked, то value = falseValue */
-    falseValue?: TCheckboxValue;
+    falseValue?: T;
 
     /** Контент переключателя в активном состоянии */
     trueLabel?: string;

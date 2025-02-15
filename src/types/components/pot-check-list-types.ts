@@ -1,5 +1,5 @@
 // Types
-import type { ISpecsHelperOptions, TSpecValue } from '@/types/composables/specs-helper-types';
+import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
@@ -8,15 +8,20 @@ import { ERadius } from '@/enums/components';
 /**
  * Интерфейс пропсов для компонента PotCheckList
  */
-export interface IPotCheckListProps extends ISpecsHelperOptions {
+export interface IPotCheckListProps<
+    S extends object,
+    L extends keyof S,
+    V extends keyof S,
+    T extends S[V] & TSpecValue
+> extends ISpecsProps<S, L, V, T> {
     /** HTML-тег чек-листа. По умолчанию - 'div' */
     tag?: string;
 
     /** Список выбранных значений */
-    value?: TSpecValue[];
+    value?: T[];
 
     /** То же, что и `value`, добавлен для поддержки v-model */
-    modelValue?: TSpecValue[];
+    modelValue?: T[];
 
     /** Если true, то список будет заблокирован и не активен */
     disabled?: boolean;

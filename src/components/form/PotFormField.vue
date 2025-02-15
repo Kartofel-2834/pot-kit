@@ -7,10 +7,18 @@
             :error="error"
             :errors-list="errorsList"
             :valid="!error"
+            :invalid="Boolean(error)"
             :change="change"
             :toggle="toggle"
             :validate="validate"
         />
+
+        <div
+            v-if="error"
+            :class="[$style.error, 'pot-form-field__error']"
+        >
+            {{ error?.message }}
+        </div>
     </component>
 </template>
 
@@ -57,3 +65,13 @@ function validate() {
     return $props.form.validateField($props.field);
 }
 </script>
+
+<style lang="scss" module>
+.error {
+    padding-top: 0.4em;
+    color: var(--pot-color-invalid);
+    font-size: inherit;
+    pointer-events: none;
+    user-select: none;
+}
+</style>

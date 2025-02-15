@@ -36,6 +36,9 @@ export interface IPotInputMaskedProps<T = string> {
     /** Если true, то инпут будет заблокирован и не активен */
     disabled?: boolean;
 
+    /** Если true, то инпут будет невалиден */
+    invalid?: boolean;
+
     /** Маска для видимого значения инпута */
     mask: string;
 

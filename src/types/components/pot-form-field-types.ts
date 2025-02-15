@@ -18,6 +18,9 @@ export interface IPotFormFieldDefaultSlotArgs<T extends object, U extends keyof 
     /** Флаг указывающий на валидность поля */
     valid: boolean;
 
+    /** Флаг указывающий на инвалидность поля */
+    invalid: boolean;
+
     /**
      * Изменить значение поля формы.
      * Валидирует поле, если форма в strict-mode или у поля есть ошибка

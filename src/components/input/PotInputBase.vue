@@ -62,6 +62,7 @@ const $props = withDefaults(defineProps<IPotInputBaseProps<T>>(), {
     color: EColorTheme.PRIMARY,
     radius: ERadius.MEDIUM,
     disabled: false,
+    invalid: false,
     devices: () => ALL_DEVICES_REVERSED,
 });
 
@@ -99,6 +100,7 @@ const classList = computed(() =>
         ...properties.value,
         focused: isFocused.value,
         disabled: $props.disabled,
+        invalid: $props.invalid,
     }),
 );
 
@@ -200,7 +202,7 @@ function getParsedValue(newValue: string): T {
         }
     }
 
-    @include exclude-modificators(disabled) {
+    @include exclude-modificator(disabled) {
         @include modificator(focused) {
             color: var(--pot-input-focused-text-color);
             border-color: var(--pot-input-focused-border-color);
@@ -212,6 +214,22 @@ function getParsedValue(newValue: string): T {
 
             .icon {
                 color: var(--pot-input-focused-icon-color);
+            }
+        }
+
+        @include modificator(invalid) {
+            border-color: var(--pot-color-invalid);
+
+            .icon {
+                color: var(--pot-color-invalid);
+            }
+
+            @include modificator(focused) {
+                border-color: var(--pot-color-invalid);
+
+                .icon {
+                    color: var(--pot-color-invalid);
+                }
             }
         }
     }

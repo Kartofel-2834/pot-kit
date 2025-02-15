@@ -1,13 +1,13 @@
 <template>
     <PotCheckbox
-        :value="value"
-        :model-value="modelValue"
+        :value="$props.value"
+        :model-value="$props.modelValue"
         :class="[$style.PotSwitch, 'pot-switch']"
         :size="size"
         :color="color"
         :radius="radius"
-        :true-value="trueValue"
-        :false-value="falseValue"
+        :true-value="$props.trueValue"
+        :false-value="$props.falseValue"
         :disabled="disabled"
         @change="$emit('change', $event)"
         @update:model-value="$emit('update:modelValue', $event)"
@@ -59,9 +59,10 @@
     </PotCheckbox>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" generic="T extends TSpecValue = boolean" setup>
 // Types
 import type { IPotSwitchProps, IPotSwitchSlots } from '@/types/components/pot-switch-types';
+import type { TSpecValue } from '@/types/composables';
 
 // Enums
 import { ERadius } from '@/enums/components';
@@ -75,17 +76,12 @@ import { defineAsyncComponent } from 'vue';
 
 // Components
 import PotCheckbox from '@/components/check/PotCheckbox.vue';
-import type { TCheckboxValue } from '@/types/components';
 
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
-withDefaults(defineProps<IPotSwitchProps>(), {
-    value: null,
-    modelValue: null,
+const $props = withDefaults(defineProps<IPotSwitchProps<T>>(), {
     fixed: false,
     disabled: false,
-    trueValue: true,
-    falseValue: false,
     trueLabel: '',
     falseLabel: '',
     color: EColorTheme.PRIMARY,
@@ -98,8 +94,8 @@ withDefaults(defineProps<IPotSwitchProps>(), {
 defineSlots<IPotSwitchSlots>();
 
 const $emit = defineEmits<{
-    change: [newValue: TCheckboxValue];
-    'update:modelValue': [newValue: TCheckboxValue];
+    change: [newValue: T | boolean];
+    'update:modelValue': [newValue: T | boolean];
 }>();
 </script>
 
@@ -170,7 +166,7 @@ const $emit = defineEmits<{
         }
 
         .content {
-            padding: map-get($size, 'wrapper-padding') map-get($size, 'content-padding');
+            padding: 0 map-get($size, 'content-padding');
         }
 
         .trueContent {
@@ -181,7 +177,7 @@ const $emit = defineEmits<{
             margin-left: $ball-size;
         }
 
-        @include exclude-modificators(checked) {
+        @include exclude-modificator(checked) {
             .line {
                 transform: translateX(calc(-100% + map-get($size, 'height')));
             }

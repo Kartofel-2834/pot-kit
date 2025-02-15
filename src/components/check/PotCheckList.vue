@@ -51,7 +51,11 @@
     </component>
 </template>
 
-<script lang="ts" setup>
+<script
+    lang="ts"
+    generic="S extends object, L extends keyof S, V extends keyof S, T extends S[V] & TSpecValue"
+    setup
+>
 // Types
 import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
@@ -69,7 +73,7 @@ import { useSpecsHelper } from '@/composables/specs-helper';
 // Components
 const PotCheckBox = defineAsyncComponent(() => import('@/components/check/PotCheckbox.vue'));
 
-const $props = withDefaults(defineProps<IPotCheckListProps>(), {
+const $props = withDefaults(defineProps<IPotCheckListProps<S, L, V, T>>(), {
     tag: 'div',
     specs: () => [],
     facets: null,
@@ -82,15 +86,15 @@ const $props = withDefaults(defineProps<IPotCheckListProps>(), {
 });
 
 const $emit = defineEmits<{
-    change: [value: TSpecValue[]];
-    'update:modelValue': [value: TSpecValue[]];
+    change: [value: T[]];
+    'update:modelValue': [value: T[]];
 }>();
 
 // Computed
 const specsHelper = computed(() => useSpecsHelper($props));
 const updatedSpecs = computed(() => specsHelper.value.getModifiedSpecs());
 
-const currentValue = computed<TSpecValue[]>(() => $props.value || $props.modelValue || []);
+const currentValue = computed<T[]>(() => $props.value || $props.modelValue || []);
 const isAllSelected = computed(() => {
     if (!$props.resetable) return false;
 
@@ -98,19 +102,21 @@ const isAllSelected = computed(() => {
 });
 
 // Methods
-function onCheckboxChange(specValue: TSpecValue): void {
+function onCheckboxChange(specValue: T | null): void {
+    if (specValue === null) {
+        const specValue = isAllSelected.value
+            ? []
+            : updatedSpecs.value.filter(spec => !spec.isDisabled).map(spec => spec.value);
+
+        $emit('change', specValue);
+        $emit('update:modelValue', specValue);
+        return;
+    }
+
     let updatedValue = [...currentValue.value];
     const index = updatedValue.indexOf(specValue);
 
-    if (specValue === null && isAllSelected.value) {
-        updatedValue = [];
-    } else if (specValue === null) {
-        const availableSpecs = updatedSpecs.value.filter(
-            spec => !specsHelper.value.checkIsDisabled(spec),
-        );
-
-        updatedValue = availableSpecs.map(specsHelper.value.getSpecValue);
-    } else if (index >= 0) {
+    if (index >= 0) {
         updatedValue.splice(index, 1);
     } else {
         updatedValue.push(specValue);

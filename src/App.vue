@@ -1,14 +1,15 @@
 <template>
     <main :class="$style.main">
         <PotForm
-            :default-values="tazhu"
-            :validators="tazhuValidators"
+            :default-values="registrationForm"
+            :validators="registrationFormValidators"
             v-slot="$form"
-            strict
-            @change="tazhu = $event"
+            @change="registrationForm = $event"
         >
             <PotGrid>
-                <!-- Login -->
+                <h2>Регистрация</h2>
+
+                <!-- Логие -->
                 <PotFormField
                     :form="$form"
                     field="login"
@@ -16,25 +17,27 @@
                 >
                     <PotInputBase
                         :value="$form.values.login"
-                        placeholder="Login"
+                        :invalid="$field.invalid"
+                        placeholder="Логин"
                         @input="$field.change"
                     />
                 </PotFormField>
 
-                <!-- Password -->
+                <!-- Пароль -->
                 <PotFormField
                     :form="$form"
                     field="password"
                     v-slot="$field"
                 >
                     <PotInputPassword
-                        v-model="$form.values.password"
-                        placeholder="password"
-                        @blur="$field.toggle"
+                        :value="$form.values.password"
+                        :invalid="$field.invalid"
+                        placeholder="Пароль"
+                        @input="$field.change"
                     />
                 </PotFormField>
 
-                <!-- Phone -->
+                <!-- Телефон -->
                 <PotFormField
                     :form="$form"
                     field="phone"
@@ -42,13 +45,29 @@
                 >
                     <PotInputMasked
                         :value="$form.values.phone"
+                        :invalid="$field.invalid"
                         mask="+7 ### ### ##-##"
-                        placeholder="phone"
+                        placeholder="Номер телефона"
                         @input="$field.change"
                     />
                 </PotFormField>
 
-                <!-- Married -->
+                <!-- Пол -->
+                <PotFormField
+                    :form="$form"
+                    field="sex"
+                    v-slot="$field"
+                >
+                    <PotRadio
+                        :value="$form.values.sex"
+                        :specs="sex"
+                        :invalid="$field.invalid"
+                        value-name="id"
+                        @change="$field.change"
+                    />
+                </PotFormField>
+
+                <!-- Брак -->
                 <PotFormField
                     :form="$form"
                     field="married"
@@ -56,34 +75,33 @@
                 >
                     <PotCheckbox
                         :value="$form.values.married"
-                        :invalid="!$field.valid"
+                        :invalid="$field.invalid"
                         @change="$field.change"
                     >
-                        Kamal {{ $field.error?.message }}
+                        В браке
                     </PotCheckbox>
                 </PotFormField>
 
-                <!-- Age -->
-                {{ $form.values }}
+                <!-- Ментальное здоровье -->
                 <PotFormField
                     :form="$form"
-                    field="age"
+                    field="mentalHealth"
                     v-slot="$field"
                 >
-                    <PotRadio
-                        :value="$form.values.age"
-                        :specs="[
-                            { value: 1, label: 'adun', test: 22 },
-                            { value: 2, label: 'daun' },
-                        ]"
-                        value-name="value"
-                        label-name="label"
-                        invalid
+                    <PotSwitch
+                        :value="$form.values.mentalHealth"
+                        true-label="Я здоровый человек"
+                        false-label="Я гей"
                         @change="$field.change"
                     />
                 </PotFormField>
 
-                <PotButton @click="$form.validate"> Submit </PotButton>
+                <PotButton
+                    :disabled="!$form.valid.value"
+                    @click="$form.validate"
+                >
+                    Зарегистрироваться
+                </PotButton>
             </PotGrid>
         </PotForm>
     </main>
@@ -93,47 +111,52 @@
 // Vue
 import { ref } from 'vue';
 
-// Enums
-import { EColorTheme, EDevice, ESize } from './enums/config';
+// Libraries
+import * as yup from 'yup';
+import { z } from 'zod';
 
 // Components
 import PotGrid from './components/grid/PotGrid.vue';
 import PotInputBase from './components/input/PotInputBase.vue';
-import PotGridCell from './components/grid/PotGridCell.vue';
 import PotButton from './components/button/PotButton.vue';
 import PotInputPassword from './components/input/PotInputPassword.vue';
-import PotTooltip from './components/tooltip/PotTooltip.vue';
-import { ETooltipPosition } from './enums/components';
 import PotInputMasked from './components/input/PotInputMasked.vue';
 import PotRadio from './components/radio/PotRadio.vue';
-import { useForm } from './composables/form';
-
-import * as yup from 'yup';
-import { boolean, z } from 'zod';
 import PotCheckbox from './components/check/PotCheckbox.vue';
-import PotSwitch from './components/switch/PotSwitch.vue';
 import PotForm from './components/form/PotForm.vue';
 import PotFormField from './components/form/PotFormField.vue';
-import { EGap } from './enums/components/EGap';
+import PotSwitch from './components/switch/PotSwitch.vue';
 
-const tazhu = ref({
+interface IRegistrationForm {
+    login: string;
+    password: string;
+    phone: string;
+    sex: 'male' | 'female' | null;
+    married: boolean;
+    mentalHealth: boolean;
+}
+
+const registrationForm = ref<IRegistrationForm>({
     login: '',
     password: '',
     phone: '',
-    age: 1,
+    sex: 'female',
     married: false,
+    mentalHealth: true,
 });
 
-const tazhuValidators = {
-    login: yup.string().required('Kamal is required').min(5),
-    password: z.string().min(5),
-    married: yup.bool().not([false], 'You must be married'),
+const registrationFormValidators = {
+    login: yup.string().required('Обязательное поле').min(5, 'Логин должен быть длинее 5 символов'),
+    password: z.string().min(10, 'Пароль должен быть длинее 10 символов'),
+    married: yup.bool().not([false], 'Ты должен жениться!'),
+    sex: yup.string().not(['female'], 'Неверный пол'),
+    mentalHealth: yup.bool().not([false], 'Лечись!'),
 };
 
-const flag = ref<boolean>(true);
-const ilmu = ref<number | null>(-123);
-const kamal = ref<string>('');
-const kurban = ref<HTMLElement | null>(null);
+const sex = ref([
+    { id: 'male', label: 'Мужской' },
+    { id: 'female', label: 'Женский' },
+]);
 </script>
 
 <style lang="scss" module>

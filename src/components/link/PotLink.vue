@@ -142,8 +142,8 @@ const currentLink = computed<string | null>(() => {
         background-color: var(--pot-link-underline-color);
     }
 
-    @include exclude-modificators(disabled) {
-        @include exclude-modificators(active) {
+    @include exclude-modificator(disabled) {
+        @include exclude-modificator(active) {
             &:not(:active):hover {
                 color: var(--pot-link-hover-text-color);
 
@@ -172,7 +172,7 @@ const currentLink = computed<string | null>(() => {
         }
     }
 
-    @include exclude-modificators(disabled) {
+    @include exclude-modificator(disabled) {
         @include modificator(active) {
             color: var(--pot-link-active-text-color);
 
@@ -206,7 +206,7 @@ const currentLink = computed<string | null>(() => {
             content: '';
         }
 
-        @include exclude-modificators(disabled) {
+        @include exclude-modificator(disabled) {
             &:hover {
                 &:after {
                     transform: translateY(100%) scaleX(1);

@@ -30,12 +30,12 @@
 
 <script
     lang="ts"
-    generic="T extends TSpecValue, L extends string, V extends string, S extends T | TSpec<T, L, V>"
+    generic="S extends object, L extends keyof S, V extends keyof S, T extends S[V] & TSpecValue"
     setup
 >
 // Types
 import type { IPotRadioProps } from '@/types/components';
-import type { TDeviceIs, TSpecValue, TSpec } from '@/types/composables';
+import type { TDeviceIs, TSpecValue } from '@/types/composables';
 
 // Enums
 import { EColorTheme, ESize } from '@/enums/config';
@@ -48,6 +48,8 @@ import { computed, defineAsyncComponent, inject } from 'vue';
 import { useSpecsHelper } from '@/composables/specs-helper';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+
+// Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
@@ -55,7 +57,7 @@ const PotRadioElement = defineAsyncComponent(
     () => import('@/components/radio/PotRadioElement.vue'),
 );
 
-const $props = withDefaults(defineProps<IPotRadioProps<T, L, V, S>>(), {
+const $props = withDefaults(defineProps<IPotRadioProps<S, L, V, T>>(), {
     tag: 'ul',
     radioTag: 'li',
     value: null,

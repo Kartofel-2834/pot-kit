@@ -118,9 +118,13 @@
     }
 }
 
-@mixin exclude-modificators($modificators-list) {
-    @each $modificator in $modificators-list {
-        &:not(:global(._#{$modificator})) {
+@mixin exclude-modificator($name, $value: null) {
+    @if $value != null {
+        &:not(:global(._#{$name}-#{$value})) {
+            @content;
+        }
+    } @else {
+        &:not(:global(._#{$name})) {
             @content;
         }
     }

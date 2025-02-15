@@ -133,10 +133,10 @@
 
     /* --- COMPONENTS SIZES --- */
     /* --- PotSwitch - sizes ---*/
-    --pot-switch-size-height: var(--pot-spacer-2-400);
-    --pot-switch-size-text: var(--pot-standard-size-text);
+    --pot-switch-size-height: var(--pot-spacer-3-200);
+    --pot-switch-size-text: var(--pot-font-size-400);
     --pot-switch-size-wrapper-padding: var(--pot-spacer-0-400);
-    --pot-switch-size-label-padding: var(--pot-spacer-1-200);
+    --pot-switch-size-label-padding: var(--pot-spacer);
 
     /* --- PotButton - sizes ---*/
     --pot-button-size-height: var(--pot-standard-size-height);

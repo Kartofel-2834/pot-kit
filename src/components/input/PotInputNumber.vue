@@ -9,6 +9,7 @@
         :icon="icon"
         :preicon="preicon"
         :disabled="disabled"
+        :invalid="invalid"
         :parser="parser"
         :formatter="formatter"
         :min="min"

@@ -9,6 +9,7 @@
         :icon="icon"
         :preicon="preicon"
         :disabled="disabled"
+        :invalid="invalid"
         :parser="parser"
         :formatter="formatter"
         :type="inputType"
@@ -97,6 +98,14 @@ function onTypeToggle(event: Event) {
     @include modificator(type, 'text') {
         .icon {
             color: var(--pot-input-focused-icon-color);
+        }
+    }
+
+    @include modificator(invalid) {
+        @include modificator(type, 'text') {
+            .icon {
+                color: var(--pot-color-invalid);
+            }
         }
     }
     /* --- Colors - END --- */

@@ -1,10 +1,9 @@
 // Types
 import type {
     TSpecsHelper,
-    ISpecsHelperOptions,
     TSpecValue,
     TModifiedSpec,
-    TSpec,
+    ISpecsProps,
 } from '@/types/composables';
 
 // Vue
@@ -33,10 +32,10 @@ import { computed } from 'vue';
  * - getModifiedSpecs - возвращает спеки с их текущим состоянием
  */
 export function useSpecsHelper<
-    T extends TSpecValue,
-    L extends string,
-    V extends string,
-    S extends T | TSpec<T, L, V>
+    S extends object,
+    L extends keyof S,
+    V extends keyof S,
+    T extends S[V] & TSpecValue
 >({
     specs = [],
     facets = null,
@@ -44,11 +43,8 @@ export function useSpecsHelper<
     modelValue = null,
     labelName = 'label' as L,
     valueName = 'value' as V,
-
-    trueLabel = 'Да',
-    falseLabel = 'Нет',
     resetLabel = 'Все',
-}: ISpecsHelperOptions<T, L, V, S>): TSpecsHelper<T, L, V, S> {
+}: ISpecsProps<S, L, V, T>): TSpecsHelper<S, T> {
     const currentValue = computed<T | T[] | null>(() => value ?? modelValue);
 
     /**
@@ -94,10 +90,8 @@ export function useSpecsHelper<
      * Хелпер-функция для проверки, является ли значение спека допустимым.
      *
      * @param possibleValue - проверяемое значение спека.
+     * 
      * @returns Логическое значение, указывающее, является ли значение спека допустимым.
-     *
-     * @description функция используется в основном для определения является ли сам спек значением
-     * или же значение нужно извлечь из него по ключу `valueName`
      */
     function checkIsValueValid(possibleValue: unknown): boolean {
         return (
@@ -111,21 +105,18 @@ export function useSpecsHelper<
      *
      * @param spec - Спек, из которого необходимо получить значение.
      *
-     * @returns
-     * - Если `spec` является действительным значением (строкой, числом, логическим значением или null), оно возвращается как есть.
-     * - Если `spec` является объектом и содержит действительное значение, она рекурсивно вызывается с этим значением.
-     * - Если ни одно из вышеперечисленных условий не выполняется, возвращается null.
+     * @returns Значение спека полученное по valueName,
+     * если значение не найдено, то вовзращает null
      */
     function getSpecValue(spec: S): T | null {
-        const isSpecAValue = checkIsValueValid(spec);
-
-        if (isSpecAValue) {
-            return spec as T;
-        } 
-
         if (typeof spec !== 'object' || spec === null) return null;
 
-        const value = (spec as TSpec<T, L, V>)[valueName];
+        const value = spec[valueName];
+
+        if (value === undefined) {
+            console.warn('[useSpecsHelper/getSpecValue]: failed to get spec value by valueName', spec, valueName);
+            return null;
+        }
 
         if (!checkIsValueValid(value)) return null;
 
@@ -139,26 +130,24 @@ export function useSpecsHelper<
      *
      * @returns
      * Эта функция проверяет тип спека и возвращает соответствующий label на основе следующих правил:
-     * - Если `spec` является строкой или числом, он возвращается как строка.
-     * - Если `spec` является логическим значением, возвращается `trueLabel` или `falseLabel` соответственно.
      * - Если `spec` равен null, возвращается `resetLabel`.
-     * - Если `spec` является объектом, то получаем значение по `labelName` и применяем к нему первые 3 пункта.
+     * - Если `spec` является объектом, то получаем значение по `labelName`.
      * - Если ни одно из вышеперечисленных условий не выполняется, возвращается пустая строка.
      */
-    function getSpecLabel(spec: unknown): string {
-        if (['string', 'number'].includes(typeof spec)) return `${spec}`;
-
-        if (typeof spec === 'boolean') return spec ? trueLabel : falseLabel;
-
+    function getSpecLabel(spec: S): string {
         if (spec === null) return resetLabel;
 
         if (typeof spec !== 'object') return '';
 
-        const label = (spec as TSpec<T, L, V>)[labelName]; 
+        const label = spec[labelName];
+        
+        if (label === undefined) {
+            console.warn('[useSpecsHelper/getSpecLabel]: failed to get spec label by labelName', spec, valueName);
+            return '';
+        }
 
-        return getSpecLabel(label);
+        return label ? String(label) : '';
     }
-
 
     /**
      * Хелпер-функция для получения выбранного спека
