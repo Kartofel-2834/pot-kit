@@ -1,6 +1,6 @@
 <template>
     <component
-        :class="[$style.PotLink, 'pot-link', classList]"
+        :class="['pot-link', classList]"
         :is="tag"
         :target="currentTarget"
         :[toAttribute]="currentLink"
@@ -8,8 +8,8 @@
         <slot name="preicon">
             <PotIcon
                 v-if="preicon"
-                :class="[$style.icon, 'pot-link__icon', 'pot-link__icon_pre']"
                 :icon="preicon"
+                class="pot-link__icon pot-link__icon_pre"
             />
         </slot>
 
@@ -18,8 +18,8 @@
         <slot name="icon">
             <PotIcon
                 v-if="icon"
-                :class="[$style.icon, 'pot-link__icon', 'pot-link__icon_post']"
                 :icon="icon"
+                class="pot-link__icon pot-link__icon_post"
             />
         </slot>
     </component>
@@ -119,8 +119,8 @@ const currentLink = computed<string | null>(() => {
 });
 </script>
 
-<style lang="scss" module>
-.PotLink {
+<style lang="scss">
+.pot-link {
     position: relative;
     display: flex;
     align-items: center;
@@ -242,10 +242,10 @@ const currentLink = computed<string | null>(() => {
             background-color var(--pot-transition),
             transform var(--pot-transition);
     }
+}
 
-    .icon {
-        flex-shrink: 0;
-        width: 1em;
-    }
+.pot-link__icon {
+    flex-shrink: 0;
+    width: 1em;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotCheckList, 'pot-check-list']"
+        class="pot-check-list"
     >
         <!-- Чекбокс для выбора всех значений сразу -->
         <slot
@@ -127,8 +127,8 @@ function onCheckboxChange(specValue: T | null): void {
 }
 </script>
 
-<style lang="scss" module>
-.PotCheckList {
+<style lang="scss">
+.pot-check-list {
     display: flex;
     gap: 2rem;
 }

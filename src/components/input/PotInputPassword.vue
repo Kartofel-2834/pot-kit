@@ -1,6 +1,6 @@
 <template>
     <PotInputBase
-        :class="[$style.PotInputPassword, 'pot-input-password', classList]"
+        :class="['pot-input-password', classList]"
         :model-value="modelValue"
         :value="value"
         :devices="devices"
@@ -34,8 +34,8 @@
         <template #append>
             <slot name="eye">
                 <PotIcon
-                    :class="[$style.icon, 'pot-input-password__eye']"
                     :icon="toggleIcon"
+                    class="pot-input-password__toggle-icon"
                     @click="onTypeToggle"
                 />
             </slot>
@@ -88,22 +88,22 @@ function onTypeToggle(event: Event) {
 }
 </script>
 
-<style lang="scss" module>
-.PotInputPassword {
+<style lang="scss">
+.pot-input-password {
     /* --- Colors - START --- */
-    .icon {
+    .pot-input-password__toggle-icon {
         color: var(--pot-input-icon-color);
     }
 
     @include modificator(type, 'text') {
-        .icon {
+        .pot-input-password__toggle-icon {
             color: var(--pot-input-focused-icon-color);
         }
     }
 
     @include modificator(invalid) {
         @include modificator(type, 'text') {
-            .icon {
+            .pot-input-password__toggle-icon {
                 color: var(--pot-color-invalid);
             }
         }
@@ -111,7 +111,7 @@ function onTypeToggle(event: Event) {
     /* --- Colors - END --- */
 }
 
-.icon {
+.pot-input-password__toggle-icon {
     width: 1.4em;
     font-size: inherit;
     cursor: pointer;

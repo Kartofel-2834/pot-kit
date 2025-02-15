@@ -1,6 +1,5 @@
 <template>
     <PotInputBase
-        :class="[$style.PotInputNumber, 'pot-input-number']"
         :model-value="modelValue"
         :value="value"
         :devices="devices"
@@ -14,6 +13,7 @@
         :formatter="formatter"
         :min="min"
         :max="max"
+        class="pot-input-number"
         type="number"
         @input="$emit('input', $event as number)"
         @change="$emit('change', $event as number)"
@@ -139,9 +139,3 @@ function formatter(value: unknown): string {
     return String(value);
 }
 </script>
-
-<style lang="scss" module>
-.PotInputNumber {
-    //
-}
-</style>

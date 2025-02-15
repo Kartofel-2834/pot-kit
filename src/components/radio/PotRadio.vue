@@ -1,7 +1,7 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotRadio, 'pot-radio', classList]"
+        :class="['pot-radio', classList]"
     >
         <slot
             v-for="spec of updatedSpecs"
@@ -111,8 +111,8 @@ function onSpecClick(specValue: T, isDisabled: boolean): void {
 }
 </script>
 
-<style lang="scss" module>
-.PotRadio {
+<style lang="scss">
+.pot-radio {
     display: flex;
     gap: var(--pot-spacer-2);
 

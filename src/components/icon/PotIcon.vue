@@ -2,8 +2,8 @@
     <svg
         v-html="iconData"
         v-bind="iconAttributes"
-        :class="[$style.PotIcon, 'pot-icon']"
         :style="customSize"
+        class="pot-icon"
     ></svg>
 </template>
 
@@ -76,7 +76,7 @@ async function updateIcon(): Promise<void> {
 </script>
 
 <style lang="scss" module>
-.PotIcon {
+.pot-icon {
     aspect-ratio: 1 / 1;
     color: inherit;
 }

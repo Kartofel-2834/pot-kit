@@ -1,7 +1,7 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotGrid, 'pot-grid', classList]"
+        :class="['pot-grid', classList]"
         :style="currentStyles"
     >
         <slot />
@@ -84,8 +84,8 @@ function formatNumberToFr(v?: string | number): string | undefined {
 }
 </script>
 
-<style lang="scss" module>
-.PotGrid {
+<style lang="scss">
+.pot-grid {
     display: grid;
     grid-template-columns: var(--pot-grid-columns);
     grid-template-rows: var(--pot-grid-rows);

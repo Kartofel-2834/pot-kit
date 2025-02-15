@@ -3,6 +3,7 @@
         <PotForm
             :default-values="registrationForm"
             :validators="registrationFormValidators"
+            :gap="[EGap.LARGE, EGap.BIG, EGap.MEDIUM, EGap.SMALL, EGap.TINY]"
             v-slot="$form"
             @change="registrationForm = $event"
         >
@@ -17,6 +18,7 @@
                 >
                     <PotInputBase
                         :value="$form.values.login"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         :invalid="$field.invalid"
                         placeholder="Логин"
                         @input="$field.change"
@@ -32,6 +34,7 @@
                     <PotInputPassword
                         :value="$form.values.password"
                         :invalid="$field.invalid"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         placeholder="Пароль"
                         @input="$field.change"
                     />
@@ -46,6 +49,7 @@
                     <PotInputMasked
                         :value="$form.values.phone"
                         :invalid="$field.invalid"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         mask="+7 ### ### ##-##"
                         placeholder="Номер телефона"
                         @input="$field.change"
@@ -62,6 +66,7 @@
                         :value="$form.values.sex"
                         :specs="sex"
                         :invalid="$field.invalid"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         value-name="id"
                         @change="$field.change"
                     />
@@ -76,6 +81,7 @@
                     <PotCheckbox
                         :value="$form.values.married"
                         :invalid="$field.invalid"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         @change="$field.change"
                     >
                         В браке
@@ -90,6 +96,7 @@
                 >
                     <PotSwitch
                         :value="$form.values.mentalHealth"
+                        :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                         true-label="Я здоровый человек"
                         false-label="Я гей"
                         @change="$field.change"
@@ -98,6 +105,7 @@
 
                 <PotButton
                     :disabled="!$form.valid.value"
+                    :size="[ESize.LARGE, ESize.BIG, ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
                     @click="$form.validate"
                 >
                     Зарегистрироваться
@@ -126,6 +134,8 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotForm from './components/form/PotForm.vue';
 import PotFormField from './components/form/PotFormField.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
+import { ESize } from './enums/config';
+import { EGap } from './enums/components/EGap';
 
 interface IRegistrationForm {
     login: string;

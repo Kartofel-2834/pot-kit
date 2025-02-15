@@ -1,9 +1,9 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotRadioElement, 'pot-radio-element', classList]"
+        :class="['pot-radio-element', classList]"
     >
-        <span :class="[$style.marker, 'pot-radio-element__marker']" />
+        <span class="pot-radio-element__marker" />
 
         <slot />
     </component>
@@ -68,8 +68,8 @@ const classList = computed(() =>
 );
 </script>
 
-<style lang="scss" module>
-.PotRadioElement {
+<style lang="scss">
+.pot-radio-element {
     display: flex;
     align-items: center;
     gap: 0.4em;
@@ -83,7 +83,7 @@ const classList = computed(() =>
     /* --- Colors - START --- */
     color: var(--pot-radio-text-color);
 
-    .marker {
+    .pot-radio-element__marker {
         border-color: var(--pot-radio-marker-border-color);
         background-color: var(--pot-radio-marker-background-color);
         color: var(--pot-radio-marker-color);
@@ -96,7 +96,7 @@ const classList = computed(() =>
     @include modificator(invalid) {
         color: inherit;
 
-        .marker {
+        .pot-radio-element__marker {
             border-color: var(--pot-color-invalid);
             background-color: transparent;
             color: var(--pot-color-invalid);
@@ -117,18 +117,18 @@ const classList = computed(() =>
     @include size($standard-size) using ($size, $size-name) {
         font-size: map-get($size, 'text');
 
-        .marker {
+        .pot-radio-element__marker {
             width: map-get($size, 'marker');
             height: map-get($size, 'marker');
         }
     }
 
     /* --- Radius --- */
-    @include radius('.marker');
+    @include radius('.pot-radio-element__marker');
 
     /* --- Flags --- */
     @include modificator(active) {
-        .marker {
+        .pot-radio-element__marker {
             border-color: currentColor;
             background-color: currentColor;
         }
@@ -140,7 +140,7 @@ const classList = computed(() =>
     }
 }
 
-.marker {
+.pot-radio-element__marker {
     position: relative;
     border: 1px solid;
     transition:

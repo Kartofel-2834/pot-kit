@@ -1,6 +1,5 @@
 <template>
     <PotInputBase
-        :class="[$style.PotInputMasked, 'pot-input-masked']"
         :model-value="modelValue"
         :value="value"
         :devices="devices"
@@ -13,6 +12,7 @@
         :invalid="invalid"
         :parser="parser"
         :formatter="formatter"
+        class="pot-input-masked"
         @keydown="onKeyDown"
         @input="$emit('input', $event)"
         @change="$emit('change', $event)"
@@ -132,9 +132,3 @@ function parser(value: string): string {
     return removeMask(value, $props.mask, $props.maskPlaceholders);
 }
 </script>
-
-<style lang="scss" module>
-.PotInputMasked {
-    //
-}
-</style>

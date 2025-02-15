@@ -1,3 +1,7 @@
+// Styles
+import '@/assets/scss/global.scss';
+import '@/assets/scss/reset.scss';
+
 // Types
 import type { App as Application } from 'vue';
 

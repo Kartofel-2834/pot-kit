@@ -1,26 +1,26 @@
 <template>
-    <label :class="[$style.PotCheckbox, 'pot-checkbox', classList]">
+    <label :class="['pot-checkbox', classList]">
         <input
             :value="currentValue"
-            :class="[$style.input, 'pot-checkbox__input']"
             :disabled="disabled"
             :checked="isChecked"
+            class="pot-checkbox__input"
             type="checkbox"
             @change="onChange"
         />
 
         <slot name="content">
-            <div :class="[$style.iconWrapper, 'pot-checkbox__icon-wrapper']">
+            <div class="pot-checkbox__icon-wrapper">
                 <slot name="icon">
                     <PotIcon
                         v-if="icon"
                         :icon="icon"
-                        :class="[$style.icon, 'pot-checkbox__icon']"
+                        class="pot-checkbox__icon"
                     />
                 </slot>
             </div>
 
-            <span :class="[$style.label, 'pot-checkbox__label']">
+            <span class="pot-checkbox__label">
                 <slot />
             </span>
         </slot>
@@ -125,8 +125,8 @@ function onChange(event: Event): void {
 }
 </script>
 
-<style lang="scss" module>
-.PotCheckbox {
+<style lang="scss">
+.pot-checkbox {
     display: flex;
     align-items: center;
     width: fit-content;
@@ -141,14 +141,14 @@ function onChange(event: Event): void {
     /* --- Colors - START --- */
     color: var(--pot-checkbox-text-color);
 
-    .iconWrapper {
+    .pot-checkbox__icon-wrapper {
         background-color: var(--pot-checkbox-background-color);
         border-color: var(--pot-checkbox-border-color);
         color: var(--pot-checkbox-icon-color);
     }
 
     @include modificator(checked) {
-        .iconWrapper {
+        .pot-checkbox__icon-wrapper {
             background-color: var(--pot-checkbox-checked-background-color);
             border-color: var(--pot-checkbox-checked-border-color);
             color: var(--pot-checkbox-checked-icon-color);
@@ -156,16 +156,14 @@ function onChange(event: Event): void {
     }
 
     @include modificator(invalid) {
-        color: var(--pot-color-invalid);
-
-        .iconWrapper {
+        .pot-checkbox__icon-wrapper {
             background-color: transparent;
             border-color: var(--pot-color-invalid);
             color: var(--pot-color-invalid-text);
         }
 
         @include modificator(checked) {
-            .iconWrapper {
+            .pot-checkbox__icon-wrapper {
                 background-color: var(--pot-color-invalid);
                 border-color: var(--pot-color-invalid);
                 color: var(--pot-color-invalid-text);
@@ -183,20 +181,20 @@ function onChange(event: Event): void {
     @include size($standard-size) using ($size, $size-name) {
         font-size: map-get($size, 'text');
 
-        .iconWrapper {
+        .pot-checkbox__icon-wrapper {
             width: map-get($size, 'height');
         }
     }
 
     /* --- Flags --- */
     @include modificator(checked) {
-        .icon {
+        .pot-checkbox__icon {
             transform: scale(1);
         }
     }
 
     /* --- Radius --- */
-    @include radius('.iconWrapper');
+    @include radius('.pot-checkbox__icon-wrapper');
 
     @include modificator(disabled) {
         opacity: 0.75;
@@ -204,11 +202,11 @@ function onChange(event: Event): void {
     }
 }
 
-.input {
+.pot-checkbox__input {
     display: none;
 }
 
-.iconWrapper {
+.pot-checkbox__icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -221,7 +219,7 @@ function onChange(event: Event): void {
         background-color var(--pot-transition);
 }
 
-.icon {
+.pot-checkbox__icon {
     width: 75%;
     transform: scale(0);
     transition: transform var(--pot-transition);

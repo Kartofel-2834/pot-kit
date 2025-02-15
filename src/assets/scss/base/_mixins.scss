@@ -70,8 +70,8 @@
  * @param {String} $name - Имя брейкпоинта, к которому применяются стили
  * @param {Map} $bp - Карта брейкпоинтов экранов, где каждый ключ - это имя брейкпоинта
  */
-@mixin respond-to($name, $bp: $breakpoints) {
-    $max: get-map-value($name, $offset: 1, $map: $breakpoints) - 0.02;
+@mixin respond-to($name, $bp: $pot-breakpoints) {
+    $max: get-map-value($name, $offset: 1, $map: $bp) - 0.02;
 
     @if $max {
         @media (max-width: $max) {
@@ -88,8 +88,8 @@
  * @param {String} $name - Имя брейкпоинта, к которому применяются стили
  * @param {Map} $bp - Карта брейкпоинтов экранов, где каждый ключ - это имя брейкпоинта
  */
-@mixin respond-to-min($name, $bp: $breakpoints) {
-    $min: get-map-value($name, $map: $breakpoints);
+@mixin respond-to-min($name, $bp: $pot-breakpoints) {
+    $min: get-map-value($name, $map: $bp);
 
     @if $min {
         @media (min-width: $min) {
@@ -108,11 +108,11 @@
  */
 @mixin modificator($name, $value: null) {
     @if $value != null {
-        &:global(._#{$name}-#{$value}) {
+        &._#{$name}-#{$value} {
             @content;
         }
     } @else {
-        &:global(._#{$name}) {
+        &._#{$name} {
             @content;
         }
     }
@@ -120,11 +120,11 @@
 
 @mixin exclude-modificator($name, $value: null) {
     @if $value != null {
-        &:not(:global(._#{$name}-#{$value})) {
+        &:not(._#{$name}-#{$value}) {
             @content;
         }
     } @else {
-        &:not(:global(._#{$name})) {
+        &:not(._#{$name}) {
             @content;
         }
     }
@@ -139,7 +139,7 @@
         $theme: map-get($pot-themes, $theme-name);
         $state-names-list: map-keys($theme);
 
-        @include modificator(color, $theme-name) {
+        ._color-#{$theme-name} {
             @for $stateIndex from 1 through length($state-names-list) {
                 $state-name: nth($state-names-list, $stateIndex);
                 $state: map-get($theme, $state-name);

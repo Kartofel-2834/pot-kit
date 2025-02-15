@@ -29,7 +29,7 @@ function toEnumKey(str: string): string {
 
 class PotKitStylesBuildPlugin {
     static async init(config: IPotKitConfig) {
-        await fs.writeFile('./src/assets/scss/config.scss', [
+        await fs.writeFile('./src/assets/scss/base/_config.scss', [
             `/* NOT EDIT! This file generated automatically */`,
             
             PotKitStylesBuildPlugin.getColorThemesStyles(config.colorThemes),
@@ -41,7 +41,7 @@ class PotKitStylesBuildPlugin {
     /** Генерация переменных для брейкпоинтов и адаптивного дизайна */
     private static getBreakpointsStyles(breakpoints: IPotKitConfig['breakpoints']): string {
         const values = PotKitStylesBuildPlugin.getStyle(breakpoints, ',');
-        return `/* Breakpoints */\n$breakpoints: (\n${values}\n);`; 
+        return `/* Breakpoints */\n$pot-breakpoints: (\n${values}\n);`; 
     }
 
     /** Генерация переменных для масштабирования компонентов */

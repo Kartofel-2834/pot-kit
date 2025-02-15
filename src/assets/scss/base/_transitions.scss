@@ -1,12 +1,10 @@
-:global {
-    // Fade
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity var(--pot-transition);
-    }
+// Fade
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity var(--pot-transition);
+}
 
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-    }
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }

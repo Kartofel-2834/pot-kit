@@ -9,7 +9,7 @@
  *
  * @return {Any|null} - значение из карты привязанное к ключу смещенного на $offset от индекса ключа $key
  */
-@function get-map-value($key, $offset: 0, $map: $breakpoints) {
+@function get-map-value($key, $offset: 0, $map: $pot-breakpoints) {
     $keys-list: map-keys($map);
     $index: index($keys-list, $key);
 

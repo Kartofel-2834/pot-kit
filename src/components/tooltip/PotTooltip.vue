@@ -7,7 +7,7 @@
                 v-if="persistent || isVisible"
                 v-show="isVisible"
                 ref="tooltipRef"
-                :class="[$style.PotTooltip, 'pot-tooltip', classList]"
+                :class="['pot-tooltip', classList]"
                 :style="{ transform: `translate(${x}px, ${y}px)` }"
                 v-bind="$attrs"
                 v-on="$attrs"
@@ -18,7 +18,7 @@
                     name="tooltip"
                     :visible="isVisible"
                 >
-                    <div :class="[$style.wrapper, 'pot-tooltip__wrapper']">
+                    <div class="pot-tooltip__wrapper">
                         <slot
                             name="content"
                             :visible="isVisible"
@@ -476,11 +476,11 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
 </script>
 
 <style lang="scss" module>
-.PotTooltip {
+.pot-tooltip {
     position: absolute;
 
     /* --- Colors - START --- */
-    .wrapper {
+    .pot-tooltip__wrapper {
         box-shadow: var(--pot-tooltip-shadow);
         background-color: var(--pot-tooltip-background-color);
         color: var(--pot-tooltip-text-color);
@@ -494,13 +494,13 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
     );
 
     @include size($standard-size) using ($size, $size-name) {
-        .wrapper {
+        .pot-tooltip__wrapper {
             padding: map-get($size, 'padding');
             font-size: map-get($size, 'text');
         }
     }
 
     /* --- Radius --- */
-    @include radius('.wrapper');
+    @include radius('.pot-tooltip__wrapper');
 }
 </style>

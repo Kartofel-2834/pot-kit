@@ -1,8 +1,8 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotGridCell, 'pot-grid-cell']"
         :style="currentStyles"
+        class="pot-grid-cell"
     >
         <slot />
     </component>
@@ -51,8 +51,8 @@ const currentStyles = computed(() => {
 });
 </script>
 
-<style lang="scss" module>
-.PotGridCell {
+<style lang="scss">
+.pot-grid-cell {
     grid-column: var(--pot-grid-cell-col);
     grid-row: var(--pot-grid-cell-row);
 }

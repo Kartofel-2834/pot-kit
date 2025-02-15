@@ -1,19 +1,19 @@
 <template>
-    <label :class="[$style.PotInputBase, 'pot-input-base', classList]">
+    <label :class="['pot-input', classList]">
         <slot name="prepend"></slot>
 
         <slot name="preicon">
             <PotIcon
                 v-if="preicon"
-                :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_left']"
                 :icon="preicon"
+                class="pot-input__icon pot-input__icon_left"
             />
         </slot>
 
         <input
             v-model="visibleValue"
-            :class="[$style.input, 'pot-input-base__target']"
             :disabled="disabled"
+            class="pot-input__target"
             v-bind="$attrs"
             @input="onInput"
             @change="onChange"
@@ -26,8 +26,8 @@
         <slot name="icon">
             <PotIcon
                 v-if="icon"
-                :class="[$style.icon, 'pot-input-base__icon', 'pot-input-base__icon_right']"
                 :icon="icon"
+                class="pot-input__icon pot-input__icon_right"
             />
         </slot>
 
@@ -160,8 +160,8 @@ function getParsedValue(newValue: string): T {
 }
 </script>
 
-<style lang="scss" module>
-.PotInputBase {
+<style lang="scss">
+.pot-input {
     display: flex;
     align-items: center;
     width: 100%;
@@ -179,12 +179,12 @@ function getParsedValue(newValue: string): T {
     color: var(--pot-input-text-color);
     border-color: var(--pot-input-border-color);
 
-    .input {
+    .pot-input__target {
         color: var(--pot-input-target-text-color);
         background-color: var(--pot-input-target-background-color);
     }
 
-    .icon {
+    .pot-input__icon {
         color: var(--pot-input-icon-color);
     }
 
@@ -192,12 +192,12 @@ function getParsedValue(newValue: string): T {
         color: var(--pot-input-disabled-text-color);
         border-color: var(--pot-input-disabled-border-color);
 
-        .input {
+        .pot-input__target {
             color: var(--pot-input-disabled-target-text-color);
             background-color: var(--pot-input-disabled-target-background-color);
         }
 
-        .icon {
+        .pot-input__icon {
             color: var(--pot-input-disabled-icon-color);
         }
     }
@@ -207,12 +207,12 @@ function getParsedValue(newValue: string): T {
             color: var(--pot-input-focused-text-color);
             border-color: var(--pot-input-focused-border-color);
 
-            .input {
+            .pot-input__target {
                 color: var(--pot-input-focused-target-text-color);
                 background-color: var(--pot-input-focused-target-background-color);
             }
 
-            .icon {
+            .pot-input__icon {
                 color: var(--pot-input-focused-icon-color);
             }
         }
@@ -220,14 +220,14 @@ function getParsedValue(newValue: string): T {
         @include modificator(invalid) {
             border-color: var(--pot-color-invalid);
 
-            .icon {
+            .pot-input__icon {
                 color: var(--pot-color-invalid);
             }
 
             @include modificator(focused) {
                 border-color: var(--pot-color-invalid);
 
-                .icon {
+                .pot-input__icon {
                     color: var(--pot-color-invalid);
                 }
             }
@@ -250,7 +250,7 @@ function getParsedValue(newValue: string): T {
 
         border-width: var(--pot-input-size-border);
 
-        .input {
+        .pot-input__target {
             height: map-get($size, 'height');
         }
     }
@@ -262,13 +262,13 @@ function getParsedValue(newValue: string): T {
     @include modificator(disabled) {
         cursor: not-allowed;
 
-        .input {
+        .pot-input__target {
             cursor: not-allowed;
         }
     }
 }
 
-.input {
+.pot-input__target {
     outline: none;
     padding: 0;
     border: none;
@@ -296,7 +296,7 @@ function getParsedValue(newValue: string): T {
     }
 }
 
-.icon {
+.pot-input__icon {
     pointer-events: none;
     width: 1.4em;
     font-size: inherit;

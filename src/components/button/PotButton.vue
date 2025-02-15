@@ -1,20 +1,20 @@
 <template>
     <component
         :is="tag"
-        :class="[$style.PotButton, 'pot-button', classList]"
+        :class="['pot-button', classList]"
         :disabled="disabled"
     >
         <slot name="preicon">
             <PotIcon
                 v-if="preicon"
-                :class="[$style.icon, 'pot-button__icon', 'pot-button__icon_pre']"
                 :icon="preicon"
+                class="pot-button__icon pot-button__icon_pre"
             />
         </slot>
 
         <span
             v-if="$slots?.default"
-            :class="[$style.label, 'pot-button__label']"
+            class="pot-button__label"
         >
             <slot />
         </span>
@@ -22,8 +22,8 @@
         <slot name="icon">
             <PotIcon
                 v-if="icon"
-                :class="[$style.icon, 'pot-button__icon', 'pot-button__icon_post']"
                 :icon="icon"
+                class="pot-button__icon pot-button__icon_post"
             />
         </slot>
     </component>
@@ -90,8 +90,8 @@ const classList = computed(() =>
 );
 </script>
 
-<style lang="scss" module>
-.PotButton {
+<style lang="scss">
+.pot-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +151,7 @@ const classList = computed(() =>
             padding: 0;
         }
 
-        .label {
+        .pot-button__label {
             padding: 0 map-get($size, 'label-padding');
         }
     }
@@ -168,7 +168,7 @@ const classList = computed(() =>
         cursor: not-allowed;
     }
 
-    .icon {
+    .pot-button__icon {
         flex-shrink: 0;
         width: 1.2em;
         height: 1.2em;

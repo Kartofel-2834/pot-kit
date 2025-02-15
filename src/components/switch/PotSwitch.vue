@@ -2,40 +2,35 @@
     <PotCheckbox
         :value="$props.value"
         :model-value="$props.modelValue"
-        :class="[$style.PotSwitch, 'pot-switch']"
         :size="size"
         :color="color"
         :radius="radius"
         :true-value="$props.trueValue"
         :false-value="$props.falseValue"
         :disabled="disabled"
+        class="pot-switch"
         @change="$emit('change', $event)"
         @update:model-value="$emit('update:modelValue', $event)"
     >
         <template #content>
-            <div :class="[$style.wrapper, 'pot-switch__wrapper']">
+            <div class="pot-switch__wrapper">
                 <div
                     v-if="$slots['true-content'] || trueLabel"
-                    :class="[
-                        $style.content,
-                        $style.trueContent,
-                        'pot-switch__wrapper__content',
-                        'pot-switch__wrapper__content_true',
-                    ]"
+                    class="pot-switch__wrapper__content pot-switch__wrapper__content_true"
                 >
                     <slot name="true-content">
                         {{ trueLabel }}
                     </slot>
                 </div>
 
-                <div :class="[$style.line, 'pot-switch__wrapper__line']">
-                    <div :class="[$style.ball, 'pot-switch__wrapper__line__ball']">
+                <div class="pot-switch__wrapper__line">
+                    <div class="pot-switch__wrapper__line__ball">
                         <Transition name="fade">
                             <PotIcon
                                 v-if="icon"
                                 :key="icon"
-                                :class="[$style.icon, 'pot-switch__wrapper__line__ball__icon']"
                                 :icon="icon"
+                                class="pot-switch__wrapper__line__ball__icon"
                             />
                         </Transition>
                     </div>
@@ -43,12 +38,7 @@
 
                 <div
                     v-if="$slots['false-content'] || falseLabel"
-                    :class="[
-                        $style.content,
-                        $style.falseContent,
-                        'pot-switch__wrapper__content',
-                        'pot-switch__wrapper__content_false',
-                    ]"
+                    class="pot-switch__wrapper__content pot-switch__wrapper__content_false"
                 >
                     <slot name="false-content">
                         {{ falseLabel }}
@@ -99,47 +89,47 @@ const $emit = defineEmits<{
 }>();
 </script>
 
-<style lang="scss" module>
-.PotSwitch {
+<style lang="scss">
+.pot-switch {
     width: fit-content;
     font-weight: 500;
     line-height: 1;
 
     /* --- Colors - START --- */
-    .wrapper {
+    .pot-switch__wrapper {
         background-color: var(--pot-switch-false-color);
     }
 
-    .ball {
+    .pot-switch__wrapper__line__ball {
         background-color: var(--pot-switch-ball-false-color);
     }
 
-    .icon {
+    .pot-switch__wrapper__line__ball__icon {
         color: var(--pot-switch-icon-false-color);
     }
 
-    .content {
+    .pot-switch__wrapper__content {
         color: var(--pot-switch-content-false-color);
     }
 
-    .line {
+    .pot-switch__wrapper__line {
         background-color: transparent;
     }
 
     @include modificator(checked) {
-        .wrapper {
+        .pot-switch__wrapper {
             background-color: var(--pot-switch-true-color);
         }
 
-        .icon {
+        .pot-switch__wrapper__line__ball__icon {
             color: var(--pot-switch-icon-true-color);
         }
 
-        .ball {
+        .pot-switch__wrapper__line__ball {
             background-color: var(--pot-switch-ball-true-color);
         }
 
-        .content {
+        .pot-switch__wrapper__content {
             color: var(--pot-switch-content-true-color);
         }
     }
@@ -160,25 +150,25 @@ const $emit = defineEmits<{
         min-width: calc(#{map-get($size, 'height')} * 2);
         font-size: map-get($size, 'text');
 
-        .wrapper {
+        .pot-switch__wrapper {
             height: map-get($size, 'height');
             padding: map-get($size, 'wrapper-padding');
         }
 
-        .content {
+        .pot-switch__wrapper__content {
             padding: 0 map-get($size, 'content-padding');
         }
 
-        .trueContent {
+        .pot-switch__wrapper__content_true {
             margin-right: $ball-size;
         }
 
-        .falseContent {
+        .pot-switch__wrapper__content_false {
             margin-left: $ball-size;
         }
 
         @include exclude-modificator(checked) {
-            .line {
+            .pot-switch__wrapper__line {
                 transform: translateX(calc(-100% + map-get($size, 'height')));
             }
         }
@@ -186,23 +176,23 @@ const $emit = defineEmits<{
 
     /* --- Active --- */
     @include modificator(checked) {
-        .falseContent {
+        .pot-switch__wrapper__content_false {
             opacity: 0;
             transform: translateX(-10%);
         }
 
-        .trueContent {
+        .pot-switch__wrapper__content_true {
             opacity: 1;
             transform: none;
         }
 
-        .line {
+        .pot-switch__wrapper__line {
             transform: none;
         }
     }
 }
 
-.wrapper {
+.pot-switch__wrapper {
     position: relative;
     overflow: hidden;
     display: grid;
@@ -212,7 +202,7 @@ const $emit = defineEmits<{
     border-radius: var(--pot-radius-circle);
 }
 
-.content {
+.pot-switch__wrapper__content {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     display: flex;
@@ -223,12 +213,12 @@ const $emit = defineEmits<{
         transform var(--pot-transition);
 }
 
-.trueContent {
+.pot-switch__wrapper__content_true {
     opacity: 0;
     transform: translateX(10%);
 }
 
-.line {
+.pot-switch__wrapper__line {
     position: absolute;
     z-index: 1;
     overflow: hidden;
@@ -243,7 +233,7 @@ const $emit = defineEmits<{
     transition: transform var(--pot-transition);
 }
 
-.ball {
+.pot-switch__wrapper__line__ball {
     position: relative;
     height: 100%;
     aspect-ratio: 1 / 1;
@@ -251,7 +241,7 @@ const $emit = defineEmits<{
     transition: background-color var(--pot-transition);
 }
 
-.icon {
+.pot-switch__wrapper__line__ball__icon {
     position: absolute;
     top: 50%;
     left: 50%;
