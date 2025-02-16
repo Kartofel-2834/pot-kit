@@ -4,7 +4,11 @@
         :class="['pot-grid', classList]"
         :style="currentStyles"
     >
-        <slot />
+        <slot
+            :gap="properties.gap"
+            :size="properties.size"
+            :devices="devices"
+        />
     </component>
 </template>
 
@@ -15,6 +19,7 @@ import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { EGap } from '@/enums/components/EGap';
+import { ESize } from '@/enums/config';
 
 // Vue
 import { computed, inject } from 'vue';
@@ -29,6 +34,7 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 const $props = withDefaults(defineProps<IPotGridProps>(), {
     tag: 'div',
     gap: EGap.MEDIUM,
+    size: ESize.MEDIUM,
     cols: undefined,
     rows: undefined,
     flow: undefined,
@@ -49,6 +55,7 @@ const properties = computed(() => {
             autoCols: $props.autoCols,
             autoRows: $props.autoRows,
             gap: $props.gap,
+            size: $props.size,
         },
         $props.devices,
         $deviceIs?.device?.value,

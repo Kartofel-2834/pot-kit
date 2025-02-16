@@ -5,6 +5,8 @@ import type { TDeviceIs } from '@/types/composables/device-is-types';
 // Composables
 import { useDeviceIs } from '@/composables/device-is';
 
+const deviceIs: TDeviceIs = useDeviceIs();
+
 /**
  * Этот плагин позволяет компонентам легко определять текущий размер
  * экрана на основе предопределенных брейкпоинтов
@@ -12,13 +14,10 @@ import { useDeviceIs } from '@/composables/device-is';
  * @param app - Экземпляр приложения Vue.
  */
 function deviceIsPluginInit(app: App): void {
-    const deviceIs: TDeviceIs = useDeviceIs(false);
-    deviceIs.init();
-
     app.provide('deviceIs', deviceIs);
     app.config.globalProperties.$deviceIs = deviceIs;
 }
 
-const deviceIsPlugin: Plugin = { install: deviceIsPluginInit };
+export const plugin: Plugin = { install: deviceIsPluginInit };
 
-export default deviceIsPlugin;
+export const init = () => deviceIs.init();

@@ -1,5 +1,5 @@
 // Vue
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 
 // Types
 import type { Ref } from 'vue';
@@ -27,17 +27,11 @@ export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
  * state - акутальные статусы всех брейкпоинтов,
  * device - текущий активный брейкпонт
  */
-export function useDeviceIs(mount: boolean = true): TDeviceIs {
+export function useDeviceIs(): TDeviceIs {
     const queries: Ref<TDeviceIsMediaQueries> = ref({});
     const state: Ref<TDeviceIsState> = ref({});
     const device: Ref<EDevice | null> = ref(null);
     const timeoutId: Ref<number | undefined> = ref(undefined);
-
-    // Lifecycle hooks
-    if (mount) {
-        onMounted(initQueries);
-        onUnmounted(clearQueries);
-    }
 
     /**
      * Создает медиа-запросы для переданных брейкпоинтов.

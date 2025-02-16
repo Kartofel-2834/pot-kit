@@ -9,13 +9,25 @@ import type { App as Application } from 'vue';
 import { createApp } from 'vue';
 
 // Plugins
-import deviceIsPlugin from './plugins/device-is';
+import { plugin as deviceIsPlugin, init as initDeviceIs } from './plugins/device-is';
 
 // Components
 import App from '@/App.vue';
 
-const app: Application = createApp(App);
+function initApp() {
+    const app: Application = createApp(App);
+    
+    // Plugins setup
+    app.use(deviceIsPlugin);
 
-app.use(deviceIsPlugin);
+    // Mounting app to page
+    app.mount('#app');
 
-app.mount('#app');
+    // After mount actions
+    initDeviceIs();
+}
+
+initApp();
+
+
+

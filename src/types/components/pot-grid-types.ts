@@ -1,6 +1,6 @@
 // Enums
 import type { EGap } from "@/enums/components/EGap";
-import type { EDevice } from "@/enums/config";
+import type { EDevice, ESize } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotGrid
@@ -26,6 +26,9 @@ export interface IPotGridProps {
 
     /** Размер отступов сетки */
     gap?: EGap | EGap[] | number | number[] | null; 
+
+    /** Размер элементов сетки. Может быть одним значением или массивом значений для адаптивного дизайна */
+    size?: ESize | ESize[];
 
     /** Точки останова для адаптивного дизайна */
     devices?: EDevice[];

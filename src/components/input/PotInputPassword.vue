@@ -115,6 +115,6 @@ function onTypeToggle(event: Event) {
     width: 1.4em;
     font-size: inherit;
     cursor: pointer;
-    transition: var(--pot-transition);
+    transition: color var(--pot-transition);
 }
 </style>
