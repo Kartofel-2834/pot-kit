@@ -7,120 +7,58 @@
             @change="registrationForm = $event"
         >
             <PotGrid
-                :size="[ESize.MEDIUM, ESize.SMALL, ESize.TINY]"
+                :size="[ESize.LARGE, ESize.SMALL, ESize.TINY]"
                 :gap="[EGap.MEDIUM, EGap.SMALL, EGap.TINY]"
                 :devices="[EDevice.DESKTOP, EDevice.TABLET, EDevice.MOBILE]"
-                v-slot="{ size: $size, devices: $devices }"
             >
-                <h2>Регистрация {{ $form.values }}</h2>
+                <!-- Оба варианта отрабатывают как надо -->
+                <PotCheckbox v-model="flag">Flag</PotCheckbox>
 
-                <!-- Логие -->
-                <PotFormField
-                    :form="$form"
-                    field="login"
-                    v-slot="$field"
-                >
-                    <PotInputBase
-                        :value="$form.values.login"
-                        :size="$size"
-                        :devices="$devices"
-                        :invalid="$field.invalid"
-                        placeholder="Логин"
-                        @input="$field.change"
-                    />
-                </PotFormField>
+                <PotButton :disabled="flag"> A </PotButton>
 
-                <!-- Пароль -->
-                <PotFormField
-                    :form="$form"
-                    field="password"
-                    v-slot="$field"
-                >
-                    <PotInputPassword
-                        :value="$form.values.password"
-                        :invalid="$field.invalid"
-                        :size="$size"
-                        :devices="$devices"
-                        placeholder="Пароль"
-                        @input="$field.change"
-                    />
-                </PotFormField>
+                <PotTooltip text="Test">
+                    <PotButton :disabled="flag"> B </PotButton>
+                </PotTooltip>
 
-                <!-- Телефон -->
-                <PotFormField
-                    :form="$form"
-                    field="phone"
-                    v-slot="$field"
-                >
-                    <PotInputMasked
-                        :value="$form.values.phone"
-                        :invalid="$field.invalid"
-                        :size="$size"
-                        :devices="$devices"
-                        mask="+7 ### ### ##-##"
-                        placeholder="Номер телефона"
-                        @input="$field.change"
-                    />
-                </PotFormField>
+                Selected job: {{ $form.values.job }}
 
-                <!-- Пол -->
-                <PotFormField
-                    :form="$form"
-                    field="sex"
-                    v-slot="$field"
+                <!-- Это тоже работает, активная кнопка дизейблится -->
+                <PotRadio
+                    v-model="$form.values.job"
+                    :specs="jobsList"
+                    value-name="id"
                 >
-                    <PotRadio
-                        :value="$form.values.sex"
-                        :specs="sex"
-                        :invalid="$field.invalid"
-                        :size="$size"
-                        :devices="$devices"
-                        value-name="id"
-                        @change="$field.change"
-                    />
-                </PotFormField>
+                    <template #radio="{ active, label, onChange }">
+                        <PotButton
+                            :disabled="active"
+                            @click="onChange"
+                        >
+                            {{ label }} {{ active }}
+                        </PotButton>
+                    </template>
+                </PotRadio>
 
-                <!-- Брак -->
-                <PotFormField
-                    :form="$form"
-                    field="married"
-                    v-slot="$field"
+                <PotRadio
+                    v-model="$form.values.job"
+                    :specs="jobsList"
+                    value-name="id"
                 >
-                    <PotCheckbox
-                        :value="$form.values.married"
-                        :invalid="$field.invalid"
-                        :size="$size"
-                        :devices="$devices"
-                        @change="$field.change"
-                    >
-                        В браке
-                    </PotCheckbox>
-                </PotFormField>
-
-                <!-- Ментальное здоровье -->
-                <PotFormField
-                    :form="$form"
-                    field="mentalHealth"
-                    v-slot="$field"
-                >
-                    <PotSwitch
-                        :value="$form.values.mentalHealth"
-                        :size="$size"
-                        :devices="$devices"
-                        true-label="Я здоровый человек"
-                        false-label="Я гей"
-                        @change="$field.change"
-                    />
-                </PotFormField>
-
-                <PotButton
-                    :disabled="!$form.valid.value"
-                    :size="$size"
-                    :devices="$devices"
-                    @click="$form.validate"
-                >
-                    Зарегистрироваться
-                </PotButton>
+                    <template #radio="{ active, label, value, onChange }">
+                        <!-- Тут у тултипа текст меняется, что нормально -->
+                        <PotTooltip :text="`${value}-${active}`">
+                            <!--
+                                Активная кнопка не дизейблится,
+                                тут багулина, которую не могу поправить
+                            -->
+                            <PotButton
+                                :disabled="active"
+                                @click="onChange"
+                            >
+                                {{ label }} {{ active }}
+                            </PotButton>
+                        </PotTooltip>
+                    </template>
+                </PotRadio>
             </PotGrid>
         </PotForm>
     </main>
@@ -128,7 +66,7 @@
 
 <script lang="ts" setup>
 // Vue
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 
 // Libraries
 import * as yup from 'yup';
@@ -145,14 +83,16 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotForm from './components/form/PotForm.vue';
 import PotFormField from './components/form/PotFormField.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
-import { EDevice, ESize } from './enums/config';
+import { EColorTheme, EDevice, ESize } from './enums/config';
 import { EGap } from './enums/components/EGap';
+import PotTooltip from './components/tooltip/PotTooltip.vue';
+import type { TDeviceIs } from './types/composables';
 
 interface IRegistrationForm {
     login: string;
     password: string;
     phone: string;
-    sex: 'male' | 'female' | null;
+    job: 'director' | 'manager' | null;
     married: boolean;
     mentalHealth: boolean;
 }
@@ -161,7 +101,7 @@ const registrationForm = ref<IRegistrationForm>({
     login: '',
     password: '',
     phone: '',
-    sex: 'female',
+    job: 'director',
     married: false,
     mentalHealth: true,
 });
@@ -170,14 +110,15 @@ const registrationFormValidators = {
     login: yup.string().required('Обязательное поле').min(5, 'Логин должен быть длинее 5 символов'),
     password: z.string().min(10, 'Пароль должен быть длинее 10 символов'),
     married: yup.bool().not([false], 'Ты должен жениться!'),
-    sex: yup.string().not(['female'], 'Неверный пол'),
     mentalHealth: yup.bool().not([false], 'Лечись!'),
 };
 
-const sex = ref([
-    { id: 'male', label: 'Мужской' },
-    { id: 'female', label: 'Женский' },
+const jobsList = ref([
+    { id: 'director', label: 'Director' },
+    { id: 'manager', label: 'Manager' },
 ]);
+
+const flag = ref(false);
 </script>
 
 <style lang="scss" module>

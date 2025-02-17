@@ -7,6 +7,8 @@
             v-for="spec of updatedSpecs"
             name="radio"
             :spec="spec.target"
+            :value="spec.value"
+            :label="spec.label"
             :disabled="disabled || spec.isDisabled"
             :active="spec.isSelected"
             :on-change="() => onSpecClick(spec.value, spec.isDisabled)"

@@ -65,5 +65,6 @@ export interface IPotTooltipProps {
 /** Интерфейс слотов для компонента PotTooltip */
 export interface IPotTooltipSlots {
     default: () => VNode[];
+    tooltip: () => VNode[];
     content: () => VNode[];
 }

@@ -475,7 +475,7 @@ function calculateYForPosition(somePosition: ETooltipPosition): number {
 /* --- TOOLTIP POSITION CALCULATIONS - END --- */
 </script>
 
-<style lang="scss" module>
+<style lang="scss">
 .pot-tooltip {
     position: absolute;
 
