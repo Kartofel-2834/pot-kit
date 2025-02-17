@@ -22,22 +22,6 @@
 
                 Selected job: {{ $form.values.job }}
 
-                <!-- Это тоже работает, активная кнопка дизейблится -->
-                <PotRadio
-                    v-model="$form.values.job"
-                    :specs="jobsList"
-                    value-name="id"
-                >
-                    <template #radio="{ active, label, onChange }">
-                        <PotButton
-                            :disabled="active"
-                            @click="onChange"
-                        >
-                            {{ label }} {{ active }}
-                        </PotButton>
-                    </template>
-                </PotRadio>
-
                 <PotRadio
                     v-model="$form.values.job"
                     :specs="jobsList"
@@ -57,6 +41,22 @@
                                 {{ label }} {{ active }}
                             </PotButton>
                         </PotTooltip>
+                    </template>
+                </PotRadio>
+
+                <!-- Это тоже работает, активная кнопка дизейблится -->
+                <PotRadio
+                    v-model="$form.values.job"
+                    :specs="jobsList"
+                    value-name="id"
+                >
+                    <template #radio="{ active, label, onChange }">
+                        <PotButton
+                            :disabled="active"
+                            @click="onChange"
+                        >
+                            {{ label }} {{ active }}
+                        </PotButton>
                     </template>
                 </PotRadio>
             </PotGrid>
