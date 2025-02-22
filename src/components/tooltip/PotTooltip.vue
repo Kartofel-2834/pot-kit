@@ -1,5 +1,10 @@
 <template>
-    <render />
+    <PotTooltipTarget
+        @mount-target="targetRef = $event"
+        @unmount-target="targetRef = $event"
+    >
+        <slot />
+    </PotTooltipTarget>
 
     <Teleport :to="to">
         <Transition :name="properties.transition ?? undefined">
@@ -43,7 +48,7 @@ import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
 import { POT_RADIUS, POT_TOOLTIP_POSITION } from '@/enums/components';
 
 // Vue
-import { ref, cloneVNode, watch, computed, shallowRef, inject } from 'vue';
+import { ref, watch, computed, shallowRef, inject } from 'vue';
 
 // Composables
 import { useResizeObserver } from '@/composables/resize';
@@ -52,6 +57,9 @@ import { useClassList } from '@/composables/class-list';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+
+// Components
+import PotTooltipTarget from '@/components/tooltip/PotTooltipTarget.vue';
 
 const emptyRect = {
     bottom: 0,
@@ -123,7 +131,7 @@ const $emit = defineEmits<{
     close: [];
 }>();
 
-const $slots = defineSlots<IPotTooltipSlots>();
+defineSlots<IPotTooltipSlots>();
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
 
@@ -141,41 +149,6 @@ const tooltipSizes = shallowRef<DOMRect>({ ...emptyRect });
 
 const tooltipResizeObserver = useResizeObserver({ onProgress: refresh });
 const targetResizeObserver = useResizeObserver({ onProgress: refresh });
-
-// Render function
-function render() {
-    if (!$slots.default) {
-        return null;
-    }
-
-    let defaultSlotVNodes = $slots.default();
-
-    if (!defaultSlotVNodes.length) {
-        return null;
-    }
-
-    let targetId: number = NaN;
-
-    // Используем первый вмонтированный VNode в качестве цели, к которой мы прикрепим тултип
-    defaultSlotVNodes = defaultSlotVNodes.map((currentVNode, index) =>
-        cloneVNode(currentVNode, {
-            onVnodeMounted(vnode) {
-                if (isNaN(targetId) && vnode.el) {
-                    targetRef.value = vnode.el as HTMLElement;
-                    targetId = index;
-                }
-            },
-
-            onVnodeUnmounted() {
-                if (targetId === index) {
-                    targetRef.value = null;
-                }
-            },
-        }),
-    );
-
-    return defaultSlotVNodes;
-}
 
 // Computed
 const currentTarget = computed<HTMLElement | null>(() => $props.target ?? targetRef.value);

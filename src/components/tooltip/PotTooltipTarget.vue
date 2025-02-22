@@ -3,50 +3,57 @@
 import type { VNode, VNodeArrayChildren } from 'vue';
 
 // Vue
-import { ref, cloneVNode } from 'vue';
+import { cloneVNode, defineComponent } from 'vue';
 
-const targetId = ref<number>(NaN);
+export default defineComponent({
+    emits: {
+        'mount-target': (element: HTMLElement) => element instanceof HTMLElement,
+        'unmount-target': (element: HTMLElement | null) => {
+            return element instanceof HTMLElement || element === null;
+        },
+    },
 
-function cloneNodes(
-    childrenNodes: VNodeArrayChildren,
-    onMount: (element: Element) => unknown,
-    onUnmount: (element: Element | null) => unknown,
-): VNodeArrayChildren {
-    if (!isNaN(targetId.value) || !Array.isArray(childrenNodes)) {
-        return childrenNodes;
-    }
+    setup(props, { slots, emit }) {
+        let targetId: number = NaN;
 
-    return childrenNodes.map(childNode => {
-        if (Array.isArray(childNode)) {
-            return cloneNodes(childNode, onMount, onUnmount);
+        function cloneNodes(
+            childrenNodes: VNodeArrayChildren,
+            onMount: (element: HTMLElement) => unknown,
+            onUnmount: (element: HTMLElement | null) => unknown,
+        ): VNodeArrayChildren {
+            if (!isNaN(targetId) || !Array.isArray(childrenNodes)) {
+                return childrenNodes;
+            }
+
+            return childrenNodes.map(childNode => {
+                if (Array.isArray(childNode)) {
+                    return cloneNodes(childNode, onMount, onUnmount);
+                }
+
+                const id = Math.floor(Math.random() * (1e18 - 1e16)) + 1e16;
+
+                return cloneVNode(childNode as VNode, {
+                    onVnodeMounted(vnode) {
+                        if (isNaN(targetId) && vnode.el instanceof HTMLElement) {
+                            onMount(vnode.el as HTMLElement);
+                            targetId = id;
+                        }
+                    },
+
+                    onVnodeUnmounted(vnode) {
+                        if (targetId !== id) {
+                            return;
+                        }
+
+                        const element = vnode.el instanceof HTMLElement ? vnode.el : null;
+                        targetId = NaN;
+
+                        onUnmount(element);
+                    },
+                });
+            });
         }
 
-        const id = Math.floor(Math.random() * (1e18 - 1e16)) + 1e16;
-
-        return cloneVNode(childNode as VNode, {
-            onVnodeMounted(vnode) {
-                if (isNaN(targetId.value) && vnode.el instanceof Element) {
-                    onMount(vnode.el as HTMLElement);
-                    targetId.value = id;
-                }
-            },
-
-            onVnodeUnmounted(vnode) {
-                if (targetId.value !== id) {
-                    return;
-                }
-
-                const element = vnode.el instanceof Element ? vnode.el : null;
-                targetId.value = NaN;
-
-                onUnmount(element);
-            },
-        });
-    });
-}
-
-export default {
-    setup(props, { slots, emit }) {
         return () => {
             if (!slots?.default) {
                 return null;
@@ -58,7 +65,7 @@ export default {
                 return defaultSlot;
             }
 
-            targetId.value = NaN;
+            targetId = NaN;
 
             defaultSlot[0].children = cloneNodes(
                 defaultSlot[0].children,
@@ -69,5 +76,5 @@ export default {
             return defaultSlot;
         };
     },
-};
+});
 </script>
