@@ -1,9 +1,7 @@
 // Types
 import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
-
-// Enums
-import { EColorTheme, ESize } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import type { EPotColorTheme, EPotSize } from '@/enums/config';
+import type { EPotRadius } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotCheckList
@@ -30,11 +28,11 @@ export interface IPotCheckListProps<
     resetable?: boolean;
 
     /** Цвет чекбоксов в списке */
-    color?: EColorTheme | EColorTheme[];
+    color?: EPotColorTheme | EPotColorTheme[];
 
     /** Размер чекбокса, null для скейла от шрифта */
-    size?: ESize | ESize[] | null;
+    size?: EPotSize | EPotSize[] | null;
 
     /** Радиус границ чекбокса */
-    radius?: ERadius | ERadius[] | null;
+    radius?: EPotRadius | EPotRadius[] | null;
 }

@@ -31,7 +31,7 @@ import type { IPotLinkProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { EColorTheme } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
 
 // Vue
 import { defineAsyncComponent, inject } from 'vue';
@@ -45,7 +45,6 @@ import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-import { ESize } from '@/enums/config';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
@@ -60,8 +59,8 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
     disabled: false,
     underline: false,
     active: false,
-    size: ESize.MEDIUM,
-    color: EColorTheme.PRIMARY,
+    size: POT_SIZE.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
     devices: () => ALL_DEVICES_REVERSED,
 });
 

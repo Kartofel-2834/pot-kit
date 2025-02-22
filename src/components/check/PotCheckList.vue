@@ -61,8 +61,8 @@ import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
 
 // Enums
-import { EColorTheme, ESize } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_RADIUS } from '@/enums/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';
@@ -80,9 +80,9 @@ const $props = withDefaults(defineProps<IPotCheckListProps<S, L, V, T>>(), {
     resetLabel: 'Все',
     disabled: false,
     resetable: false,
-    color: EColorTheme.PRIMARY,
-    size: ESize.MEDIUM,
-    radius: ERadius.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
+    size: POT_SIZE.MEDIUM,
+    radius: POT_RADIUS.MEDIUM,
 });
 
 const $emit = defineEmits<{

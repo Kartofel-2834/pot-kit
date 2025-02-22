@@ -4,9 +4,7 @@ import type {
     TDevicePropertiesBreakpointsValues,
     TDevicePropertyValue,
 } from '@/types/composables';
-
-// Enums
-import { EDevice } from '@/enums/config';
+import type { EPotDevice } from '@/enums/config';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from './device-is';
@@ -39,8 +37,8 @@ import { ALL_DEVICES_REVERSED } from './device-is';
  */
 export function useDeviceProperties<T>(
     properties: T,
-    devices: EDevice[] = ALL_DEVICES_REVERSED,
-    currentDevice?: EDevice | null,
+    devices: EPotDevice[] = ALL_DEVICES_REVERSED,
+    currentDevice?: EPotDevice | null,
 ): TDeviceProperties<T> {
     const breakpointValues = getAllBreakpointsValues();
 
@@ -103,7 +101,7 @@ export function useDeviceProperties<T>(
     function getCurrentValue(
         breakpointValues: TDevicePropertiesBreakpointsValues<T>[keyof T] = {}
     ): TDevicePropertyValue<T[keyof T]> | null {
-        const breakpointKeys = Object.keys(breakpointValues) as EDevice[];
+        const breakpointKeys = Object.keys(breakpointValues) as EPotDevice[];
 
         if (breakpointKeys.length === 1 || !currentDevice) {
             return breakpointValues?.[breakpointKeys[0]] || null;

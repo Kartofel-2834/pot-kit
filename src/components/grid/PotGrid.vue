@@ -18,8 +18,8 @@ import type { IPotGridProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { EGap } from '@/enums/components/EGap';
-import { ESize } from '@/enums/config';
+import { POT_GAP } from '@/enums/components/EPotGap';
+import { POT_SIZE } from '@/enums/config';
 
 // Vue
 import { computed, inject } from 'vue';
@@ -33,8 +33,8 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 const $props = withDefaults(defineProps<IPotGridProps>(), {
     tag: 'div',
-    gap: EGap.MEDIUM,
-    size: ESize.MEDIUM,
+    gap: POT_GAP.MEDIUM,
+    size: POT_SIZE.MEDIUM,
     cols: undefined,
     rows: undefined,
     flow: undefined,

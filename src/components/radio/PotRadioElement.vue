@@ -15,8 +15,8 @@ import type { IPotRadioElementProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { ERadius } from '@/enums/components';
-import { EColorTheme, ESize } from '@/enums/config';
+import { POT_RADIUS } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
 
 // Vue
 import { computed, inject } from 'vue';
@@ -30,9 +30,9 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 const $props = withDefaults(defineProps<IPotRadioElementProps>(), {
     tag: 'div',
-    color: EColorTheme.PRIMARY,
-    size: ESize.MEDIUM,
-    radius: ERadius.CIRCLE,
+    color: POT_COLOR_THEME.PRIMARY,
+    size: POT_SIZE.MEDIUM,
+    radius: POT_RADIUS.CIRCLE,
     active: false,
     disabled: false,
     invalid: false,

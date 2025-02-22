@@ -1,5 +1,5 @@
 // Types
-import type { ArgumentTypes } from "@/types/utils";
+import type { ArgumentTypes } from "@/types";
 
 /**
  * Возращает функцию вызывающую action не сразу,

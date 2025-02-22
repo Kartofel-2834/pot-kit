@@ -36,10 +36,11 @@
 // Types
 import type { IPotTooltipProps, IPotTooltipSlots } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
+import type { EPotTooltipPosition } from '@/enums/components';
 
 // Enums
-import { ESize, EColorTheme } from '@/enums/config';
-import { ERadius, ETooltipPosition } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_RADIUS, POT_TOOLTIP_POSITION } from '@/enums/components';
 
 // Vue
 import { ref, cloneVNode, watch, computed, shallowRef, inject } from 'vue';
@@ -63,40 +64,40 @@ const emptyRect = {
     y: 0,
 } as DOMRect;
 
-const xOppositePositions: Record<ETooltipPosition, ETooltipPosition | null> = {
-    [ETooltipPosition.TOP_START]: ETooltipPosition.TOP_END,
-    [ETooltipPosition.TOP_END]: ETooltipPosition.TOP_START,
-    [ETooltipPosition.TOP_CENTER]: null,
+const xOppositePositions: Record<EPotTooltipPosition, EPotTooltipPosition | null> = {
+    [POT_TOOLTIP_POSITION.TOP_START]: POT_TOOLTIP_POSITION.TOP_END,
+    [POT_TOOLTIP_POSITION.TOP_END]: POT_TOOLTIP_POSITION.TOP_START,
+    [POT_TOOLTIP_POSITION.TOP_CENTER]: null,
 
-    [ETooltipPosition.BOTTOM_START]: ETooltipPosition.BOTTOM_END,
-    [ETooltipPosition.BOTTOM_END]: ETooltipPosition.BOTTOM_START,
-    [ETooltipPosition.BOTTOM_CENTER]: null,
+    [POT_TOOLTIP_POSITION.BOTTOM_START]: POT_TOOLTIP_POSITION.BOTTOM_END,
+    [POT_TOOLTIP_POSITION.BOTTOM_END]: POT_TOOLTIP_POSITION.BOTTOM_START,
+    [POT_TOOLTIP_POSITION.BOTTOM_CENTER]: null,
 
-    [ETooltipPosition.LEFT_START]: ETooltipPosition.RIGHT_START,
-    [ETooltipPosition.LEFT_END]: ETooltipPosition.RIGHT_END,
-    [ETooltipPosition.LEFT_CENTER]: ETooltipPosition.RIGHT_CENTER,
+    [POT_TOOLTIP_POSITION.LEFT_START]: POT_TOOLTIP_POSITION.RIGHT_START,
+    [POT_TOOLTIP_POSITION.LEFT_END]: POT_TOOLTIP_POSITION.RIGHT_END,
+    [POT_TOOLTIP_POSITION.LEFT_CENTER]: POT_TOOLTIP_POSITION.RIGHT_CENTER,
 
-    [ETooltipPosition.RIGHT_START]: ETooltipPosition.LEFT_START,
-    [ETooltipPosition.RIGHT_END]: ETooltipPosition.LEFT_END,
-    [ETooltipPosition.RIGHT_CENTER]: ETooltipPosition.LEFT_CENTER,
+    [POT_TOOLTIP_POSITION.RIGHT_START]: POT_TOOLTIP_POSITION.LEFT_START,
+    [POT_TOOLTIP_POSITION.RIGHT_END]: POT_TOOLTIP_POSITION.LEFT_END,
+    [POT_TOOLTIP_POSITION.RIGHT_CENTER]: POT_TOOLTIP_POSITION.LEFT_CENTER,
 };
 
-const yOppositePositions: Record<ETooltipPosition, ETooltipPosition | null> = {
-    [ETooltipPosition.TOP_START]: ETooltipPosition.BOTTOM_START,
-    [ETooltipPosition.TOP_END]: ETooltipPosition.BOTTOM_END,
-    [ETooltipPosition.TOP_CENTER]: ETooltipPosition.BOTTOM_CENTER,
+const yOppositePositions: Record<EPotTooltipPosition, EPotTooltipPosition | null> = {
+    [POT_TOOLTIP_POSITION.TOP_START]: POT_TOOLTIP_POSITION.BOTTOM_START,
+    [POT_TOOLTIP_POSITION.TOP_END]: POT_TOOLTIP_POSITION.BOTTOM_END,
+    [POT_TOOLTIP_POSITION.TOP_CENTER]: POT_TOOLTIP_POSITION.BOTTOM_CENTER,
 
-    [ETooltipPosition.BOTTOM_START]: ETooltipPosition.TOP_START,
-    [ETooltipPosition.BOTTOM_END]: ETooltipPosition.TOP_END,
-    [ETooltipPosition.BOTTOM_CENTER]: ETooltipPosition.TOP_CENTER,
+    [POT_TOOLTIP_POSITION.BOTTOM_START]: POT_TOOLTIP_POSITION.TOP_START,
+    [POT_TOOLTIP_POSITION.BOTTOM_END]: POT_TOOLTIP_POSITION.TOP_END,
+    [POT_TOOLTIP_POSITION.BOTTOM_CENTER]: POT_TOOLTIP_POSITION.TOP_CENTER,
 
-    [ETooltipPosition.LEFT_START]: null,
-    [ETooltipPosition.LEFT_END]: null,
-    [ETooltipPosition.LEFT_CENTER]: null,
+    [POT_TOOLTIP_POSITION.LEFT_START]: null,
+    [POT_TOOLTIP_POSITION.LEFT_END]: null,
+    [POT_TOOLTIP_POSITION.LEFT_CENTER]: null,
 
-    [ETooltipPosition.RIGHT_START]: null,
-    [ETooltipPosition.RIGHT_END]: null,
-    [ETooltipPosition.RIGHT_CENTER]: null,
+    [POT_TOOLTIP_POSITION.RIGHT_START]: null,
+    [POT_TOOLTIP_POSITION.RIGHT_END]: null,
+    [POT_TOOLTIP_POSITION.RIGHT_CENTER]: null,
 };
 
 const $props = withDefaults(defineProps<IPotTooltipProps>(), {
@@ -111,10 +112,10 @@ const $props = withDefaults(defineProps<IPotTooltipProps>(), {
     fixed: false,
     persistent: false,
     devices: () => ALL_DEVICES_REVERSED,
-    position: ETooltipPosition.TOP_CENTER,
-    size: ESize.MEDIUM,
-    color: EColorTheme.PRIMARY,
-    radius: ERadius.MEDIUM,
+    position: POT_TOOLTIP_POSITION.TOP_CENTER,
+    size: POT_SIZE.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
+    radius: POT_RADIUS.MEDIUM,
 });
 
 const $emit = defineEmits<{
@@ -342,7 +343,7 @@ function calculateY() {
     y.value = calculateLimitedY(currentPosition) + window.scrollY;
 }
 
-function calculateLimitedX(somePosition: ETooltipPosition): number {
+function calculateLimitedX(somePosition: EPotTooltipPosition): number {
     const xPosition = calculateXForPosition(somePosition);
     const oppositeSide = xOppositePositions[somePosition];
 
@@ -371,7 +372,7 @@ function calculateLimitedX(somePosition: ETooltipPosition): number {
     return xPosition;
 }
 
-function calculateLimitedY(somePosition: ETooltipPosition): number {
+function calculateLimitedY(somePosition: EPotTooltipPosition): number {
     if ($props.fixed) {
         return calculateYForPosition(somePosition);
     }
@@ -415,60 +416,60 @@ function calculateLimitedY(somePosition: ETooltipPosition): number {
     return yPosition;
 }
 
-function calculateXForPosition(somePosition: ETooltipPosition): number {
+function calculateXForPosition(somePosition: EPotTooltipPosition): number {
     const { x: targetX, width: targetWidth } = targetSizes.value;
     const { width: tooltipWidth } = tooltipSizes.value;
 
     switch (somePosition) {
-        case ETooltipPosition.TOP_CENTER:
-        case ETooltipPosition.BOTTOM_CENTER:
+        case POT_TOOLTIP_POSITION.TOP_CENTER:
+        case POT_TOOLTIP_POSITION.BOTTOM_CENTER:
             return targetX + targetWidth / 2 - tooltipWidth / 2;
 
-        case ETooltipPosition.TOP_START:
-        case ETooltipPosition.BOTTOM_START:
+        case POT_TOOLTIP_POSITION.TOP_START:
+        case POT_TOOLTIP_POSITION.BOTTOM_START:
             return targetX;
 
-        case ETooltipPosition.TOP_END:
-        case ETooltipPosition.BOTTOM_END:
+        case POT_TOOLTIP_POSITION.TOP_END:
+        case POT_TOOLTIP_POSITION.BOTTOM_END:
             return targetX + targetWidth - tooltipWidth;
 
-        case ETooltipPosition.RIGHT_END:
-        case ETooltipPosition.RIGHT_START:
-        case ETooltipPosition.RIGHT_CENTER:
+        case POT_TOOLTIP_POSITION.RIGHT_END:
+        case POT_TOOLTIP_POSITION.RIGHT_START:
+        case POT_TOOLTIP_POSITION.RIGHT_CENTER:
             return targetX + targetWidth + (properties.value.offset || 0);
 
-        case ETooltipPosition.LEFT_END:
-        case ETooltipPosition.LEFT_START:
-        case ETooltipPosition.LEFT_CENTER:
+        case POT_TOOLTIP_POSITION.LEFT_END:
+        case POT_TOOLTIP_POSITION.LEFT_START:
+        case POT_TOOLTIP_POSITION.LEFT_CENTER:
             return targetX - tooltipWidth - (properties.value.offset || 0);
     }
 }
 
-function calculateYForPosition(somePosition: ETooltipPosition): number {
+function calculateYForPosition(somePosition: EPotTooltipPosition): number {
     const { y: targetY, height: targetHeight } = targetSizes.value;
     const { height: tooltipHeight } = tooltipSizes.value;
 
     switch (somePosition) {
-        case ETooltipPosition.TOP_START:
-        case ETooltipPosition.TOP_END:
-        case ETooltipPosition.TOP_CENTER:
+        case POT_TOOLTIP_POSITION.TOP_START:
+        case POT_TOOLTIP_POSITION.TOP_END:
+        case POT_TOOLTIP_POSITION.TOP_CENTER:
             return targetY - tooltipHeight - (properties.value.offset || 0);
 
-        case ETooltipPosition.BOTTOM_START:
-        case ETooltipPosition.BOTTOM_END:
-        case ETooltipPosition.BOTTOM_CENTER:
+        case POT_TOOLTIP_POSITION.BOTTOM_START:
+        case POT_TOOLTIP_POSITION.BOTTOM_END:
+        case POT_TOOLTIP_POSITION.BOTTOM_CENTER:
             return targetY + targetHeight + (properties.value.offset || 0);
 
-        case ETooltipPosition.RIGHT_START:
-        case ETooltipPosition.LEFT_START:
+        case POT_TOOLTIP_POSITION.RIGHT_START:
+        case POT_TOOLTIP_POSITION.LEFT_START:
             return targetY;
 
-        case ETooltipPosition.RIGHT_END:
-        case ETooltipPosition.LEFT_END:
+        case POT_TOOLTIP_POSITION.RIGHT_END:
+        case POT_TOOLTIP_POSITION.LEFT_END:
             return targetY + targetHeight - tooltipHeight;
 
-        case ETooltipPosition.RIGHT_CENTER:
-        case ETooltipPosition.LEFT_CENTER:
+        case POT_TOOLTIP_POSITION.RIGHT_CENTER:
+        case POT_TOOLTIP_POSITION.LEFT_CENTER:
             return targetY + targetHeight / 2 - tooltipHeight / 2;
     }
 }

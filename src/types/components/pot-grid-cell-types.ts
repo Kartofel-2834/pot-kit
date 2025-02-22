@@ -1,5 +1,5 @@
 // Enums
-import type { EDevice } from "@/enums/config";
+import type { EPotDevice } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotGridCell
@@ -15,5 +15,5 @@ export interface IPotGridCell {
     row?: number | number[] | string | string[];
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 }

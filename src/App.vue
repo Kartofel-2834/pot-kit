@@ -7,9 +7,9 @@
             @change="registrationForm = $event"
         >
             <PotGrid
-                :size="[ESize.LARGE, ESize.SMALL, ESize.TINY]"
-                :gap="[EGap.MEDIUM, EGap.SMALL, EGap.TINY]"
-                :devices="[EDevice.DESKTOP, EDevice.TABLET, EDevice.MOBILE]"
+                :size="['large', 'small', 'tiny']"
+                :gap="['medium', 'small', 'tiny']"
+                :devices="['desktop', 'tablet', 'mobile']"
             >
                 <!-- Оба варианта отрабатывают как надо -->
                 <PotCheckbox v-model="flag">Flag</PotCheckbox>
@@ -34,6 +34,8 @@
                                 Активная кнопка не дизейблится,
                                 тут багулина, которую не могу поправить
                             -->
+                            <button :disabled="active">Test</button>
+
                             <PotButton
                                 :disabled="active"
                                 @click="onChange"
@@ -83,8 +85,6 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotForm from './components/form/PotForm.vue';
 import PotFormField from './components/form/PotFormField.vue';
 import PotSwitch from './components/switch/PotSwitch.vue';
-import { EColorTheme, EDevice, ESize } from './enums/config';
-import { EGap } from './enums/components/EGap';
 import PotTooltip from './components/tooltip/PotTooltip.vue';
 import type { TDeviceIs } from './types/composables';
 

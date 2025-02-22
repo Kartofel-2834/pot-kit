@@ -1,9 +1,7 @@
 // Types
 import type { TMaskPlaceholder } from "@/types/composables";
-
-// Enums
-import { ERadius } from "@/enums/components";
-import { EColorTheme, EDevice, ESize } from "@/enums/config";
+import type { EPotRadius } from "@/enums/components";
+import type { EPotColorTheme, EPotDevice, EPotSize } from "@/enums/config";
 
 /**
  * Пропсы для компонента PotInputMasked
@@ -16,16 +14,16 @@ export interface IPotInputMaskedProps<T = string> {
     modelValue?: T;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 
     /** Радиус границ кнопки */
-    radius?: ERadius | ERadius[] | null;
+    radius?: EPotRadius | EPotRadius[] | null;
 
     /** Размер инпута */
-    size?: ESize | ESize[];
+    size?: EPotSize | EPotSize[];
 
     /** Цвет инпута */
-    color?: EColorTheme | EColorTheme[] | null;
+    color?: EPotColorTheme | EPotColorTheme[] | null;
 
     /** Правая иконка */
     icon?: string;

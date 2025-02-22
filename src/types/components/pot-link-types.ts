@@ -1,5 +1,5 @@
-// Enums
-import { EDevice, EColorTheme, ESize } from "@/enums/config";
+// Types
+import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/config";
 
 /**
  * Интерфейс пропсов для компонента PotLink
@@ -18,13 +18,13 @@ export interface IPotLinkProps {
     target?: string | null;
 
     /** Цвет ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EColorTheme | EColorTheme[];
+    color?: EPotColorTheme | EPotColorTheme[];
 
     /** Размер ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: ESize | ESize[] | null;
+    size?: EPotSize | EPotSize[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 
     /** Иконка после текста ссылки */
     icon?: string;

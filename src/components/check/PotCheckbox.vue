@@ -31,10 +31,11 @@
 // Types
 import type { TSpecValue } from '@/types/composables';
 import type { IPotCheckboxProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { EColorTheme, ESize } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_RADIUS } from '@/enums/components';
 
 // Vue
 import { computed, inject } from 'vue';
@@ -48,7 +49,6 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
-import type { TDeviceIs } from '@/types/composables';
 
 const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
     value: undefined,
@@ -58,9 +58,9 @@ const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
     disabled: false,
     invalid: false,
     icon: 'check',
-    color: EColorTheme.PRIMARY,
-    size: ESize.MEDIUM,
-    radius: ERadius.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
+    size: POT_SIZE.MEDIUM,
+    radius: POT_RADIUS.MEDIUM,
     devices: () => ALL_DEVICES_REVERSED,
 });
 

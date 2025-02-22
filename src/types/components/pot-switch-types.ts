@@ -1,9 +1,7 @@
 // Types
 import type { TSpecValue } from "../composables";
-
-// Enums
-import type { ERadius } from "@/enums/components";
-import type { EDevice, EColorTheme, ESize } from "@/enums/config";
+import type { EPotRadius } from "@/enums/components";
+import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/config";
 
 export interface IPotSwitchProps<T extends TSpecValue> {
     /** Текущее значение переключателя */
@@ -31,16 +29,16 @@ export interface IPotSwitchProps<T extends TSpecValue> {
     icon?: string;
 
     /** Цвет переключателя */
-    color?: EColorTheme | EColorTheme[];
+    color?: EPotColorTheme | EPotColorTheme[];
 
     /** Размер переключателя, null для скейла от шрифта */
-    size?: ESize | ESize[] | null;
+    size?: EPotSize | EPotSize[] | null;
 
     /** Радиус границ переключателя */
-    radius?: ERadius | ERadius[] | null;
+    radius?: EPotRadius | EPotRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 }
 
 export interface IPotSwitchSlots {

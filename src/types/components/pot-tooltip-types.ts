@@ -1,9 +1,7 @@
 // Types
 import type { RendererElement, VNode } from "vue";
-
-// Enums
-import { EColorTheme, ESize, EDevice } from "@/enums/config";
-import { ETooltipPosition, ERadius } from "@/enums/components";
+import type { EPotColorTheme, EPotSize, EPotDevice } from "@/enums/config";
+import type { EPotTooltipPosition, EPotRadius } from "@/enums/components";
 
 /**
  * Интерфейс пропсов для компонента PotTooltip
@@ -46,19 +44,19 @@ export interface IPotTooltipProps {
     text?: string;
 
     /** Положение тултипа */
-    position?: ETooltipPosition | ETooltipPosition[];
+    position?: EPotTooltipPosition | EPotTooltipPosition[];
 
     /** Размер тултипа */
-    size?: ESize | ESize[];
+    size?: EPotSize | EPotSize[];
 
     /** Цветовая тема тултипа */
-    color?: EColorTheme | EColorTheme[];
+    color?: EPotColorTheme | EPotColorTheme[];
 
     /** Скругление краев тултипа */
-    radius?: ERadius | ERadius[] | null;
+    radius?: EPotRadius | EPotRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 }
 
 

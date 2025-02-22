@@ -55,8 +55,8 @@ import type { IPotSwitchProps, IPotSwitchSlots } from '@/types/components/pot-sw
 import type { TSpecValue } from '@/types/composables';
 
 // Enums
-import { ERadius } from '@/enums/components';
-import { EColorTheme, ESize } from '@/enums/config';
+import { POT_RADIUS } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
@@ -74,9 +74,9 @@ const $props = withDefaults(defineProps<IPotSwitchProps<T>>(), {
     disabled: false,
     trueLabel: '',
     falseLabel: '',
-    color: EColorTheme.PRIMARY,
-    size: ESize.MEDIUM,
-    radius: ERadius.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
+    size: POT_SIZE.MEDIUM,
+    radius: POT_RADIUS.MEDIUM,
     icon: '',
     devices: () => ALL_DEVICES_REVERSED,
 });

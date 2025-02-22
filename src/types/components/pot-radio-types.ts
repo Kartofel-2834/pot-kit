@@ -1,9 +1,7 @@
 // Types
 import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
-
-// Enums
-import { EDevice, EColorTheme, ESize } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import type { EPotDevice, EPotColorTheme, EPotSize } from '@/enums/config';
+import type { EPotRadius } from '@/enums/components';
 
 /**
  * Интерфейс пропсов для компонента PotRadio
@@ -27,16 +25,16 @@ export interface IPotRadioProps<
     radioTag?: string;
 
     /** Цвет элементов списка */
-    color?: EColorTheme | EColorTheme[];
+    color?: EPotColorTheme | EPotColorTheme[];
 
     /** Цвет элементов списка */
-    size?: ESize | ESize[] | null;
+    size?: EPotSize | EPotSize[] | null;
 
     /** Скругление маркеров элементов списка */
-    radius?: ERadius | ERadius[] | null;
+    radius?: EPotRadius | EPotRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EDevice[];
+    devices?: EPotDevice[];
 
     /** Если true, то список будет заблокирован и не активен */
     disabled?: boolean;

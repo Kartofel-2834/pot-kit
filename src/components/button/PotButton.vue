@@ -41,8 +41,8 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Enums
-import { EColorTheme, ESize } from '@/enums/config';
-import { ERadius } from '@/enums/components';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_RADIUS } from '@/enums/components';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
@@ -53,9 +53,9 @@ const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue
 
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
-    radius: ERadius.MEDIUM,
-    size: ESize.MEDIUM,
-    color: EColorTheme.PRIMARY,
+    radius: POT_RADIUS.MEDIUM,
+    size: POT_SIZE.MEDIUM,
+    color: POT_COLOR_THEME.PRIMARY,
     devices: () => ALL_DEVICES_REVERSED,
     icon: '',
     preicon: '',

@@ -1,2 +1,3 @@
-export * from './ERadius';
-export * from './ETooltipPosition';
+export * from './EPotRadius';
+export * from './EPotTooltipPosition';
+export * from './EPotGap';

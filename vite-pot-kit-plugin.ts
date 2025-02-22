@@ -112,7 +112,6 @@ class PotKitEnumsBuildPlugin {
             `/* NOT EDIT! This file generated automatically */`,
             PotKitEnumsBuildPlugin.getColorThemesEnum(config.colorThemes),
             PotKitEnumsBuildPlugin.getDevicesEnum(config.breakpoints),
-            PotKitEnumsBuildPlugin.getBreakpointsEnum(config.breakpoints),
             PotKitEnumsBuildPlugin.getSizesEnum(config.sizes),
         ].join('\n\n'));
     }
@@ -123,20 +122,29 @@ class PotKitEnumsBuildPlugin {
             [themeName]: themeName
         }), {});
 
-        return PotKitEnumsBuildPlugin.getEnum('colorTheme', data);
+        return PotKitEnumsBuildPlugin.getEnum('color-theme', data);
     }
 
     private static getDevicesEnum(breakpoints: IPotKitConfig['breakpoints']): string {
         const data = Object.entries(breakpoints).reduce((res, [device]) => ({
             ...res,
-            [device]: toEnumKey(device)
+            [device]: device
         }), {});
 
-        return PotKitEnumsBuildPlugin.getEnum('device', data);
-    }
+        const breakpointsValues = Object.entries(breakpoints)
+            .map(([key, value]) => {
+                if (key === '') {
+                    return '';
+                }
 
-    private static getBreakpointsEnum(breakpoints: IPotKitConfig['breakpoints']): string {
-        return PotKitEnumsBuildPlugin.getEnum('breakpoint', breakpoints);
+                return `    ${key}: ${value}`;
+            })
+            .filter(Boolean)
+            .join(',\n');
+
+        const breakpointsData = `export const POT_BREAKPOINT: { readonly [key in EPotDevice]: number; } = {\n${breakpointsValues}\n};`;
+
+        return `${PotKitEnumsBuildPlugin.getEnum('device', data)}\n\n${breakpointsData}`;
     }
 
     private static getSizesEnum(sizes: IPotKitConfig['sizes']): string {
@@ -156,7 +164,10 @@ class PotKitEnumsBuildPlugin {
         if (!data || typeof data !== 'object') {
             return '';
         }
-        
+
+        const enumConstName = `POT_${toEnumKey(name)}`;
+        const enumTypeName = name.split('-').filter(Boolean).map(capitalize).join('');
+
         const comment = `/* ${capitalize(name)} */`;
         const values = Object.entries(data)
             .map(([key, value]) => {
@@ -167,12 +178,15 @@ class PotKitEnumsBuildPlugin {
                     return '';
                 }
 
-                return `    ${fotmattedKey} = ${formattedValue}`;
+                return `    ${fotmattedKey}: ${formattedValue}`;
             })
             .filter(Boolean)
             .join(',\n');
         
-        return `${comment}\nexport enum E${capitalize(name)} {\n${values}\n}`;
+        const enumConstant = `${comment}\nexport const ${enumConstName} = {\n${values}\n} as const;`;
+        const enumType = `export type EPot${enumTypeName} = typeof ${enumConstName}[keyof typeof ${enumConstName}];`;
+
+        return `${enumConstant}\n\n${enumType}`;
     }
 }
 
