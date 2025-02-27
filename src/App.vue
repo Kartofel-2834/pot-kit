@@ -4,63 +4,40 @@
             :default-values="registrationForm"
             :validators="registrationFormValidators"
             v-slot="$form"
-            @change="registrationForm = $event"
         >
-            <PotGrid
-                :size="['large', 'small', 'tiny']"
-                :gap="['medium', 'small', 'tiny']"
-                :devices="['desktop', 'tablet', 'mobile']"
-            >
-                <!-- Оба варианта отрабатывают как надо -->
-                <PotCheckbox v-model="flag">Flag</PotCheckbox>
+            <PotGrid>
+                {{ $form.values }}
 
-                <PotButton :disabled="flag"> A </PotButton>
-
-                <PotTooltip text="Test">
-                    <PotButton :disabled="flag"> B </PotButton>
-                </PotTooltip>
-
-                Selected job: {{ $form.values.job }}
-
-                <PotRadio
-                    v-model="$form.values.job"
-                    :specs="jobsList"
-                    value-name="id"
+                <PotFormField
+                    :form="$form"
+                    field="login"
+                    v-slot="$field"
                 >
-                    <template #radio="{ active, label, value, onChange }">
-                        <!-- Тут у тултипа текст меняется, что нормально -->
-                        <PotTooltip :text="`${value}-${active}`">
-                            <!--
-                                Активная кнопка не дизейблится,
-                                тут багулина, которую не могу поправить
-                            -->
-                            <button :disabled="active">Test</button>
+                    <PotInputBase
+                        v-model="$form.values.login"
+                        placeholder="Login"
+                        @blur="$field.toggle"
+                    />
+                </PotFormField>
 
-                            <PotButton
-                                :disabled="active"
-                                @click="onChange"
-                            >
-                                {{ label }} {{ active }}
-                            </PotButton>
-                        </PotTooltip>
-                    </template>
-                </PotRadio>
-
-                <!-- Это тоже работает, активная кнопка дизейблится -->
-                <PotRadio
-                    v-model="$form.values.job"
-                    :specs="jobsList"
-                    value-name="id"
+                <PotFormField
+                    :form="$form"
+                    field="password"
+                    v-slot="$field"
                 >
-                    <template #radio="{ active, label, onChange }">
-                        <PotButton
-                            :disabled="active"
-                            @click="onChange"
-                        >
-                            {{ label }} {{ active }}
-                        </PotButton>
-                    </template>
-                </PotRadio>
+                    <PotInputPassword
+                        v-model="$form.values.password"
+                        placeholder="Password"
+                        @blur="$field.change"
+                    />
+                </PotFormField>
+
+                <PotButton
+                    :disabled="!$form.valid.value"
+                    @click="$form.validate"
+                >
+                    Submit
+                </PotButton>
             </PotGrid>
         </PotForm>
     </main>
@@ -76,17 +53,18 @@ import { z } from 'zod';
 
 // Components
 import PotGrid from './components/grid/PotGrid.vue';
-import PotInputBase from './components/input/PotInputBase.vue';
-import PotButton from './components/button/PotButton.vue';
-import PotInputPassword from './components/input/PotInputPassword.vue';
-import PotInputMasked from './components/input/PotInputMasked.vue';
 import PotRadio from './components/radio/PotRadio.vue';
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotForm from './components/form/PotForm.vue';
-import PotFormField from './components/form/PotFormField.vue';
-import PotSwitch from './components/switch/PotSwitch.vue';
 import PotTooltip from './components/tooltip/PotTooltip.vue';
+import PotSwitch from './components/switch/PotSwitch.vue';
 import type { TDeviceIs } from './types/composables';
+import PotInputMasked from './components/input/PotInputMasked.vue';
+import { removeMask, useMask } from './composables/mask';
+import PotInputBase from './components/input/PotInputBase.vue';
+import PotFormField from './components/form/PotFormField.vue';
+import PotInputPassword from './components/input/PotInputPassword.vue';
+import PotButton from './components/button/PotButton.vue';
 
 interface IRegistrationForm {
     login: string;
@@ -119,6 +97,10 @@ const jobsList = ref([
 ]);
 
 const flag = ref(false);
+
+const kamal = ref<string>('');
+
+const $deviceIs = inject<TDeviceIs>('deviceIs');
 </script>
 
 <style lang="scss" module>

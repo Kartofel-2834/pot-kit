@@ -35,7 +35,7 @@ export default defineComponent({
                 return cloneVNode(childNode as VNode, {
                     onVnodeMounted(vnode) {
                         if (isNaN(targetId) && vnode.el instanceof HTMLElement) {
-                            onMount(vnode.el as HTMLElement);
+                            onMount(vnode.el);
                             targetId = id;
                         }
                     },

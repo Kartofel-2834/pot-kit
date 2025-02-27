@@ -3,18 +3,17 @@
         :is="tag"
         class="pot-form"
     >
-        <slot v-bind="{ ...formHelper }" />
+        <slot v-bind="formHelper" />
     </component>
 </template>
 
 <script lang="ts" generic="T extends object" setup>
 // Types
-import type { DeepReadonly, ShallowReactive, UnwrapNestedRefs } from 'vue';
 import type { IPotFormProps } from '@/types/components/pot-form-types';
 import type { TForm, TFormFullErrorsList } from '@/types/composables';
 
 // Vue
-import { watch } from 'vue';
+import { shallowRef, watch } from 'vue';
 
 // Composables
 import { useForm } from '@/composables/form';
@@ -27,25 +26,27 @@ const $props = withDefaults(defineProps<IPotFormProps<T>>(), {
 
 const $emit = defineEmits<{
     change: [updatedForm: T];
-    validate: [fullErrors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormFullErrorsList<T>>>>];
+    validate: [fullErrors: TFormFullErrorsList<T>];
 }>();
 
-let formHelper: TForm<T>;
+const formHelper = shallowRef<TForm<T>>(
+    useForm($props.defaultValues, $props.validators, $props.strict),
+);
 
 watch(
     () => [$props.validators, $props.strict],
-    () => (formHelper = useForm($props.defaultValues, $props.validators, $props.strict)),
+    () => (formHelper.value = useForm($props.defaultValues, $props.validators, $props.strict)),
     { immediate: true },
 );
 
 watch(
-    () => formHelper.fullErrors,
-    newErrors => $emit('validate', newErrors),
+    () => formHelper.value?.fullErrors,
+    newErrors => $emit('validate', { ...newErrors } as TFormFullErrorsList<T>),
     { deep: true },
 );
 
 watch(
-    () => formHelper.values,
+    () => formHelper.value?.values,
     newForm => $emit('change', { ...newForm } as T),
     { deep: true },
 );

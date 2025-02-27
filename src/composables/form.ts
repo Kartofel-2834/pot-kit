@@ -10,7 +10,7 @@ import type {
 } from "@/types/composables";
 
 // Vue
-import { computed, readonly, shallowReactive } from "vue";
+import { computed, shallowReactive } from "vue";
 
 // Libraries
 import { Schema as ZodSchema } from "zod";
@@ -131,8 +131,8 @@ export function useForm<T extends object>(
 
     return {
         values: form,
-        errors: readonly(errors),
-        fullErrors: readonly(fullErrors),
+        errors,
+        fullErrors,
         valid,
         toggle,
         change,

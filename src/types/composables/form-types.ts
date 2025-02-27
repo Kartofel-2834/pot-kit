@@ -1,5 +1,5 @@
 // Types
-import type { ComputedRef, DeepReadonly, ShallowReactive, UnwrapNestedRefs } from 'vue';
+import type { ComputedRef, ShallowReactive } from 'vue';
 import type { Schema as ZodSchema } from 'zod';
 import type { Schema as YupSchema } from 'yup';
 
@@ -35,10 +35,10 @@ export type TForm<T extends object> = {
     values: ShallowReactive<T>;
 
     /** Сообщения ошибок валидации */
-    errors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormErrorsList<T>>>>;
+    errors: ShallowReactive<TFormErrorsList<T>>;
 
     /** Ошибки валидации */
-    fullErrors: DeepReadonly<UnwrapNestedRefs<ShallowReactive<TFormFullErrorsList<T>>>>;
+    fullErrors: ShallowReactive<TFormFullErrorsList<T>>;
 
     /** Флаг указывающий на валидность фомы */
     valid: ComputedRef<boolean>;
