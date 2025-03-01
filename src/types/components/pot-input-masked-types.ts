@@ -1,7 +1,7 @@
 // Types
 import type { TMaskPlaceholder } from "@/types/composables";
 import type { EPotRadius } from "@/enums/components";
-import type { EPotColorTheme, EPotDevice, EPotSize } from "@/enums/config";
+import type { EPotColorTheme, EPotDevice, EPotSize } from "@/enums/preset";
 
 /**
  * Пропсы для компонента PotInputMasked

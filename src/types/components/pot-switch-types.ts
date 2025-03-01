@@ -1,7 +1,7 @@
 // Types
 import type { TSpecValue } from "../composables";
 import type { EPotRadius } from "@/enums/components";
-import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/config";
+import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/preset";
 
 export interface IPotSwitchProps<T extends TSpecValue> {
     /** Текущее значение переключателя */

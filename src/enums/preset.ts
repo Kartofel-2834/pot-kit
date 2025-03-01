@@ -1,16 +1,32 @@
-/* NOT EDIT! This file generated automatically */
+/* NOT EDIT! THIS ENUMS GENERATED AUTOMATICALLY! */
 
-/* Color-theme */
-export const POT_COLOR_THEME = {
-    PRIMARY: 'primary',
-    ONION: 'onion',
-    CUCUMBER: 'cucumber',
-    BEETROT: 'beetrot',
-    CORN: 'corn',
+/* Color */
+export const POT_COLOR = {
     POT: 'pot'
 } as const;
 
-export type EPotColorTheme = typeof POT_COLOR_THEME[keyof typeof POT_COLOR_THEME];
+export type EPotColor = typeof POT_COLOR[keyof typeof POT_COLOR];
+
+/* Radius */
+export const POT_RADIUS = {
+    CIRCLE: 'circle',
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small',
+    TINY: 'tiny'
+} as const;
+
+export type EPotRadius = typeof POT_RADIUS[keyof typeof POT_RADIUS];
+
+/* Gap */
+export const POT_GAP = {
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small',
+    TINY: 'tiny'
+} as const;
+
+export type EPotGap = typeof POT_GAP[keyof typeof POT_GAP];
 
 /* Device */
 export const POT_DEVICE = {
@@ -34,7 +50,6 @@ export const POT_SIZE = {
     TINY: 'tiny',
     SMALL: 'small',
     MEDIUM: 'medium',
-    BIG: 'big',
     LARGE: 'large'
 } as const;
 

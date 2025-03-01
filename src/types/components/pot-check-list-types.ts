@@ -1,6 +1,6 @@
 // Types
 import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
-import type { EPotColorTheme, EPotSize } from '@/enums/config';
+import type { EPotColorTheme, EPotSize } from '@/enums/preset';
 import type { EPotRadius } from '@/enums/components';
 
 /**

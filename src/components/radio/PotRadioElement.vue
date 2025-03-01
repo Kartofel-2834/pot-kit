@@ -16,7 +16,7 @@ import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { POT_RADIUS } from '@/enums/components';
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 
 // Vue
 import { computed, inject } from 'vue';

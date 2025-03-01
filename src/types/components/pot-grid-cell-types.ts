@@ -1,5 +1,5 @@
 // Enums
-import type { EPotDevice } from "@/enums/config";
+import type { EPotDevice } from "@/enums/preset";
 
 /**
  * Интерфейс пропсов для компонента PotGridCell

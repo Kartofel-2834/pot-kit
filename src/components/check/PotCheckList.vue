@@ -61,7 +61,7 @@ import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
 
 // Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 import { POT_RADIUS } from '@/enums/components';
 
 // Vue

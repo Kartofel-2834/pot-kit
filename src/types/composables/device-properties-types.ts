@@ -1,5 +1,5 @@
 // Types
-import type { EPotDevice } from '@/enums/config';
+import type { EPotDevice } from '@/enums/preset';
 
 export type TDevicePropertyValue<T> = T extends unknown[] ? TDevicePropertyValue<T[number]> : T;
 

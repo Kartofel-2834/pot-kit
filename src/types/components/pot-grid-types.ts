@@ -1,6 +1,6 @@
 // Enums
 import type { EPotGap } from "@/enums/components";
-import type { EPotDevice, EPotSize } from "@/enums/config";
+import type { EPotDevice, EPotSize } from "@/enums/preset";
 
 /**
  * Интерфейс пропсов для компонента PotGrid

@@ -32,6 +32,7 @@
 <script lang="ts" setup>
 // Types
 import type { IPotButtonProps } from '@/types/components';
+import type { TDeviceIs } from '@/types/composables';
 
 // Vue
 import { defineAsyncComponent, computed, inject } from 'vue';
@@ -40,27 +41,23 @@ import { defineAsyncComponent, computed, inject } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
-// Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
-import { POT_RADIUS } from '@/enums/components';
-
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-import type { TDeviceIs } from '@/types/composables';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
-    radius: POT_RADIUS.MEDIUM,
-    size: POT_SIZE.MEDIUM,
-    color: POT_COLOR_THEME.PRIMARY,
+    radius: 'circle',
+    size: null,
+    color: null,
     devices: () => ALL_DEVICES_REVERSED,
     icon: '',
     preicon: '',
     square: false,
     disabled: false,
+    unstyled: false,
 });
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
@@ -90,7 +87,39 @@ const classList = computed(() =>
 );
 </script>
 
-<style lang="scss">
+<style src="@/assets/css/preset/pot-button.css" />
+
+<style>
+/*
+PotButton - Colors Vars
+--color-button-border                  / Цвет рамки
+--color-button-background              / Цвет фона
+--color-button-text                    / Цвет текста
+
+--color-button-hover-border            / Цвет рамки при наведении
+--color-button-hover-background        / Цвет фона при наведении
+--color-button-hover-text              / Цвет текста при наведении
+
+--color-button-active-border           / Цвет рамки при нажатии
+--color-button-active-background       / Цвет фона при нажатии
+--color-button-active-text             / Цвет текста при нажатии
+
+--color-button-disabled-border         / Цвет рамки у неактивной кнопки
+--color-button-disabled-background     / Цвет фона у неактивной кнопки
+--color-button-disabled-text           / Цвет текста у неактивной кнопки
+*/
+
+/*
+PotButton - Sizes Vars:
+--size-height           / Высота
+--size-padding          / Паддинг
+--size-border           / Размер рамки
+--size-text             / Размер текста
+--size-gap              / Паддинг текста
+--size-icon             / Размер иконки
+*/
+
+/* --- PotButton --- */
 .pot-button {
     display: flex;
     align-items: center;
@@ -106,72 +135,59 @@ const classList = computed(() =>
         border-color var(--pot-transition),
         background-color var(--pot-transition);
 
-    /* --- Colors - START --- */
-    border-color: var(--pot-button-border-color);
-    background-color: var(--pot-button-background-color);
-    color: var(--pot-button-text-color);
+    /* --- Colors --- */
+    border-color: var(--color-button-border);
+    background-color: var(--color-button-background);
+    color: var(--color-button-text);
 
-    &:active:not(:disabled) {
-        border-color: var(--pot-button-active-border-color);
-        background-color: var(--pot-button-active-background-color);
-        color: var(--pot-button-active-text-color);
-    }
-
-    &:not(:active, :disabled) {
-        &:hover {
-            border-color: var(--pot-button-hover-border-color);
-            background-color: var(--pot-button-hover-background-color);
-            color: var(--pot-button-hover-text-color);
-        }
-    }
-
-    &:disabled {
-        border-color: var(--pot-button-disabled-border-color);
-        background-color: var(--pot-button-disabled-background-color);
-        color: var(--pot-button-disabled-text-color);
-    }
-    /* --- Colors - END --- */
-
-    /* --- Sizes --- */
-    $standard-size: (
-        height: var(--pot-button-size-height),
-        text: var(--pot-button-size-text),
-        border: var(--pot-button-size-border),
-        padding: var(--pot-button-size-padding),
-        label-padding: var(--pot-button-size-label-padding),
-    );
-
-    @include size($standard-size) using ($size, $size-name) {
-        height: map-get($size, 'height');
-        padding: 0 map-get($size, 'padding');
-        border-width: map-get($size, 'border');
-        font-size: map-get($size, 'text');
-
-        @include modificator(square) {
-            padding: 0;
-        }
-
-        .pot-button__label {
-            padding: 0 map-get($size, 'label-padding');
-        }
-    }
+    /* --- Size --- */
+    gap: var(--size-gap);
+    height: var(--size-height);
+    padding: 0 var(--size-padding);
+    border-width: var(--size-border);
+    font-size: var(--size-text);
 
     /* --- Radius --- */
-    @include radius();
+    border-radius: var(--radius);
+}
 
-    /* --- Flags --- */
-    @include modificator(square) {
-        aspect-ratio: 1 / 1;
-    }
+/* --- PotButton - Active ---  */
+.pot-button:active:not(:disabled) {
+    /* --- Colors --- */
+    border-color: var(--color-button-active-border);
+    background-color: var(--color-button-active-background);
+    color: var(--color-button-active-text);
+}
 
-    &:disabled {
-        cursor: not-allowed;
-    }
+/* --- PotButton - Hover --- */
+.pot-button:not(:active, :disabled):hover {
+    /* --- Colors --- */
+    border-color: var(--color-button-hover-border);
+    background-color: var(--color-button-hover-background);
+    color: var(--color-button-hover-text);
+}
 
-    .pot-button__icon {
-        flex-shrink: 0;
-        width: 1.2em;
-        height: 1.2em;
-    }
+/* --- PotButton - Disabled --- */
+.pot-button:disabled {
+    cursor: not-allowed;
+
+    /* --- Colors --- */
+    border-color: var(--color-button-disabled-border);
+    background-color: var(--color-button-disabled-background);
+    color: var(--color-button-disabled-text);
+}
+
+/* --- PotButton - Square --- */
+.pot-button._square {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+}
+
+/* ----------------------------------------------------------- */
+
+.pot-button__icon {
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
+    width: var(--size-icon);
 }
 </style>

@@ -31,7 +31,7 @@ import type { IPotLinkProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 
 // Vue
 import { defineAsyncComponent, inject } from 'vue';

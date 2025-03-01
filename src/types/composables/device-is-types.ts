@@ -1,6 +1,6 @@
 // Types
 import type { Ref } from 'vue';
-import type { EPotDevice } from '@/enums/config';
+import type { EPotDevice } from '@/enums/preset';
 
 export type TDeviceIsMediaQueries = Partial<Record<EPotDevice, MediaQueryList>>
 

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 // Types
 import type { Ref } from 'vue';
-import type { EPotDevice } from '@/enums/config';
+import type { EPotDevice } from '@/enums/preset';
 import type {
     TDeviceIs,
     TDeviceIsMediaQueries,
@@ -11,7 +11,7 @@ import type {
 } from '@/types/composables';
 
 // Enums
-import { POT_DEVICE, POT_BREAKPOINT } from '@/enums/config';
+import { POT_DEVICE, POT_BREAKPOINT } from '@/enums/preset';
 
 
 

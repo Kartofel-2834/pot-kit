@@ -1,0 +1,51 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-button {
+    --color-button-border: var(--color-target);
+    --color-button-background: var(--color-target);
+    --color-button-text: var(--color-text);
+    --color-button-hover-border: var(--color-hover-target);
+    --color-button-hover-background: var(--color-hover-target);
+    --color-button-hover-text: var(--color-hover-text);
+    --color-button-active-border: var(--color-active-target);
+    --color-button-active-background: var(--color-active-target);
+    --color-button-active-text: var(--color-active-text);
+    --color-button-disabled-border: var(--pot-base-400);
+    --color-button-disabled-background: var(--pot-base-400);
+    --color-button-disabled-text: var(--color-disabled-text);
+}
+
+.pot-button._size-tiny {
+    --size-height: var(--pot-spacer-3-200);
+    --size-text: var(--pot-font-size-200);
+    --size-padding: var(--pot-spacer-1-200);
+    --size-gap: var(--pot-spacer-0-800);
+    --size-icon: var(--pot-spacer-1-400);
+    --size-border: 1px;
+}
+
+.pot-button._size-small {
+    --size-height: var(--pot-spacer-3-600);
+    --size-text: var(--pot-font-size-200);
+    --size-padding: var(--pot-spacer-1-600);
+    --size-gap: var(--pot-spacer-0-800);
+    --size-icon: var(--pot-spacer-1-600);
+    --size-border: 1px;
+}
+
+.pot-button._size-medium {
+    --size-height: var(--pot-spacer-4-800);
+    --size-text: var(--pot-font-size-200);
+    --size-padding: var(--pot-spacer-2);
+    --size-gap: var(--pot-spacer-1-200);
+    --size-icon: var(--pot-spacer-1-600);
+    --size-border: 1px;
+}
+
+.pot-button._size-large {
+    --size-height: var(--pot-spacer-5-600);
+    --size-text: var(--pot-font-size-300);
+    --size-padding: var(--pot-spacer-2-800);
+    --size-gap: var(--pot-spacer-1-200);
+    --size-icon: var(--pot-spacer-2);
+    --size-border: 1px;
+}

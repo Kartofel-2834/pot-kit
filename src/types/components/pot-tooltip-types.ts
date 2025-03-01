@@ -1,6 +1,6 @@
 // Types
 import type { RendererElement, VNode } from "vue";
-import type { EPotColorTheme, EPotSize, EPotDevice } from "@/enums/config";
+import type { EPotColorTheme, EPotSize, EPotDevice } from "@/enums/preset";
 import type { EPotTooltipPosition, EPotRadius } from "@/enums/components";
 
 /**

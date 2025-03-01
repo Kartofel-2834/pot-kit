@@ -19,7 +19,7 @@ import type { TDeviceIs } from '@/types/composables';
 
 // Enums
 import { POT_GAP } from '@/enums/components/EPotGap';
-import { POT_SIZE } from '@/enums/config';
+import { POT_SIZE } from '@/enums/preset';
 
 // Vue
 import { computed, inject } from 'vue';

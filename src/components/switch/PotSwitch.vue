@@ -56,7 +56,7 @@ import type { TSpecValue } from '@/types/composables';
 
 // Enums
 import { POT_RADIUS } from '@/enums/components';
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';

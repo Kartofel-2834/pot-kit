@@ -3,7 +3,7 @@ import type { TSpecValue } from "../composables";
 
 // Enums
 import type { EPotRadius } from "@/enums/components";
-import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/config";
+import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/preset";
 
 /**
  * Интерфейс пропсов для компонента PotCheckbox

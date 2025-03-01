@@ -44,7 +44,7 @@ import type { TDeviceIs } from '@/types/composables';
 import type { EPotTooltipPosition } from '@/enums/components';
 
 // Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 import { POT_RADIUS, POT_TOOLTIP_POSITION } from '@/enums/components';
 
 // Vue

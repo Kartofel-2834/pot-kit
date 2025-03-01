@@ -34,7 +34,7 @@ import type { IPotCheckboxProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
 
 // Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/config';
+import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
 import { POT_RADIUS } from '@/enums/components';
 
 // Vue

@@ -4,7 +4,7 @@ import type {
     TDevicePropertiesBreakpointsValues,
     TDevicePropertyValue,
 } from '@/types/composables';
-import type { EPotDevice } from '@/enums/config';
+import type { EPotDevice } from '@/enums/preset';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from './device-is';

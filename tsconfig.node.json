@@ -6,8 +6,9 @@
         "cypress.config.*",
         "nightwatch.conf.*",
         "playwright.config.*",
-        "pot-kit-config.*",
-        "vite-pot-kit-plugin.*"
+        "vite-pot-kit-plugin/*",
+        "presets/*/*",
+        "presets/*"
     ],
     "compilerOptions": {
         "composite": true,

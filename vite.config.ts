@@ -9,6 +9,9 @@ import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
 import potKit from './vite-pot-kit-plugin';
 
+// Pot kit preset
+import { PotPreset, SimplePreset } from './presets';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -16,16 +19,8 @@ export default defineConfig({
         svgLoader({
             defaultImport: 'raw'
         }),
-        potKit()
+        potKit(PotPreset)
     ],
-
-    css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: '@import "@/assets/scss/bundle";',
-            },
-        },
-    },
 
     resolve: {
         alias: {

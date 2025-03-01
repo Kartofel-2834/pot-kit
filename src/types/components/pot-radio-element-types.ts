@@ -1,5 +1,5 @@
 // Types
-import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/config";
+import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/preset";
 import type { EPotRadius } from "@/enums/components";
 
 export interface IPotRadioElementProps {
