@@ -22,7 +22,7 @@
             v-model="flag"
             color="pot"
             size="medium"
-            radius="medium"
+            radius="circle"
             disabled
         >
             Test
@@ -60,7 +60,7 @@
         <PotButton
             color="pot"
             size="large"
-            radius="tiny"
+            radius="circle"
         >
             Kamal
         </PotButton>

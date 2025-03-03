@@ -15,7 +15,7 @@ function getClassStyles(
     name: string,
     configuration: Record<string, string | number> = {}
 ): string {
-    const className = `.${camelCaseToKebab(name)}`;
+    const className = `.${name}`;
 
     const vars = Object.entries(configuration).map(([varName, varValue]) => {
         return `    ${camelCaseToKebab(varName)}: ${toCssValue(varValue)};`;
