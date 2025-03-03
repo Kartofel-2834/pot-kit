@@ -1,40 +1,5 @@
-export interface IPotKitComponentConfig<TSize extends string = string> {
-    color: {
-        [varName: string]: string;
-    };
-
-    size?: {
-        [key in TSize]: {
-            [varName: string]: string | number;
-        };
-    };
-}
-
-export interface IPotKitConfig<TSize extends string = string> {
-    breakpoints: Record<string, number>;
-
-    size: TSize[];
-
-    color: {
-        [colorName: string]: {
-            [varName: string]: string;
-        } 
-    };
-
-    radius: {
-        [radiusName: string]: string | number;
-    };
-
-    gap: {
-        [gapName: string]: string | number;
-    };
-
-    components: {
-        button: IPotButtonConfig<TSize>
-    }
-}
-
-
+// Types
+import { IPotKitComponentConfig } from "./pot-component-config";
 
 /** PotButton */
 export interface IPotButtonConfig<TSize extends string> extends IPotKitComponentConfig<TSize> {

@@ -73,7 +73,7 @@ function generateComponentStyles(
     const colorVars = Object.entries(componentConfiguration.color).reduce((res, [varName, varValue]) => {
         return {
             ...res, 
-            [`--color-${name}-${camelCaseToKebab(varName)}`]: toCssValue(varValue)
+            [`--${name}-color-${camelCaseToKebab(varName)}`]: toCssValue(varValue)
         };
     }, {});
 
@@ -85,7 +85,7 @@ function generateComponentStyles(
         const formattedVars = Object.entries(sizeVars ?? {}).reduce((res, [varName, varValue]) => {
             return {
                 ...res,
-                [`--size-${camelCaseToKebab(varName)}`]: varValue
+                [`--${name}-size-${camelCaseToKebab(varName)}`]: varValue
             };
         }, {});
 

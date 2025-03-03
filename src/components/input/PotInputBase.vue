@@ -300,6 +300,6 @@ function getParsedValue(newValue: string): T {
     pointer-events: none;
     width: 1.4em;
     font-size: inherit;
-    transition: var(--pot-transition);
+    transition: color var(--pot-transition);
 }
 </style>

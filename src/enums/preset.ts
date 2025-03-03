@@ -13,7 +13,11 @@ export const POT_RADIUS = {
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small',
-    TINY: 'tiny'
+    TINY: 'tiny',
+    RADIUS_8: 'radius8',
+    RADIUS_6: 'radius6',
+    RADIUS_4: 'radius4',
+    RADIUS_2: 'radius2'
 } as const;
 
 export type EPotRadius = typeof POT_RADIUS[keyof typeof POT_RADIUS];

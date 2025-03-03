@@ -1,44 +1,84 @@
 <template>
     <main :class="$style.main">
-        <PotButton> Kamal soska </PotButton>
-        <PotButton
+        {{ flag }}
+        <PotCheckbox
+            v-model="flag"
+            color="pot"
             size="tiny"
-            color="pot"
-            icon="check"
-            preicon="check"
+            radius="tiny"
         >
-            Kamal soska
-        </PotButton>
-        <PotButton
+            Test
+        </PotCheckbox>
+        <PotCheckbox
+            v-model="flag"
+            color="pot"
             size="small"
-            color="pot"
-            icon="check"
-            preicon="check"
+            radius="small"
+            disabled
         >
-            Kamal soska
-        </PotButton>
-        <PotButton
+            Test
+        </PotCheckbox>
+        <PotCheckbox
+            v-model="flag"
+            color="pot"
             size="medium"
-            color="pot"
-            icon="check"
-            preicon="check"
+            radius="medium"
+            disabled
         >
-            Kamal soska
+            Test
+        </PotCheckbox>
+        <PotCheckbox
+            v-model="flag"
+            color="pot"
+            size="large"
+            radius="large"
+        >
+            Test
+        </PotCheckbox>
+
+        <PotButton
+            color="pot"
+            size="tiny"
+            radius="large"
+        >
+            Kamal
         </PotButton>
         <PotButton
-            size="large"
             color="pot"
-            icon="check"
-            preicon="check"
+            size="small"
+            radius="medium"
         >
-            Kamal soska
+            Kamal
+        </PotButton>
+        <PotButton
+            color="pot"
+            size="medium"
+            radius="small"
+        >
+            Kamal
+        </PotButton>
+        <PotButton
+            color="pot"
+            size="large"
+            radius="tiny"
+        >
+            Kamal
         </PotButton>
     </main>
 </template>
 
 <script lang="ts" setup>
+// Vue
+import { ref } from 'vue';
+
 // Components
 import PotButton from './components/button/PotButton.vue';
+import PotCheckbox from './components/check/PotCheckbox.vue';
+import { useDeviceIs } from './composables/device-is';
+
+const $deviceIs = useDeviceIs();
+
+const flag = ref<boolean>(false);
 </script>
 
 <style lang="scss" module>

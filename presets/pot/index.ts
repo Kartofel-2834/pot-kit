@@ -3,6 +3,7 @@ import type { IPotPreset } from './types';
 
 // Components configurations
 import { PotButtonConfig } from './pot-button';
+import { PotCheckboxConfig } from './pot-checkbox';
 
 export const PotPreset: IPotPreset = {
     breakpoints: {
@@ -19,7 +20,7 @@ export const PotPreset: IPotPreset = {
             /* Default */
             target: 'var(--pot-color-mushroom-300)',
             border: 'var(--pot-color-mushroom-300)',
-            subcolor: 'var(--pot-base-500)',
+            subcolor: 'var(--pot-base-400)',
             text: 'var(--pot-base-0)',
     
             /* Hover */
@@ -31,12 +32,12 @@ export const PotPreset: IPotPreset = {
             /* Active */
             activeTarget: 'var(--pot-color-mushroom-400)',
             activeBorder: 'var(--pot-color-mushroom-400)',
-            activeSubcolor: 'var(--pot-base-500)',
+            activeSubcolor: 'var(--pot-base-600)',
             activeText: 'var(--pot-base-0)',
     
             /* Disabled */
-            disabledTarget: 'var(--pot-color-mushroom-400)',
-            disabledBorder: 'var(--pot-color-mushroom-400)',
+            disabledTarget: 'var(--pot-base-400)',
+            disabledBorder: 'var(--pot-base-400)',
             disabledSubcolor: 'var(--pot-base-500)',
             disabledText: 'var(--pot-base-0)',
         }
@@ -44,10 +45,14 @@ export const PotPreset: IPotPreset = {
 
     radius: {
         circle: 'calc(var(--pot-spacer) * 100)',
-        large: 10,
-        medium: 6,
-        small: 4,
-        tiny: 2
+        large: '0.5em',
+        medium: '0.4em',
+        small: '0.3em',
+        tiny: '0.2em',
+        radius8: 8,
+        radius6: 6,
+        radius4: 4,
+        radius2: 2
     },
     
     gap: {
@@ -59,5 +64,6 @@ export const PotPreset: IPotPreset = {
 
     components: {
         button: PotButtonConfig,
+        checkbox: PotCheckboxConfig,
     }
 };

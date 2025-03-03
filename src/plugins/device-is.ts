@@ -3,7 +3,7 @@ import type { App, Plugin } from 'vue';
 import type { TDeviceIs } from '@/types/composables/device-is-types';
 
 // Composables
-import { useDeviceIs } from '@/composables/device-is';
+import { initQueries, useDeviceIs } from '@/composables/device-is';
 
 const deviceIs: TDeviceIs = useDeviceIs();
 
@@ -20,4 +20,4 @@ function deviceIsPluginInit(app: App): void {
 
 export const plugin: Plugin = { install: deviceIsPluginInit };
 
-export const init = () => deviceIs.init();
+export const init = () => initQueries();

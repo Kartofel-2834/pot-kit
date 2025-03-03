@@ -1,0 +1,56 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-checkbox {
+    --checkbox-color-text: inherit;
+    --checkbox-color-background: transparent;
+    --checkbox-color-icon: var(--color-text);
+    --checkbox-color-border: var(--color-subcolor);
+    --checkbox-color-hover-text: inherit;
+    --checkbox-color-hover-background: transparent;
+    --checkbox-color-hover-icon: var(--color-hover-text);
+    --checkbox-color-hover-border: var(--color-hover-subcolor);
+    --checkbox-color-checked-text: inherit;
+    --checkbox-color-checked-background: var(--color-target);
+    --checkbox-color-checked-border: var(--color-target);
+    --checkbox-color-checked-icon: var(--color-text);
+    --checkbox-color-checked-hover-text: inherit;
+    --checkbox-color-checked-hover-background: var(--color-active-target);
+    --checkbox-color-checked-hover-icon: var(--color-active-text);
+    --checkbox-color-checked-hover-border: var(--color-active-target);
+    --checkbox-color-disabled-text: var(--color-disabled-subcolor);
+    --checkbox-color-disabled-border: var(--color-disabled-target);
+    --checkbox-color-disabled-checked-background: var(--color-disabled-target);
+    --checkbox-color-disabled-background: transparent;
+    --checkbox-color-disabled-icon: var(--color-disabled-text);
+}
+
+.pot-checkbox._size-tiny {
+    --checkbox-size-height: var(--pot-spacer-2);
+    --checkbox-size-text: var(--pot-spacer-1-600);
+    --checkbox-size-icon: var(--pot-spacer-1-400);
+    --checkbox-size-border: 1px;
+    --checkbox-size-gap: 0.4em;
+}
+
+.pot-checkbox._size-small {
+    --checkbox-size-height: var(--pot-spacer-2-400);
+    --checkbox-size-text: var(--pot-spacer-1-800);
+    --checkbox-size-icon: var(--pot-spacer-1-600);
+    --checkbox-size-border: 1px;
+    --checkbox-size-gap: 0.4em;
+}
+
+.pot-checkbox._size-medium {
+    --checkbox-size-height: var(--pot-spacer-2-800);
+    --checkbox-size-text: var(--pot-spacer-2);
+    --checkbox-size-icon: var(--pot-spacer-1-800);
+    --checkbox-size-border: 1px;
+    --checkbox-size-gap: 0.4em;
+}
+
+.pot-checkbox._size-large {
+    --checkbox-size-height: var(--pot-spacer-3-200);
+    --checkbox-size-text: var(--pot-spacer-2-400);
+    --checkbox-size-icon: var(--pot-spacer-2);
+    --checkbox-size-border: 1px;
+    --checkbox-size-gap: 0.4em;
+}

@@ -2,8 +2,7 @@
 import type { TSpecValue } from "../composables";
 
 // Enums
-import type { EPotRadius } from "@/enums/components";
-import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/preset";
+import type { EPotDevice, EPotColor, EPotRadius, EPotSize } from "@/enums/preset";
 
 /**
  * Интерфейс пропсов для компонента PotCheckbox
@@ -31,7 +30,7 @@ export interface IPotCheckboxProps<T extends TSpecValue> {
     icon?: string;
 
     /** Цвет чекбокса */
-    color?: EPotColorTheme | EPotColorTheme[];
+    color?: EPotColor | EPotColor[] | null;
 
     /** Размер чекбокса, null для скейла от шрифта */
     size?: EPotSize | EPotSize[] | null;

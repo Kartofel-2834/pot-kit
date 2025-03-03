@@ -32,17 +32,16 @@
 <script lang="ts" setup>
 // Types
 import type { IPotButtonProps } from '@/types/components';
-import type { TDeviceIs } from '@/types/composables';
 
 // Vue
-import { defineAsyncComponent, computed, inject } from 'vue';
+import { defineAsyncComponent, computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
@@ -60,7 +59,7 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     unstyled: false,
 });
 
-const $deviceIs = inject<TDeviceIs>('deviceIs');
+const $deviceIs = useDeviceIs();
 
 /**
  * Вычисляет и возвращает свойства компонента на основе
@@ -74,7 +73,7 @@ const properties = computed(() => {
             radius: $props.radius,
         },
         $props.devices,
-        $deviceIs?.device?.value,
+        $deviceIs.device.value,
     );
 });
 
@@ -92,31 +91,31 @@ const classList = computed(() =>
 <style>
 /*
 PotButton - Colors Vars
---color-button-border                  / Цвет рамки
---color-button-background              / Цвет фона
---color-button-text                    / Цвет текста
+--button-color-border                  / Цвет рамки
+--button-color-background              / Цвет фона
+--button-color-text                    / Цвет текста
 
---color-button-hover-border            / Цвет рамки при наведении
---color-button-hover-background        / Цвет фона при наведении
---color-button-hover-text              / Цвет текста при наведении
+--button-color-hover-border            / Цвет рамки при наведении
+--button-color-hover-background        / Цвет фона при наведении
+--button-color-hover-text              / Цвет текста при наведении
 
---color-button-active-border           / Цвет рамки при нажатии
---color-button-active-background       / Цвет фона при нажатии
---color-button-active-text             / Цвет текста при нажатии
+--button-color-active-border           / Цвет рамки при нажатии
+--button-color-active-background       / Цвет фона при нажатии
+--button-color-active-text             / Цвет текста при нажатии
 
---color-button-disabled-border         / Цвет рамки у неактивной кнопки
---color-button-disabled-background     / Цвет фона у неактивной кнопки
---color-button-disabled-text           / Цвет текста у неактивной кнопки
+--button-color-disabled-border         / Цвет рамки у неактивной кнопки
+--button-color-disabled-background     / Цвет фона у неактивной кнопки
+--button-color-disabled-text           / Цвет текста у неактивной кнопки
 */
 
 /*
 PotButton - Sizes Vars:
---size-height           / Высота
---size-padding          / Паддинг
---size-border           / Размер рамки
---size-text             / Размер текста
---size-gap              / Паддинг текста
---size-icon             / Размер иконки
+--button-size-height           / Высота
+--button-size-padding          / Паддинг
+--button-size-border           / Размер рамки
+--button-size-text             / Размер текста
+--button-size-gap              / Паддинг текста
+--button-size-icon             / Размер иконки
 */
 
 /* --- PotButton --- */
@@ -135,46 +134,46 @@ PotButton - Sizes Vars:
         border-color var(--pot-transition),
         background-color var(--pot-transition);
 
-    /* --- Colors --- */
-    border-color: var(--color-button-border);
-    background-color: var(--color-button-background);
-    color: var(--color-button-text);
+    /* Size */
+    gap: var(--button-size-gap);
+    height: var(--button-size-height);
+    padding: 0 var(--button-size-padding);
+    border-width: var(--button-size-border);
+    font-size: var(--button-size-text);
 
-    /* --- Size --- */
-    gap: var(--size-gap);
-    height: var(--size-height);
-    padding: 0 var(--size-padding);
-    border-width: var(--size-border);
-    font-size: var(--size-text);
-
-    /* --- Radius --- */
+    /* Radius */
     border-radius: var(--radius);
+
+    /* Color */
+    border-color: var(--button-color-border);
+    background-color: var(--button-color-background);
+    color: var(--button-color-text);
 }
 
 /* --- PotButton - Active ---  */
 .pot-button:active:not(:disabled) {
-    /* --- Colors --- */
-    border-color: var(--color-button-active-border);
-    background-color: var(--color-button-active-background);
-    color: var(--color-button-active-text);
+    /* Color */
+    border-color: var(--button-color-active-border);
+    background-color: var(--button-color-active-background);
+    color: var(--button-color-active-text);
 }
 
 /* --- PotButton - Hover --- */
 .pot-button:not(:active, :disabled):hover {
-    /* --- Colors --- */
-    border-color: var(--color-button-hover-border);
-    background-color: var(--color-button-hover-background);
-    color: var(--color-button-hover-text);
+    /* Color */
+    border-color: var(--button-color-hover-border);
+    background-color: var(--button-color-hover-background);
+    color: var(--button-color-hover-text);
 }
 
 /* --- PotButton - Disabled --- */
 .pot-button:disabled {
     cursor: not-allowed;
 
-    /* --- Colors --- */
-    border-color: var(--color-button-disabled-border);
-    background-color: var(--color-button-disabled-background);
-    color: var(--color-button-disabled-text);
+    /* Color */
+    border-color: var(--button-color-disabled-border);
+    background-color: var(--button-color-disabled-background);
+    color: var(--button-color-disabled-text);
 }
 
 /* --- PotButton - Square --- */
@@ -188,6 +187,6 @@ PotButton - Sizes Vars:
 .pot-button__icon {
     flex-shrink: 0;
     aspect-ratio: 1 / 1;
-    width: var(--size-icon);
+    width: var(--button-size-icon);
 }
 </style>

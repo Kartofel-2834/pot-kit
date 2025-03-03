@@ -50,26 +50,11 @@ async function init(config: IPotKitConfig) {
 export * from './types';
 
 export default function potKitBuildPlugin(config: IPotKitConfig): Plugin {
-    const virtualModuleId = 'virtual:vite-pot-kit-plugin';
-    const resolvedVirtualModuleId = '\0' + virtualModuleId;
-    console.log('res', resolvedVirtualModuleId);
     return {
         name: 'vite-pot-kit-plugin',
 
         buildStart: async () => {
             await init(config);
-        },
-
-        resolveId(id) {
-            if (id === virtualModuleId) {
-                return resolvedVirtualModuleId;
-            }
-        },
-
-        load(id) {
-            if (id === resolvedVirtualModuleId) {
-                return `export const msg = "from virtual module"`;
-            }
         },
     };
 }

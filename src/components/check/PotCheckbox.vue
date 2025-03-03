@@ -31,21 +31,16 @@
 // Types
 import type { TSpecValue } from '@/types/composables';
 import type { IPotCheckboxProps } from '@/types/components';
-import type { TDeviceIs } from '@/types/composables';
-
-// Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
-import { POT_RADIUS } from '@/enums/components';
 
 // Vue
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
 
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
@@ -58,9 +53,9 @@ const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
     disabled: false,
     invalid: false,
     icon: 'check',
-    color: POT_COLOR_THEME.PRIMARY,
-    size: POT_SIZE.MEDIUM,
-    radius: POT_RADIUS.MEDIUM,
+    color: null,
+    size: null,
+    radius: null,
     devices: () => ALL_DEVICES_REVERSED,
 });
 
@@ -69,7 +64,7 @@ const $emit = defineEmits<{
     'update:modelValue': [newValue: T | boolean];
 }>();
 
-const $deviceIs = inject<TDeviceIs>('deviceIs');
+const $deviceIs = useDeviceIs();
 
 /** value с поддержкой v-model */
 const currentValue = computed<T | null>(() => $props.value ?? $props.modelValue ?? null);
@@ -95,7 +90,7 @@ const properties = computed(() => {
             radius: $props.radius,
         },
         $props.devices,
-        $deviceIs?.device?.value,
+        $deviceIs.device.value,
     );
 });
 
@@ -125,102 +120,172 @@ function onChange(event: Event): void {
 }
 </script>
 
-<style lang="scss">
+<style src="@/assets/css/preset/pot-checkbox.css" />
+
+<style>
+/*
+PotCheckbox - Colors Vars
+--checkbox-color-text                            / Цвет текста
+--checkbox-color-background                      / Цвет фона
+--checkbox-color-icon                            / Цвет иконки
+--checkbox-color-border                          / Цвет рамки
+
+--checkbox-color-hover-text                      / Цвет текста при наведении
+--checkbox-color-hover-border                    / Цвет рамки при наведении
+--checkbox-color-hover-background                / Цвет фона при наведении
+--checkbox-color-hover-icon                      / Цвет иконки при наведении
+
+--checkbox-color-checked-text                    / Цвет текста выбранного чекбокса
+--checkbox-color-checked-border                  / Цвет рамки выбранного чекбокса
+--checkbox-color-checked-background              / Цвет фона выбранного чекбокса
+--checkbox-color-checked-icon                    / Цвет иконки выбранного чекбокса
+
+--checkbox-color-checked-hover-text              / Цвет текста при наведении на выбранный чекбокс
+--checkbox-color-checked-hover-border            / Цвет рамки при наведении на выбранный чекбокс
+--checkbox-color-checked-hover-background        / Цвет фона при наведении на выбранный чекбокс
+--checkbox-color-checked-hover-icon              / Цвет иконки при наведении на выбранный чекбокс
+
+--checkbox-color-disabled-text                   / Цвет текста при наведении на выбранный чекбокс
+--checkbox-color-disabled-border                 / Цвет рамки при наведении на выбранный чекбокс
+--checkbox-color-disabled-background             / Цвет фона при наведении на выбранный чекбокс
+--checkbox-color-disabled-icon                   / Цвет иконки при наведении на выбранный чекбокс
+*/
+
+/*
+PotCheckbox - Sizes Vars:
+--checkbox-size-text           / Размер текста
+--checkbox-size-height         / Высота
+--checkbox-size-icon           / Размер иконки
+--checkbox-size-border         / Размер рамки
+--checkbox-size-gap            / Размер расстояния между чекбоксом и его текстом
+*/
 .pot-checkbox {
     display: flex;
     align-items: center;
     width: fit-content;
-    gap: 0.4em;
     font-size: inherit;
     font-weight: 400;
     line-height: 1;
     cursor: pointer;
     user-select: none;
-    transition: opacity var(--pot-transition);
+    transition: color var(--pot-transition);
 
-    /* --- Colors - START --- */
-    color: var(--pot-checkbox-text-color);
+    /* Size */
+    gap: var(--checkbox-size-gap);
+    font-size: var(--checkbox-size-text);
 
-    .pot-checkbox__icon-wrapper {
-        background-color: var(--pot-checkbox-background-color);
-        border-color: var(--pot-checkbox-border-color);
-        color: var(--pot-checkbox-icon-color);
-    }
+    /* Color */
+    color: var(--checkbox-color-text);
+}
 
-    @include modificator(checked) {
-        .pot-checkbox__icon-wrapper {
-            background-color: var(--pot-checkbox-checked-background-color);
-            border-color: var(--pot-checkbox-checked-border-color);
-            color: var(--pot-checkbox-checked-icon-color);
-        }
-    }
+/* --- PotCheckbox - Hover --- */
+.pot-checkbox:not(._disabled):hover {
+    /* Color */
+    color: var(----checkbox-color-hover-text);
+}
 
-    @include modificator(invalid) {
-        .pot-checkbox__icon-wrapper {
-            background-color: transparent;
-            border-color: var(--pot-color-invalid);
-            color: var(--pot-color-invalid-text);
-        }
+.pot-checkbox:not(._disabled):hover .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--checkbox-color-hover-background);
+    border-color: var(--checkbox-color-hover-border);
+    color: var(--checkbox-color-hover-icon);
+}
 
-        @include modificator(checked) {
-            .pot-checkbox__icon-wrapper {
-                background-color: var(--pot-color-invalid);
-                border-color: var(--pot-color-invalid);
-                color: var(--pot-color-invalid-text);
-            }
-        }
-    }
-    /* --- Colors - END --- */
+/* --- PotCheckbox - Checked --- */
+.pot-checkbox:not(._disabled)._checked {
+    /* Color */
+    color: var(--checkbox-color-checked-text);
+}
 
-    /* --- Sizes --- */
-    $standard-size: (
-        height: var(--pot-checkbox-size-height),
-        text: var(--pot-checkbox-size-text),
-    );
+.pot-checkbox:not(._disabled)._checked .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--checkbox-color-checked-background);
+    border-color: var(--checkbox-color-checked-border);
+    color: var(--checkbox-color-checked-icon);
+}
 
-    @include size($standard-size) using ($size, $size-name) {
-        font-size: map-get($size, 'text');
+.pot-checkbox._checked .pot-checkbox__icon {
+    transform: scale(1);
+}
 
-        .pot-checkbox__icon-wrapper {
-            width: map-get($size, 'height');
-        }
-    }
+/* --- PotCheckbox - Checked - Hover --- */
+.pot-checkbox:not(._disabled)._checked:hover {
+    /* Color */
+    color: var(--checkbox-color-checked-hover-text);
+}
 
-    /* --- Flags --- */
-    @include modificator(checked) {
-        .pot-checkbox__icon {
-            transform: scale(1);
-        }
-    }
+.pot-checkbox:not(._disabled)._checked:hover .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--checkbox-color-checked-hover-background);
+    border-color: var(--checkbox-color-checked-hover-border);
+    color: var(--checkbox-color-checked-hover-icon);
+}
 
-    /* --- Radius --- */
-    @include radius('.pot-checkbox__icon-wrapper');
+/* --- PotCheckbox - Invalid --- */
+.pot-checkbox:not(._disabled)._invalid .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: transparent;
+    border-color: var(--pot-color-invalid);
+    color: var(--pot-color-invalid-text);
+}
 
-    @include modificator(disabled) {
-        opacity: 0.75;
-        cursor: not-allowed;
-    }
+.pot-checkbox:not(._disabled)._invalid._checked .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--pot-color-invalid);
+    border-color: var(--pot-color-invalid);
+    color: var(--pot-color-invalid-text);
+}
+
+/* --- PotCheckbox - Disabled --- */
+.pot-checkbox._disabled {
+    cursor: not-allowed;
+
+    /* Color */
+    color: var(--checkbox-color-disabled-text);
+}
+
+.pot-checkbox._disabled .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--checkbox-color-disabled-background);
+    border-color: var(--checkbox-color-disabled-border);
+    color: var(--checkbox-color-disabled-icon);
+}
+
+.pot-checkbox._disabled._checked .pot-checkbox__icon-wrapper {
+    /* Color */
+    background-color: var(--checkbox-color-disabled-checked-background);
+}
+
+/* ----------------------------------------------------------- */
+
+.pot-checkbox__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    border-style: solid;
+    transition:
+        color var(--pot-transition),
+        border-color var(--pot-transition),
+        background-color var(--pot-transition);
+
+    /* Size */
+    width: var(--checkbox-size-height);
+    border-width: var(--checkbox-size-border);
+    border-radius: var(--radius);
+
+    /* Color */
+    background-color: var(--checkbox-color-background);
+    border-color: var(--checkbox-color-border);
+    color: var(--checkbox-color-icon);
 }
 
 .pot-checkbox__input {
     display: none;
 }
 
-.pot-checkbox__icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.125em;
-    aspect-ratio: 1 / 1;
-    border: 1px solid;
-    transition:
-        color var(--pot-transition),
-        border-color var(--pot-transition),
-        background-color var(--pot-transition);
-}
-
 .pot-checkbox__icon {
-    width: 75%;
+    width: var(--checkbox-size-icon);
     transform: scale(0);
     transition: transform var(--pot-transition);
 }
