@@ -2,8 +2,15 @@
 import type { TFormValidatorsList } from "../composables";
 
 export interface IPotFormProps<T extends object> {
-    tag?: string;
+    /** HTML-тег формы */
+    tag: string;
+
+    /** Значения формы по-умолчанию */
     defaultValues: T;
+
+    /** Валидаторы формы */
     validators?: TFormValidatorsList<T>;
+
+    /** Валидация в строгом режиме */
     strict?: boolean;
 }

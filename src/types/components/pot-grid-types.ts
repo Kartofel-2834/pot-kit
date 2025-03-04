@@ -1,6 +1,6 @@
-// Enums
-import type { EPotGap } from "@/enums/components";
-import type { EPotDevice, EPotSize } from "@/enums/preset";
+// Types
+import type { EPotDevice, EPotGap } from "@/enums/preset";
+import type { TPotAlign, TPotAlignContent, TPotJustify, TPotJustifyItems } from "./pot-base";
 
 /**
  * Интерфейс пропсов для компонента PotGrid
@@ -24,11 +24,20 @@ export interface IPotGridProps {
     /** Длина элемента выходящего за заданную сетку */
     autoCols?: string | string[];
 
-    /** Размер отступов сетки */
-    gap?: EPotGap | EPotGap[] | number | number[] | null; 
+    /** align-items сетки */
+    align?: TPotAlign | TPotAlign[] | null;
 
-    /** Размер элементов сетки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: EPotSize | EPotSize[];
+    /** align-content сетки */
+    alignContent?: TPotAlignContent | TPotAlignContent[] | null;
+
+    /** justify-content сетки */
+    justify?: TPotJustify | TPotJustify[] | null;
+
+    /** justify-items сетки */
+    justifyItems?: TPotJustifyItems | TPotJustifyItems[] | null;
+
+    /** Размер отступов сетки */
+    gap?: EPotGap | EPotGap[] | null; 
 
     /** Точки останова для адаптивного дизайна */
     devices?: EPotDevice[];

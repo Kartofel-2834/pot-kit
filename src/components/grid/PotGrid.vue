@@ -4,46 +4,41 @@
         :class="['pot-grid', classList]"
         :style="currentStyles"
     >
-        <slot
-            :gap="properties.gap"
-            :size="properties.size"
-            :devices="devices"
-        />
+        <slot />
     </component>
 </template>
 
 <script lang="ts" setup>
 // Types
 import type { IPotGridProps } from '@/types/components';
-import type { TDeviceIs } from '@/types/composables';
-
-// Enums
-import { POT_GAP } from '@/enums/components/EPotGap';
-import { POT_SIZE } from '@/enums/preset';
 
 // Vue
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
 
 // Composables
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useClassList } from '@/composables/class-list';
 
 // Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
 
+// TODO: доработать систему типов для строковых значений
 const $props = withDefaults(defineProps<IPotGridProps>(), {
     tag: 'div',
-    gap: POT_GAP.MEDIUM,
-    size: POT_SIZE.MEDIUM,
+    gap: null,
     cols: undefined,
     rows: undefined,
     flow: undefined,
     autoRows: undefined,
     autoCols: undefined,
+    align: undefined,
+    alignContent: undefined,
+    justify: undefined,
+    justifyItems: undefined,
     devices: () => ALL_DEVICES_REVERSED,
 });
 
-const $deviceIs = inject<TDeviceIs>('deviceIs');
+const $deviceIs = useDeviceIs();
 
 // Computed
 const properties = computed(() => {
@@ -54,30 +49,30 @@ const properties = computed(() => {
             flow: $props.flow,
             autoCols: $props.autoCols,
             autoRows: $props.autoRows,
+            align: $props.align,
+            alignContent: $props.alignContent,
+            justify: $props.justify,
+            justifyItems: $props.justifyItems,
             gap: $props.gap,
-            size: $props.size,
         },
         $props.devices,
-        $deviceIs?.device?.value,
+        $deviceIs.device.value,
     );
 });
 
-const classList = computed(() =>
-    useClassList({
-        gap: typeof properties.value.gap === 'string' ? properties.value.gap : null,
-    }),
-);
+const classList = computed(() => useClassList({ ...properties.value }));
 
 const currentStyles = computed(() => {
-    const gap = typeof properties.value.gap === 'number' ? `${properties.value.gap}px` : null;
-
     return {
-        '--pot-grid-gap': gap,
         '--pot-grid-columns': formatNumberToFr(properties.value.cols),
         '--pot-grid-rows': formatNumberToFr(properties.value.rows),
         '--pot-grid-flow': properties.value.flow,
         '--pot-grid-auto-row': properties.value.autoRows,
         '--pot-grid-auto-col': properties.value.autoCols,
+        '--pot-grid-align': properties.value.align,
+        '--pot-grid-align-content': properties.value.alignContent,
+        '--pot-grid-justify': properties.value.justify,
+        '--pot-grid-justify-items': properties.value.justifyItems,
     };
 });
 
@@ -91,7 +86,7 @@ function formatNumberToFr(v?: string | number): string | undefined {
 }
 </script>
 
-<style lang="scss">
+<style>
 .pot-grid {
     display: grid;
     grid-template-columns: var(--pot-grid-columns);
@@ -99,9 +94,12 @@ function formatNumberToFr(v?: string | number): string | undefined {
     grid-auto-flow: var(--pot-grid-flow);
     grid-auto-rows: var(--pot-grid-auto-row);
     grid-auto-columns: var(--pot-grid-auto-col);
-    gap: var(--pot-grid-gap);
+    align-items: var(--pot-grid-align);
+    align-content: var(--pot-grid-align-content);
+    justify-content: var(--pot-grid-justify);
+    justify-items: var(--pot-grid-justify-items);
 
-    /* --- Gap --- */
-    @include gap();
+    /* Gap */
+    gap: var(--gap);
 }
 </style>

@@ -1,54 +1,49 @@
 <template>
-    <component
-        :is="tag"
-        class="pot-check-list"
+    <!-- Чекбокс для выбора всех значений сразу -->
+    <slot
+        name="checkbox"
+        :spec="null"
+        :disabled="disabled"
+        :selected="isAllSelected"
+        :value="null"
+        :label="resetLabel"
+        :on-change="() => onCheckboxChange(null)"
     >
-        <!-- Чекбокс для выбора всех значений сразу -->
-        <slot
-            name="checkbox"
-            :spec="null"
+        <PotCheckBox
+            v-if="resetable"
+            :key="`PotCheckListCheckbox_reset`"
+            :value="isAllSelected"
             :disabled="disabled"
-            :selected="isAllSelected"
-            :value="null"
-            :label="resetLabel"
-            :on-change="() => onCheckboxChange(null)"
+            :color="color"
+            :size="size"
+            @change="onCheckboxChange(null)"
         >
-            <PotCheckBox
-                v-if="resetable"
-                :key="`PotCheckListCheckbox_reset`"
-                :value="isAllSelected"
-                :disabled="disabled"
-                :color="color"
-                :size="size"
-                @change="onCheckboxChange(null)"
-            >
-                {{ resetLabel }}
-            </PotCheckBox>
-        </slot>
+            {{ resetLabel }}
+        </PotCheckBox>
+    </slot>
 
-        <slot
-            v-for="spec of updatedSpecs"
-            name="checkbox"
-            :spec="spec.target"
+    <slot
+        v-for="spec of updatedSpecs"
+        name="checkbox"
+        :spec="spec.target"
+        :disabled="disabled || spec.isDisabled"
+        :selected="spec.isSelected"
+        :value="spec.value"
+        :label="spec.label"
+        :on-change="() => onCheckboxChange(spec.value)"
+    >
+        <PotCheckBox
+            :key="`PotCheckListCheckbox_${spec.value}`"
+            :value="spec.isSelected"
             :disabled="disabled || spec.isDisabled"
-            :selected="spec.isSelected"
-            :value="spec.value"
-            :label="spec.label"
-            :on-change="() => onCheckboxChange(spec.value)"
+            :color="color"
+            :size="size"
+            :radius="radius"
+            @change="onCheckboxChange(spec.value)"
         >
-            <PotCheckBox
-                :key="`PotCheckListCheckbox_${spec.value}`"
-                :value="spec.isSelected"
-                :disabled="disabled || spec.isDisabled"
-                :color="color"
-                :size="size"
-                :radius="radius"
-                @change="onCheckboxChange(spec.value)"
-            >
-                {{ spec.label }}
-            </PotCheckBox>
-        </slot>
-    </component>
+            {{ spec.label }}
+        </PotCheckBox>
+    </slot>
 </template>
 
 <script
@@ -59,10 +54,6 @@
 // Types
 import type { TSpecValue } from '@/types/composables/specs-helper-types';
 import type { IPotCheckListProps } from '@/types/components';
-
-// Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
-import { POT_RADIUS } from '@/enums/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';
@@ -80,9 +71,9 @@ const $props = withDefaults(defineProps<IPotCheckListProps<S, L, V, T>>(), {
     resetLabel: 'Все',
     disabled: false,
     resetable: false,
-    color: POT_COLOR_THEME.PRIMARY,
-    size: POT_SIZE.MEDIUM,
-    radius: POT_RADIUS.MEDIUM,
+    color: null,
+    size: null,
+    radius: null,
 });
 
 const $emit = defineEmits<{
@@ -126,10 +117,3 @@ function onCheckboxChange(specValue: T | null): void {
     $emit('update:modelValue', updatedValue);
 }
 </script>
-
-<style lang="scss">
-.pot-check-list {
-    display: flex;
-    gap: 2rem;
-}
-</style>

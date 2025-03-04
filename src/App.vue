@@ -1,69 +1,20 @@
 <template>
     <main :class="$style.main">
-        {{ flag }}
-        <PotCheckbox
-            v-model="flag"
-            color="pot"
-            size="tiny"
-            radius="tiny"
+        <PotGroup
+            gap="medium"
+            direction="column"
+            align="start"
         >
-            Test
-        </PotCheckbox>
-        <PotCheckbox
-            v-model="flag"
-            color="pot"
-            size="small"
-            radius="small"
-            disabled
-        >
-            Test
-        </PotCheckbox>
-        <PotCheckbox
-            v-model="flag"
-            color="pot"
-            size="medium"
-            radius="circle"
-            disabled
-        >
-            Test
-        </PotCheckbox>
-        <PotCheckbox
-            v-model="flag"
-            color="pot"
-            size="large"
-            radius="large"
-        >
-            Test
-        </PotCheckbox>
-
-        <PotButton
-            color="pot"
-            size="tiny"
-            radius="large"
-        >
-            Kamal
-        </PotButton>
-        <PotButton
-            color="pot"
-            size="small"
-            radius="medium"
-        >
-            Kamal
-        </PotButton>
-        <PotButton
-            color="pot"
-            size="medium"
-            radius="small"
-        >
-            Kamal
-        </PotButton>
-        <PotButton
-            color="pot"
-            size="large"
-            radius="circle"
-        >
-            Kamal
-        </PotButton>
+            <PotCheckList
+                v-model="num"
+                :specs="specs"
+                value-name="value"
+                color="pot"
+                size="medium"
+                gap="medium"
+                radius="medium"
+            />
+        </PotGroup>
     </main>
 </template>
 
@@ -74,11 +25,25 @@ import { ref } from 'vue';
 // Components
 import PotButton from './components/button/PotButton.vue';
 import PotCheckbox from './components/check/PotCheckbox.vue';
+import PotCheckList from './components/check/PotCheckList.vue';
+
 import { useDeviceIs } from './composables/device-is';
+import PotGrid from './components/grid/PotGrid.vue';
+import PotGroup from './components/group/PotGroup.vue';
 
 const $deviceIs = useDeviceIs();
 
 const flag = ref<boolean>(false);
+const num = ref<number[]>([]);
+
+const specs = ref([
+    { label: 'a', value: 1 },
+    { label: 'b', value: 2 },
+    { label: 'c', value: 3 },
+    { label: 'd', value: 4 },
+    { label: 'e', value: 5 },
+    { label: 'f', value: 6 },
+]);
 </script>
 
 <style lang="scss" module>
