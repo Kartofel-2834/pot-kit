@@ -1,10 +1,17 @@
 <template>
     <main :class="$style.main">
-        <PotGroup
+        <PotGrid
+            cols="2"
             gap="medium"
-            direction="column"
             align="start"
         >
+            <PotButton
+                color="pot"
+                size="medium"
+            >
+                Test
+            </PotButton>
+
             <PotCheckList
                 v-model="num"
                 :specs="specs"
@@ -14,7 +21,7 @@
                 gap="medium"
                 radius="medium"
             />
-        </PotGroup>
+        </PotGrid>
     </main>
 </template>
 
@@ -30,6 +37,7 @@ import PotCheckList from './components/check/PotCheckList.vue';
 import { useDeviceIs } from './composables/device-is';
 import PotGrid from './components/grid/PotGrid.vue';
 import PotGroup from './components/group/PotGroup.vue';
+import PotGroupItem from './components/group/PotGroupItem.vue';
 
 const $deviceIs = useDeviceIs();
 

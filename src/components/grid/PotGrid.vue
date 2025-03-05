@@ -18,14 +18,17 @@ import { computed } from 'vue';
 // Composables
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useClassList } from '@/composables/class-list';
+import { useDeviceIs } from '@/composables/device-is';
 
 // Constants
-import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // TODO: доработать систему типов для строковых значений
 const $props = withDefaults(defineProps<IPotGridProps>(), {
     tag: 'div',
-    gap: null,
+    gap: undefined,
+    rowGap: undefined,
+    columnGap: undefined,
     cols: undefined,
     rows: undefined,
     flow: undefined,
@@ -54,13 +57,22 @@ const properties = computed(() => {
             justify: $props.justify,
             justifyItems: $props.justifyItems,
             gap: $props.gap,
+            rowGap: $props.rowGap,
+            columnGap: $props.columnGap,
         },
         $props.devices,
         $deviceIs.device.value,
     );
 });
 
-const classList = computed(() => useClassList({ ...properties.value }));
+const classList = computed(() =>
+    useClassList({
+        gap: properties.value.gap,
+        'row-gap': properties.value.rowGap,
+        'column-gap': properties.value.columnGap,
+        'divided-gap': Boolean(properties.value.rowGap || properties.value.columnGap),
+    }),
+);
 
 const currentStyles = computed(() => {
     return {
@@ -101,5 +113,11 @@ function formatNumberToFr(v?: string | number): string | undefined {
 
     /* Gap */
     gap: var(--gap);
+}
+
+.pot-grid._divided-gap {
+    /* Gap */
+    row-gap: var(--row-gap);
+    column-gap: var(--column-gap);
 }
 </style>

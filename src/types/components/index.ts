@@ -16,3 +16,4 @@ export * from './pot-grid-cell-types';
 export * from './pot-form-types';
 export * from './pot-form-field-types';
 export * from './pot-group-types';
+export * from './pot-group-item-types';

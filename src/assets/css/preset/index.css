@@ -70,3 +70,35 @@
 ._gap-tiny {
     --gap: var(--pot-spacer-0-600);
 }
+
+._row-gap-large {
+    --row-gap: var(--pot-spacer-2);
+}
+
+._row-gap-medium {
+    --row-gap: var(--pot-spacer-1-600);
+}
+
+._row-gap-small {
+    --row-gap: var(--pot-spacer);
+}
+
+._row-gap-tiny {
+    --row-gap: var(--pot-spacer-0-600);
+}
+
+._column-gap-large {
+    --column-gap: var(--pot-spacer-2);
+}
+
+._column-gap-medium {
+    --column-gap: var(--pot-spacer-1-600);
+}
+
+._column-gap-small {
+    --column-gap: var(--pot-spacer);
+}
+
+._column-gap-tiny {
+    --column-gap: var(--pot-spacer-0-600);
+}

@@ -37,7 +37,13 @@ export interface IPotGridProps {
     justifyItems?: TPotJustifyItems | TPotJustifyItems[] | null;
 
     /** Размер отступов сетки */
-    gap?: EPotGap | EPotGap[] | null; 
+    gap?: EPotGap | EPotGap[] | null;
+
+    /** Размер отступов рядов сетки */
+    rowGap?: EPotGap | EPotGap[] | null;
+
+    /** Размер отступов колонок сетки */
+    columnGap?: EPotGap | EPotGap[] | null;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EPotDevice[];

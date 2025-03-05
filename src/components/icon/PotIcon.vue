@@ -75,7 +75,7 @@ async function updateIcon(): Promise<void> {
 }
 </script>
 
-<style lang="scss" module>
+<style>
 .pot-icon {
     aspect-ratio: 1 / 1;
     color: inherit;

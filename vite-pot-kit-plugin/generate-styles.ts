@@ -108,6 +108,8 @@ export function generateStyles(config: IPotKitConfig): {
         generateColors(config.color),
         generateModificatorGroup('radius', config.radius),
         generateModificatorGroup('gap', config.gap),
+        generateModificatorGroup('row-gap', config.gap),
+        generateModificatorGroup('column-gap', config.gap),
     ].join('\n\n');
 
     const componentsStyles = Object.entries(config.components)
