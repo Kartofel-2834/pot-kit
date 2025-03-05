@@ -6,6 +6,7 @@
         :devices="devices"
         :size="size"
         :color="color"
+        :radius="radius"
         :icon="icon"
         :preicon="preicon"
         :disabled="disabled"
@@ -58,8 +59,7 @@ import { ref, defineAsyncComponent, computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 
 // Components
-import PotInputBase from '@/components/input/PotInputBase.vue';
-
+const PotInputBase = defineAsyncComponent(() => import('@/components/input/PotInputBase.vue'));
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 withDefaults(defineProps<IPotInputPasswordProps>(), {
@@ -88,28 +88,25 @@ function onTypeToggle(event: Event) {
 }
 </script>
 
-<style lang="scss">
-.pot-input-password {
-    /* --- Colors - START --- */
-    .pot-input-password__toggle-icon {
-        color: var(--pot-input-icon-color);
-    }
-
-    @include modificator(type, 'text') {
-        .pot-input-password__toggle-icon {
-            color: var(--pot-input-focused-icon-color);
-        }
-    }
-
-    @include modificator(invalid) {
-        @include modificator(type, 'text') {
-            .pot-input-password__toggle-icon {
-                color: var(--pot-color-invalid);
-            }
-        }
-    }
-    /* --- Colors - END --- */
+<style>
+.pot-input-password .pot-input-password__toggle-icon {
+    /* Color */
+    color: var(--input-color-icon);
 }
+
+/* --- PotInput - Type - Text --- */
+.pot-input-password._type-text .pot-input-password__toggle-icon {
+    /* Color */
+    color: var(--input-color-focused-border);
+}
+
+/* --- PotInput - Invalid --- */
+.pot-input-password._invalid._type-text .pot-input-password__toggle-icon {
+    /* Color */
+    color: var(--pot-color-invalid);
+}
+
+/* ----------------------------------------------------------- */
 
 .pot-input-password__toggle-icon {
     width: 1.4em;

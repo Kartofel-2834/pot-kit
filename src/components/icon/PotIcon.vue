@@ -78,6 +78,5 @@ async function updateIcon(): Promise<void> {
 <style>
 .pot-icon {
     aspect-ratio: 1 / 1;
-    color: inherit;
 }
 </style>

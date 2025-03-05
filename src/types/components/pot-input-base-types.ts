@@ -1,6 +1,5 @@
 // Types
-import type { EPotRadius } from "@/enums/components";
-import type { EPotColorTheme, EPotDevice, EPotSize } from "@/enums/preset";
+import type { EPotColor, EPotRadius, EPotDevice, EPotSize } from "@/enums/preset";
 
 /**
  * Пропсы для компонента PotInputBase
@@ -25,10 +24,10 @@ export interface IPotInputBaseProps<T = string> {
     radius?: EPotRadius | EPotRadius[] | null;
 
     /** Размер инпута */
-    size?: EPotSize | EPotSize[];
+    size?: EPotSize | EPotSize[] | null;
 
     /** Цвет инпута */
-    color?: EPotColorTheme | EPotColorTheme[] | null;
+    color?: EPotColor | EPotColor[] | null;
 
     /** Правая иконка */
     icon?: string;

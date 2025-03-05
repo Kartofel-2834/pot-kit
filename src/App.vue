@@ -1,25 +1,25 @@
 <template>
     <main :class="$style.main">
         <PotGrid
-            cols="2"
             gap="medium"
             align="start"
         >
-            <PotButton
+            <PotInputBase
                 color="pot"
-                size="medium"
-            >
-                Test
-            </PotButton>
+                size="small"
+                radius="circle"
+                placeholder="Login"
+                icon="eye"
+                preicon="check"
+            />
 
-            <PotCheckList
-                v-model="num"
-                :specs="specs"
-                value-name="value"
+            <PotInputPassword
+                placeholder="Password"
+                size="small"
+                radius="circle"
+                icon="eye"
                 color="pot"
-                size="medium"
-                gap="medium"
-                radius="medium"
+                preicon="check"
             />
         </PotGrid>
     </main>
@@ -33,11 +33,13 @@ import { ref } from 'vue';
 import PotButton from './components/button/PotButton.vue';
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotCheckList from './components/check/PotCheckList.vue';
+import PotInputPassword from './components/input/PotInputPassword.vue';
 
 import { useDeviceIs } from './composables/device-is';
 import PotGrid from './components/grid/PotGrid.vue';
 import PotGroup from './components/group/PotGroup.vue';
 import PotGroupItem from './components/group/PotGroupItem.vue';
+import PotInputBase from './components/input/PotInputBase.vue';
 
 const $deviceIs = useDeviceIs();
 

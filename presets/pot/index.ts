@@ -4,6 +4,7 @@ import type { IPotPreset } from './types';
 // Components configurations
 import { PotButtonConfig } from './pot-button';
 import { PotCheckboxConfig } from './pot-checkbox';
+import { PotInputConfig } from './pot-input';
 
 export const PotPreset: IPotPreset = {
     breakpoints: {
@@ -65,5 +66,6 @@ export const PotPreset: IPotPreset = {
     components: {
         button: PotButtonConfig,
         checkbox: PotCheckboxConfig,
+        input: PotInputConfig,
     }
 };
