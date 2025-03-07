@@ -1,50 +1,54 @@
 <template>
     <main :class="$style.main">
-        <PotGrid
-            gap="medium"
-            align="start"
+        <div
+            :style="{
+                height: `${10 * num}px`,
+                width: '50vw',
+                background: 'red',
+                overflow: 'scroll',
+            }"
         >
-            <PotInputBase
-                color="pot"
-                size="small"
-                radius="circle"
-                placeholder="Login"
-                icon="eye"
-                preicon="check"
-            />
+            {{ 'Kamal '.repeat(10000) }}
+        </div>
 
-            <PotInputPassword
-                placeholder="Password"
-                size="small"
-                radius="circle"
-                icon="eye"
-                color="pot"
-                preicon="check"
-            />
-        </PotGrid>
+        <div :style="{ height: `100px`, width: '50vh', background: 'blue' }"></div>
+
+        <PotCheckbox
+            v-model="flag"
+            size="small"
+            color="pot"
+        >
+            Start
+        </PotCheckbox>
+
+        <PotButton
+            size="medium"
+            color="pot"
+            @click="num++"
+        >
+            {{ num }}
+        </PotButton>
     </main>
 </template>
 
 <script lang="ts" setup>
 // Vue
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 // Components
 import PotButton from './components/button/PotButton.vue';
 import PotCheckbox from './components/check/PotCheckbox.vue';
-import PotCheckList from './components/check/PotCheckList.vue';
-import PotInputPassword from './components/input/PotInputPassword.vue';
 
+// Composables
 import { useDeviceIs } from './composables/device-is';
-import PotGrid from './components/grid/PotGrid.vue';
-import PotGroup from './components/group/PotGroup.vue';
-import PotGroupItem from './components/group/PotGroupItem.vue';
-import PotInputBase from './components/input/PotInputBase.vue';
+import { useScrollObserver, useScrollDirective } from './composables/scroll-observer';
 
 const $deviceIs = useDeviceIs();
 
 const flag = ref<boolean>(false);
-const num = ref<number[]>([]);
+const num = ref<number>(10);
+
+const mode = computed(() => (flag.value ? 'start' : 'end'));
 
 const specs = ref([
     { label: 'a', value: 1 },
@@ -54,6 +58,11 @@ const specs = ref([
     { label: 'e', value: 5 },
     { label: 'f', value: 6 },
 ]);
+
+// Methods
+function onScroll(event: Event) {
+    console.log('onScroll', event);
+}
 </script>
 
 <style lang="scss" module>
@@ -62,7 +71,7 @@ const specs = ref([
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 300vh;
     gap: 2rem;
 }
 </style>

@@ -51,7 +51,7 @@ import { POT_RADIUS, POT_TOOLTIP_POSITION } from '@/enums/components';
 import { ref, watch, computed, shallowRef, inject } from 'vue';
 
 // Composables
-import { useResizeObserver } from '@/composables/resize';
+import { useResizeObserver } from '@/composables/resize-observer';
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useClassList } from '@/composables/class-list';
 
