@@ -1,9 +1,10 @@
 // Types
-import type { Directive } from "vue";
+import type { Directive, DirectiveBinding } from "vue";
 import type { IScrollConfig, IScrollObserver, TScrollCallback, TScrollTarget } from "@/types/composables";
 
 // Composables
-import { useObserver, useObserverDirective } from "./observer";
+import { useObserver } from "./observer";
+import { multiActionListener } from "@/utils/timer-utils";
 
 const defaultConfig: IScrollConfig = {
     endDelay: 300,
@@ -12,40 +13,28 @@ const defaultConfig: IScrollConfig = {
     onEnd: () => undefined,
 };
 
-export function useScrollObserver(
-    config: Partial<IScrollConfig> = {}
-): IScrollObserver {
-    const scrollHandlersMap: Map<TScrollTarget, TScrollCallback> = new Map();
+const observer = useObserver<TScrollTarget, TScrollCallback>();
 
-    const observer = useObserver<TScrollTarget, TScrollCallback>({
-        ...defaultConfig,
-        ...config
-    });
-    
+export function useScrollObserver(config: Partial<IScrollConfig> = {}): IScrollObserver {
+    const currentConfig: IScrollConfig = { ...defaultConfig, ...config };
+    const listener = multiActionListener(currentConfig, currentConfig.endDelay);
+
     function observe(target: TScrollTarget) {
-        const scrollHandler = (event: Event) => {
-            observer.emit(target, event);
-        };
-
-        scrollHandlersMap.set(target, scrollHandler);
-        target.addEventListener('scroll', scrollHandler);
+        observer.observe(target, { listener });
+        target.addEventListener('scroll', listener);
     }
 
     function unobserve(target: TScrollTarget) {
-        const scrollHandler = scrollHandlersMap.get(target);
-
-        if (scrollHandler) {
-            target.removeEventListener('scroll', scrollHandler);
-            scrollHandlersMap.delete(target);
-        }
+        observer.unobserve(target);
+        target.removeEventListener('scroll', listener);
     }
 
     function disconnect() {
-        scrollHandlersMap.forEach((scrollHandler, target) => {
-            target.removeEventListener('scroll', scrollHandler);
+        observer.listeners.forEach((data, target) => {
+            unobserve(target);
         });
 
-        scrollHandlersMap.clear();
+        observer.disconnect();
     }
 
     return {
@@ -55,34 +44,66 @@ export function useScrollObserver(
     };
 }
 
-export function useScrollDirective(
-    baseConfig: Partial<IScrollConfig> = {},
-): Directive<Element, TScrollCallback> {
-    return useObserverDirective<IScrollObserver, TScrollCallback>({
-        onUpdate(el, binding, updatedConfig, prevDirectiveData) {
-            if (prevDirectiveData) {
-                prevDirectiveData.observer.disconnect();
-            }
+export function useScrollDirective(config: Partial<IScrollConfig> = {}): Directive {
+    const scrollObserversMap: Map<Element, {
+        directiveConfig: Partial<IScrollConfig> | null;
+        observer: IScrollObserver;
+    }> = new Map();
 
-            const newConfig = {
-                ...baseConfig,
-                ...(prevDirectiveData?.config ?? {}),
-                ...updatedConfig
-            };
+    function updateObserver(el: Element, binding: DirectiveBinding<TScrollCallback>) {
+        const currentData = scrollObserversMap.get(el) ?? null;
+        const configPayload = getConfigUpdatePayload(binding, currentData?.directiveConfig ?? {});
 
-            const newObserver = useScrollObserver(newConfig);
-            newObserver.observe(el);
+        if (currentData) {
+            if (!configPayload) return;
+            currentData.observer.disconnect();
+        }
 
-            return {
-                config: newConfig,
-                observer: newObserver
-            };
+        const currentConfig = {
+            ...defaultConfig,
+            ...config,
+            ...(configPayload ?? {})
+        };
+
+        const scrollObserver = useScrollObserver(currentConfig);
+
+        scrollObserver.observe(el);
+        scrollObserversMap.set(el, { directiveConfig: configPayload, observer: scrollObserver });
+    }
+
+    function getConfigUpdatePayload(
+        binding: DirectiveBinding<TScrollCallback>,
+        prevConfig: Partial<IScrollConfig> = {},
+    ): Partial<IScrollConfig> | null {
+        const listener = typeof binding.value === 'function' ? binding.value : undefined;
+
+        if (binding.arg === 'start' && prevConfig.onStart !== listener) {
+            return { onStart: listener };
+        }
+    
+        if (binding.arg === 'end' && prevConfig.onEnd !== listener) {
+            return { onEnd: listener };
+        } 
+    
+        if (!binding.arg && prevConfig.onProgress !== listener) {
+            return { onProgress: listener };
+        }
+
+        return null;
+    }
+
+    return {
+        mounted(el: Element, binding: DirectiveBinding<TScrollCallback>) {
+            updateObserver(el, binding);
         },
 
-        onUnmount(el, binding, currentDirectiveData) {
-            if (currentDirectiveData) {
-                currentDirectiveData.observer.disconnect();
-            }
+        updated(el: Element, binding: DirectiveBinding<TScrollCallback>) {
+            updateObserver(el, binding);
+        },
+
+        unmounted() {
+            scrollObserversMap.forEach((data) => data.observer.disconnect());
+            scrollObserversMap.clear();
         }
-    });
+    };
 }

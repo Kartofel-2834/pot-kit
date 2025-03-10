@@ -1,95 +1,43 @@
 // Types
-import type { Directive, DirectiveBinding } from "vue";
 import type { ArgumentTypes } from "@/types";
-import type { IObserver, IObserverConfig, IObserverDirectiveData, IObserverDirectiveOptions } from "@/types/composables";
+import type { IObserver, IObserverData } from "@/types/composables";
 
-// Utils
-import { multiActionListener } from "@/utils/timer-utils";
-
-export function useObserver<T, V extends Function>(
-    config: IObserverConfig<V>
-): IObserver<T, V> {
-    type TListener = (...args: ArgumentTypes<V>) => void;
-    const listeners = new Map<T, TListener>();
+export function useObserver<
+    T,
+    V extends Function,
+    C extends IObserverData<V> = IObserverData<V> 
+>(): IObserver<T, V, C> {
+    const listeners = new Map<T, C>();
 
     function emit(target: T, ...args: ArgumentTypes<V>) {
         if (!listeners.has(target)) {
-            listeners.set(target, multiActionListener(config, config.endDelay));
+            throw new Error(`[useObserver/emit]: Target ${target} is not observed`);
         }
 
-        const currentListener = listeners.get(target);
+        const data = listeners.get(target);
 
-        if (typeof currentListener === 'function') {
-            currentListener(...args);
+        if (data && typeof data.listener === 'function') { 
+            data.listener(...args);
         }
     }
 
-    function clear() {
+    function observe(target: T, data: C) {
+        listeners.set(target, data); 
+    }
+
+    function disconnect() {
         listeners.clear();
     }
 
-    function remove(target: T): boolean {
+    function unobserve(target: T): boolean {
         return listeners.delete(target);
     }
 
     return {
+        listeners,
         emit,
-        clear,
-        remove
-    };
-}
-
-export function useObserverDirective<TObserver, V extends Function>(
-    directiveConfig: IObserverDirectiveOptions<TObserver, V>
-): Directive<Element, V> {
-    const observersMap: Map<Element, IObserverDirectiveData<TObserver, V>> = new Map(); 
-
-    function setupDirective(el: Element, binding: DirectiveBinding<V>) {
-        const currentData = observersMap.get(el);
-        let isUpdated = false;
-
-        const listener = typeof binding.value === 'function' ? binding.value : undefined;
-        const configPayload: Partial<IObserverConfig<V>> = {};
-
-        if (binding.arg === 'start' && (!currentData || currentData.config.onStart !== listener)) {
-            configPayload.onStart = listener;
-            isUpdated = true;
-        } else if (binding.arg === 'end' && (!currentData || currentData.config.onEnd !== listener)) {
-            configPayload.onEnd = listener;
-            isUpdated = true;
-        } else if (!binding.arg && (!currentData || currentData.config.onProgress !== listener)) {
-            configPayload.onProgress = listener;
-            isUpdated = true;
-        }
-
-        if (!isUpdated) {
-            return;
-        }
-
-        const newData = directiveConfig.onUpdate(
-            el,
-            binding,
-            configPayload,
-            currentData ?? null
-        );
-        
-        observersMap.set(el, newData);
-    }
-
-    return {
-        mounted(el: Element, binding: DirectiveBinding<V>) {
-            const data = observersMap.get(el) ?? null;
-            directiveConfig?.onMount?.(el, binding, data);
-            setupDirective(el, binding);
-        },
-
-        updated(el: Element, binding: DirectiveBinding<V>) {
-            setupDirective(el, binding);
-        },
-
-        unmounted(el: Element, binding: DirectiveBinding<V>) {
-            const data = observersMap.get(el) ?? null;
-            directiveConfig?.onUnmount?.(el, binding, data);
-        }
+        observe,
+        disconnect,
+        unobserve,
     };
 }

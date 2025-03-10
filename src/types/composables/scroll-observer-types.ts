@@ -1,6 +1,3 @@
-// Types
-import type { IObserverConfig } from "./observer-types";
-
 export type TScrollTarget = Element | Window | Document;
 
 export type TScrollCallback = (event: Event) => unknown;
@@ -11,4 +8,9 @@ export interface IScrollObserver {
     disconnect: () => void;
 };
 
-export interface IScrollConfig extends IObserverConfig<TScrollCallback> {};
+export interface IScrollConfig {
+    endDelay: number;
+    onStart: TScrollCallback;
+    onProgress: TScrollCallback;
+    onEnd: TScrollCallback;
+};

@@ -1,49 +1,18 @@
 // Types
-import type { DirectiveBinding } from "vue";
 import type { ArgumentTypes } from "..";
 
-export interface IObserverConfig<T extends Function> {
-    /** Кол-во мс. через которое будет вызван onEnd */
-    endDelay: number;
-
-    /** Функция вызываемая при начале изменения */
-    onStart?: T;
-
-    /** Функия вызываемая на каждое изменение */
-    onProgress?: T;
-
-    /** Функия вызываемая через endDelay после изменения */
-    onEnd?: T;
-}
-
-export interface IObserverDirectiveData<T, V extends Function> {
-    config: Partial<IObserverConfig<V>>;
-    observer: T;
+export interface IObserverData<V extends Function> { 
+    listener: (...args: ArgumentTypes<V>) => void
 };
 
-export interface IObserverDirectiveOptions<TObserver, V extends Function> {
-    onMount?: (
-        el: Element,
-        binding: DirectiveBinding<V>,
-        currentData: IObserverDirectiveData<TObserver, V> | null
-    ) => void,
-    
-    onUpdate: (
-        el: Element,
-        binding: DirectiveBinding<V>,
-        updatedConfig: Partial<IObserverConfig<V>>,
-        prevDirectiveData?: IObserverDirectiveData<TObserver, V> | null
-    ) => IObserverDirectiveData<TObserver, V>
-    
-    onUnmount?: (
-        el: Element,
-        binding: DirectiveBinding<V>,
-        currentData: IObserverDirectiveData<TObserver, V> | null
-    ) => void,
-} 
-
-export interface IObserver<T, V extends Function> {
+export interface IObserver<
+    T,
+    V extends Function,
+    C extends IObserverData<V> = IObserverData<V>
+> {
+    listeners: Map<T, C>;
     emit: (target: T, ...args: ArgumentTypes<V>) => void;
-    clear: () => void;
-    remove: (target: T) => boolean;
+    disconnect: () => void;
+    unobserve: (target: T) => boolean;
+    observe: (target: T, data: C) => void;
 }

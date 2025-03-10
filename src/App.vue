@@ -1,6 +1,8 @@
 <template>
     <main :class="$style.main">
         <div
+            v-intersect="{ threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] }"
+            v-resize
             :style="{
                 height: `${10 * num}px`,
                 width: '50vw',
@@ -41,7 +43,8 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 
 // Composables
 import { useDeviceIs } from './composables/device-is';
-import { useScrollObserver, useScrollDirective } from './composables/scroll-observer';
+import { useResizeDirective } from './composables/resize-observer';
+import { useIntersectionDirective } from './composables/intersection-observer';
 
 const $deviceIs = useDeviceIs();
 
@@ -49,6 +52,14 @@ const flag = ref<boolean>(false);
 const num = ref<number>(10);
 
 const mode = computed(() => (flag.value ? 'start' : 'end'));
+
+const vResize = useResizeDirective({
+    onEnd: () => console.log('kamal'),
+});
+
+const vIntersect = useIntersectionDirective({
+    onProgress: () => console.log('Test'),
+});
 
 const specs = ref([
     { label: 'a', value: 1 },

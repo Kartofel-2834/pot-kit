@@ -1,9 +1,9 @@
 // Types
-import type { Directive } from 'vue';
-import type { IIntersectionConfig, TIntersectionCallback } from '@/types/composables';
+import type { Directive, DirectiveBinding } from 'vue';
+import type { IIntersectionConfig } from '@/types/composables';
 
-// Composables
-import { useObserver, useObserverDirective } from './observer';
+// Utils
+import { multiActionListener } from '@/utils/timer-utils';
 
 const defaultConfig: IIntersectionConfig = {
     endDelay: 300,
@@ -13,53 +13,92 @@ const defaultConfig: IIntersectionConfig = {
 };
 
 export function useIntersectionObserver(
-    options: IntersectionObserverInit = {},
     config: Partial<IIntersectionConfig> = {},
+    options: IntersectionObserverInit = {},
 ): IntersectionObserver {
-    const observer = useObserver<Element, TIntersectionCallback>({ ...defaultConfig, ...config });
+    const currentConfig = { ...defaultConfig, ...config };
+
+    const listener = multiActionListener(currentConfig, currentConfig.endDelay);
 
     return new IntersectionObserver((entries, intersectionObserver) => {
         for (const entry of entries) {
-            observer.emit(
-                entry.target,
+            listener(
                 entry.boundingClientRect,
                 entry.intersectionRatio,
                 entry,
                 intersectionObserver
-            );   
+            );
         }
     }, options);
-}
+} 
 
 export function useIntersectionDirective(
+    config: Partial<IIntersectionConfig> = {},
     options: IntersectionObserverInit = {},
-    baseConfig: Partial<IIntersectionConfig> = {},
-): Directive<Element, TIntersectionCallback> {
-    return useObserverDirective<IntersectionObserver, TIntersectionCallback>({
-        onUpdate(el, binding, updatedConfig, prevDirectiveData) {
-            if (prevDirectiveData) {
-                prevDirectiveData.observer.disconnect();
-            }
+): Directive<Element, IntersectionObserverInit> {
+    const intersectionObserversMap: Map<Element, {
+        options: IntersectionObserverInit | null;
+        observer: IntersectionObserver;
+    }> = new Map();
+ 
+    const defaultObserver = useIntersectionObserver(config, options);
 
-            const newConfig = {
-                ...baseConfig,
-                ...(prevDirectiveData?.config ?? {}),
-                ...updatedConfig
-            };
+    function updateObserver(el: Element, binding: DirectiveBinding<IntersectionObserverInit>) {
+        const currentData = intersectionObserversMap.get(el) ?? null;
 
-            const newObserver = useIntersectionObserver(options, newConfig); 
-            newObserver.observe(el);
+        const directiveOptions = binding.value && typeof binding.value === 'object' ? binding.value : null;
 
-            return {
-                config: newConfig,
-                observer: newObserver
-            };
-        },
-
-        onUnmount(el, binding, currentDirectiveData) {
-            if (currentDirectiveData) {
-                currentDirectiveData.observer.disconnect();
-            }
+        if (!currentData && directiveOptions) {
+            const currentObserver = useIntersectionObserver(config, { ...options, ...directiveOptions });
+            currentObserver.observe(el);
+            intersectionObserversMap.set(el, { options: directiveOptions, observer: currentObserver }); 
+            return;
         }
-    });
+
+        if (!currentData && !directiveOptions) {
+            defaultObserver.observe(el);
+            intersectionObserversMap.set(el, { options: null, observer: defaultObserver });
+            return;
+        }
+
+        if (currentData && !directiveOptions && currentData.observer !== defaultObserver) {
+            currentData.observer.unobserve(el);
+            defaultObserver.observe(el);
+            intersectionObserversMap.set(el, { options: null, observer: defaultObserver });
+            return;
+        }
+
+        if (
+            currentData &&
+            directiveOptions &&
+            JSON.stringify(currentData.options) !== JSON.stringify(directiveOptions)
+        ) {
+            const currentObserver = useIntersectionObserver(config, { ...options, ...directiveOptions });
+            currentData.observer.unobserve(el);
+            currentObserver.observe(el);
+            intersectionObserversMap.set(el, { options: directiveOptions, observer: currentObserver });
+            return;
+        }
+    }
+ 
+    return {
+        mounted(el: Element, binding: DirectiveBinding<IntersectionObserverInit>) {
+            updateObserver(el, binding);
+        },
+ 
+        updated(el: Element, binding: DirectiveBinding<IntersectionObserverInit>) {
+            updateObserver(el, binding);
+        },
+ 
+        unmounted(el: Element) {
+            const currentData = intersectionObserversMap.get(el);
+
+            if (!currentData) {
+                return;
+            }
+
+            currentData.observer.unobserve(el);
+            intersectionObserversMap.delete(el);
+        }
+    };
 }

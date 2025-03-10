@@ -1,6 +1,3 @@
-// Types
-import type { IObserverConfig } from "./observer-types";
-
 export type TIntersectionCallback = (
     rect: DOMRectReadOnly,
     ratio: number,
@@ -8,4 +5,9 @@ export type TIntersectionCallback = (
     intersectionObserver: IntersectionObserver
 ) => unknown;
 
-export interface IIntersectionConfig extends IObserverConfig<TIntersectionCallback> {};
+export interface IIntersectionConfig {
+    endDelay: number;
+    onStart: TIntersectionCallback;
+    onProgress: TIntersectionCallback;
+    onEnd: TIntersectionCallback;
+};
