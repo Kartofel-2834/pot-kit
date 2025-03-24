@@ -9,23 +9,26 @@ import type { App as Application } from 'vue';
 // Vue
 import { createApp } from 'vue';
 
-// Plugins
-import { plugin as deviceIsPlugin, init as initDeviceIs } from './plugins/device-is';
-
 // Components
 import App from '@/App.vue';
 
+// Plugins
+import { potKitPlugin } from '@/plugins';
+
 function initApp() {
     const app: Application = createApp(App);
-    
-    // Plugins setup
-    app.use(deviceIsPlugin);
+
+    // Plugins init
+    app.use(potKitPlugin({
+        button: {
+            color: 'pot',
+            size: 'medium',
+            radius: 'large',
+        }
+    }));
 
     // Mounting app to page
     app.mount('#app');
-
-    // After mount actions
-    initDeviceIs();
 }
 
 initApp();

@@ -16,24 +16,26 @@ export const ALL_DEVICES = Object.values(POT_DEVICE);
 
 export const ALL_DEVICES_REVERSED = [...ALL_DEVICES].reverse();
 
-const queries = ref<TDeviceIsMediaQueries>({});
 const state = ref<TDeviceIsState>({});
 const device = ref<EPotDevice | null>(null);
-const timeoutId = ref<number | undefined>(undefined);
+
+let isInited = false;
+let timeoutId: number = NaN;
+let queries: TDeviceIsMediaQueries = {};
 
 /** Очистка созданных медиа-запросов и удаление их обработчиков событий */
 function clearQueries() {
-    clearTimeout(timeoutId.value);
+    clearTimeout(timeoutId);
 
-    for (const breakpoint in queries.value) {
-        const mediaQuery = queries.value[breakpoint as EPotDevice];
+    for (const breakpoint in queries) {
+        const mediaQuery = queries[breakpoint as EPotDevice];
 
         if (!mediaQuery?.onchange) continue;
 
         mediaQuery.removeEventListener('change', mediaQuery.onchange);
     }
 
-    queries.value = {};
+    queries = {};
 }
 
 /**
@@ -69,8 +71,8 @@ function createQuery(
 
 /** Обновляет state используя акутальные данные медиа-запросов */
 function updateState(): void {
-    state.value = Object.keys(queries.value).reduce((res, breakpoint) => {
-        const isActive = Boolean(queries.value?.[breakpoint as EPotDevice]?.matches);
+    state.value = Object.keys(queries).reduce((res, breakpoint) => {
+        const isActive = Boolean(queries?.[breakpoint as EPotDevice]?.matches);
 
         return { ...res, [breakpoint]: isActive };
     }, {});
@@ -81,8 +83,8 @@ function queryChangeListener(
     event: MediaQueryListEvent,
     breakpoint: EPotDevice | null
 ): void {
-    clearTimeout(timeoutId.value);
-    timeoutId.value = setTimeout(updateState);
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(updateState);
 
     if (!event?.matches) {
         return;
@@ -124,11 +126,22 @@ export function initQueries(): void {
         currentDevice = !currentDevice && mediaQuery.matches ? breakpoint : currentDevice;
     }
 
-    queries.value = createdQueries;
+    queries = createdQueries;
     state.value = updatedState;
     device.value = currentDevice;
 }
 
 export function useDeviceIs(): TDeviceIs {
+    if (isInited) {
+        return { state, device };
+    }
+    
+    setTimeout(() => {
+        if (!isInited) {
+            isInited = true;
+            initQueries();
+        }
+    });
+
     return { state, device };
 }

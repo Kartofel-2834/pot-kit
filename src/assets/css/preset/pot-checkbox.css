@@ -1,5 +1,5 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
-.pot-checkbox {
+.pot-checkbox._color-pot {
     --checkbox-color-text: inherit;
     --checkbox-color-background: transparent;
     --checkbox-color-icon: var(--color-text);
@@ -53,4 +53,16 @@
     --checkbox-size-icon: var(--pot-spacer-2);
     --checkbox-size-border: 1px;
     --checkbox-size-gap: 0.4em;
+}
+
+.pot-checkbox._radius-circle,
+.pot-checkbox._radius-large,
+.pot-checkbox._radius-medium,
+.pot-checkbox._radius-small,
+.pot-checkbox._radius-tiny,
+.pot-checkbox._radius-radius-8,
+.pot-checkbox._radius-radius-6,
+.pot-checkbox._radius-radius-4,
+.pot-checkbox._radius-radius-2 {
+    --checkbox-radius: var(--radius);
 }

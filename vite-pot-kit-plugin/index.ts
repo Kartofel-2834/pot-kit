@@ -47,7 +47,7 @@ async function init(config: IPotKitConfig) {
 }
 
 // Plugin exports
-export * from './types';
+// export * from '../types/config';
 
 export default function potKitBuildPlugin(config: IPotKitConfig): Plugin {
     return {

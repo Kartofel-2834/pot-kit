@@ -1,61 +1,46 @@
 // Types
-import type { IPotKitComponentConfig, IPotKitConfig } from "./types";
+import type { IPotKitComponentConfig, IPotKitConfig } from "./types/";
 
 // Helpers
-import { camelCaseToKebab } from "./string-helper";
+import { StylesHelper } from "./styles-helper";
+import { StringHelper } from "./string-helper";
 
 const EDIT_WARNING = `/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */`;
 
-function toCssValue(value: string | number): string {
-    return typeof value === 'number' ? `${value}px` : value;
-}
+const STYLES_SUBSCRIPTIONS: Record<keyof IPotKitConfig['components'], {
+    radius?: boolean;
+    gap?: boolean;
+    columnGap?: boolean;
+    rowGap?: boolean;
+}> = {
+    button: {
+        radius: true,
+    },
 
-/** Генерация одного класса модификатора */
-function getClassStyles(
-    name: string,
-    configuration: Record<string, string | number> = {}
-): string {
-    const className = `.${name}`;
+    checkbox: {
+        radius: true,
+    },
 
-    const vars = Object.entries(configuration).map(([varName, varValue]) => {
-        return `    ${camelCaseToKebab(varName)}: ${toCssValue(varValue)};`;
-    });
-
-    return `${className} {\n${vars.join('\n')}\n}`;
-}
-
-/** Сформировать название модификатора */
-function getModificatorClassName(name: string, value: string): string {
-    return `_${[name, value].filter(Boolean).map(camelCaseToKebab).join('-')}`;
-}
-
-/** Генерация группы классов модификаторов */
-function generateModificatorGroup(
-    modifictorName: string,
-    configuration: Record<string, string | number>
-): string {
-    return Object.entries(configuration)
-        .map(([name, value]) => {
-            const className = getModificatorClassName(modifictorName, name);
-            return getClassStyles(className, { [`--${modifictorName}`]: value });
-        })
-        .join('\n\n');
-}
+    input: {
+        radius: true,
+    }
+};
 
 /** Генерация стилей цветовых тем */
 function generateColors(colorsConfiguration: IPotKitConfig['color']) {
     const modificators = [];
 
     for (const colorName in colorsConfiguration) {
+        const className = StylesHelper.getModificatorClassName('color', colorName);
         const vars = Object.entries(colorsConfiguration[colorName]).reduce((res, [varName, varValue]) => {
             return {
                 ...res,
-                [`--color-${varName}`]: toCssValue(varValue)
+                [`--color-${varName}`]: StylesHelper.toCssValue(varValue)
             };
         }, {});
 
         modificators.push(
-            getClassStyles(`_color-${camelCaseToKebab(colorName)}`, vars),
+            StylesHelper.getSelectorStyles([className], vars), 
         );
     }
 
@@ -64,35 +49,95 @@ function generateColors(colorsConfiguration: IPotKitConfig['color']) {
 
 /** Генерация стилей размеров и расцветки компонента */
 function generateComponentStyles(
-    componentName: string,
-    componentConfiguration: IPotKitComponentConfig,
+    componentName: keyof IPotKitConfig['components'],
+    config: IPotKitConfig,
+    componentConfig: IPotKitComponentConfig,
 ) {
-    const name = camelCaseToKebab(componentName);
-    const className = `pot-${name}`;
+    const name = StringHelper.camelCaseToKebab(componentName);
+    const componentClass = `.pot-${name}`;
 
-    const colorVars = Object.entries(componentConfiguration.color).reduce((res, [varName, varValue]) => {
+    const colorStyles = generateComponentsColorsStyles(name, componentClass, config.color, componentConfig.color);
+    const sizesStyles = generateComponentsSizesStyles(name, componentClass, componentConfig.size);
+
+    const subscription = STYLES_SUBSCRIPTIONS[componentName] || {};
+    const subscriptionStyles = Object.entries(subscription).map(([modificator, flag]) => {
+        if (!flag) {
+            return '';
+        }
+
+        return generateComponentModificatorStyles(
+            name,
+            componentClass,
+            modificator,
+            config[modificator as keyof IPotKitConfig] as Record<string, unknown>
+        );
+    });
+
+    return [
+        colorStyles,
+        sizesStyles,
+        ...subscriptionStyles
+    ].filter(Boolean).join('\n\n');
+}
+
+function generateComponentModificatorStyles(
+    name: string,
+    componentClass: string,
+    modificatorName: string,
+    data: Record<string, unknown>,
+) {
+    const selectors = Object.keys(data).map((radiusName) => {
+        return componentClass + StylesHelper.getModificatorClassName(modificatorName, radiusName);
+    });
+
+    return StylesHelper.getSelectorStyles(selectors, {
+        [`--${name}-radius`]: `var(--${StringHelper.camelCaseToKebab(modificatorName)})`
+    });
+}
+
+function generateComponentsSizesStyles(
+    name: string,
+    componentClass: string,
+    componentSizes: IPotKitComponentConfig['size']
+): string {
+    if (!componentSizes) {
+        return '';
+    }
+
+    return Object.entries(componentSizes)
+        .map(([sizeName, sizeVars]) => {
+            const modificatorClassName = StylesHelper.getModificatorClassName('size', sizeName);
+
+            const formattedVars = Object.entries(sizeVars ?? {}).reduce((res, [varName, varValue]) => {
+                return {
+                    ...res,
+                    [`--${name}-size-${StringHelper.camelCaseToKebab(varName)}`]: varValue
+                };
+            }, {});
+
+            return StylesHelper.getSelectorStyles([componentClass + modificatorClassName], formattedVars);
+        })
+        .join('\n\n');
+}
+
+function generateComponentsColorsStyles(
+    name: string,
+    componentClass: string,
+    colors: IPotKitConfig['color'],
+    componentColors: IPotKitComponentConfig['color'],
+): string {
+    const selectors = Object.keys(colors).map((colorName) => {
+        return componentClass + StylesHelper.getModificatorClassName('color', colorName);
+    });
+
+    const colorVars = Object.entries(componentColors).reduce((res, [varName, varValue]) => {
         return {
             ...res, 
-            [`--${name}-color-${camelCaseToKebab(varName)}`]: toCssValue(varValue)
+            [`--${name}-color-${StringHelper.camelCaseToKebab(varName)}`]: StylesHelper.toCssValue(varValue)
         };
     }, {});
 
-    const colorStyles = getClassStyles(className, colorVars);
-
-    const sizesStyles = Object.entries(componentConfiguration.size ?? []).map(([sizeName, sizeVars]) => {
-        const modificatorClassName = getModificatorClassName('size', sizeName);
-        
-        const formattedVars = Object.entries(sizeVars ?? {}).reduce((res, [varName, varValue]) => {
-            return {
-                ...res,
-                [`--${name}-size-${camelCaseToKebab(varName)}`]: varValue
-            };
-        }, {});
-
-        return getClassStyles(`${className}.${modificatorClassName}`, formattedVars);
-    });
-
-    return [colorStyles, ...sizesStyles].join('\n\n');
+    return StylesHelper.getSelectorStyles(selectors, colorVars);
 }
 
 /**
@@ -106,19 +151,23 @@ export function generateStyles(config: IPotKitConfig): {
     const globalStyles = [
         EDIT_WARNING,
         generateColors(config.color),
-        generateModificatorGroup('radius', config.radius),
-        generateModificatorGroup('gap', config.gap),
-        generateModificatorGroup('row-gap', config.gap),
-        generateModificatorGroup('column-gap', config.gap),
+        StylesHelper.generateModificatorGroup('radius', config.radius),
+        StylesHelper.generateModificatorGroup('gap', config.gap),
+        StylesHelper.generateModificatorGroup('row-gap', config.gap),
+        StylesHelper.generateModificatorGroup('column-gap', config.gap),
     ].join('\n\n');
 
     const componentsStyles = Object.entries(config.components)
         .reduce((res, [componentName, componentConfig]) => {
-            const styles = generateComponentStyles(componentName, componentConfig);
+            const styles = generateComponentStyles(
+                componentName as keyof IPotKitConfig['components'],
+                config,
+                componentConfig
+            );
 
             return {
                 ...res,
-                [`pot-${camelCaseToKebab(componentName)}`]: `${EDIT_WARNING}\n${styles}`
+                [`pot-${StringHelper.camelCaseToKebab(componentName)}`]: `${EDIT_WARNING}\n${styles}`
             };
         }, {});
 

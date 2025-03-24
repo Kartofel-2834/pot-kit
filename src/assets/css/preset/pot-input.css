@@ -1,5 +1,5 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
-.pot-input {
+.pot-input._color-pot {
     --input-color-border: var(--color-subcolor);
     --input-color-background: var(--pot-base-0);
     --input-color-text: inherit;
@@ -52,4 +52,16 @@
     --input-size-gap: var(--pot-spacer-1-200);
     --input-size-icon: var(--pot-spacer-2);
     --input-size-border: 1px;
+}
+
+.pot-input._radius-circle,
+.pot-input._radius-large,
+.pot-input._radius-medium,
+.pot-input._radius-small,
+.pot-input._radius-tiny,
+.pot-input._radius-radius-8,
+.pot-input._radius-radius-6,
+.pot-input._radius-radius-4,
+.pot-input._radius-radius-2 {
+    --input-radius: var(--radius);
 }
