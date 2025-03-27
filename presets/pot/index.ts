@@ -50,10 +50,10 @@ export const PotPreset: IPotPreset = {
         medium: '0.4em',
         small: '0.3em',
         tiny: '0.2em',
-        radius8: 8,
-        radius6: 6,
-        radius4: 4,
-        radius2: 2
+        'radius-8': 8,
+        'radius-6': 6,
+        'radius-4': 4,
+        'radius-2': 2
     },
     
     gap: {

@@ -1,5 +1,5 @@
 // Types
-import type { IPotKitComponentConfig, IPotKitConfig } from "./types/";
+import type { IPotKitComponentConfig, IPotKitConfig } from "../types";
 
 // Helpers
 import { StylesHelper } from "./styles-helper";

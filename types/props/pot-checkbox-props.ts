@@ -1,24 +1,26 @@
-// Types
-import type { TSpecValue } from "../composables";
 
-// Enums
-import type { EPotDevice, EPotColor, EPotRadius, EPotSize } from "@/enums/preset";
+type TSpecValue = string | number | boolean | null;
 
 /**
  * Интерфейс пропсов для компонента PotCheckbox
  */
-export interface IPotCheckboxProps<T extends TSpecValue = TSpecValue> {
+export interface IPotCheckboxProps<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> {
     /** Текущее значение чекбокса */
-    value?: T;
+    value?: TSpecValue;
 
     /** Текущее значение чекбокса */
-    modelValue?: T;
+    modelValue?: TSpecValue;
 
     /** Если чекбокс в состоянии checked, то value = trueValue */
-    trueValue?: T;
+    trueValue?: TSpecValue;
 
     /** Если чекбокс не в состоянии checked, то value = falseValue */
-    falseValue?: T;
+    falseValue?: TSpecValue;
 
     /** Если true, то чекбокс будет задизейблен */
     disabled?: boolean;
@@ -30,14 +32,14 @@ export interface IPotCheckboxProps<T extends TSpecValue = TSpecValue> {
     icon?: string;
 
     /** Цвет чекбокса */
-    color?: EPotColor | EPotColor[] | null;
+    color?: TColor | TColor[] | null;
 
     /** Размер чекбокса, null для скейла от шрифта */
-    size?: EPotSize | EPotSize[] | null;
+    size?: TSize | TSize[] | null;
 
     /** Радиус границ чекбокса */
-    radius?: EPotRadius | EPotRadius[] | null;
+    radius?: TRadius | TRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EPotDevice[];
+    devices?: TDevice[];
 }

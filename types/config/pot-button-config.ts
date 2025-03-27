@@ -1,8 +1,14 @@
 // Types
+import { IPotButtonProps } from "../props/pot-button-props";
 import { IPotKitComponentConfig } from "./pot-component-config";
 
 /** PotButton */
-export interface IPotButtonConfig<TSize extends string> extends IPotKitComponentConfig<TSize> {
+export interface IPotButtonConfig<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> extends IPotKitComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>, TSize> {
     color: {
         border: string;
         background: string;

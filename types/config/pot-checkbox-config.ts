@@ -1,8 +1,14 @@
 // Types
 import { IPotKitComponentConfig } from "./pot-component-config";
+import { IPotCheckboxProps } from "../props/pot-checkbox-props";
 
 /* PotCheckbox */
-export interface IPotCheckboxConfig<TSize extends string> extends IPotKitComponentConfig<TSize> {
+export interface IPotCheckboxConfig<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> extends IPotKitComponentConfig<IPotCheckboxProps<TDevice, TColor, TSize, TRadius>, TSize> {
     color: {
         text: string;
         background: string;

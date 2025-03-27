@@ -1,24 +1,26 @@
-// Enums
-import type { EPotColor, EPotDevice, EPotSize, EPotRadius } from "@/enums/preset";
-
 /**
  * Интерфейс пропсов для компонента PotButton
  */
-export interface IPotButtonProps {
+export interface IPotButtonProps<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string,
+    TRadius extends string = string
+> {
     /** HTML-тег кнопки. По умолчанию - 'button' */
     tag?: string;
 
     /** Размер кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: EPotSize | EPotSize[] | null;
+    size?: TSize | TSize[] | null;
 
     /** Цвет кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EPotColor | EPotColor[] | null;
+    color?: TColor | TColor[] | null;
 
     /** Радиус границ кнопки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    radius?: EPotRadius | EPotRadius[] | null;
+    radius?: TRadius | TRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EPotDevice[];
+    devices?: TDevice[];
 
     /** Иконка после текста кнопки */
     icon?: string;

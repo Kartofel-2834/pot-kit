@@ -1,7 +1,7 @@
 // Types
-import type { IPotPresetCheckbox } from "./types";
+import type { TPotPresetCheckbox } from "./types";
 
-export const PotCheckboxConfig: IPotPresetCheckbox = {
+export const PotCheckboxConfig: TPotPresetCheckbox = {
     color: {
         text: 'inherit',                 
         background: 'transparent',                

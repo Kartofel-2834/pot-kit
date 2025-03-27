@@ -1,16 +1,25 @@
 // Types
-import type {
-    IPotButtonConfig,
-    IPotCheckboxConfig,
-    IPotInputConfig,
-    IPotKitConfig
-} from '../../vite-pot-kit-plugin/types';
+import type { IPotKitConfig } from '../../types';
+
+type TPotPresetDevice = 'mobile' | 'tablet' | 'laptop' | 'desktop';
+
+type TPotPresetColor = 'pot';
 
 type TPotPresetSize = 'tiny' | 'small' | 'medium' | 'large';
 
-// Components
-export interface IPotPresetButton extends IPotButtonConfig<TPotPresetSize> {};
-export interface IPotPresetCheckbox extends IPotCheckboxConfig<TPotPresetSize> {};
-export interface IPotPresetInput extends IPotInputConfig<TPotPresetSize> {};
+type TPotPresetRadius = 'circle' | 'large' | 'medium' | 'small' | 'tiny' | 'radius-8' | 'radius-6' | 'radius-4' | 'radius-2';
 
-export interface IPotPreset extends IPotKitConfig<TPotPresetSize> {};
+type TPotPresetGap = 'large' | 'medium' | 'small' | 'tiny';
+
+export interface IPotPreset extends IPotKitConfig<
+    TPotPresetDevice,
+    TPotPresetColor,
+    TPotPresetSize,
+    TPotPresetRadius,
+    TPotPresetGap
+> {};
+
+// Components
+export type TPotPresetButton = IPotPreset['components']['button'];
+export type TPotPresetCheckbox = IPotPreset['components']['checkbox']; 
+export type TPotPresetInput = IPotPreset['components']['input']; 

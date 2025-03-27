@@ -1,13 +1,13 @@
 <template>
     <component
-        :is="$potProps.tag"
+        :is="tag"
         :class="['pot-button', classList]"
-        :disabled="$potProps.disabled"
+        :disabled="disabled"
     >
         <slot name="preicon">
             <PotIcon
-                v-if="$potProps.preicon"
-                :icon="$potProps.preicon"
+                v-if="preicon"
+                :icon="preicon"
                 class="pot-button__icon pot-button__icon_pre"
             />
         </slot>
@@ -21,8 +21,8 @@
 
         <slot name="icon">
             <PotIcon
-                v-if="$potProps.icon"
-                :icon="$potProps.icon"
+                v-if="icon"
+                :icon="icon"
                 class="pot-button__icon pot-button__icon_post"
             />
         </slot>
@@ -31,11 +31,10 @@
 
 <script lang="ts" setup>
 // Types
-import type { IPotKitPluginOptions } from '@/types/plugins';
 import type { IPotButtonProps } from '@/types/components';
 
 // Vue
-import { defineAsyncComponent, computed, inject } from 'vue';
+import { defineAsyncComponent, computed } from 'vue';
 
 // Composables
 import { useClassList } from '@/composables/class-list';
@@ -43,11 +42,10 @@ import { useDeviceProperties } from '@/composables/device-properties';
 
 // Constants
 import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
+import { POT_BUTTON_DEFAULTS } from '@/constants/defaults';
 
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
-
-const $config = inject<IPotKitPluginOptions>('pot-config', {});
 
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
     tag: 'button',
@@ -59,15 +57,10 @@ const $props = withDefaults(defineProps<IPotButtonProps>(), {
     preicon: '',
     square: false,
     disabled: false,
-    unstyled: false,
+    ...(POT_BUTTON_DEFAULTS as any),
 });
 
 const $deviceIs = useDeviceIs();
-
-const $potProps = computed<typeof $props>(() => ({
-    ...$props,
-    ...($config.button || {}),
-}));
 
 /**
  * Вычисляет и возвращает свойства компонента на основе
@@ -76,11 +69,11 @@ const $potProps = computed<typeof $props>(() => ({
 const properties = computed(() => {
     return useDeviceProperties(
         {
-            color: $potProps.value.color,
-            size: $potProps.value.size,
-            radius: $potProps.value.radius,
+            color: $props.color,
+            size: $props.size,
+            radius: $props.radius,
         },
-        $potProps.value.devices,
+        $props.devices,
         $deviceIs.device.value,
     );
 });
@@ -89,7 +82,7 @@ const properties = computed(() => {
 const classList = computed(() =>
     useClassList({
         ...properties.value,
-        square: $potProps.value.square,
+        square: $props.square,
     }),
 );
 </script>

@@ -60,9 +60,9 @@
 .pot-checkbox._radius-medium,
 .pot-checkbox._radius-small,
 .pot-checkbox._radius-tiny,
-.pot-checkbox._radius-radius-8,
-.pot-checkbox._radius-radius-6,
-.pot-checkbox._radius-radius-4,
-.pot-checkbox._radius-radius-2 {
+.pot-checkbox._radius-radius--8,
+.pot-checkbox._radius-radius--6,
+.pot-checkbox._radius-radius--4,
+.pot-checkbox._radius-radius--2 {
     --checkbox-radius: var(--radius);
 }

@@ -1,7 +1,7 @@
 // Types
-import type { IPotPresetInput } from "./types";
+import type { TPotPresetInput } from "./types";
 
-export const PotInputConfig: IPotPresetInput = {
+export const PotInputConfig: TPotPresetInput = {
     color: {
         border: 'var(--color-subcolor)',
         background: 'var(--pot-base-0)',

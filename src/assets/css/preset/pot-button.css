@@ -55,9 +55,9 @@
 .pot-button._radius-medium,
 .pot-button._radius-small,
 .pot-button._radius-tiny,
-.pot-button._radius-radius-8,
-.pot-button._radius-radius-6,
-.pot-button._radius-radius-4,
-.pot-button._radius-radius-2 {
+.pot-button._radius-radius--8,
+.pot-button._radius-radius--6,
+.pot-button._radius-radius--4,
+.pot-button._radius-radius--2 {
     --button-radius: var(--radius);
 }

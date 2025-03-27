@@ -1,7 +1,13 @@
 // Types
-import type { IPotPresetButton } from "./types";
+import type { TPotPresetButton } from "./types";
 
-export const PotButtonConfig: IPotPresetButton = {
+export const PotButtonConfig: TPotPresetButton = {
+    defaults: {
+        radius: 'medium',
+        size: 'medium',
+        color: 'pot',
+    },
+
     color: {
         border: 'var(--color-target)',
         background: 'var(--color-target)',

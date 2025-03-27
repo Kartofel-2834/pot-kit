@@ -50,6 +50,9 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceIs } from '@/composables/device-is';
 import { useDeviceProperties } from '@/composables/device-properties';
 
+// Constants
+import { POT_INPUT_DEFAULTS } from '@/constants/defaults';
+
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
@@ -60,6 +63,7 @@ const $props = withDefaults(defineProps<IPotInputBaseProps<T>>(), {
     disabled: false,
     invalid: false,
     devices: () => ALL_DEVICES_REVERSED,
+    ...(POT_INPUT_DEFAULTS as any),
 });
 
 const $emit = defineEmits<{

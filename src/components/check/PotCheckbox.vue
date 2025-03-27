@@ -38,9 +38,11 @@ import { computed } from 'vue';
 // Composables
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
+import { useDeviceIs } from '@/composables/device-is';
 
 // Constants
-import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { POT_CHECKBOX_DEFAULTS } from '@/constants/defaults';
 
 // Components
 import PotIcon from '@/components/icon/PotIcon.vue';
@@ -57,6 +59,7 @@ const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
     size: null,
     radius: null,
     devices: () => ALL_DEVICES_REVERSED,
+    ...(POT_CHECKBOX_DEFAULTS as any),
 });
 
 const $emit = defineEmits<{

@@ -39,19 +39,19 @@
     --radius: 0.2em;
 }
 
-._radius-radius-8 {
+._radius-radius--8 {
     --radius: 8px;
 }
 
-._radius-radius-6 {
+._radius-radius--6 {
     --radius: 6px;
 }
 
-._radius-radius-4 {
+._radius-radius--4 {
     --radius: 4px;
 }
 
-._radius-radius-2 {
+._radius-radius--2 {
     --radius: 2px;
 }
 

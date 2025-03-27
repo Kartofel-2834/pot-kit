@@ -4,12 +4,7 @@ import PotButton from './components/button/PotButton.vue';
 
 <template>
     <main :class="$style.main">
-        <PotButton
-            color="pot"
-            size="medium"
-        >
-            Kamal
-        </PotButton>
+        <PotButton> Test </PotButton>
     </main>
 </template>
 

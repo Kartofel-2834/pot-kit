@@ -59,9 +59,9 @@
 .pot-input._radius-medium,
 .pot-input._radius-small,
 .pot-input._radius-tiny,
-.pot-input._radius-radius-8,
-.pot-input._radius-radius-6,
-.pot-input._radius-radius-4,
-.pot-input._radius-radius-2 {
+.pot-input._radius-radius--8,
+.pot-input._radius-radius--6,
+.pot-input._radius-radius--4,
+.pot-input._radius-radius--2 {
     --input-radius: var(--radius);
 }

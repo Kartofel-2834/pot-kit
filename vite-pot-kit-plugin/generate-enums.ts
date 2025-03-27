@@ -1,5 +1,5 @@
 // Types
-import type { IPotKitConfig } from "./types";
+import type { IPotKitConfig } from "../types";
 
 // Helpers
 import { EnumsHelper } from "./enums-helper";
