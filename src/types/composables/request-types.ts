@@ -10,10 +10,6 @@ export type TRequestInterceptor = (
 
 export type TResponseInterceptor = (response: Response) => void; 
 
-export type TRequestContext = {
-    method?: TRequestMethods;
-};
-
 export type TRequestParams = Record<string, TRequestPrimitiveValue | TRequestPrimitiveValue[]>;
 
 export type TRequestInitOptions = {
@@ -22,23 +18,30 @@ export type TRequestInitOptions = {
     bodyFormatter?: ((v: unknown) => BodyInit) | null;
 };
 
-export type RequestOptions = TRequestInitOptions & {
+export type TRequestOptions = TRequestInitOptions & {
     body?: unknown;
     params?: TRequestParams;
 };
 
-export type TRequestSender = (
+export type TRequestSender = ( 
+    method: TRequestMethods,
     endpoint: string,
-    requestOptions?: RequestOptions,
+    requestOptions?: TRequestOptions,
+) => Promise<Response>;
+
+export type TRequestBindedSender = ( 
+    endpoint: string,
+    requestOptions?: TRequestOptions,
 ) => Promise<Response>;
 
 export type TRequestBindedSenders = {
-    [K in Lowercase<TRequestMethods>]: TRequestSender;
+    [K in Lowercase<TRequestMethods>]: TRequestBindedSender;
 };
 
-export type TRequestHelper = TRequestBindedSenders & {
+export type TRequest = TRequestBindedSenders & {
     send: TRequestSender;
     addRequestInterceptor: (interceptor: TRequestInterceptor) => symbol;
     addResponseInterceptor: (interceptor: TResponseInterceptor) => symbol;
     removeInterceptor: (type: 'request' | 'response', interceptorId: symbol) => boolean;
+    getUrl: (url: string, params?: TRequestParams, base?: string) => URL;
 };

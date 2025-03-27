@@ -48,18 +48,23 @@
 
 <script
     lang="ts"
-    generic="S extends object, L extends keyof S, V extends keyof S, T extends S[V] & TSpecValue"
+    generic="
+        S extends object | TSpecValue,
+        L extends S extends object ? keyof S : string,
+        V extends S extends object ? keyof S : string,
+        T extends V extends keyof S ? S[V] : S
+    "
     setup
 >
 // Types
-import type { TSpecValue } from '@/types/composables/specs-helper-types';
+import type { TSpecValue } from '@/types/composables';
 import type { IPotCheckListProps } from '@/types/components';
 
 // Vue
 import { defineAsyncComponent, computed } from 'vue';
 
 // Composables
-import { useSpecsHelper } from '@/composables/specs-helper';
+import { useSpecs } from '@/composables/specs';
 
 // Components
 const PotCheckBox = defineAsyncComponent(() => import('@/components/check/PotCheckbox.vue'));
@@ -82,7 +87,7 @@ const $emit = defineEmits<{
 }>();
 
 // Computed
-const specsHelper = computed(() => useSpecsHelper($props));
+const specsHelper = computed(() => useSpecs($props));
 const updatedSpecs = computed(() => specsHelper.value.getModifiedSpecs());
 
 const currentValue = computed<T[]>(() => $props.value || $props.modelValue || []);
@@ -95,12 +100,14 @@ const isAllSelected = computed(() => {
 // Methods
 function onCheckboxChange(specValue: T | null): void {
     if (specValue === null) {
-        const specValue = isAllSelected.value
+        let specValue = isAllSelected.value
             ? []
             : updatedSpecs.value.filter(spec => !spec.isDisabled).map(spec => spec.value);
 
-        $emit('change', specValue);
-        $emit('update:modelValue', specValue);
+        specValue = specValue.filter(value => value !== null);
+
+        $emit('change', specValue as T[]);
+        $emit('update:modelValue', specValue as T[]);
         return;
     }
 

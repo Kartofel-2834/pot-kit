@@ -4,22 +4,23 @@ import type { ComputedRef } from 'vue';
 export type TSpecValue = string | number | boolean | null;
 
 /** Модифицированный спек с состоянием */
-export type TModifiedSpec<T extends TSpecValue, U> = {
-    target: U;
-    value: T;
+export type TModifiedSpec<
+    S extends object | TSpecValue,
+    V extends (S extends object ? keyof S : string),
+    T extends (V extends keyof S ? S[V] : S) 
+> = {
+    target: S;
+    value: T | null;
     label: string;
     isDisabled: boolean;
     isSelected: boolean;
 };
 
-/**
- * Интерфейс пропсов для компонентов использующих фасетный поиск
- */
 export interface ISpecsProps<
-    S extends object,
-    L extends keyof S,
-    V extends keyof S,
-    T extends S[V] & TSpecValue
+    S extends object | TSpecValue,
+    L extends (S extends object ? keyof S : string),
+    V extends (S extends object ? keyof S : string),
+    T extends (V extends keyof S ? S[V] : S) 
 > {
     /** Массив объектов или значений доступных для выбора и называемых спеками */
     specs?: S[];
@@ -30,10 +31,7 @@ export interface ISpecsProps<
     /** Значение выбранного спека */
     value?: T | T[] | null;
 
-    /**
-     * То же, что и `value`, добавлен для удобства использования
-     * компосабла в компонентах поддерживающих v-model
-    */
+    /** Значение выбранного спека */
     modelValue?: T | T[] | null;
 
     /** Ключ по которому будет извлекаться label из спека, если спек объект */
@@ -44,13 +42,19 @@ export interface ISpecsProps<
 
     /** Дефолтный label для null-спека */
     resetLabel?: string;
+
+    /** label для true значений-спеков */
+    trueLabel?: string;
+
+    /** label для false значений-спеков */
+    falseLabel?: string;
 }
 
-export type TSpecsHelper<
-    S extends object,
-    T extends TSpecValue
+export type TSpecs<
+    S extends object | TSpecValue,
+    V extends (S extends object ? keyof S : string),
+    T extends (V extends keyof S ? S[V] : S) 
 > = {
-
     /** Выбранное значение */
     currentValue: ComputedRef<T | T[] | null>;
 
@@ -73,5 +77,5 @@ export type TSpecsHelper<
     getCurrentSpec(): S | null;
 
     /** Возвращает спеки с их текущим состоянием */
-    getModifiedSpecs(specsArg?: S[]): TModifiedSpec<T, S>[];
+    getModifiedSpecs(specsArg?: S[]): TModifiedSpec<S, V, T>[];
 };

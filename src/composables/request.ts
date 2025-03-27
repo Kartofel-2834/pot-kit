@@ -1,12 +1,12 @@
 // Types
 import type {
-    TRequestHelper,
-    TRequestContext,
+    TRequest,
     TRequestInitOptions,
-    RequestOptions,
+    TRequestOptions,
     TRequestInterceptor,
     TResponseInterceptor,
-    TRequestParams
+    TRequestParams,
+    TRequestMethods
 } from '@/types/composables';
 
 /**
@@ -19,11 +19,11 @@ import type {
  * 
  * @returns - возвращает набор методов для отправки fetch запросов и методы для добавления интерцепторов
 */
-export function useRequest(initRequestOptions: TRequestInitOptions = {}): TRequestHelper {
+export function useRequest(initRequestOptions: TRequestInitOptions = {}): TRequest {
     const requestInterceptors: Map<symbol, TRequestInterceptor> = new Map();
     const responseInterceptors: Map<symbol, TResponseInterceptor> = new Map();
 
-    const defaultRequestOptions: RequestOptions = {
+    const defaultRequestOptions: TRequestOptions = {
         baseUrl: window?.location?.href || '/',
         bodyFormatter: JSON.stringify,
         ...initRequestOptions,
@@ -47,11 +47,10 @@ export function useRequest(initRequestOptions: TRequestInitOptions = {}): TReque
      * @returns - результат отправки браузерного fetch запроса
     */
     async function request(
-        this: TRequestContext,
+        method: TRequestMethods,
         url: string,
-        requestOptions: RequestOptions = {},
+        requestOptions: TRequestOptions = {},
     ): Promise<Response> {
-        const method: string = this.method || 'GET';
         const { params, baseUrl, options, body, bodyFormatter } = { 
             ...defaultRequestOptions,
             ...requestOptions
@@ -95,12 +94,26 @@ export function useRequest(initRequestOptions: TRequestInitOptions = {}): TReque
         });
     }
 
+    function getUrl(url: string, params?: TRequestParams, base?: string): URL {
+        const currentBase = base || defaultRequestOptions.baseUrl;
+        return createUrl(url, params, currentBase);
+    }
+
     function createUrl(
         url: string,
         params?: TRequestParams,
         base?: string,
     ): URL {
-        const createdUrl = new URL(url, base);
+        let createdUrl: URL;
+
+        if (base) {
+            const baseUrl = new URL(base);
+            const pathname = [baseUrl.pathname, url].filter(Boolean).join('/').replace(/\/+/gm, '/');
+
+            createdUrl = new URL(pathname, base);
+        } else {
+            createdUrl = new URL(url);
+        }
 
         if (!params) {
             return createdUrl;
@@ -151,10 +164,11 @@ export function useRequest(initRequestOptions: TRequestInitOptions = {}): TReque
         addRequestInterceptor,
         addResponseInterceptor,
         removeInterceptor,
-        get: request.bind({ method: 'GET' }),
-        post: request.bind({ method: 'POST' }),
-        put: request.bind({ method: 'PUT' }),
-        patch: request.bind({ method: 'PATCH' }),
-        delete: request.bind({ method: 'DELETE' }),
+        getUrl,
+        get: (...args) => request('GET', ...args),
+        post: (...args) => request('POST', ...args),  
+        put: (...args) => request('PUT', ...args),
+        patch: (...args) => request('PATCH', ...args), 
+        delete: (...args) => request('DELETE', ...args),
     };
 }

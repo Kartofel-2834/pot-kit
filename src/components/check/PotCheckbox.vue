@@ -2,7 +2,7 @@
     <label :class="['pot-checkbox', classList]">
         <input
             :value="currentValue"
-            :disabled="disabled"
+            :disabled="$props.disabled"
             :checked="isChecked"
             class="pot-checkbox__input"
             type="checkbox"
@@ -13,8 +13,8 @@
             <div class="pot-checkbox__icon-wrapper">
                 <slot name="icon">
                     <PotIcon
-                        v-if="icon"
-                        :icon="icon"
+                        v-if="$props.icon"
+                        :icon="$props.icon"
                         class="pot-checkbox__icon"
                     />
                 </slot>
@@ -27,10 +27,27 @@
     </label>
 </template>
 
+<script lang="ts">
+const $propsDefaults = {
+    value: undefined,
+    modelValue: undefined,
+    trueValue: undefined,
+    falseValue: undefined,
+    disabled: false,
+    invalid: false,
+    icon: 'check',
+    color: null,
+    size: null,
+    radius: null,
+    devices: () => ALL_DEVICES_REVERSED,
+};
+</script>
+
 <script lang="ts" generic="T extends TSpecValue = boolean" setup>
 // Types
 import type { TSpecValue } from '@/types/composables';
 import type { IPotCheckboxProps } from '@/types/components';
+import type { TPropsDefaults } from '@/types';
 
 // Vue
 import { computed } from 'vue';
@@ -48,18 +65,8 @@ import { POT_CHECKBOX_DEFAULTS } from '@/constants/defaults';
 import PotIcon from '@/components/icon/PotIcon.vue';
 
 const $props = withDefaults(defineProps<IPotCheckboxProps<T>>(), {
-    value: undefined,
-    modelValue: undefined,
-    trueValue: undefined,
-    falseValue: undefined,
-    disabled: false,
-    invalid: false,
-    icon: 'check',
-    color: null,
-    size: null,
-    radius: null,
-    devices: () => ALL_DEVICES_REVERSED,
-    ...(POT_CHECKBOX_DEFAULTS as any),
+    ...($propsDefaults as TPropsDefaults<IPotCheckboxProps<T>>),
+    ...(POT_CHECKBOX_DEFAULTS as TPropsDefaults<IPotCheckboxProps<T>>),
 });
 
 const $emit = defineEmits<{

@@ -2,6 +2,12 @@
 import type { TPotPresetCheckbox } from "./types";
 
 export const PotCheckboxConfig: TPotPresetCheckbox = {
+    defaults: {
+        color: 'pot',
+        size: 'medium',
+        radius: 'medium',
+    },
+
     color: {
         text: 'inherit',                 
         background: 'transparent',                

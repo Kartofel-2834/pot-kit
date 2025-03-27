@@ -1,16 +1,16 @@
 // Types
-import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
+import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-types';
 import type { EPotColor, EPotSize, EPotRadius, EPotDevice } from '@/enums/preset';
 
 /**
  * Интерфейс пропсов для компонента PotCheckList
  */
 export interface IPotCheckListProps<
-    S extends object,
-    L extends keyof S,
-    V extends keyof S,
-    T extends S[V] & TSpecValue
-> extends ISpecsProps<S, L, V, T> {
+    S extends object | TSpecValue,
+    L extends (S extends object ? keyof S : string),
+    V extends (S extends object ? keyof S : string),
+    T extends (V extends keyof S ? S[V] : S) 
+> extends ISpecsProps<S, L, V, T> { 
     /** HTML-тег чек-листа. По умолчанию - 'div' */
     tag?: string;
 

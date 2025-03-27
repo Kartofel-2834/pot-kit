@@ -4,15 +4,15 @@
 
         <slot name="preicon">
             <PotIcon
-                v-if="preicon"
-                :icon="preicon"
+                v-if="$props.preicon"
+                :icon="$props.preicon"
                 class="pot-input__icon pot-input__icon_left"
             />
         </slot>
 
         <input
             v-model="visibleValue"
-            :disabled="disabled"
+            :disabled="$props.disabled"
             class="pot-input__target"
             v-bind="$attrs"
             @input="onInput"
@@ -25,8 +25,8 @@
 
         <slot name="icon">
             <PotIcon
-                v-if="icon"
-                :icon="icon"
+                v-if="$props.icon"
+                :icon="$props.icon"
                 class="pot-input__icon pot-input__icon_right"
             />
         </slot>
@@ -56,14 +56,18 @@ import { POT_INPUT_DEFAULTS } from '@/constants/defaults';
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
-const $props = withDefaults(defineProps<IPotInputBaseProps<T>>(), {
+const $propsDefaults = {
     size: undefined,
     color: undefined,
     radius: undefined,
     disabled: false,
     invalid: false,
     devices: () => ALL_DEVICES_REVERSED,
-    ...(POT_INPUT_DEFAULTS as any),
+};
+
+const $props = withDefaults(defineProps<IPotInputBaseProps<T>>(), {
+    ...$propsDefaults,
+    ...POT_INPUT_DEFAULTS,
 });
 
 const $emit = defineEmits<{
