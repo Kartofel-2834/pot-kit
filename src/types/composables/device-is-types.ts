@@ -1,19 +1,16 @@
 // Types
 import type { Ref } from 'vue';
+import type { EPotDevice } from '@/enums/preset';
 
-export interface IDeviceIsOptions {
-    mount: boolean;
-    breakpoints: Record<string, number>;
-}
+export type TDeviceIsMediaQueries = Partial<Record<EPotDevice, MediaQueryList>>
 
-export type DeviceIs = {
-    state: Ref<Record<string, boolean>>;
-    device: Ref<string | null>;
-    init: () => void;
-    clear: () => void;
-    update: () => void;
+export type TDeviceIsState = Partial<Record<EPotDevice, boolean>>
+
+export type TDeviceIs = {
+    /** Акутальные статусы всех брейкпоинтов */
+    state: Ref<TDeviceIsState>;
+
+    /** Текущий активный брейкпонт */
+    device: Ref<EPotDevice | null>;
 };
 
-export interface IDeviceIsPluginOptions {
-    breakpoints?: Record<string, number>;
-}

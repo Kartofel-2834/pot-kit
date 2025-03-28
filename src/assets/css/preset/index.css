@@ -1,0 +1,104 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+
+._color-pot {
+    --color-target: var(--pot-color-mushroom-300);
+    --color-border: var(--pot-color-mushroom-300);
+    --color-subcolor: var(--pot-base-400);
+    --color-text: var(--pot-base-0);
+    --color-hover-target: var(--pot-color-mushroom-200);
+    --color-hover-border: var(--pot-color-mushroom-200);
+    --color-hover-subcolor: var(--pot-base-500);
+    --color-hover-text: var(--pot-base-0);
+    --color-active-target: var(--pot-color-mushroom-400);
+    --color-active-border: var(--pot-color-mushroom-400);
+    --color-active-subcolor: var(--pot-base-600);
+    --color-active-text: var(--pot-base-0);
+    --color-disabled-target: var(--pot-base-400);
+    --color-disabled-border: var(--pot-base-400);
+    --color-disabled-subcolor: var(--pot-base-500);
+    --color-disabled-text: var(--pot-base-0);
+}
+
+._radius-circle {
+    --radius: calc(var(--pot-spacer) * 100);
+}
+
+._radius-large {
+    --radius: 0.5em;
+}
+
+._radius-medium {
+    --radius: 0.4em;
+}
+
+._radius-small {
+    --radius: 0.3em;
+}
+
+._radius-tiny {
+    --radius: 0.2em;
+}
+
+._radius-radius--8 {
+    --radius: 8px;
+}
+
+._radius-radius--6 {
+    --radius: 6px;
+}
+
+._radius-radius--4 {
+    --radius: 4px;
+}
+
+._radius-radius--2 {
+    --radius: 2px;
+}
+
+._gap-large {
+    --gap: var(--pot-spacer-2);
+}
+
+._gap-medium {
+    --gap: var(--pot-spacer-1-600);
+}
+
+._gap-small {
+    --gap: var(--pot-spacer);
+}
+
+._gap-tiny {
+    --gap: var(--pot-spacer-0-600);
+}
+
+._row-gap-large {
+    --row-gap: var(--pot-spacer-2);
+}
+
+._row-gap-medium {
+    --row-gap: var(--pot-spacer-1-600);
+}
+
+._row-gap-small {
+    --row-gap: var(--pot-spacer);
+}
+
+._row-gap-tiny {
+    --row-gap: var(--pot-spacer-0-600);
+}
+
+._column-gap-large {
+    --column-gap: var(--pot-spacer-2);
+}
+
+._column-gap-medium {
+    --column-gap: var(--pot-spacer-1-600);
+}
+
+._column-gap-small {
+    --column-gap: var(--pot-spacer);
+}
+
+._column-gap-tiny {
+    --column-gap: var(--pot-spacer-0-600);
+}

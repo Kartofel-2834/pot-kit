@@ -1,17 +1,25 @@
+// Styles
+import '@/assets/css/variables.css';
+import '@/assets/css/reset.css';
+import '@/assets/css/preset/index.css';
+
 // Types
 import type { App as Application } from 'vue';
 
 // Vue
 import { createApp } from 'vue';
 
-// Plugins
-import deviceIsPlugin from './plugins/device-is';
-
 // Components
 import App from '@/App.vue';
 
-const app: Application = createApp(App);
+function initApp() {
+    const app: Application = createApp(App);
 
-app.use(deviceIsPlugin);
+    // Mounting app to page
+    app.mount('#app');
+}
 
-app.mount('#app');
+initApp();
+
+
+

@@ -1,0 +1,67 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-input._color-pot {
+    --input-color-border: var(--color-subcolor);
+    --input-color-background: var(--pot-base-0);
+    --input-color-text: inherit;
+    --input-color-icon: var(--color-subcolor);
+    --input-color-hover-border: var(--color-hover-subcolor);
+    --input-color-hover-background: var(--pot-base-0);
+    --input-color-hover-text: inherit;
+    --input-color-hover-icon: var(--color-hover-subcolor);
+    --input-color-focused-border: var(--color-active-target);
+    --input-color-focused-background: var(--pot-base-0);
+    --input-color-focused-text: inherit;
+    --input-color-focused-icon: var(--color-active-subcolor);
+    --input-color-disabled-border: var(--pot-base-400);
+    --input-color-disabled-background: var(--pot-base-400);
+    --input-color-disabled-text: var(--color-disabled-text);
+    --input-color-disabled-icon: var(--color-disabled-text);
+}
+
+.pot-input._size-tiny {
+    --input-size-height: var(--pot-spacer-3-200);
+    --input-size-text: var(--pot-font-size-200);
+    --input-size-padding: var(--pot-spacer-1-200);
+    --input-size-gap: var(--pot-spacer-0-800);
+    --input-size-icon: var(--pot-spacer-1-400);
+    --input-size-border: 1px;
+}
+
+.pot-input._size-small {
+    --input-size-height: var(--pot-spacer-3-600);
+    --input-size-text: var(--pot-font-size-200);
+    --input-size-padding: var(--pot-spacer-1-600);
+    --input-size-gap: var(--pot-spacer-0-800);
+    --input-size-icon: var(--pot-spacer-1-600);
+    --input-size-border: 1px;
+}
+
+.pot-input._size-medium {
+    --input-size-height: var(--pot-spacer-4-800);
+    --input-size-text: var(--pot-font-size-200);
+    --input-size-padding: var(--pot-spacer-2);
+    --input-size-gap: var(--pot-spacer-1-200);
+    --input-size-icon: var(--pot-spacer-1-600);
+    --input-size-border: 1px;
+}
+
+.pot-input._size-large {
+    --input-size-height: var(--pot-spacer-5-600);
+    --input-size-text: var(--pot-font-size-300);
+    --input-size-padding: var(--pot-spacer-2-800);
+    --input-size-gap: var(--pot-spacer-1-200);
+    --input-size-icon: var(--pot-spacer-2);
+    --input-size-border: 1px;
+}
+
+.pot-input._radius-circle,
+.pot-input._radius-large,
+.pot-input._radius-medium,
+.pot-input._radius-small,
+.pot-input._radius-tiny,
+.pot-input._radius-radius--8,
+.pot-input._radius-radius--6,
+.pot-input._radius-radius--4,
+.pot-input._radius-radius--2 {
+    --input-radius: var(--radius);
+}

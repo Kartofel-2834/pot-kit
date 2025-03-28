@@ -1,27 +1,16 @@
 // Types
-import type { breakpoints } from '@/assets/ts/constants/breakpoints';
-import type { ComputedRef } from 'vue';
+import type { EPotDevice } from '@/enums/preset';
 
-/**
- * Интерфейс options компосабла useDeviceProperties
- *
- * @param [properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
- *                          соответствующих устройствам из options.devices
- * @param [devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
- * @param [breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
- * @param [separator=' '] - разделитель для значений передаваемых в виде строки
- *
- * @returns - возвращает методы для управления состоянием компосабла и рефы:
- * state - акутальные статусы всех брейкпоинтов,
- * device - текущий активный брейкпонт
- */
-export interface IDevicePropertiesOptions {
-    properties?: Record<string, string | string[]>;
-    devices?: string | string[];
-    breakpoints?: Record<string, number>;
-    separator?: string;
+export type TDevicePropertyValue<T> = T extends unknown[] ? TDevicePropertyValue<T[number]> : T;
+
+export type TDeviceProperties<T> = {
+    [Property in keyof T]?: TDevicePropertyValue<T[Property]>
 }
 
-export type DeviceProperties = ComputedRef<Record<string, string | null>>;
+export type TDeviceBreakpointValues<T> = Partial<{
+    [Breakpoint in EPotDevice]: TDevicePropertyValue<T>;
+}>
 
-export type DevicePropertiesBreakpointValues = Record<string, Record<string, string>>;
+export type TDevicePropertiesBreakpointsValues<T> = Partial<{
+    [Property in keyof T]: TDeviceBreakpointValues<T[Property]>
+}>

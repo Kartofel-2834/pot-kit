@@ -1,34 +1,30 @@
 // Types
 import type {
-    DeviceProperties,
-    IDevicePropertiesOptions,
-    DevicePropertiesBreakpointValues,
-} from '@/types/composables/device-properties-types';
-import type { DeviceIs } from '@/types/composables/device-is-types';
-
-// Vue
-import { inject, computed } from 'vue';
+    TDeviceProperties,
+    TDevicePropertiesBreakpointsValues,
+    TDevicePropertyValue,
+} from '@/types/composables';
+import type { EPotDevice } from '@/enums/preset';
 
 // Constants
-import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
+import { ALL_DEVICES_REVERSED } from './device-is';
 
 /**
- * Компосабл возвращающий computed свойство с значениями расчитаными на основе текущего размера экрана
+ * Компосабл возвращающий значения расчитанные на основе текущего размера экрана
  *
- * @param options - Объект, содержащий следующие свойства:
- * @param [options.properties={}] - Объект, где ключи - имена свойств, а значения - массивы значений,
- *                                  соответствующих устройствам из options.devices
- * @param [options.devices=['desktop', 'tablet', 'mobile']] - Массив имен устройств
- * @param [options.breakpoints=bp] - брейкпоинты, по-умолчанию bp из констант
- * @param [options.separator=' '] - разделитель для значений передаваемых в виде строки
+ * @param properties - Объект, где ключи - имена свойств, а значения - массивы значений,
+ *                     соответствующих устройствам из options.devices
+ * @param devices - Массив имен устройств
  *
  * @returns Вычисляемый объект, содержащий текущие устройство-специфические свойства.
  *
  * @example
- * const properties = useDeviceProperties({
- *     properties: { size: ['56', '48', '32'] },
- *     devices: ['desktop', 'tablet','mobile'],
- * });
+ * const properties = useDeviceProperties(
+ *  {
+ *     size: ['56', '48', '32']
+ *  },
+ *  [EDevice.DESKTOP, EDevice.TABLET, EDevice.MOBILE]
+ * );
  *
  * // Для десктопа
  * properties.value //  { size: '56' }
@@ -39,49 +35,32 @@ import { breakpoints as bp } from '@/assets/ts/constants/breakpoints';
  * // Для телефона
  * properties.value //  { size: '32' }
  */
-export function useDeviceProperties({
-    properties = {},
-    devices = ['desktop', 'tablet', 'mobile'],
-    breakpoints = bp,
-    separator = ' ',
-}: IDevicePropertiesOptions): DeviceProperties {
-    const $deviceIs = inject<DeviceIs>('deviceIs');
+export function useDeviceProperties<T>(
+    properties: T,
+    devices: EPotDevice[] = ALL_DEVICES_REVERSED,
+    currentDevice?: EPotDevice | null,
+): TDeviceProperties<T> {
+    const breakpointValues = getAllBreakpointsValues();
 
     /**
-     * Массив названий брейкпоинтов отсортированных по размеру
-     */
-    const allDevices = computed<string[]>(() => {
-        return Object.keys(breakpoints).sort((a, b) => (bp?.[a] || 0) - (bp?.[b] || 0));
-    });
-
-    /**
-     * Объект c значениями из properties привязанными к брейкпоинтам из devices
+     * Возвращает объект c значениями из properties привязанными к брейкпоинтам из devices
      *
-     * @example { size: { desktop: '56', tablet: '48' } }
+     * @example { size: { desktop: ESize.MEDIUM, tablet: ESize.SMALL } }
      */
-    const breakpointValues = computed<DevicePropertiesBreakpointValues>(() => {
+    function getAllBreakpointsValues(): TDevicePropertiesBreakpointsValues<T> {
         if (!properties || typeof properties !== 'object') return {};
 
-        return Object.entries(properties).reduce((res, [property, values]) => {
+        return Object.entries(properties).reduce((res, data) => {
+            const property = data[0] as keyof T;
+            const values = data[1] as T[typeof property];
+
             const updatedValues = prepareValues(values);
 
             if (!updatedValues?.length) return res;
 
             return { ...res, [property]: getBreakpointValues(updatedValues) };
         }, {});
-    });
-
-    /**
-     * Объект с текущими устройство-специфическими свойствами.
-     */
-    const currentProperties: DeviceProperties = computed(() => {
-        return Object.entries(breakpointValues.value).reduce((res, [property, values]) => {
-            return {
-                ...res,
-                [property]: getCurrentValue(values),
-            };
-        }, {});
-    });
+    }
 
     /**
      * Возвращает объект, в котором ключи - имена брейкпоинтов из devices,
@@ -95,15 +74,19 @@ export function useDeviceProperties({
      * Если для какого-либо устройства не указано значение или указано '_',
      * то это устройство игнорируется.
      */
-    function getBreakpointValues(values: string[] = []): Record<string, string> {
-        const updatedDevices = prepareValues(devices);
+    function getBreakpointValues(
+        values: Array<T[keyof T]> = []
+    ): TDevicePropertiesBreakpointsValues<T>[keyof T] {
+        if (devices.some(device => typeof device !== 'string')) return {};
 
-        if (updatedDevices?.some(device => typeof device !== 'string')) return {};
-
-        return updatedDevices.reduce((res, breakpoint, index) => {
+        return devices.reduce((res, breakpoint, index) => {
             const value = values?.[index];
 
-            return value && value !== '_' ? { ...res, [breakpoint]: value } : res;
+            if (value === null || value === undefined) {
+                return res;
+            }
+
+            return { ...res, [breakpoint]: value };
         }, {});
     }
 
@@ -115,19 +98,21 @@ export function useDeviceProperties({
      *
      * @returns Выбранное из properties значение или null, если значение не найдено
      */
-    function getCurrentValue(breakpointValues: Record<string, string> = {}): string | null {
-        const breakpointKeys: string[] = Object.keys(breakpointValues);
+    function getCurrentValue(
+        breakpointValues: TDevicePropertiesBreakpointsValues<T>[keyof T] = {}
+    ): TDevicePropertyValue<T[keyof T]> | null {
+        const breakpointKeys = Object.keys(breakpointValues) as EPotDevice[];
 
-        if (breakpointKeys.length === 1 || !$deviceIs?.device?.value) {
+        if (breakpointKeys.length === 1 || !currentDevice) {
             return breakpointValues?.[breakpointKeys[0]] || null;
         }
 
-        const deviceIndex = allDevices.value.indexOf($deviceIs?.device?.value);
+        const deviceIndex = ALL_DEVICES_REVERSED.indexOf(currentDevice);
 
         if (deviceIndex === -1) return null;
 
-        for (let index = deviceIndex; index < allDevices.value.length; index++) {
-            const device = allDevices.value[index];
+        for (let index = deviceIndex; index >= 0; index--) {
+            const device = ALL_DEVICES_REVERSED[index];
             const value = breakpointValues?.[device];
 
             if (value) return value;
@@ -136,23 +121,21 @@ export function useDeviceProperties({
         return null;
     }
 
-    /**
-     * Подготавливает массив значений, разбивая строку на основе
-     * заданного разделителя и фильтруя пустые значения
-     *
-     * @param notFormattedValues - Строка для разбиения и фильтрации.
-     *
-     * @returns - Массив значений после разбиения и фильтрации.
-     */
-    function prepareValues(notFormattedValues: string | string[]): string[] {
-        if (Array.isArray(notFormattedValues)) {
-            return notFormattedValues.filter(Boolean);
-        }
-
-        const formattedValues = notFormattedValues?.split(separator) || [];
-
-        return formattedValues.filter(Boolean);
+    /**  Подготавливает массив значений */
+    function prepareValues(notFormattedValues: T[keyof T]): Array<T[keyof T]> {
+        return (Array.isArray(notFormattedValues) ? notFormattedValues : [notFormattedValues]);
     }
 
-    return currentProperties;
+    /**
+     * Объект с текущими устройство-специфическими свойствами.
+     */
+    return Object.entries(breakpointValues).reduce((res, data) => {
+        const property = data[0] as keyof T;
+        const values = data[1] as TDevicePropertiesBreakpointsValues<T>[typeof property];
+
+        return {
+            ...res,
+            [property]: getCurrentValue(values),
+        };
+    }, {});
 }

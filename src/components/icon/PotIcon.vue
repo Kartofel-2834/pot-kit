@@ -2,21 +2,24 @@
     <svg
         v-html="iconData"
         v-bind="iconAttributes"
-        :class="[$style.PotIcon, 'pot-icon']"
         :style="customSize"
+        class="pot-icon"
     ></svg>
 </template>
 
 <script lang="ts" setup>
 // Types
-import type { IPotIconProps } from '@/types/components/pot-icon-types';
+import type { IPotIconProps } from '@/types/components';
 
 // Vue
 import { ref, computed, watch, onMounted } from 'vue';
 
 const $props = withDefaults(defineProps<IPotIconProps>(), {
-    srcPath: '/icons/',
     size: null,
+    loader: async (iconName: string) => {
+        const icon = await import(`../../assets/icons/${iconName}.svg`);
+        return icon?.default && typeof icon?.default === 'string' ? icon.default : '';
+    },
 });
 
 const iconData = ref<string>('');
@@ -44,13 +47,10 @@ watch(() => $props.icon, updateIcon);
 
 /**
  * Метод для загрузки и отображения контента svg иконки
- *
- * @throws Бросит ошибку, если iconPath не валидный.
  */
 async function updateIcon(): Promise<void> {
     try {
-        const icon = await import(/* @vite-ignore */ `../../assets/icons/${$props.icon}.svg?raw`);
-        const data = icon?.default && typeof icon?.default === 'string' ? icon.default : '';
+        const data = await $props.loader($props.icon);
 
         const iconWrapper = document.createElement('div');
         iconWrapper.innerHTML = data;
@@ -75,9 +75,8 @@ async function updateIcon(): Promise<void> {
 }
 </script>
 
-<style lang="scss" module>
-.PotIcon {
+<style>
+.pot-icon {
     aspect-ratio: 1 / 1;
-    color: inherit;
 }
 </style>

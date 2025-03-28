@@ -1,27 +1,43 @@
-/**
- * Допустимый value для компонента PotCheckbox
- */
-export type CheckboxValue = string | number | boolean | null;
+// Types
+import type { TSpecValue } from "../composables";
+
+// Enums
+import type { EPotDevice, EPotColor, EPotRadius, EPotSize } from "@/enums/preset";
 
 /**
- * Интерфейс пропсов для компонента PotButton
- *
- * @property {CheckboxValue} [value] - текущее значение чекбокса.
- * @property {CheckboxValue} [modelValue] - то же что и value, для поддержки v-model.
- * @property {CheckboxValue} [trueValue] - если чекбокс в состоянии checked, то value = trueValue.
- * @property {CheckboxValue} [falseValue] - если чекбокс не в состоянии checked, то value = falseValue.
- * @property {boolean} [disabled] - Если true, то чекбокс будет задизейблен.
- * @property {string} [icon] - Иконка в чекбоксе, галочка по-умолчанию.
- * @property {string} [color] - Цвет чекбокса.
- * @property {string} [breakpoints] - Точки останова для адаптивного дизайна.
+ * Интерфейс пропсов для компонента PotCheckbox
  */
-export interface IPotCheckboxProps {
-    value?: CheckboxValue;
-    modelValue?: CheckboxValue;
-    trueValue?: CheckboxValue;
-    falseValue?: CheckboxValue;
+export interface IPotCheckboxProps<T extends TSpecValue = TSpecValue> {
+    /** Текущее значение чекбокса */
+    value?: T;
+
+    /** Текущее значение чекбокса */
+    modelValue?: T;
+
+    /** Если чекбокс в состоянии checked, то value = trueValue */
+    trueValue?: T;
+
+    /** Если чекбокс не в состоянии checked, то value = falseValue */
+    falseValue?: T;
+
+    /** Если true, то чекбокс будет задизейблен */
     disabled?: boolean;
+
+    /** Если true, то чекбокс будет невалиден */
+    invalid?: boolean;
+
+    /** Иконка в чекбоксе, галочка по-умолчанию */
     icon?: string;
-    color?: string;
-    breakpoints?: string | string[];
+
+    /** Цвет чекбокса */
+    color?: EPotColor | EPotColor[] | null;
+
+    /** Размер чекбокса, null для скейла от шрифта */
+    size?: EPotSize | EPotSize[] | null;
+
+    /** Радиус границ чекбокса */
+    radius?: EPotRadius | EPotRadius[] | null;
+
+    /** Точки останова для адаптивного дизайна */
+    devices?: EPotDevice[];
 }

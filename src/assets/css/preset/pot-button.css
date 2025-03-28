@@ -1,0 +1,63 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-button._color-pot {
+    --button-color-border: var(--color-target);
+    --button-color-background: var(--color-target);
+    --button-color-text: var(--color-text);
+    --button-color-hover-border: var(--color-hover-target);
+    --button-color-hover-background: var(--color-hover-target);
+    --button-color-hover-text: var(--color-hover-text);
+    --button-color-active-border: var(--color-active-target);
+    --button-color-active-background: var(--color-active-target);
+    --button-color-active-text: var(--color-active-text);
+    --button-color-disabled-border: var(--pot-base-400);
+    --button-color-disabled-background: var(--pot-base-400);
+    --button-color-disabled-text: var(--color-disabled-text);
+}
+
+.pot-button._size-tiny {
+    --button-size-height: var(--pot-spacer-3-200);
+    --button-size-text: var(--pot-font-size-200);
+    --button-size-padding: var(--pot-spacer-1-200);
+    --button-size-gap: var(--pot-spacer-0-800);
+    --button-size-icon: var(--pot-spacer-1-400);
+    --button-size-border: 1px;
+}
+
+.pot-button._size-small {
+    --button-size-height: var(--pot-spacer-3-600);
+    --button-size-text: var(--pot-font-size-200);
+    --button-size-padding: var(--pot-spacer-1-600);
+    --button-size-gap: var(--pot-spacer-0-800);
+    --button-size-icon: var(--pot-spacer-1-600);
+    --button-size-border: 1px;
+}
+
+.pot-button._size-medium {
+    --button-size-height: var(--pot-spacer-4-800);
+    --button-size-text: var(--pot-font-size-200);
+    --button-size-padding: var(--pot-spacer-2);
+    --button-size-gap: var(--pot-spacer-1-200);
+    --button-size-icon: var(--pot-spacer-1-600);
+    --button-size-border: 1px;
+}
+
+.pot-button._size-large {
+    --button-size-height: var(--pot-spacer-5-600);
+    --button-size-text: var(--pot-font-size-300);
+    --button-size-padding: var(--pot-spacer-2-800);
+    --button-size-gap: var(--pot-spacer-1-200);
+    --button-size-icon: var(--pot-spacer-2);
+    --button-size-border: 1px;
+}
+
+.pot-button._radius-circle,
+.pot-button._radius-large,
+.pot-button._radius-medium,
+.pot-button._radius-small,
+.pot-button._radius-tiny,
+.pot-button._radius-radius--8,
+.pot-button._radius-radius--6,
+.pot-button._radius-radius--4,
+.pot-button._radius-radius--2 {
+    --button-radius: var(--radius);
+}
