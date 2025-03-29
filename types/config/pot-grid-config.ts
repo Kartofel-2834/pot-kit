@@ -1,9 +1,14 @@
 // Types
 import { IPotGridProps } from "../props/pot-grid-props";
-import { IPotKitComponentConfig } from "./pot-component-config";
+import { IPotComponentConfig } from "./pot-component-config";
+
+type TConfig<
+    TDevice extends string = string,
+    TGap extends string = string,
+> = IPotComponentConfig<IPotGridProps<TDevice, TGap>>
 
 /** PotGrid */
 export interface IPotGridConfig<
     TDevice extends string = string,
     TGap extends string = string,
-> extends IPotKitComponentConfig<IPotGridProps<TDevice, TGap>> {}
+> extends TConfig<TDevice, TGap> {}

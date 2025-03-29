@@ -1,5 +1,5 @@
 // Types
-import type { IPotKitComponentConfig, IPotKitConfig } from "../types";
+import type { IPotComponentColorConfig, IPotComponentConfig, IPotComponentSizeConfig, IPotKitConfig } from "../types";
 
 // Helpers
 import { StylesHelper } from "./styles-helper";
@@ -44,7 +44,9 @@ function generateColors(colorsConfiguration: IPotKitConfig['color']) {
 }
 
 /** Генерация стилей размеров и расцветки компонента */
-function generateComponentStyles<T extends IPotKitComponentConfig>(
+function generateComponentStyles<
+    T extends (IPotComponentConfig | IPotComponentColorConfig | IPotComponentSizeConfig)
+>(
     componentName: keyof IPotKitConfig['components'],
     config: IPotKitConfig,
     componentConfig: T,
@@ -52,8 +54,11 @@ function generateComponentStyles<T extends IPotKitComponentConfig>(
     const name = StringHelper.camelCaseToKebab(componentName);
     const componentClass = `.pot-${name}`;
 
-    const colorStyles = componentConfig.color ? generateComponentsColorsStyles(name, componentClass, config.color, componentConfig.color) : '';
-    const sizesStyles = componentConfig.size ? generateComponentsSizesStyles(name, componentClass, componentConfig.size) : '';
+    const color = (componentConfig as IPotComponentColorConfig)?.color;
+    const size = (componentConfig as IPotComponentSizeConfig)?.size;
+
+    const colorStyles = color ? generateComponentsColorsStyles(name, componentClass, config.color, color) : '';
+    const sizesStyles = size ? generateComponentsSizesStyles(name, componentClass, size) : '';
 
     const subscription = STYLES_SUBSCRIPTIONS[componentName] || [];
     const subscribeStyles = (modificator: string, data: Record<string, unknown>) => generateComponentModificatorStyles(
@@ -99,7 +104,7 @@ function generateComponentModificatorStyles(
 function generateComponentsSizesStyles(
     name: string,
     componentClass: string,
-    componentSizes: IPotKitComponentConfig['size']
+    componentSizes: IPotComponentSizeConfig['size']
 ): string {
     if (!componentSizes) {
         return '';
@@ -125,7 +130,7 @@ function generateComponentsColorsStyles(
     name: string,
     componentClass: string,
     colors: IPotKitConfig['color'],
-    componentColors: IPotKitComponentConfig['color'],
+    componentColors: IPotComponentColorConfig['color'],
 ): string {
     const selectors = Object.keys(colors).map((colorName) => {
         return componentClass + StylesHelper.getModificatorClassName('color', colorName);

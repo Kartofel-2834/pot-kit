@@ -9,11 +9,11 @@ export const PotButtonConfig: TPotPresetButton = {
     },
 
     color: {
-        border: 'var(--color-target)',
+        border: 'var(--color-border)',
         background: 'var(--color-target)',
         text: 'var(--color-text)',
 
-        hoverBorder: 'var(--color-hover-target)',
+        hoverBorder: 'var(--color-hover-border)',
         hoverBackground: 'var(--color-hover-target)',
         hoverText: 'var(--color-hover-text)',
         

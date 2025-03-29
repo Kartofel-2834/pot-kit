@@ -1,6 +1,45 @@
 // Types
 import { IPotButtonProps } from "../props/pot-button-props";
-import { IPotKitComponentConfig } from "./pot-component-config";
+import {
+    IPotComponentConfig,
+    IPotComponentColorConfig,
+    IPotComponentSizeConfig,
+} from "./pot-component-config";
+
+type TPotButtonColorVarsList = (
+    'border' |
+    'background' |
+    'text' |
+    'hoverBorder' |
+    'hoverBackground' |
+    'hoverText' |
+    'activeBorder' |
+    'activeBackground' |
+    'activeText' |
+    'disabledBorder' |
+    'disabledBackground' |
+    'disabledText'
+);
+
+type TPotButtonSizeVarsList = (
+    'height' |
+    'text' |
+    'padding' |
+    'gap' |
+    'border' |
+    'icon'
+);
+
+type TConfig<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> = (
+    IPotComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>> &
+    IPotComponentSizeConfig<TSize, TPotButtonSizeVarsList> &
+    IPotComponentColorConfig<TPotButtonColorVarsList>
+);
 
 /** PotButton */
 export interface IPotButtonConfig<
@@ -8,33 +47,4 @@ export interface IPotButtonConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>> {
-    color: {
-        border: string;
-        background: string;
-        text: string;
-
-        hoverBorder: string;
-        hoverBackground: string;
-        hoverText: string;
-
-        activeBorder: string;
-        activeBackground: string;
-        activeText: string;
-
-        disabledBorder: string;
-        disabledBackground: string;
-        disabledText: string;
-    };
-
-    size: {
-        [key in TSize]: {
-            height: string | number;
-            text: string | number;
-            padding: string | number;
-            gap: string | number;
-            border: string | number;
-            icon: string | number;
-        } 
-    }
-}
+> extends TConfig<TDevice, TColor, TSize, TRadius> {}

@@ -3,20 +3,20 @@ import type { IPotKitConfig } from '../../types';
 
 type TPotPresetDevice = 'mobile' | 'tablet' | 'laptop' | 'desktop';
 
-type TPotPresetColor = 'pot';
-
 type TPotPresetSize = 'tiny' | 'small' | 'medium' | 'large';
 
 type TPotPresetRadius = 'circle' | 'large' | 'medium' | 'small' | 'tiny' | 'radius-8' | 'radius-6' | 'radius-4' | 'radius-2';
 
 type TPotPresetGap = 'large' | 'medium' | 'small' | 'tiny';
 
+type TPotPresetColor = 'pot';
+
 export interface IPotPreset extends IPotKitConfig<
-    TPotPresetDevice,
-    TPotPresetColor,
-    TPotPresetSize,
-    TPotPresetRadius,
-    TPotPresetGap
+    TPotPresetDevice,               // TDevice
+    TPotPresetColor,                // TColor
+    TPotPresetSize,                 // TSize    
+    TPotPresetRadius,               // TRadius
+    TPotPresetGap                   // TGap
 > {};
 
 // Components

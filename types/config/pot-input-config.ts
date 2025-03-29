@@ -1,6 +1,49 @@
 // Types
 import { IPotInputBaseProps } from "../props/pot-input-props";
-import { IPotKitComponentConfig } from "./pot-component-config";
+import {
+    IPotComponentConfig,
+    IPotComponentColorConfig,
+    IPotComponentSizeConfig
+} from "./pot-component-config";
+
+type TPotInputColorVarsList = (
+    'border' |
+    'background' |
+    'text' |
+    'icon' |
+    'hoverBorder' |
+    'hoverBackground' |
+    'hoverText' |
+    'hoverIcon' |
+    'focusedBorder' |
+    'focusedBackground' |
+    'focusedText' |
+    'focusedIcon' |
+    'disabledBorder' |
+    'disabledBackground' |
+    'disabledText' |
+    'disabledIcon'
+);
+
+type TPotInputSizeVarsList = (
+    'height' |
+    'text' |
+    'padding' |
+    'gap' |
+    'border' |
+    'icon'
+);
+
+type TConfig<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> = (
+    IPotComponentConfig<IPotInputBaseProps<TDevice, TColor, TSize, TRadius>> &
+    IPotComponentSizeConfig<TSize, TPotInputSizeVarsList> &
+    IPotComponentColorConfig<TPotInputColorVarsList>
+)
 
 /** PotInput */
 export interface IPotInputConfig<
@@ -8,37 +51,4 @@ export interface IPotInputConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotInputBaseProps<TDevice, TColor, TSize, TRadius>> {
-    color: {
-        border: string;
-        background: string;
-        text: string;
-        icon: string;
-
-        hoverBorder: string;
-        hoverBackground: string;
-        hoverText: string;
-        hoverIcon: string;
-
-        focusedBorder: string;
-        focusedBackground: string;
-        focusedText: string;
-        focusedIcon: string;
-
-        disabledBorder: string;
-        disabledBackground: string;
-        disabledText: string;
-        disabledIcon: string;
-    };
-
-    size: {
-        [key in TSize]: {
-            height: string | number;
-            text: string | number;
-            padding: string | number;
-            gap: string | number;
-            border: string | number;
-            icon: string | number;
-        } 
-    }
-}
+> extends TConfig<TDevice, TColor, TSize, TRadius> {} 

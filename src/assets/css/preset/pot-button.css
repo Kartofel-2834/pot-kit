@@ -1,9 +1,9 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
 .pot-button._color-pot {
-    --button-color-border: var(--color-target);
+    --button-color-border: var(--color-border);
     --button-color-background: var(--color-target);
     --button-color-text: var(--color-text);
-    --button-color-hover-border: var(--color-hover-target);
+    --button-color-hover-border: var(--color-hover-border);
     --button-color-hover-background: var(--color-hover-target);
     --button-color-hover-text: var(--color-hover-text);
     --button-color-active-border: var(--color-active-target);

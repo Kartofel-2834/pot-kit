@@ -1,12 +1,3 @@
-<template>
-    <svg
-        v-html="iconData"
-        v-bind="iconAttributes"
-        :style="customSize"
-        class="pot-icon"
-    ></svg>
-</template>
-
 <script lang="ts" setup>
 // Types
 import type { IPotIconProps } from '@/types/components';
@@ -15,13 +6,13 @@ import type { IPotIconProps } from '@/types/components';
 import { ref, computed, watch, onMounted } from 'vue';
 
 const $props = withDefaults(defineProps<IPotIconProps>(), {
-    size: null,
     loader: async (iconName: string) => {
         const icon = await import(`../../assets/icons/${iconName}.svg`);
         return icon?.default && typeof icon?.default === 'string' ? icon.default : '';
     },
 });
 
+const iconTag = ref<string | null>(null);
 const iconData = ref<string>('');
 const iconAttributes = ref<Record<string, string>>({});
 
@@ -34,7 +25,7 @@ onMounted(updateIcon);
 const customSize = computed<Partial<Record<string, string>>>(() => {
     let formattedSize: number = Number($props.size);
 
-    if (!$props.size || isNaN(formattedSize)) {
+    if ($props.size === undefined || $props.size === null || isNaN(formattedSize)) {
         return {};
     }
 
@@ -55,10 +46,10 @@ async function updateIcon(): Promise<void> {
         const iconWrapper = document.createElement('div');
         iconWrapper.innerHTML = data;
 
-        const iconElement = iconWrapper.querySelector('svg');
+        const iconElement = iconWrapper.firstChild as Element | null;
 
         if (!iconElement || !iconElement?.attributes) {
-            throw new Error('Invalid data');
+            throw new Error(`invalid data: ${data}`);
         }
 
         const updatedAttributes: Record<string, string> = {};
@@ -67,6 +58,7 @@ async function updateIcon(): Promise<void> {
             updatedAttributes[attribute.name] = attribute.value;
         }
 
+        iconTag.value = iconElement.tagName;
         iconData.value = iconElement.innerHTML;
         iconAttributes.value = updatedAttributes;
     } catch (err) {
@@ -75,8 +67,13 @@ async function updateIcon(): Promise<void> {
 }
 </script>
 
-<style>
-.pot-icon {
-    aspect-ratio: 1 / 1;
-}
-</style>
+<!-- eslint-disable vue/no-v-text-v-html-on-component -->
+<template>
+    <component
+        :is="iconTag"
+        v-html="iconData"
+        v-bind="iconAttributes"
+        :style="customSize"
+        class="pot-icon"
+    />
+</template>
