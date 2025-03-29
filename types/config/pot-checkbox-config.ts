@@ -8,7 +8,7 @@ export interface IPotCheckboxConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotCheckboxProps<TDevice, TColor, TSize, TRadius>, TSize> {
+> extends IPotKitComponentConfig<IPotCheckboxProps<TDevice, TColor, TSize, TRadius>> {
     color: {
         text: string;
         background: string;

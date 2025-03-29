@@ -8,7 +8,7 @@ export interface IPotButtonConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>, TSize> {
+> extends IPotKitComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>> {
     color: {
         border: string;
         background: string;

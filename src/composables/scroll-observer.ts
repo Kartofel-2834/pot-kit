@@ -1,10 +1,17 @@
 // Types
 import type { Directive, DirectiveBinding } from "vue";
-import type { IScrollConfig, IScrollObserver, TScrollCallback, TScrollTarget } from "@/types/composables";
+import type {
+    IScrollConfig,
+    IScrollObserver,
+    TScrollCallback,
+    TScrollTarget
+} from "@/types/composables";
+
+// Helpers
+import { TimerHelper } from "@/helpers/timer-helper";
 
 // Composables
 import { useObserver } from "./observer";
-import { multiActionListener } from "@/utils/timer-utils";
 
 const defaultConfig: IScrollConfig = {
     endDelay: 300,
@@ -17,7 +24,7 @@ const observer = useObserver<TScrollTarget, TScrollCallback>();
 
 export function useScrollObserver(config: Partial<IScrollConfig> = {}): IScrollObserver {
     const currentConfig: IScrollConfig = { ...defaultConfig, ...config };
-    const listener = multiActionListener(currentConfig, currentConfig.endDelay);
+    const listener = TimerHelper.multiActionListener(currentConfig, currentConfig.endDelay);
 
     function observe(target: TScrollTarget) {
         observer.observe(target, { listener });

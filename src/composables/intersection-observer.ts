@@ -2,8 +2,8 @@
 import type { Directive, DirectiveBinding } from 'vue';
 import type { IIntersectionConfig } from '@/types/composables';
 
-// Utils
-import { multiActionListener } from '@/utils/timer-utils';
+// Helpers
+import { TimerHelper } from '@/helpers/timer-helper';
 
 const defaultConfig: IIntersectionConfig = {
     endDelay: 300,
@@ -18,7 +18,7 @@ export function useIntersectionObserver(
 ): IntersectionObserver {
     const currentConfig = { ...defaultConfig, ...config };
 
-    const listener = multiActionListener(currentConfig, currentConfig.endDelay);
+    const listener = TimerHelper.multiActionListener(currentConfig, currentConfig.endDelay);
 
     return new IntersectionObserver((entries, intersectionObserver) => {
         for (const entry of entries) {

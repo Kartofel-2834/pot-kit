@@ -7,23 +7,17 @@ import { StringHelper } from "./string-helper";
 
 const EDIT_WARNING = `/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */`;
 
-const STYLES_SUBSCRIPTIONS: Record<keyof IPotKitConfig['components'], {
-    radius?: boolean;
-    gap?: boolean;
-    columnGap?: boolean;
-    rowGap?: boolean;
-}> = {
-    button: {
-        radius: true,
-    },
+const STYLES_SUBSCRIPTIONS: Record<
+    keyof IPotKitConfig['components'],
+    Array<'radius' | 'gap' | 'columnGap' | 'rowGap'>
+> = {
+    button: ['radius'],
 
-    checkbox: {
-        radius: true,
-    },
+    checkbox: ['radius'],
 
-    input: {
-        radius: true,
-    }
+    input: ['radius'],
+
+    grid: ['gap', 'rowGap', 'columnGap'],
 };
 
 /** Генерация стилей цветовых тем */
@@ -48,30 +42,31 @@ function generateColors(colorsConfiguration: IPotKitConfig['color']) {
 }
 
 /** Генерация стилей размеров и расцветки компонента */
-function generateComponentStyles(
+function generateComponentStyles<T extends IPotKitComponentConfig>(
     componentName: keyof IPotKitConfig['components'],
     config: IPotKitConfig,
-    componentConfig: IPotKitComponentConfig,
+    componentConfig: T,
 ) {
     const name = StringHelper.camelCaseToKebab(componentName);
     const componentClass = `.pot-${name}`;
 
-    const colorStyles = generateComponentsColorsStyles(name, componentClass, config.color, componentConfig.color);
-    const sizesStyles = generateComponentsSizesStyles(name, componentClass, componentConfig.size);
+    const colorStyles = componentConfig.color ? generateComponentsColorsStyles(name, componentClass, config.color, componentConfig.color) : '';
+    const sizesStyles = componentConfig.size ? generateComponentsSizesStyles(name, componentClass, componentConfig.size) : '';
 
-    const subscription = STYLES_SUBSCRIPTIONS[componentName] || {};
-    const subscriptionStyles = Object.entries(subscription).map(([modificator, flag]) => {
-        if (!flag) {
-            return '';
-        }
+    const subscription = STYLES_SUBSCRIPTIONS[componentName] || [];
+    const subscribeStyles = (modificator: string, data: Record<string, unknown>) => generateComponentModificatorStyles(
+        name,
+        componentClass,
+        modificator,
+        data
+    ); 
 
-        return generateComponentModificatorStyles(
-            name,
-            componentClass,
-            modificator,
-            config[modificator as keyof IPotKitConfig] as Record<string, unknown>
-        );
-    });
+    const subscriptionStyles = [
+        subscription.includes('radius') ? subscribeStyles('radius', config.radius) : '', 
+        subscription.includes('gap') ? subscribeStyles('gap', config.gap) : '',  
+        subscription.includes('rowGap') ? subscribeStyles('rowGap', config.gap) : '',  
+        subscription.includes('columnGap') ? subscribeStyles('columnGap', config.gap) : '',  
+    ];
 
     return [
         colorStyles,
@@ -86,12 +81,16 @@ function generateComponentModificatorStyles(
     modificatorName: string,
     data: Record<string, unknown>,
 ) {
+    if (!data || typeof data !== 'object') {
+        return '';
+    }
+
     const selectors = Object.keys(data).map((radiusName) => {
         return componentClass + StylesHelper.getModificatorClassName(modificatorName, radiusName);
     });
 
     return StylesHelper.getSelectorStyles(selectors, {
-        [`--${name}-radius`]: `var(--${StringHelper.camelCaseToKebab(modificatorName)})`
+        [`--${name}-${StringHelper.camelCaseToKebab(modificatorName)}`]: `var(--${StringHelper.camelCaseToKebab(modificatorName)})`
     });
 }
 

@@ -9,8 +9,9 @@ export function generateComponentDefaults(
     componentConfig: IPotKitComponentConfig
 ): string {
     const constantName = StringHelper.camelCaseToEnumKey(`pot${StringHelper.capitalize(componentName)}Defaults`);
+    const data = JSON.stringify(componentConfig.defaults || {});
 
-    return `export const ${constantName} = ${JSON.stringify(componentConfig.defaults || {})};`;
+    return `export const ${constantName}: Record<string, unknown> = ${data};`;
 }
 
 export function generateDefaults(config: IPotKitConfig): string {

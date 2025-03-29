@@ -1,30 +1,12 @@
-<template>
-    <component
-        :is="tag"
-        :class="['pot-grid', classList]"
-        :style="currentStyles"
-    >
-        <slot />
-    </component>
-</template>
-
-<script lang="ts" setup>
-// Types
-import type { IPotGridProps } from '@/types/components';
-
-// Vue
-import { computed } from 'vue';
-
+<script lang="ts">
 // Composables
-import { useDeviceProperties } from '@/composables/device-properties';
-import { useClassList } from '@/composables/class-list';
-import { useDeviceIs } from '@/composables/device-is';
+import { usePropsDefaults } from '@/composables/props-defaults';
 
 // Constants
 import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { POT_GRID_DEFAULTS } from '@/constants/defaults';
 
-// TODO: доработать систему типов для строковых значений
-const $props = withDefaults(defineProps<IPotGridProps>(), {
+const $propsDefaults = {
     tag: 'div',
     gap: undefined,
     rowGap: undefined,
@@ -39,7 +21,29 @@ const $props = withDefaults(defineProps<IPotGridProps>(), {
     justify: undefined,
     justifyItems: undefined,
     devices: () => ALL_DEVICES_REVERSED,
-});
+};
+
+const $configDefaults = usePropsDefaults(POT_GRID_DEFAULTS);
+</script>
+
+<script lang="ts" setup>
+// Types
+import type { IPotGridProps } from '@/types/components';
+import type { TPropsDefaults } from '@/types';
+
+// Vue
+import { computed } from 'vue';
+
+// Composables
+import { useDeviceProperties } from '@/composables/device-properties';
+import { useClassList } from '@/composables/class-list';
+import { useDeviceIs } from '@/composables/device-is';
+
+// TODO: доработать систему типов для строковых значений
+const $props = withDefaults(defineProps<IPotGridProps>(), {
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotGridProps>);
 
 const $deviceIs = useDeviceIs();
 
@@ -76,15 +80,16 @@ const classList = computed(() =>
 
 const currentStyles = computed(() => {
     return {
-        '--pot-grid-columns': formatNumberToFr(properties.value.cols),
-        '--pot-grid-rows': formatNumberToFr(properties.value.rows),
-        '--pot-grid-flow': properties.value.flow,
-        '--pot-grid-auto-row': properties.value.autoRows,
-        '--pot-grid-auto-col': properties.value.autoCols,
-        '--pot-grid-align': properties.value.align,
-        '--pot-grid-align-content': properties.value.alignContent,
-        '--pot-grid-justify': properties.value.justify,
-        '--pot-grid-justify-items': properties.value.justifyItems,
+        display: 'grid',
+        gridTemplateColumns: formatNumberToFr(properties.value.cols),
+        gridTemplateRows: formatNumberToFr(properties.value.rows),
+        gridAutoFlow: properties.value.flow,
+        gridAutoRows: properties.value.autoRows,
+        gridAutoColumns: properties.value.autoCols,
+        alignItems: properties.value.align,
+        alignContent: properties.value.alignContent,
+        justifyContent: properties.value.justify,
+        justifyItems: properties.value.justifyItems,
     };
 });
 
@@ -98,26 +103,16 @@ function formatNumberToFr(v?: string | number): string | undefined {
 }
 </script>
 
-<style>
-.pot-grid {
-    display: grid;
-    grid-template-columns: var(--pot-grid-columns);
-    grid-template-rows: var(--pot-grid-rows);
-    grid-auto-flow: var(--pot-grid-flow);
-    grid-auto-rows: var(--pot-grid-auto-row);
-    grid-auto-columns: var(--pot-grid-auto-col);
-    align-items: var(--pot-grid-align);
-    align-content: var(--pot-grid-align-content);
-    justify-content: var(--pot-grid-justify);
-    justify-items: var(--pot-grid-justify-items);
+<template>
+    <component
+        :is="$props.tag"
+        :class="['pot-grid', classList]"
+        :style="currentStyles"
+    >
+        <slot />
+    </component>
+</template>
 
-    /* Gap */
-    gap: var(--gap);
-}
-
-.pot-grid._divided-gap {
-    /* Gap */
-    row-gap: var(--row-gap);
-    column-gap: var(--column-gap);
-}
-</style>
+<style src="@/assets/css/base/pot-grid.css" />
+<style src="@/assets/css/configuration/pot-grid.css" />
+<style src="@/assets/css/preset/pot-grid.css" />

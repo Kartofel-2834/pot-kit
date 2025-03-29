@@ -22,4 +22,5 @@ export interface IPotPreset extends IPotKitConfig<
 // Components
 export type TPotPresetButton = IPotPreset['components']['button'];
 export type TPotPresetCheckbox = IPotPreset['components']['checkbox']; 
-export type TPotPresetInput = IPotPreset['components']['input']; 
+export type TPotPresetInput = IPotPreset['components']['input'];
+export type TPotPresetGrid = IPotPreset['components']['grid'];

@@ -1,6 +1,7 @@
 // Types
 import { IPotButtonConfig } from "./config/pot-button-config";
 import { IPotCheckboxConfig } from "./config/pot-checkbox-config";
+import { IPotGridConfig } from "./config/pot-grid-config";
 import { IPotInputConfig } from "./config/pot-input-config";
 
 export * from './config/pot-component-config';
@@ -37,6 +38,7 @@ export interface IPotKitConfig<
         button: IPotButtonConfig<TDevice, TColor, TSize, TRadius>;
         checkbox: IPotCheckboxConfig<TDevice, TColor, TSize, TRadius>;
         input: IPotInputConfig<TDevice, TColor, TSize, TRadius>;
+        grid: IPotGridConfig<TDevice, TGap>;
     }
 }
 
