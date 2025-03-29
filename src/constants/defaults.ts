@@ -5,3 +5,5 @@ export const POT_CHECKBOX_DEFAULTS: Record<string, unknown> = {"color":"pot","si
 export const POT_INPUT_DEFAULTS: Record<string, unknown> = {};
 
 export const POT_GRID_DEFAULTS: Record<string, unknown> = {"gap":"medium"};
+
+export const POT_GROUP_DEFAULTS: Record<string, unknown> = {"gap":"medium"};

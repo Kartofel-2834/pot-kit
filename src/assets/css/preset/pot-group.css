@@ -1,0 +1,7 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-group._gap-large,
+.pot-group._gap-medium,
+.pot-group._gap-small,
+.pot-group._gap-tiny {
+    --group-gap: var(--gap);
+}

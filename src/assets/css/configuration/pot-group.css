@@ -1,0 +1,6 @@
+/* GAP
+--group-gap                 / Расстояние между элементами
+*/
+.pot-group {
+    gap: var(--group-gap);
+}

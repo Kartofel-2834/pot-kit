@@ -3,11 +3,14 @@ import { IPotButtonConfig } from "./config/pot-button-config";
 import { IPotCheckboxConfig } from "./config/pot-checkbox-config";
 import { IPotGridConfig } from "./config/pot-grid-config";
 import { IPotInputConfig } from "./config/pot-input-config";
+import { IPotGroupConfig } from "./config/pot-group-config";
 
 export * from './config/pot-component-config';
 export * from './config/pot-button-config';
 export * from './config/pot-checkbox-config';
 export * from './config/pot-input-config';
+export * from './config/pot-grid-config';
+export * from './config/pot-group-config';
 
 export interface IPotKitConfig<
     TDevice extends string = string,
@@ -39,6 +42,7 @@ export interface IPotKitConfig<
         checkbox: IPotCheckboxConfig<TDevice, TColor, TSize, TRadius>;
         input: IPotInputConfig<TDevice, TColor, TSize, TRadius>;
         grid: IPotGridConfig<TDevice, TGap>;
+        group: IPotGroupConfig<TDevice, TGap>;
     }
 }
 

@@ -2,10 +2,11 @@
 import type { IPotPreset } from './types';
 
 // Components configurations
-import { PotButtonConfig } from './pot-button';
-import { PotCheckboxConfig } from './pot-checkbox';
-import { PotInputConfig } from './pot-input';
-import { PotGridConfig } from './pot-grid';
+import { PotButtonConfig } from './button';
+import { PotCheckboxConfig } from './checkbox';
+import { PotInputConfig } from './input';
+import { PotGridConfig } from './grid';
+import { PotGroupConfig } from './group';
 
 export const PotPreset: IPotPreset = {
     breakpoints: {
@@ -69,5 +70,6 @@ export const PotPreset: IPotPreset = {
         checkbox: PotCheckboxConfig,
         input: PotInputConfig,
         grid: PotGridConfig,
+        group: PotGroupConfig,
     }
 };

@@ -1,16 +1,23 @@
-<template>
-    <component
-        :is="tag"
-        :class="['pot-group', classList]"
-        :style="currentStyles"
-    >
-        <slot />
-    </component>
-</template>
+<script lang="ts">
+// Composables
+import { usePropsDefaults } from '@/composables/props-defaults';
+
+// Constants
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { POT_GROUP_DEFAULTS } from '@/constants/defaults';
+
+const $propsDefaults = {
+    tag: 'div',
+    devices: () => ALL_DEVICES_REVERSED,
+};
+
+const $configDefaults = usePropsDefaults(POT_GROUP_DEFAULTS);
+</script>
 
 <script lang="ts" setup>
 // Types
 import type { IPotGroupProps } from '@/types/components';
+import type { TPropsDefaults } from '@/types';
 
 // Vue
 import { computed } from 'vue';
@@ -20,20 +27,10 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useDeviceIs } from '@/composables/device-is';
 
-// Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-
 const $props = withDefaults(defineProps<IPotGroupProps>(), {
-    tag: 'div',
-    align: undefined,
-    alignContent: undefined,
-    justify: undefined,
-    justifyItems: undefined,
-    direction: undefined,
-    wrap: undefined,
-    gap: undefined,
-    devices: () => ALL_DEVICES_REVERSED,
-});
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotGroupProps>);
 
 const $deviceIs = useDeviceIs();
 
@@ -62,27 +59,27 @@ const classList = computed(() =>
 
 const currentStyles = computed(() => {
     return {
-        '--pot-group-direction': properties.value.direction,
-        '--pot-group-align': properties.value.align,
-        '--pot-group-align-content': properties.value.alignContent,
-        '--pot-group-justify': properties.value.justify,
-        '--pot-group-justify-items': properties.value.justifyItems,
-        '--pot-group-wrap': properties.value.wrap,
+        display: 'flex',
+        flexDirection: properties.value.direction,
+        alignItems: properties.value.align,
+        alignContent: properties.value.alignContent,
+        justifyContent: properties.value.justify,
+        justifyItems: properties.value.justifyItems,
+        flexWrap: properties.value.wrap,
     };
 });
 </script>
 
-<style lang="scss">
-.pot-group {
-    display: flex;
-    flex-direction: var(--pot-group-direction);
-    align-items: var(--pot-group-align);
-    align-content: var(--pot-group-align-content);
-    justify-content: var(--pot-group-justify);
-    justify-items: var(--pot-group-justify-items);
-    flex-wrap: var(--pot-group-wrap);
+<template>
+    <component
+        :is="tag"
+        :class="['pot-group', classList]"
+        :style="currentStyles"
+    >
+        <slot />
+    </component>
+</template>
 
-    /* Gap */
-    gap: var(--gap);
-}
-</style>
+<style src="@/assets/css/base/pot-group.css" />
+<style src="@/assets/css/configuration/pot-group.css" />
+<style src="@/assets/css/preset/pot-group.css" />

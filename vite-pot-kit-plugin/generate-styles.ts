@@ -18,6 +18,8 @@ const STYLES_SUBSCRIPTIONS: Record<
     input: ['radius'],
 
     grid: ['gap', 'rowGap', 'columnGap'],
+
+    group: ['gap'],
 };
 
 /** Генерация стилей цветовых тем */

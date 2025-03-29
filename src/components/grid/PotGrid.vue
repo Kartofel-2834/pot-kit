@@ -8,18 +8,6 @@ import { POT_GRID_DEFAULTS } from '@/constants/defaults';
 
 const $propsDefaults = {
     tag: 'div',
-    gap: undefined,
-    rowGap: undefined,
-    columnGap: undefined,
-    cols: undefined,
-    rows: undefined,
-    flow: undefined,
-    autoRows: undefined,
-    autoCols: undefined,
-    align: undefined,
-    alignContent: undefined,
-    justify: undefined,
-    justifyItems: undefined,
     devices: () => ALL_DEVICES_REVERSED,
 };
 
