@@ -25,3 +25,4 @@ export type TPotPresetCheckbox = IPotPreset['components']['checkbox'];
 export type TPotPresetInput = IPotPreset['components']['input'];
 export type TPotPresetGrid = IPotPreset['components']['grid'];
 export type TPotPresetGroup = IPotPreset['components']['group'];
+export type TPotPresetIcon = IPotPreset['components']['icon'];

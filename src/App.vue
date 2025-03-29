@@ -13,7 +13,11 @@ const kamal = ref([]);
 
 <template>
     <main :class="$style.main">
-        <PotGrid cols="3">
+        <PotGrid
+            cols="3"
+            justify-items="center"
+            align-content="center"
+        >
             <PotCheckList
                 v-model="kamal"
                 :specs="[1, 2, 3, 4, 5]"

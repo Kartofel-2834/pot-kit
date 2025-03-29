@@ -1,16 +1,32 @@
+<script lang="ts">
+// Composables
+import { usePropsDefaults } from '@/composables/props-defaults';
+
+// Constants
+import { POT_ICON_DEFAULTS } from '@/constants/defaults';
+
+const $propsDefaults = {
+    loader: async (iconName: string) => {
+        const icon = await import(`../../assets/icons/${iconName}.svg`);
+        return icon?.default && typeof icon?.default === 'string' ? icon.default : '';
+    },
+};
+
+const $configDefaults = usePropsDefaults(POT_ICON_DEFAULTS);
+</script>
+
 <script lang="ts" setup>
 // Types
 import type { IPotIconProps } from '@/types/components';
+import type { TPropsDefaults } from '@/types';
 
 // Vue
 import { ref, computed, watch, onMounted } from 'vue';
 
 const $props = withDefaults(defineProps<IPotIconProps>(), {
-    loader: async (iconName: string) => {
-        const icon = await import(`../../assets/icons/${iconName}.svg`);
-        return icon?.default && typeof icon?.default === 'string' ? icon.default : '';
-    },
-});
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotIconProps>);
 
 const iconTag = ref<string | null>(null);
 const iconData = ref<string>('');

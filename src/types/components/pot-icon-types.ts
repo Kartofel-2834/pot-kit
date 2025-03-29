@@ -17,5 +17,5 @@ export interface IPotIconProps {
     /**
      * Функция подгрузки возвращающая контент иконки в виде строки
      */
-    loader?: (iconName: string) => Promise<string>;
+    loader?: (iconName: string) => Promise<string> | string;
 }

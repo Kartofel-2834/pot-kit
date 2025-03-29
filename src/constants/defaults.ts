@@ -7,3 +7,5 @@ export const POT_INPUT_DEFAULTS: Record<string, unknown> = {};
 export const POT_GRID_DEFAULTS: Record<string, unknown> = {"gap":"medium"};
 
 export const POT_GROUP_DEFAULTS: Record<string, unknown> = {"gap":"medium"};
+
+export const POT_ICON_DEFAULTS: Record<string, unknown> = {};

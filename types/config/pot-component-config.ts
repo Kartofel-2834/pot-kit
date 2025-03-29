@@ -1,5 +1,5 @@
 export interface IPotComponentConfig<TProps extends object = object> {
-    defaults?: TProps;
+    defaults?: Partial<TProps>;
 }
 
 export interface IPotComponentSizeConfig<
