@@ -1,12 +1,12 @@
 // Types
-import { IPotKitComponentConfig, IPotKitConfig } from "../types";
+import { IPotComponentConfig, IPotKitConfig } from "../types";
 
 // Helpers
 import { StringHelper } from "./string-helper";
 
 export function generateComponentDefaults(
     componentName: string,
-    componentConfig: IPotKitComponentConfig
+    componentConfig: IPotComponentConfig
 ): string {
     const constantName = StringHelper.camelCaseToEnumKey(`pot${StringHelper.capitalize(componentName)}Defaults`);
     const data = JSON.stringify(componentConfig.defaults || {}, (key, value) => { 

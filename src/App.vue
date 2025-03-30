@@ -2,10 +2,9 @@
 import { ref } from 'vue';
 
 import PotButton from './components/button/PotButton.vue';
-import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotCheckList from './components/check/PotCheckList.vue';
-import PotGroup from './components/group/PotGroup.vue';
 import PotGrid from './components/grid/PotGrid.vue';
+import PotLink from './components/link/PotLink.vue';
 
 const value = ref<boolean>(true);
 const kamal = ref([]);
@@ -14,7 +13,6 @@ const kamal = ref([]);
 <template>
     <main :class="$style.main">
         <PotGrid
-            cols="3"
             justify-items="center"
             align-content="center"
         >
@@ -23,7 +21,15 @@ const kamal = ref([]);
                 :specs="[1, 2, 3, 4, 5]"
             ></PotCheckList>
 
-            <PotButton>Test</PotButton>
+            <PotButton> Test </PotButton>
+
+            <PotLink underline>Kamal</PotLink>
+
+            <PotLink
+                icon="check"
+                active
+                >Kamal</PotLink
+            >
         </PotGrid>
     </main>
 </template>

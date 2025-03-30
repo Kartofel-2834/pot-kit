@@ -1,0 +1,36 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-link._color-pot {
+    --link-color-text: var(--pot-base-600);
+    --link-color-underline: var(--color-target);
+    --link-color-underline-text: var(--pot-base-600);
+    --link-color-hover-text: var(--color-hover-target);
+    --link-color-hover-underline: var(--color-hover-target);
+    --link-color-hover-underline-text: var(--pot-base-600);
+    --link-color-active-text: var(--color-active-target);
+    --link-color-active-underline: var(--color-active-target);
+    --link-color-active-underline-text: var(--pot-base-600);
+}
+
+.pot-link._size-tiny {
+    --link-size-text: var(--pot-font-size-100);
+    --link-size-underline: 1px;
+    --link-size-icon: var(--pot-font-size-100);
+}
+
+.pot-link._size-small {
+    --link-size-text: var(--pot-font-size-200);
+    --link-size-underline: 1px;
+    --link-size-icon: var(--pot-font-size-200);
+}
+
+.pot-link._size-medium {
+    --link-size-text: var(--pot-font-size-300);
+    --link-size-underline: 2px;
+    --link-size-icon: var(--pot-font-size-300);
+}
+
+.pot-link._size-large {
+    --link-size-text: var(--pot-font-size-400);
+    --link-size-underline: 2px;
+    --link-size-icon: var(--pot-font-size-400);
+}

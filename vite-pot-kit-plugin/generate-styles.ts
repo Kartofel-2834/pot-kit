@@ -12,14 +12,12 @@ const STYLES_SUBSCRIPTIONS: Record<
     Array<'radius' | 'gap' | 'columnGap' | 'rowGap'>
 > = {
     button: ['radius'],
-
     checkbox: ['radius'],
-
     input: ['radius'],
-
     grid: ['gap', 'rowGap', 'columnGap'],
-
     group: ['gap'],
+    icon: [],
+    link: [],
 };
 
 /** Генерация стилей цветовых тем */
@@ -165,6 +163,14 @@ export function generateStyles(config: IPotKitConfig): {
 
     const componentsStyles = Object.entries(config.components)
         .reduce((res, [componentName, componentConfig]) => {
+            const color = (componentConfig as IPotComponentColorConfig)?.color;
+            const size = (componentConfig as IPotComponentSizeConfig)?.size;
+            const stylesSubscriptions = STYLES_SUBSCRIPTIONS?.[componentName as keyof IPotKitConfig['components']] || []; 
+
+            if (!color && !size && !stylesSubscriptions?.length) {
+                return res;
+            }
+
             const styles = generateComponentStyles(
                 componentName as keyof IPotKitConfig['components'],
                 config,

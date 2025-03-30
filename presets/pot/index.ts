@@ -8,6 +8,7 @@ import { PotInputConfig } from './input';
 import { PotGridConfig } from './grid';
 import { PotGroupConfig } from './group';
 import { PotIconConfig } from './icon';
+import { PotLinkConfig } from './link';
 
 export const PotPreset: IPotPreset = {
     breakpoints: {
@@ -73,5 +74,6 @@ export const PotPreset: IPotPreset = {
         grid: PotGridConfig,
         group: PotGroupConfig,
         icon: PotIconConfig,
+        link: PotLinkConfig,
     }
 };

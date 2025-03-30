@@ -1,9 +1,9 @@
-/* GAP
---grid-gap                  / Расстояние между элементами
---grid-row-gap              / Расстояние между рядами
---grid-column-gap           / Расстояние между колонками
-*/
+/* GAP */
 .pot-grid {
+    --grid-gap: initial;                  /* Расстояние между элементами */
+    --grid-row-gap: initial;              /* Расстояние между рядами */
+    --grid-column-gap: initial;           /* Расстояние между колонками */
+
     gap: var(--grid-gap);
 }
 

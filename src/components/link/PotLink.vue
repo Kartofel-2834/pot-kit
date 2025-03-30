@@ -1,37 +1,25 @@
-<template>
-    <component
-        :class="['pot-link', classList]"
-        :is="tag"
-        :target="currentTarget"
-        :[toAttribute]="currentLink"
-    >
-        <slot name="preicon">
-            <PotIcon
-                v-if="preicon"
-                :icon="preicon"
-                class="pot-link__icon pot-link__icon_pre"
-            />
-        </slot>
+<script lang="ts">
+// Composables
+import { usePropsDefaults } from '@/composables/props-defaults';
 
-        <slot />
+// Constants
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { POT_LINK_DEFAULTS } from '@/constants/defaults';
 
-        <slot name="icon">
-            <PotIcon
-                v-if="icon"
-                :icon="icon"
-                class="pot-link__icon pot-link__icon_post"
-            />
-        </slot>
-    </component>
-</template>
+const $propsDefaults = {
+    tag: 'a',
+    toAttribute: 'href',
+    devices: () => ALL_DEVICES_REVERSED,
+};
+
+const $configDefaults = usePropsDefaults(POT_LINK_DEFAULTS);
+</script>
 
 <script lang="ts" setup>
 // Types
 import type { IPotLinkProps } from '@/types/components';
 import type { TDeviceIs } from '@/types/composables';
-
-// Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
+import type { TPropsDefaults } from '@/types';
 
 // Vue
 import { defineAsyncComponent, inject } from 'vue';
@@ -43,26 +31,13 @@ import { computed } from 'vue';
 import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 
-// Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 const $props = withDefaults(defineProps<IPotLinkProps>(), {
-    tag: 'a',
-    link: null,
-    target: null,
-    toAttribute: 'href',
-    icon: '',
-    preicon: '',
-    disabled: false,
-    underline: false,
-    active: false,
-    size: POT_SIZE.MEDIUM,
-    color: POT_COLOR_THEME.PRIMARY,
-    devices: () => ALL_DEVICES_REVERSED,
-});
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotLinkProps>);
 
 const $deviceIs = inject<TDeviceIs>('deviceIs');
 
@@ -118,133 +93,33 @@ const currentLink = computed<string | null>(() => {
 });
 </script>
 
-<style lang="scss">
-.pot-link {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.2em;
-    font-weight: 500;
-    line-height: 1;
-    width: fit-content;
-    font-size: inherit;
-    user-select: none;
-    cursor: pointer;
-    transition:
-        opacity var(--pot-transition),
-        color var(--pot-transition);
+<template>
+    <component
+        :class="['pot-link', classList]"
+        :is="tag"
+        :target="currentTarget"
+        :[toAttribute]="currentLink"
+    >
+        <slot name="preicon">
+            <PotIcon
+                v-if="preicon"
+                :icon="preicon"
+                class="pot-link__icon pot-link__icon_pre"
+            />
+        </slot>
 
-    /* --- Colors - START --- */
-    color: var(--pot-link-text-color);
+        <slot />
 
-    &:after {
-        background-color: var(--pot-link-underline-color);
-    }
+        <slot name="icon">
+            <PotIcon
+                v-if="icon"
+                :icon="icon"
+                class="pot-link__icon pot-link__icon_post"
+            />
+        </slot>
+    </component>
+</template>
 
-    @include exclude-modificator(disabled) {
-        @include exclude-modificator(active) {
-            &:not(:active):hover {
-                color: var(--pot-link-hover-text-color);
-
-                &:after {
-                    background-color: var(--pot-link-underline-hover-color);
-                }
-            }
-
-            &:active {
-                color: var(--pot-link-active-text-color);
-
-                &:after {
-                    background-color: var(--pot-link-underline-active-color);
-                }
-            }
-
-            @include modificator(underline) {
-                &:not(:active):hover {
-                    color: var(--pot-link-underline-hover-text-color);
-                }
-
-                &:active {
-                    color: var(--pot-link-underline-active-text-color);
-                }
-            }
-        }
-    }
-
-    @include exclude-modificator(disabled) {
-        @include modificator(active) {
-            color: var(--pot-link-active-text-color);
-
-            @include modificator(underline) {
-                color: var(--pot-link-underline-active-text-color);
-            }
-        }
-    }
-    /* --- Colors - END --- */
-
-    /* --- Sizes ---  */
-    $standard-size: (
-        text: var(--pot-link-size-text),
-    );
-
-    @include size($standard-size) using ($size, $size-name) {
-        font-size: map-get($size, 'text');
-
-        &:after {
-            @if $size-name == 'tiny' {
-                height: 1px;
-            } @else {
-                height: 2px;
-            }
-        }
-    }
-
-    /* --- Flags --- */
-    @include modificator(underline) {
-        &:after {
-            content: '';
-        }
-
-        @include exclude-modificator(disabled) {
-            &:hover {
-                &:after {
-                    transform: translateY(100%) scaleX(1);
-                }
-            }
-
-            @include modificator(active) {
-                &:after {
-                    transform: translateY(100%) scaleX(1);
-                }
-            }
-        }
-    }
-
-    /* --- Active --- */
-    @include modificator(active) {
-        cursor: default;
-    }
-
-    /* --- Disabled --- */
-    @include modificator(disabled) {
-        cursor: not-allowed;
-    }
-
-    &:after {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        transform-origin: left;
-        transform: translateY(100%) scaleX(0);
-        transition:
-            background-color var(--pot-transition),
-            transform var(--pot-transition);
-    }
-}
-
-.pot-link__icon {
-    flex-shrink: 0;
-    width: 1em;
-}
-</style>
+<style src="@/assets/css/base/pot-link.css" />
+<style src="@/assets/css/configuration/pot-link.css" />
+<style src="@/assets/css/preset/pot-link.css" />

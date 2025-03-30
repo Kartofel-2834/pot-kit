@@ -1,0 +1,76 @@
+/* COLORS */
+.pot-link {
+    --link-color-text: initial;                     /* Цвет текста */
+    --link-color-underline: initial;                /* Цвет подчеркивания */
+    --link-color-underline-text: initial;           /* Цвет подчеркивания */
+
+    --link-color-hover-text: initial;               /* Цвет текста при наведении */
+    --link-color-hover-underline: initial;          /* Цвет подчеркивания при наведении */
+    --link-color-hover-underline-text: initial;     /* Цвет текста при наведении c подчеркиванием */ 
+
+    --link-color-active-text: initial;              /* Цвет текста при нажатии */
+    --link-color-active-underline: initial;         /* Цвет подчеркивания при нажатии */
+    --link-color-active-underline-text: initial;    /* Цвет текста при наведении c подчеркиванием */ 
+
+    color: var(--link-color-text);
+}
+
+.pot-link:after {
+    background-color: var(--link-underline-color);
+}
+
+/* --- PotLink - Hover_Active --- */
+.pot-link:not(._disabled, ._active, :active):hover {
+    color: var(--link-color-hover-text);
+}
+
+.pot-link:not(._disabled, ._active, :active):hover:after {
+    background-color: var(--link-color-hover-underline);
+}
+
+.pot-link:not(._disabled, ._active):active {
+    color: var(--link-color-active-text);
+}
+
+.pot-link:not(._disabled, ._active):active:after {
+    background-color: var(--link-color-active-underline);
+}
+
+/* --- PotLink - Underline - Hover_Active --- */
+.pot-link._underline {
+    color: var(--link-color-underline-text);
+}
+
+.pot-link._underline:not(._disabled, ._active, :active):hover {
+    color: var(--link-color-hover-underline-text);
+}
+
+.pot-link._underline:not(._disabled, ._active):active {
+    color: var(--link-color-active-underline-text);
+}
+
+/* --- PotLink - Active --- */
+.pot-link._active:not(._disabled) {
+    color: var(--link-color-active-text); 
+}
+
+.pot-link._active._underline:not(._disabled) {
+    color: var(--link-color-active-underline-text); 
+}
+
+/* SIZES */
+.pot-link {
+    --link-size-text: initial;           /* Размер текста */
+    --link-size-underline: initial;      /* Размер подчеркивания */
+    --link-size-icon: initial;           /* Размер подчеркивания */
+
+    font-size: var(--link-size-text);
+}
+
+.pot-link:after {
+    height: var(--link-size-underline);
+}
+
+.pot-link__icon {
+    width: var(--link-size-icon);
+}

@@ -1,10 +1,8 @@
-// Types
-import type { EPotDevice, EPotColor, EPotSize } from "@/enums/preset";
-
-/**
- * Интерфейс пропсов для компонента PotLink
- */
-export interface IPotLinkProps {
+export interface IPotLinkProps<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+> {
     /** HTML-тег ссылки. По умолчанию - 'a' */
     tag?: string;
 
@@ -18,13 +16,13 @@ export interface IPotLinkProps {
     target?: string | null;
 
     /** Цвет ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EPotColor | EPotColor[];
+    color?: TColor | TColor[];
 
     /** Размер ссылки. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: EPotSize | EPotSize[] | null;
+    size?: TSize | TSize[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EPotDevice[];
+    devices?: TDevice[];
 
     /** Иконка после текста ссылки */
     icon?: string;
