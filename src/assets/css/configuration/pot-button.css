@@ -16,7 +16,6 @@
     --button-color-disabled-background: initial;     /* Цвет фона у неактивной кнопки */
     --button-color-disabled-text: initial;           /* Цвет текста у неактивной кнопки */
 
-
     border-color: var(--button-color-border);
     background-color: var(--button-color-background);
     color: var(--button-color-text);

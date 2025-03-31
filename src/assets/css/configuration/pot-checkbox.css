@@ -9,7 +9,12 @@
     --checkbox-color-hover-border: initial;                    /* Цвет рамки при наведении */
     --checkbox-color-hover-background: initial;                /* Цвет фона при наведении */
     --checkbox-color-hover-icon: initial;                      /* Цвет иконки при наведении */
-    
+
+    --checkbox-color-clicked-text: initial;                    /* Цвет текста при нажатии */
+    --checkbox-color-clicked-border: initial;                  /* Цвет рамки при нажатии */
+    --checkbox-color-clicked-background: initial;              /* Цвет фона при нажатии */
+    --checkbox-color-clicked-icon: initial;                    /* Цвет иконки при нажатии */
+    /* ----------------------------------------------------------------------------------------------------- */
     --checkbox-color-checked-text: initial;                    /* Цвет текста выбранного чекбокса */
     --checkbox-color-checked-border: initial;                  /* Цвет рамки выбранного чекбокса */
     --checkbox-color-checked-background: initial;              /* Цвет фона выбранного чекбокса */
@@ -20,10 +25,21 @@
     --checkbox-color-checked-hover-background: initial;        /* Цвет фона при наведении на выбранный чекбокс */
     --checkbox-color-checked-hover-icon: initial;              /* Цвет иконки при наведении на выбранный чекбокс */
     
-    --checkbox-color-disabled-text: initial;                   /* Цвет текста при наведении на выбранный чекбокс */
-    --checkbox-color-disabled-border: initial;                 /* Цвет рамки при наведении на выбранный чекбокс */
-    --checkbox-color-disabled-background: initial;             /* Цвет фона при наведении на выбранный чекбокс */
-    --checkbox-color-disabled-icon: initial;                   /* Цвет иконки при наведении на выбранный чекбокс */
+    --checkbox-color-checked-clicked-text: initial;            /* Цвет текста при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-clicked-border: initial;          /* Цвет рамки при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-clicked-background: initial;      /* Цвет фона при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-clicked-icon: initial;            /* Цвет иконки при нажатии на выбранный чекбокс */
+    /* ----------------------------------------------------------------------------------------------------- */
+    --checkbox-color-invalid-text: initial;                    /* Цвет текста невалидного чекбокса */
+    --checkbox-color-invalid-border: initial;                  /* Цвет рамки невалидного чекбокса */
+    --checkbox-color-invalid-background: initial;              /* Цвет фона невалидного чекбокса */
+    --checkbox-color-invalid-icon: initial;                    /* Цвет иконки невалидного чекбокса */
+    /* ----------------------------------------------------------------------------------------------------- */
+    --checkbox-color-disabled-text: initial;                   /* Цвет текста заблокированного чекбокса */
+    --checkbox-color-disabled-border: initial;                 /* Цвет рамки заблокированного чекбокса */
+    --checkbox-color-disabled-background: initial;             /* Цвет фона заблокированного чекбокса */
+    --checkbox-color-disabled-icon: initial;                   /* Цвет иконки заблокированного чекбокса */
+    /* ----------------------------------------------------------------------------------------------------- */
 
     color: var(--checkbox-color-text);
 }
