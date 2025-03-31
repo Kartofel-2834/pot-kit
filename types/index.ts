@@ -6,6 +6,7 @@ import { IPotInputConfig } from "./config/pot-input-config";
 import { IPotGroupConfig } from "./config/pot-group-config";
 import { IPotIconConfig } from "./config/pot-icon-config";
 import { IPotLinkConfig } from "./config/pot-link-config";
+import { IPotRadioConfig } from "./config/pot-radio-config";
 
 export * from './config/pot-component-config';
 export * from './config/pot-button-config';
@@ -15,6 +16,7 @@ export * from './config/pot-grid-config';
 export * from './config/pot-group-config';
 export * from './config/pot-icon-config';
 export * from './config/pot-link-config';
+export * from './config/pot-radio-config';
 
 export interface IPotKitConfig<
     TDevice extends string = string,
@@ -39,7 +41,7 @@ export interface IPotKitConfig<
     
     gap: {
         [key in TGap]: string | number;
-    }
+    };
     
     components: {
         button: IPotButtonConfig<TDevice, TColor, TSize, TRadius>;
@@ -49,6 +51,7 @@ export interface IPotKitConfig<
         group: IPotGroupConfig<TDevice, TGap>;
         icon: IPotIconConfig;
         link: IPotLinkConfig<TDevice, TColor, TSize>,
+        radio: IPotRadioConfig<TDevice, TColor, TSize, TRadius>;
     }
 }
 

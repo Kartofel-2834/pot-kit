@@ -1,40 +1,48 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import PotButton from './components/button/PotButton.vue';
-import PotCheckList from './components/check/PotCheckList.vue';
 import PotGrid from './components/grid/PotGrid.vue';
-import PotLink from './components/link/PotLink.vue';
+import PotRadioList from './components/radio/PotRadioList.vue';
 
-const value = ref<boolean>(true);
-const kamal = ref([]);
+const value = ref<number>(NaN);
+const specs = ref<number[]>([1, 2, 3, 4, 5]);
 </script>
 
 <template>
-    <main :class="$style.main">
+    <main class="main">
         <PotGrid
+            cols="2"
             justify-items="center"
             align-content="center"
         >
-            <PotCheckList
-                v-model="kamal"
-                :specs="[1, 2, 3, 4, 5]"
-            ></PotCheckList>
+            <PotRadioList
+                v-model="value"
+                :specs="specs"
+                size="tiny"
+            />
 
-            <PotButton> Test </PotButton>
+            <PotRadioList
+                v-model="value"
+                :specs="specs"
+                size="small"
+            />
 
-            <PotLink underline>Kamal</PotLink>
+            <PotRadioList
+                v-model="value"
+                :specs="specs"
+                size="medium"
+            />
 
-            <PotLink
-                icon="check"
-                active
-                >Kamal</PotLink
-            >
+            <PotRadioList
+                v-model="value"
+                :specs="specs"
+                size="large"
+            />
         </PotGrid>
     </main>
 </template>
 
-<style module>
+<style>
 .main {
     display: flex;
     flex-direction: column;

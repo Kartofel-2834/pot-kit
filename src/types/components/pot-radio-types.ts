@@ -1,44 +1,28 @@
 // Types
-import type { ISpecsProps, TSpecValue } from '@/types/composables/specs-helper-types';
-import type { EPotDevice, EPotColorTheme, EPotSize } from '@/enums/preset';
-import type { EPotRadius } from '@/enums/components';
+import type { EPotDevice, EPotColor, EPotSize, EPotRadius } from "@/enums/preset";
 
-/**
- * Интерфейс пропсов для компонента PotRadio
- */
-export interface IPotRadioProps<
-    S extends object,
-    L extends keyof S,
-    V extends keyof S,
-    T extends S[V] & TSpecValue
-> extends ISpecsProps<S, L, V, T> {
-    /** Выбранное значение */
-    value?: T | null;
-
-    /** Выбранное значение. Для поддержки v-model */
-    modelValue?: T | null;
-
-    /** HTML-тег радио-листа. По умолчанию - 'ul' */
+export interface IPotRadioProps {
+    /** HTML-тег элемента. По умолчанию - 'div' */
     tag?: string;
 
-    /** HTML-тег элемента радио-листа. По умолчанию - 'li' */
-    radioTag?: string;
+    /** Цвет элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
+    color?: EPotColor | EPotColor[]; 
 
-    /** Цвет элементов списка */
-    color?: EPotColorTheme | EPotColorTheme[];
-
-    /** Цвет элементов списка */
+    /** Размер элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
     size?: EPotSize | EPotSize[] | null;
 
-    /** Скругление маркеров элементов списка */
+    /** Скругление маркеров. Может быть одним значением или массивом значений для адаптивного дизайна */
     radius?: EPotRadius | EPotRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
     devices?: EPotDevice[];
 
-    /** Если true, то список будет заблокирован и не активен */
+    /** Флаг, указывающий на то, активен ли элемент радио-списка */
+    active?: boolean;
+
+    /** Если true, то элемент списка будет заблокирован и не активен */
     disabled?: boolean;
 
-    /** Если true, то список будет невалиден */
+    /** Если true, то элемент списка будет невалиден */
     invalid?: boolean;
 }

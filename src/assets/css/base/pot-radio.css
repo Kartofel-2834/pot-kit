@@ -1,0 +1,47 @@
+.pot-radio {
+    display: flex;
+    align-items: center;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1;
+    user-select: none;
+    cursor: pointer;
+    transition: color var(--pot-transition);
+}
+
+/* --- PotRadio - Active --- */
+.pot-radio:not(._disabled)._active {
+    cursor: default;
+}
+
+/* --- PotRadio - Invalid --- */
+.pot-radio._invalid {
+    color: inherit;
+}
+
+/* --- PotRadio - Disabled --- */
+.pot-radio._disabled {
+    cursor: not-allowed;
+}
+
+.pot-radio__marker {
+    position: relative;
+    border-style: solid;
+    transition:
+        color var(--pot-transition),
+        background-color var(--pot-transition),
+        border-color var(--pot-transition);
+}
+
+.pot-radio__marker:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    aspect-ratio: 1 / 1;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+    transition:
+        background-color var(--pot-transition),
+        transform var(--pot-transition);
+}

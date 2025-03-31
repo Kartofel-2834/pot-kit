@@ -27,3 +27,4 @@ export type TPotPresetGrid = IPotPreset['components']['grid'];
 export type TPotPresetGroup = IPotPreset['components']['group'];
 export type TPotPresetIcon = IPotPreset['components']['icon'];
 export type TPotPresetLink = IPotPreset['components']['link'];
+export type TPotPresetRadio = IPotPreset['components']['radio'];

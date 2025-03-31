@@ -18,6 +18,7 @@ const STYLES_SUBSCRIPTIONS: Record<
     group: ['gap'],
     icon: [],
     link: [],
+    radio: ['radius'],
 };
 
 /** Генерация стилей цветовых тем */

@@ -35,9 +35,9 @@ const $emit = defineEmits<{
 }>();
 
 // Computed
-const specsHelper = computed(() => useSpecs($props));
+const $specs = computed(() => useSpecs($props));
 
-const updatedSpecs = computed(() => specsHelper.value.getModifiedSpecs());
+const updatedSpecs = computed(() => $specs.value.getModifiedSpecs());
 
 const currentValue = computed<T[]>(() => $props.value || $props.modelValue || []);
 

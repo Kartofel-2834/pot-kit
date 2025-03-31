@@ -1,22 +1,23 @@
-// Types
-import type { EPotDevice, EPotColorTheme, EPotSize } from "@/enums/preset";
-import type { EPotRadius } from "@/enums/components";
-
-export interface IPotRadioElementProps {
+export interface IPotRadioProps<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string,
+    TRadius extends string = string
+> {
     /** HTML-тег элемента. По умолчанию - 'div' */
     tag?: string;
 
     /** Цвет элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
-    color?: EPotColorTheme | EPotColorTheme[];
+    color?: TColor | TColor[]; 
 
     /** Размер элемента. Может быть одним значением или массивом значений для адаптивного дизайна */
-    size?: EPotSize | EPotSize[] | null;
+    size?: TSize | TSize[] | null;
 
     /** Скругление маркеров. Может быть одним значением или массивом значений для адаптивного дизайна */
-    radius?: EPotRadius | EPotRadius[] | null;
+    radius?: TRadius | TRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EPotDevice[];
+    devices?: TDevice[];
 
     /** Флаг, указывающий на то, активен ли элемент радио-списка */
     active?: boolean;
