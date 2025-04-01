@@ -46,6 +46,12 @@ export const PotPreset: IPotPreset = {
             disabledBorder: 'var(--pot-base-400)',
             disabledSubcolor: 'var(--pot-base-500)',
             disabledText: 'var(--pot-base-0)',
+
+            /* Invalid */
+            invalidTarget: 'var(--pot-base-400)',
+            invalidBorder: 'var(--pot-base-400)',
+            invalidSubcolor: 'var(--pot-base-500)',
+            invalidText: 'var(--pot-base-0)',
         }
     },
 

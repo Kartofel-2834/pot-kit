@@ -1,36 +1,48 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
 .pot-link._color-pot {
-    --link-color-text: var(--pot-base-600);
-    --link-color-underline: var(--color-target);
-    --link-color-underline-text: var(--pot-base-600);
-    --link-color-hover-text: var(--color-hover-target);
-    --link-color-hover-underline: var(--color-hover-target);
-    --link-color-hover-underline-text: var(--pot-base-600);
-    --link-color-active-text: var(--color-active-target);
-    --link-color-active-underline: var(--color-active-target);
-    --link-color-active-underline-text: var(--pot-base-600);
+    --link-color-text: inherit;
+    --link-color-icon: inherit;
+    --link-color-line: inherit;
+    --link-color-hover-text: red;
+    --link-color-hover-icon: red;
+    --link-color-hover-line: red;
+    --link-color-pressed-text: green;
+    --link-color-pressed-icon: green;
+    --link-color-pressed-line: green;
+    --link-color-active-text: blue;
+    --link-color-active-icon: blue;
+    --link-color-active-line: blue;
+    --link-color-active-hover-text: purple;
+    --link-color-active-hover-icon: purple;
+    --link-color-active-hover-line: purple;
+    --link-color-active-pressed-text: pink;
+    --link-color-active-pressed-icon: pink;
+    --link-color-active-pressed-line: pink;
+    --link-color-disabled-text: grey;
+    --link-color-disabled-icon: grey;
+    --link-color-disabled-line: grey;
 }
 
 .pot-link._size-tiny {
     --link-size-text: var(--pot-font-size-100);
-    --link-size-underline: 1px;
+    --link-size-line: 1px;
     --link-size-icon: var(--pot-font-size-100);
 }
 
 .pot-link._size-small {
     --link-size-text: var(--pot-font-size-200);
-    --link-size-underline: 1px;
+    --link-size-line: 1px;
     --link-size-icon: var(--pot-font-size-200);
 }
 
 .pot-link._size-medium {
     --link-size-text: var(--pot-font-size-300);
-    --link-size-underline: 2px;
+    --link-size-line: 2px;
     --link-size-icon: var(--pot-font-size-300);
 }
 
 .pot-link._size-large {
     --link-size-text: var(--pot-font-size-400);
-    --link-size-underline: 2px;
+    --link-size-line: 2px;
     --link-size-icon: var(--pot-font-size-400);
 }

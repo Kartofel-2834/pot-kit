@@ -17,9 +17,9 @@ export const PotButtonConfig: TPotPresetButton = {
         hoverBackground: 'var(--color-hover-target)',
         hoverText: 'var(--color-hover-text)',
         
-        activeBorder: 'var(--color-active-target)',
-        activeBackground: 'var(--color-active-target)',
-        activeText: 'var(--color-active-text)',
+        pressedBorder: 'var(--color-active-target)',
+        pressedBackground: 'var(--color-active-target)',
+        pressedText: 'var(--color-active-text)',
         
         disabledBorder: 'var(--pot-base-400)',
         disabledBackground: 'var(--pot-base-400)',

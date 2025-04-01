@@ -17,6 +17,10 @@
     --color-disabled-border: var(--pot-base-400);
     --color-disabled-subcolor: var(--pot-base-500);
     --color-disabled-text: var(--pot-base-0);
+    --color-invalid-target: var(--pot-base-400);
+    --color-invalid-border: var(--pot-base-400);
+    --color-invalid-subcolor: var(--pot-base-500);
+    --color-invalid-text: var(--pot-base-0);
 }
 
 ._radius-circle {

@@ -1,38 +1,39 @@
 /* COLORS */
 .pot-button {
-    --button-color-border: initial;                  /* Цвет рамки */
-    --button-color-background: initial;              /* Цвет фона */
-    --button-color-text: initial;                    /* Цвет текста */
+    --button-color-border: initial;                     /* Цвет рамки */
+    --button-color-background: initial;                 /* Цвет фона */
+    --button-color-text: initial;                       /* Цвет текста */
 
-    --button-color-hover-border: initial;            /* Цвет рамки при наведении */
-    --button-color-hover-background: initial;        /* Цвет фона при наведении */
-    --button-color-hover-text: initial;              /* Цвет текста при наведении */
+    --button-color-hover-border: initial;               /* Цвет рамки при наведении */
+    --button-color-hover-background: initial;           /* Цвет фона при наведении */
+    --button-color-hover-text: initial;                 /* Цвет текста при наведении */
 
-    --button-color-active-border: initial;           /* Цвет рамки при нажатии */
-    --button-color-active-background: initial;       /* Цвет фона при нажатии */
-    --button-color-active-text: initial;             /* Цвет текста при нажатии */
+    --button-color-pressed-border: initial;             /* Цвет рамки при нажатии */
+    --button-color-pressed-background: initial;         /* Цвет фона при нажатии */
+    --button-color-pressed-text: initial;               /* Цвет текста при нажатии */
 
-    --button-color-disabled-border: initial;         /* Цвет рамки у неактивной кнопки */
-    --button-color-disabled-background: initial;     /* Цвет фона у неактивной кнопки */
-    --button-color-disabled-text: initial;           /* Цвет текста у неактивной кнопки */
+    --button-color-disabled-border: initial;            /* Цвет рамки у неактивной кнопки */
+    --button-color-disabled-background: initial;        /* Цвет фона у неактивной кнопки */
+    --button-color-disabled-text: initial;              /* Цвет текста у неактивной кнопки */
 
     border-color: var(--button-color-border);
     background-color: var(--button-color-background);
     color: var(--button-color-text);
 }
 
-.pot-button:active:not(:disabled) {
-    border-color: var(--button-color-active-border);
-    background-color: var(--button-color-active-background);
-    color: var(--button-color-active-text);
-}
-
-.pot-button:not(:active, :disabled):hover {
+.pot-button:hover:not(:active, :disabled) {
     border-color: var(--button-color-hover-border);
     background-color: var(--button-color-hover-background);
     color: var(--button-color-hover-text);
 }
 
+.pot-button:active:not(:disabled) {
+    border-color: var(--button-color-pressed-border);
+    background-color: var(--button-color-pressed-background);
+    color: var(--button-color-pressed-text);
+}
+
+/* --- PotButton - Disabled --- */
 .pot-button:disabled {
     border-color: var(--button-color-disabled-border);
     background-color: var(--button-color-disabled-background);

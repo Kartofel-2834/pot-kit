@@ -9,6 +9,7 @@ export const PotCheckboxConfig: TPotPresetCheckbox = {
     },
 
     color: {
+        /* --- BASE --- */
         text: 'inherit',                 
         background: 'transparent',                
         icon: 'var(--color-text)',
@@ -17,23 +18,47 @@ export const PotCheckboxConfig: TPotPresetCheckbox = {
         hoverText: 'inherit',
         hoverBackground: 'transparent',   
         hoverIcon: 'var(--color-hover-text)', 
-        hoverBorder: 'var(--color-hover-subcolor)',            
+        hoverBorder: 'var(--color-hover-subcolor)',
+        
+        pressedText: 'inherit',
+        pressedBackground: 'transparent',   
+        pressedIcon: 'var(--color-hover-text)', 
+        pressedBorder: 'var(--color-hover-subcolor)',       
+        /* --- BASE --- */
 
+
+        /* --- CHECKED --- */
         checkedText: 'inherit',
         checkedBackground: 'var(--color-target)',        
         checkedBorder: 'var(--color-target)',   
-        checkedIcon: 'var(--color-text)',  
-
+        checkedIcon: 'var(--color-text)',
+        
         checkedHoverText: 'inherit',
-        checkedHoverBackground: 'var(--color-active-target)',
-        checkedHoverIcon: 'var(--color-active-text)',
-        checkedHoverBorder: 'var(--color-active-target)',
+        checkedHoverBackground: 'var(--color-target)',
+        checkedHoverIcon: 'var(--color-text)',
+        checkedHoverBorder: 'var(--color-target)',
 
+        checkedPressedText: 'inherit',
+        checkedPressedBackground: 'var(--color-active-target)',   
+        checkedPressedIcon: 'var(--color-active-text)',
+        checkedPressedBorder: 'var(--color-active-target)',
+        /* --- CHECKED --- */
+
+
+        /* --- INVALID --- */
+        invalidText: 'inherit',
+        invalidBorder: 'var(--pot-color-invalid)', 
+        invalidBackground: 'var(--pot-color-invalid)',
+        invalidIcon: 'var(--pot-color-invalid-text)',
+        /* --- INVALID --- */
+
+
+        /* --- DISABLED --- */
         disabledText: 'var(--color-disabled-subcolor)',
         disabledBorder: 'var(--color-disabled-target)',
-        disabledCheckedBackground: 'var(--color-disabled-target)',
-        disabledBackground: 'transparent',
+        disabledBackground: 'var(--color-disabled-target)',
         disabledIcon: 'var(--color-disabled-text)',
+        /* --- DISABLED --- */
     },
 
     size: {
