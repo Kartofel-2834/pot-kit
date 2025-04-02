@@ -9,21 +9,29 @@ export const PotButtonConfig: TPotPresetButton = {
     },
 
     color: {
-        border: 'var(--color-border)',
-        background: 'var(--color-target)',
-        text: 'var(--color-text)',
+        base: {
+            border: 'var(--color-border)',
+            background: 'var(--color-target)',
+            text: 'var(--color-text)',
+        },
 
-        hoverBorder: 'var(--color-hover-border)',
-        hoverBackground: 'var(--color-hover-target)',
-        hoverText: 'var(--color-hover-text)',
-        
-        pressedBorder: 'var(--color-active-target)',
-        pressedBackground: 'var(--color-active-target)',
-        pressedText: 'var(--color-active-text)',
-        
-        disabledBorder: 'var(--pot-base-400)',
-        disabledBackground: 'var(--pot-base-400)',
-        disabledText: 'var(--color-disabled-text)',
+        hover: {
+            background: 'var(--color-hover-target)',
+            border: 'var(--color-hover-border)',
+            text: 'var(--color-hover-text)',
+        },
+
+        pressed: {
+            background: 'var(--color-active-target)',
+            border: 'var(--color-active-target)',
+            text: 'var(--color-active-text)',
+        },
+
+        disabled: {
+            background: 'var(--pot-base-400)',
+            border: 'var(--pot-base-400)',
+            text: 'var(--color-disabled-text)',
+        },
     },
 
     size: {

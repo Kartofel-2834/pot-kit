@@ -5,6 +5,7 @@ import PotGrid from './components/grid/PotGrid.vue';
 import PotRadioList from './components/radio/PotRadioList.vue';
 import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotLink from './components/link/PotLink.vue';
+import PotButton from './components/button/PotButton.vue';
 
 const value = ref<boolean>(false);
 const specs = ref<number[]>([1, 2, 3, 4, 5]);
@@ -12,15 +13,7 @@ const specs = ref<number[]>([1, 2, 3, 4, 5]);
 
 <template>
     <main class="main">
-        <PotGrid
-            cols="2"
-            justify-items="center"
-            align-content="center"
-        >
-            <PotCheckbox v-model="value"> Test </PotCheckbox>
-
-            <PotLink>Test</PotLink>
-        </PotGrid>
+        <PotButton>Test</PotButton>
     </main>
 </template>
 

@@ -6,7 +6,7 @@ export interface IPotComponentSizeConfig<
     TSize extends string = string,
     TComponentSizeVarsList extends string = string,
 > {
-    size: {
+    size?: {
         [key in TSize]: {
             [varName in TComponentSizeVarsList]: string | number;
         } 
@@ -14,9 +14,10 @@ export interface IPotComponentSizeConfig<
 }
 
 export interface IPotComponentColorConfig<
-    TComponentColorVarsList extends string = string,
+    TStateVars extends object = object,
+    TStatesList extends string = string, 
 > {
-    color: {
-        [varName in TComponentColorVarsList]: string;
+    color?: {
+        [state in TStatesList]?: TStateVars;
     };
 }

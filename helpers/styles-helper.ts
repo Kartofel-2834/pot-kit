@@ -1,5 +1,7 @@
+// Helpers
 import { StringHelper } from "./string-helper";
 
+/** Хелпер для работы с стилями */
 export class StylesHelper {
     /** Подготовка значений для css */
     static toCssValue(value: string | number): string {

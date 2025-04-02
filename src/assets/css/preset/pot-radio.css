@@ -1,27 +1,4 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
-.pot-radio._color-pot {
-    --radio-color-text: inherit;
-    --radio-color-marker: transparent;
-    --radio-color-marker-border: var(--color-subcolor);
-    --radio-color-marker-background: transparent;
-    --radio-color-marker-point: transparent;
-    --radio-color-hover-text: inherit;
-    --radio-color-hover-marker: transparent;
-    --radio-color-hover-marker-border: var(--color-hover-subcolor);
-    --radio-color-hover-marker-background: transparent;
-    --radio-color-hover-marker-point: transparent;
-    --radio-color-active-text: inherit;
-    --radio-color-active-marker: var(--color-active-target);
-    --radio-color-active-marker-border: var(--color-active-target);
-    --radio-color-active-marker-background: var(--color-active-target);
-    --radio-color-active-marker-point: var(--pot-base-0);
-    --radio-color-disabled-text: inherit;
-    --radio-color-disabled-marker: var(--color-disabled-target);
-    --radio-color-disabled-marker-border: var(--color-disabled-target);
-    --radio-color-disabled-marker-background: var(--color-disabled-target);
-    --radio-color-disabled-marker-point: var(--pot-base-0);
-}
-
 .pot-radio._size-tiny {
     --radio-size-text: var(--pot-spacer-1-600);
     --radio-size-marker: var(--pot-spacer-1-600);
@@ -52,16 +29,4 @@
     --radio-size-marker-point: var(--pot-spacer-1-600);
     --radio-size-marker-border: 1px;
     --radio-size-gap: 0.4em;
-}
-
-.pot-radio._radius-circle,
-.pot-radio._radius-large,
-.pot-radio._radius-medium,
-.pot-radio._radius-small,
-.pot-radio._radius-tiny,
-.pot-radio._radius-radius--8,
-.pot-radio._radius-radius--6,
-.pot-radio._radius-radius--4,
-.pot-radio._radius-radius--2 {
-    --radio-radius: var(--radius);
 }

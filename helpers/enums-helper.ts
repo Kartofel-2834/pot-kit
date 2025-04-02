@@ -1,6 +1,7 @@
 // Helpers
 import { StringHelper } from "./string-helper";
 
+/** Хелпер для работы с енамами */
 export class EnumsHelper {
     /** Генерация кода енама на основе словаря */
     static getEnum(

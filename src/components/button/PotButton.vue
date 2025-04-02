@@ -100,6 +100,4 @@ const classList = computed(() =>
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-button.css" />
-<style src="@/assets/css/configuration/pot-button.css" />
 <style src="@/assets/css/preset/pot-button.css" />

@@ -76,12 +76,12 @@ export const PotPreset: IPotPreset = {
 
     components: {
         button: PotButtonConfig,
-        checkbox: PotCheckboxConfig,
-        input: PotInputConfig,
-        grid: PotGridConfig,
-        group: PotGroupConfig,
-        icon: PotIconConfig,
-        link: PotLinkConfig,
-        radio: PotRadioConfig,
+        // checkbox: PotCheckboxConfig,
+        // input: PotInputConfig,
+        // grid: PotGridConfig,
+        // group: PotGroupConfig,
+        // icon: PotIconConfig,
+        // link: PotLinkConfig,
+        // radio: PotRadioConfig,
     }
 };
