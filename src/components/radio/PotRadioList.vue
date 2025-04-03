@@ -59,7 +59,7 @@ function onSpecClick(specValue: T | null, isDisabled: boolean): void {
         :value="spec.value"
         :label="spec.label"
         :disabled="disabled || spec.isDisabled"
-        :active="spec.isSelected"
+        :checked="spec.isSelected"
         :on-change="() => onSpecClick(spec.value, spec.isDisabled)"
     >
         <PotRadio
@@ -69,7 +69,7 @@ function onSpecClick(specValue: T | null, isDisabled: boolean): void {
             :radius="$props.radius"
             :disabled="disabled || spec.isDisabled"
             :invalid="invalid"
-            :active="spec.isSelected"
+            :checked="spec.isSelected"
             @click="onSpecClick(spec.value, spec.isDisabled)"
         >
             {{ spec.label }}

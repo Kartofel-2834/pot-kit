@@ -14,13 +14,13 @@ const STYLES_SUBSCRIPTIONS: Record<
     Array<'radius' | 'gap' | 'columnGap' | 'rowGap'>
 > = {
     button: ['radius'],
-    // checkbox: ['radius'],
+    checkbox: ['radius'],
     // input: ['radius'],
-    // grid: ['gap', 'rowGap', 'columnGap'],
-    // group: ['gap'],
-    // icon: [],
-    // link: [],
-    // radio: ['radius'],
+    grid: ['gap', 'rowGap', 'columnGap'],
+    group: ['gap'],
+    icon: [],
+    link: [],
+    radio: ['radius'],
 };
 
 class PotKitColorsGenerator {
@@ -210,7 +210,7 @@ class PotKitComponentsStylesGenerator {
 
             for (const varName in stateData) {
                 const varValue = (stateData as Record<string, string>)[varName];
-                colorVars[`--${kebabName}-color-${state}-${StringHelper.camelCaseToKebab(varName)}`] = StylesHelper.toCssValue(varValue);
+                colorVars[`--${kebabName}-color-${StringHelper.camelCaseToKebab(state)}-${StringHelper.camelCaseToKebab(varName)}`] = StylesHelper.toCssValue(varValue);
             }
         }
     

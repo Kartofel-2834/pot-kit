@@ -6,8 +6,6 @@ import {
     IPotComponentSizeConfig,
 } from "./pot-component-config";
 
-type TStatesList = 'base' | 'hover' | 'pressed' | 'disabled';
-
 type TStateVars = {
     /** Цвет рамки */
     border: string;
@@ -27,7 +25,7 @@ type TConfig<
 > = (
     IPotComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>> &
     IPotComponentSizeConfig<TSize> &
-    IPotComponentColorConfig<TStateVars, TStatesList>
+    IPotComponentColorConfig<TStateVars>
 );
 
 /** PotButton */
@@ -37,6 +35,20 @@ export interface IPotButtonConfig<
     TSize extends string = string, 
     TRadius extends string = string,
 > extends TConfig<TDevice, TColor, TSize, TRadius> {
+    color?: {
+        /** Базовая расцветка */
+        base?: TStateVars;
+
+        /** Расцветка при наведении */
+        hover?: TStateVars;
+
+        /** Расцветка при нажатии */
+        pressed?: TStateVars;
+
+        /** Расцветка заблокированной кнопки */
+        disabled?: TStateVars;
+    };
+
     size?: {
         [key in TSize]: {
             /** Высота */
@@ -56,6 +68,6 @@ export interface IPotButtonConfig<
 
             /** Размер иконки */
             icon: string | number;
-        }
+        };
     };
 }

@@ -53,7 +53,7 @@ const properties = computed(() => {
 const classList = computed(() =>
     useClassList({
         ...properties.value,
-        active: $props.active,
+        checked: $props.checked,
         disabled: $props.disabled,
         invalid: $props.invalid,
     }),
@@ -71,6 +71,4 @@ const classList = computed(() =>
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-radio.css" />
-<style src="@/assets/css/configuration/pot-radio.css" />
 <style src="@/assets/css/preset/pot-radio.css" />

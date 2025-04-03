@@ -6,6 +6,17 @@ import {
     IPotComponentSizeConfig
 } from "./pot-component-config";
 
+type TStateVars = {
+    /** Цвет текста */
+    text: string;
+    
+    /** Цвет иконки */
+    icon: string;
+
+    /** Цвет линии */
+    line: string;
+}
+
 type TConfig<
     TDevice extends string = string,
     TColor extends string = string,
@@ -14,7 +25,7 @@ type TConfig<
     IPotComponentConfig<IPotLinkProps<TDevice, TColor, TSize>> & 
     IPotComponentSizeConfig<TSize> &
     IPotComponentColorConfig
-)
+);
 
 /** PotInput */
 export interface IPotLinkConfig<
@@ -22,72 +33,48 @@ export interface IPotLinkConfig<
     TColor extends string = string,
     TSize extends string = string, 
 > extends TConfig<TDevice, TColor, TSize> {
-    color: {
-        /** Цвет текста */
-        text: string;
+    color?: {
+        /** Базовая расцветка */
+        base?: TStateVars;
 
-        /** Цвет иконки */
-        icon: string;
+        /** Расцветка при наведении */
+        hover?: TStateVars;
 
-        /** Цвет линии */
-        line: string;
+        /** Расцветка при нажатии */
+        pressed?: TStateVars;
 
-        /** Цвет текста при наведении */
-        hoverText: string;
+        /** Расцветка активной ссылки */
+        active?: TStateVars;
 
-        /** Цвет иконки при наведении */
-        hoverIcon: string;
+        /** Расцветка активной ссылки при наведении */
+        activeHover?: TStateVars;
 
-        /** Цвет линии при наведении */
-        hoverLine: string;
+        /** Расцветка активной ссылки при нажатии */
+        activePressed?: TStateVars;
 
-        /** Цвет текста при нажатии */
-        pressedText: string;
+        /** Расцветка подчеркнутой ссылки */
+        underline?: TStateVars;
 
-        /** Цвет иконки при нажатии */
-        pressedIcon: string;
+        /** Расцветка подчеркнутой ссылки при наведении */
+        underlineHover?: TStateVars;
 
-        /** Цвет линии при нажатии */
-        pressedLine: string;
+        /** Расцветка подчеркнутой ссылки при нажатии */
+        underlinePressed?: TStateVars;
 
-        /** Цвет текста активной ссылки */
-        activeText: string;
+        /** Расцветка активной подчеркнутой ссылки */
+        underlineActive?: TStateVars;
 
-        /** Цвет иконки активной ссылки */
-        activeIcon: string;
+        /** Расцветка активной подчеркнутой ссылки при наведении */
+        underlineActiveHover?: TStateVars;
+        
+        /** Расцветка активной подчеркнутой ссылки при нажатии */
+        underlineActivePressed?: TStateVars;
 
-        /** Цвет линии активной ссылки */
-        activeLine: string;
-
-        /** Цвет текста активной ссылки при наведении */
-        activeHoverText: string;
-
-        /** Цвет иконки активной ссылки при наведении */
-        activeHoverIcon: string;
-
-        /** Цвет линии активной ссылки при наведении */
-        activeHoverLine: string;
-
-        /** Цвет текста активной ссылки при нажатии */
-        activePressedText: string;
-
-        /** Цвет иконки активной ссылки при нажатии */
-        activePressedIcon: string;
-
-        /** Цвет линии активной ссылки при нажатии */
-        activePressedLine: string;
-
-        /** Цвет текста заблокированной ссылки */
-        disabledText: string;
-
-        /** Цвет иконки заблокированной ссылки */
-        disabledIcon: string;
-
-        /** Цвет линии заблокированной ссылки */
-        disabledLine: string;
+        /** Расцветка заблокированной ссылки */ 
+        disabled?: TStateVars;
     };
 
-    size: {
+    size?: {
         [key in TSize]: {
             /** Размер текста */
             text: string | number;

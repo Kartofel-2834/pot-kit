@@ -135,6 +135,4 @@ function onChange(event: Event): void {
     </label>
 </template>
 
-<style src="@/assets/css/base/pot-checkbox.css" />
-<style src="@/assets/css/configuration/pot-checkbox.css" />
 <style src="@/assets/css/preset/pot-checkbox.css" />

@@ -18,7 +18,6 @@
 .pot-checkbox._disabled {
     cursor: not-allowed;
 }
-/* ----------------------------------------------------------- */
 
 .pot-checkbox__icon-wrapper {
     display: flex;

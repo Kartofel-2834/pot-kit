@@ -19,16 +19,16 @@
     content: '';
 }
 
-.pot-link._underline:not(._disabled):hover:after {
+.pot-link._underline:hover:not(._disabled):after {
     transform: translateY(100%) scaleX(1);
 }
 
-.pot-link._underline:not(._disabled)._active:after {
+.pot-link._underline._active:not(._disabled):after {
     transform: translateY(100%) scaleX(1);
 } 
 
 /* --- Active --- */ 
-.pot-link._active {
+.pot-link._active:not(._disabled) {
     cursor: default;
 }
 
@@ -37,7 +37,6 @@
     cursor: not-allowed;
 }
 
-/* ----------------------------------------------------------- */
 .pot-link:after {
     position: absolute;
     left: 0;

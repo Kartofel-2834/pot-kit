@@ -45,13 +45,13 @@ export interface IPotKitConfig<
     
     components: {
         button: IPotButtonConfig<TDevice, TColor, TSize, TRadius>;
-        // checkbox: IPotCheckboxConfig<TDevice, TColor, TSize, TRadius>;
+        checkbox: IPotCheckboxConfig<TDevice, TColor, TSize, TRadius>;
         // input: IPotInputConfig<TDevice, TColor, TSize, TRadius>;
-        // grid: IPotGridConfig<TDevice, TGap>;
-        // group: IPotGroupConfig<TDevice, TGap>;
-        // icon: IPotIconConfig;
-        // link: IPotLinkConfig<TDevice, TColor, TSize>,
-        // radio: IPotRadioConfig<TDevice, TColor, TSize, TRadius>;
+        grid: IPotGridConfig<TDevice, TGap>;
+        group: IPotGroupConfig<TDevice, TGap>;
+        icon: IPotIconConfig;
+        link: IPotLinkConfig<TDevice, TColor, TSize>,
+        radio: IPotRadioConfig<TDevice, TColor, TSize, TRadius>;
     }
 }
 

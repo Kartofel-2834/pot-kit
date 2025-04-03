@@ -9,56 +9,47 @@ export const PotCheckboxConfig: TPotPresetCheckbox = {
     },
 
     color: {
-        /* --- BASE --- */
-        text: 'inherit',                 
-        background: 'transparent',                
-        icon: 'var(--color-text)',
-        border: 'var(--color-subcolor)',
-        
-        hoverText: 'inherit',
-        hoverBackground: 'transparent',   
-        hoverIcon: 'var(--color-hover-text)', 
-        hoverBorder: 'var(--color-hover-subcolor)',
-        
-        pressedText: 'inherit',
-        pressedBackground: 'transparent',   
-        pressedIcon: 'var(--color-hover-text)', 
-        pressedBorder: 'var(--color-hover-subcolor)',       
-        /* --- BASE --- */
+        base: {
+            text: 'inherit',
+            background: 'transparent',
+            icon: 'var(--color-text)',
+            border: 'var(--color-subcolor)',
+        },
 
+        hover: {
+            text: 'inherit',
+            background: 'transparent',
+            icon: 'var(--color-hover-text)',
+            border: 'var(--color-hover-subcolor)',
+        },
 
-        /* --- CHECKED --- */
-        checkedText: 'inherit',
-        checkedBackground: 'var(--color-target)',        
-        checkedBorder: 'var(--color-target)',   
-        checkedIcon: 'var(--color-text)',
-        
-        checkedHoverText: 'inherit',
-        checkedHoverBackground: 'var(--color-target)',
-        checkedHoverIcon: 'var(--color-text)',
-        checkedHoverBorder: 'var(--color-target)',
+        checked: {
+            text: 'inherit',
+            background: 'var(--color-target)',
+            icon: 'var(--color-text)',
+            border: 'var(--color-target)',
+        },
 
-        checkedPressedText: 'inherit',
-        checkedPressedBackground: 'var(--color-active-target)',   
-        checkedPressedIcon: 'var(--color-active-text)',
-        checkedPressedBorder: 'var(--color-active-target)',
-        /* --- CHECKED --- */
+        checkedPressed: {
+            text: 'inherit',
+            background: 'var(--color-active-target)',
+            icon: 'var(--color-active-text)',
+            border: 'var(--color-active-target)',
+        },
 
+        invalid: {
+            text: 'inherit',
+            background: 'var(--color-invalid-target)',
+            icon: 'var(--color-invalid-text)',
+            border: 'var(--color-invalid-target)',
+        },
 
-        /* --- INVALID --- */
-        invalidText: 'inherit',
-        invalidBorder: 'var(--pot-color-invalid)', 
-        invalidBackground: 'var(--pot-color-invalid)',
-        invalidIcon: 'var(--pot-color-invalid-text)',
-        /* --- INVALID --- */
-
-
-        /* --- DISABLED --- */
-        disabledText: 'var(--color-disabled-subcolor)',
-        disabledBorder: 'var(--color-disabled-target)',
-        disabledBackground: 'var(--color-disabled-target)',
-        disabledIcon: 'var(--color-disabled-text)',
-        /* --- DISABLED --- */
+        disabled: {
+            text: 'var(--color-disabled-subcolor)',
+            border: 'var(--color-disabled-target)',
+            background: 'var(--color-disabled-target)',
+            icon: 'var(--color-disabled-text)',
+        }
     },
 
     size: {

@@ -48,10 +48,10 @@ export const PotPreset: IPotPreset = {
             disabledText: 'var(--pot-base-0)',
 
             /* Invalid */
-            invalidTarget: 'var(--pot-base-400)',
-            invalidBorder: 'var(--pot-base-400)',
-            invalidSubcolor: 'var(--pot-base-500)',
-            invalidText: 'var(--pot-base-0)',
+            invalidTarget: 'var(--pot-color-invalid)',
+            invalidBorder: 'var(--pot-color-invalid)',
+            invalidSubcolor: 'var(--pot-base-400)',
+            invalidText: 'var(--pot-color-invalid-text)',
         }
     },
 
@@ -76,12 +76,12 @@ export const PotPreset: IPotPreset = {
 
     components: {
         button: PotButtonConfig,
-        // checkbox: PotCheckboxConfig,
+        checkbox: PotCheckboxConfig,
         // input: PotInputConfig,
-        // grid: PotGridConfig,
-        // group: PotGroupConfig,
-        // icon: PotIconConfig,
-        // link: PotLinkConfig,
-        // radio: PotRadioConfig,
+        grid: PotGridConfig,
+        group: PotGroupConfig,
+        icon: PotIconConfig,
+        link: PotLinkConfig,
+        radio: PotRadioConfig,
     }
 };

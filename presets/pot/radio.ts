@@ -9,29 +9,40 @@ export const PotRadioConfig: TPotPresetRadio = {
     },
 
     color: {
-        text: 'inherit',
-        marker: 'transparent',
-        markerBorder: 'var(--color-subcolor)',
-        markerBackground: 'transparent',
-        markerPoint: 'transparent',
+        base: {
+            text: 'inherit',
+            border: 'var(--color-subcolor)',
+            background: 'transparent',
+            point: 'transparent',
+        },
 
-        hoverText: 'inherit',
-        hoverMarker: 'transparent',
-        hoverMarkerBorder: 'var(--color-hover-subcolor)',
-        hoverMarkerBackground: 'transparent',
-        hoverMarkerPoint: 'transparent',
-        
-        activeText: 'inherit',
-        activeMarker: 'var(--color-active-target)',
-        activeMarkerBorder: 'var(--color-active-target)',
-        activeMarkerBackground: 'var(--color-active-target)',
-        activeMarkerPoint: 'var(--pot-base-0)',
+        hover: {
+            text: 'inherit',
+            border: 'var(--color-hover-subcolor)',
+            background: 'transparent',
+            point: 'transparent',
+        },
 
-        disabledText: 'inherit',
-        disabledMarker: 'var(--color-disabled-target)',
-        disabledMarkerBorder: 'var(--color-disabled-target)',
-        disabledMarkerBackground: 'var(--color-disabled-target)',
-        disabledMarkerPoint: 'var(--pot-base-0)',
+        checked: {
+            text: 'inherit',
+            border: 'var(--color-active-target)',
+            background: 'var(--color-active-target)',
+            point: 'var(--pot-base-0)',
+        },
+
+        invalid: {
+            text: 'inherit',
+            border: 'var(--color-invalid-target)',
+            background: 'var(--color-invalid-target)',
+            point: 'var(--color-invalid-text)',
+        },
+
+        disabled: {
+            text: 'inherit',
+            border: 'var(--color-disabled-target)',
+            background: 'var(--color-disabled-target)',
+            point: 'var(--pot-base-0)',
+        },
     },
 
     size: {

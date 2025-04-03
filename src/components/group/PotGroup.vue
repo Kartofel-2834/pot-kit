@@ -80,6 +80,4 @@ const currentStyles = computed(() => {
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-group.css" />
-<style src="@/assets/css/configuration/pot-group.css" />
 <style src="@/assets/css/preset/pot-group.css" />

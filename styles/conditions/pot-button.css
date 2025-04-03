@@ -24,7 +24,7 @@ disabled - стили у неактивной кнопки
     --button-color-hover-text: initial;                 /* Цвет текста при наведении */
 }
 
-.pot-button:hover:not(:active, :disabled) {
+.pot-button:hover:not(:disabled) {
     border-color: var(--button-color-hover-border);
     background-color: var(--button-color-hover-background);
     color: var(--button-color-hover-text);
@@ -38,7 +38,8 @@ disabled - стили у неактивной кнопки
     --button-color-pressed-text: initial;               /* Цвет текста при нажатии */
 }
 
-.pot-button:active:not(:disabled) {
+.pot-button:active:not(:disabled),
+.pot-button:active:hover:not(:disabled) {
     border-color: var(--button-color-pressed-border);
     background-color: var(--button-color-pressed-background);
     color: var(--button-color-pressed-text);

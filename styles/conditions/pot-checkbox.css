@@ -1,143 +1,15 @@
-/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
-.pot-checkbox._color-pot {
-    --checkbox-color-base-text: inherit;
-    --checkbox-color-base-background: transparent;
-    --checkbox-color-base-icon: var(--color-text);
-    --checkbox-color-base-border: var(--color-subcolor);
-    --checkbox-color-hover-text: inherit;
-    --checkbox-color-hover-background: transparent;
-    --checkbox-color-hover-icon: var(--color-hover-text);
-    --checkbox-color-hover-border: var(--color-hover-subcolor);
-    --checkbox-color-checked-text: inherit;
-    --checkbox-color-checked-background: var(--color-target);
-    --checkbox-color-checked-icon: var(--color-text);
-    --checkbox-color-checked-border: var(--color-target);
-    --checkbox-color-checked-pressed-text: inherit;
-    --checkbox-color-checked-pressed-background: var(--color-active-target);
-    --checkbox-color-checked-pressed-icon: var(--color-active-text);
-    --checkbox-color-checked-pressed-border: var(--color-active-target);
-    --checkbox-color-invalid-text: inherit;
-    --checkbox-color-invalid-background: var(--color-invalid-target);
-    --checkbox-color-invalid-icon: var(--color-invalid-text);
-    --checkbox-color-invalid-border: var(--color-invalid-target);
-    --checkbox-color-disabled-text: var(--color-disabled-subcolor);
-    --checkbox-color-disabled-border: var(--color-disabled-target);
-    --checkbox-color-disabled-background: var(--color-disabled-target);
-    --checkbox-color-disabled-icon: var(--color-disabled-text);
-}
+/* CONDITIONS
+base - базовые стили
+hover - стили при наведении
+pressed - стили при нажатии
+checked - стили при выборе чекбокса
+checkedHover - стили при наведении на выбранный чекбокс
+checkedPressed - стили при нажатии на выбранный чекбокс
+invalid - стили невалидного чекбокса
+disabled - стили заблокированного чекбокса
+*/
 
-.pot-checkbox._size-tiny {
-    --checkbox-size-height: var(--pot-spacer-2);
-    --checkbox-size-text: var(--pot-spacer-1-600);
-    --checkbox-size-icon: var(--pot-spacer-1-400);
-    --checkbox-size-border: 1px;
-    --checkbox-size-gap: 0.4em;
-}
-
-.pot-checkbox._size-small {
-    --checkbox-size-height: var(--pot-spacer-2-400);
-    --checkbox-size-text: var(--pot-spacer-1-800);
-    --checkbox-size-icon: var(--pot-spacer-1-600);
-    --checkbox-size-border: 1px;
-    --checkbox-size-gap: 0.4em;
-}
-
-.pot-checkbox._size-medium {
-    --checkbox-size-height: var(--pot-spacer-2-800);
-    --checkbox-size-text: var(--pot-spacer-2);
-    --checkbox-size-icon: var(--pot-spacer-1-800);
-    --checkbox-size-border: 1px;
-    --checkbox-size-gap: 0.4em;
-}
-
-.pot-checkbox._size-large {
-    --checkbox-size-height: var(--pot-spacer-3-200);
-    --checkbox-size-text: var(--pot-spacer-2-400);
-    --checkbox-size-icon: var(--pot-spacer-2);
-    --checkbox-size-border: 1px;
-    --checkbox-size-gap: 0.4em;
-}
-
-.pot-checkbox._radius-circle,
-.pot-checkbox._radius-large,
-.pot-checkbox._radius-medium,
-.pot-checkbox._radius-small,
-.pot-checkbox._radius-tiny,
-.pot-checkbox._radius-radius--8,
-.pot-checkbox._radius-radius--6,
-.pot-checkbox._radius-radius--4,
-.pot-checkbox._radius-radius--2 {
-    --checkbox-radius: var(--radius);
-}
-
-.pot-checkbox {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    font-size: inherit;
-    font-weight: 400;
-    line-height: 1;
-    cursor: pointer;
-    user-select: none;
-    transition: color var(--pot-transition);
-}
-
-.pot-checkbox._checked .pot-checkbox__icon {
-    transform: scale(1);
-}
-
-/* --- PotCheckbox - Disabled --- */
-.pot-checkbox._disabled {
-    cursor: not-allowed;
-}
-
-.pot-checkbox__icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1 / 1;
-    border-style: solid;
-    transition:
-        color var(--pot-transition),
-        border-color var(--pot-transition),
-        background-color var(--pot-transition);
-}
-
-.pot-checkbox__input {
-    display: none;
-}
-
-.pot-checkbox__icon {
-    width: var(--checkbox-size-icon);
-    transform: scale(0);
-    transition: transform var(--pot-transition);
-}
-
-/* SIZES */
-.pot-checkbox {
-    --checkbox-size-text: initial;           /* Размер текста */
-    --checkbox-size-height: initial;         /* Высота */
-    --checkbox-size-icon: initial;           /* Размер иконки */
-    --checkbox-size-border: initial;         /* Размер рамки */
-    --checkbox-size-gap: initial;            /* Размер расстояния между чекбоксом и его текстом */
-
-    gap: var(--checkbox-size-gap);
-}
-
-.pot-checkbox__icon-wrapper {
-    width: var(--checkbox-size-height);
-    border-width: var(--checkbox-size-border);
-}
-
-/* RADIUS */
-.pot-checkbox {
-    --checkbox-radius: initial;             /* Радиус */
-}
-
-.pot-checkbox__icon-wrapper {
-    border-radius: var(--checkbox-radius);
-}
-
+/* CONDITION:base - START */
 .pot-checkbox {
     --checkbox-color-base-text: initial;                            /* Цвет текста */
     --checkbox-color-base-background: initial;                      /* Цвет фона */
@@ -152,7 +24,9 @@
     border-color: var(--checkbox-color-base-border);
     color: var(--checkbox-color-base-icon);
 }
+/* CONDITION:base - END */
 
+/* CONDITION:hover - START */
 .pot-checkbox {
     --checkbox-color-hover-text: initial;                      /* Цвет текста при наведении */
     --checkbox-color-hover-border: initial;                    /* Цвет рамки при наведении */
@@ -169,7 +43,30 @@
     border-color: var(--checkbox-color-hover-border);
     color: var(--checkbox-color-hover-icon);
 }
+/* CONDITION:hover - END */
 
+/* CONDITION:pressed - START */
+.pot-checkbox {
+    --checkbox-color-pressed-text: initial;                    /* Цвет текста при нажатии */
+    --checkbox-color-pressed-border: initial;                  /* Цвет рамки при нажатии */
+    --checkbox-color-pressed-background: initial;              /* Цвет фона при нажатии */
+    --checkbox-color-pressed-icon: initial;                    /* Цвет иконки при нажатии */
+}
+
+.pot-checkbox:active:not(._disabled, ._checked, ._invalid),
+.pot-checkbox:active:hover:not(._disabled, ._checked, ._invalid) { 
+    color: var(--checkbox-color-pressed-text);
+}
+
+.pot-checkbox:active:not(._disabled, ._checked, ._invalid) .pot-checkbox__icon-wrapper,
+.pot-checkbox:active:hover:not(._disabled, ._checked, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-pressed-background);
+    border-color: var(--checkbox-color-pressed-border);
+    color: var(--checkbox-color-pressed-icon);
+}
+/* CONDITION:pressed - END */
+
+/* CONDITION:checked - START */
 .pot-checkbox {
     --checkbox-color-checked-text: initial;                    /* Цвет текста выбранного чекбокса */
     --checkbox-color-checked-border: initial;                  /* Цвет рамки выбранного чекбокса */
@@ -186,7 +83,28 @@
     border-color: var(--checkbox-color-checked-border);
     color: var(--checkbox-color-checked-icon);
 }
+/* CONDITION:checked - END */
 
+/* CONDITION:checkedHover - START */
+.pot-checkbox {
+    --checkbox-color-checked-hover-text: initial;              /* Цвет текста при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-border: initial;            /* Цвет рамки при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-background: initial;        /* Цвет фона при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-icon: initial;              /* Цвет иконки при наведении на выбранный чекбокс */
+}
+
+.pot-checkbox._checked:hover:not(._disabled, ._invalid) {
+    color: var(--checkbox-color-checked-hover-text);
+}
+
+.pot-checkbox._checked:hover:not(._disabled, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-checked-hover-background);
+    border-color: var(--checkbox-color-checked-hover-border);
+    color: var(--checkbox-color-checked-hover-icon);
+}
+/* CONDITION:checkedHover - END */
+
+/* CONDITION:checkedPressed - START */
 .pot-checkbox {
     --checkbox-color-checked-pressed-text: initial;            /* Цвет текста при нажатии на выбранный чекбокс */
     --checkbox-color-checked-pressed-border: initial;          /* Цвет рамки при нажатии на выбранный чекбокс */
@@ -205,7 +123,9 @@
     border-color: var(--checkbox-color-checked-pressed-border);
     color: var(--checkbox-color-checked-pressed-icon);
 }
+/* CONDITION:checkedPressed - END */
 
+/* CONDITION:invalid - START */
 .pot-checkbox {
     --checkbox-color-invalid-text: initial;                    /* Цвет текста невалидного чекбокса */
     --checkbox-color-invalid-border: initial;                  /* Цвет рамки невалидного чекбокса */
@@ -225,7 +145,9 @@
 .pot-checkbox._invalid._checked:not(._disabled) .pot-checkbox__icon-wrapper {
     background-color: var(--checkbox-color-invalid-background);
 }
+/* CONDITION:invalid - END */
 
+/* CONDITION:disabled - START */
 .pot-checkbox {
     --checkbox-color-disabled-text: initial;                   /* Цвет текста заблокированного чекбокса */
     --checkbox-color-disabled-border: initial;                 /* Цвет рамки заблокированного чекбокса */
@@ -245,3 +167,4 @@
 .pot-checkbox._disabled._checked .pot-checkbox__icon-wrapper {
     background-color: var(--checkbox-color-disabled-background);
 }
+/* CONDITION:disabled - END */

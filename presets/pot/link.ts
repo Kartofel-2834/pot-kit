@@ -4,62 +4,70 @@ import type { TPotPresetLink } from "./types";
 export const PotLinkConfig: TPotPresetLink = {
     defaults: {
         color: 'pot',
-        size: 'medium'
+        size: 'medium',
     },
 
     color: {
-        text: 'inherit',
-        icon: 'inherit',
-        line: 'inherit',
+        base: {
+            text: 'inherit',
+            icon: 'inherit',
+            line: 'var(--color-target)'
+        },
 
-        hoverText: 'red',
-        hoverIcon: 'red',
-        hoverLine: 'red',
+        hover: {
+            text: 'var(--color-target)',
+            icon: 'var(--color-target)',
+            line: 'var(--color-target)'
+        },
 
-        pressedText: 'green',
-        pressedIcon: 'green',
-        pressedLine: 'green',
+        active: {
+            text: 'var(--color-active-target)',
+            icon: 'var(--color-active-target)',
+            line: 'var(--color-active-target)'
+        },
 
-        activeText: 'blue',
-        activeIcon: 'blue',
-        activeLine: 'blue',
+        underline: {
+            text: 'inherit',
+            icon: 'inherit',
+            line: 'var(--color-target)',
+        },
 
-        activeHoverText: 'purple',
-        activeHoverIcon: 'purple',
-        activeHoverLine: 'purple',
+        underlineHover: { 
+            text: 'inherit',
+            icon: 'inherit',
+            line: 'var(--color-target)'
+        },
 
-        activePressedText: 'pink',
-        activePressedIcon: 'pink',
-        activePressedLine: 'pink',
-
-        disabledText: 'grey',
-        disabledIcon: 'grey',
-        disabledLine: 'grey',
+        disabled: {
+            text: 'var(--color-disabled-target)',
+            icon: 'var(--color-disabled-target)',
+            line: 'var(--color-disabled-target)'
+        }
     },
 
     size: {
         tiny: {
-            text: 'var(--pot-font-size-100)',
-            line: 1,
-            icon: 'var(--pot-font-size-100)',
-        },
-
-        small: {
             text: 'var(--pot-font-size-200)',
             line: 1,
             icon: 'var(--pot-font-size-200)',
         },
 
-        medium: {
-            text: 'var(--pot-font-size-300)',
-            line: 2,
-            icon: 'var(--pot-font-size-300)',
-        },
-
-        large: {
+        small: {
             text: 'var(--pot-font-size-400)',
             line: 2,
             icon: 'var(--pot-font-size-400)',
+        },
+
+        medium: {
+            text: 'var(--pot-font-size-500)',
+            line: 2,
+            icon: 'var(--pot-font-size-500)',
+        },
+
+        large: {
+            text: 'var(--pot-font-size-600)',
+            line: 2,
+            icon: 'var(--pot-font-size-600)',
         }
     }
 };

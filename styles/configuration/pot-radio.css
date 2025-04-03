@@ -1,0 +1,30 @@
+/* SIZES */
+.pot-radio {
+    --radio-size-text: initial;           /* Размер текста */
+    --radio-size-gap: initial;            /* Расстояние между текстом и маркером */
+    --radio-size-marker: initial;         /* Размер маркера */
+    --radio-size-marker-border: initial;  /* Толщина рамки маркера */
+    --radio-size-marker-point: initial;   /* Размер точки в маркере */
+
+    gap: var(--radio-size-gap);
+    font-size: var(--radio-size-text);
+}
+
+.pot-radio__marker {
+    width: var(--radio-size-marker);
+    height: var(--radio-size-marker);
+    border-width: var(--radio-size-marker-border);
+}
+
+.pot-radio__marker:before {
+    width: var(--radio-size-marker-point);
+}
+
+/* RADIUS */
+.pot-radio {
+    --radio-radius: initial;              /* Радиус */
+}
+
+.pot-radio__marker {
+    border-radius: var(--radio-radius);
+}

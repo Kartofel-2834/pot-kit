@@ -3,7 +3,7 @@
 import { usePropsDefaults } from '@/composables/props-defaults';
 
 // Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
 import { POT_LINK_DEFAULTS } from '@/constants/defaults';
 
 const $propsDefaults = {
@@ -18,11 +18,10 @@ const $configDefaults = usePropsDefaults(POT_LINK_DEFAULTS);
 <script lang="ts" setup>
 // Types
 import type { IPotLinkProps } from '@/types/components';
-import type { TDeviceIs } from '@/types/composables';
 import type { TPropsDefaults } from '@/types';
 
 // Vue
-import { defineAsyncComponent, inject } from 'vue';
+import { defineAsyncComponent } from 'vue';
 
 // Components
 import { computed } from 'vue';
@@ -39,7 +38,7 @@ const $props = withDefaults(defineProps<IPotLinkProps>(), {
     ...$configDefaults,
 } as TPropsDefaults<IPotLinkProps>);
 
-const $deviceIs = inject<TDeviceIs>('deviceIs');
+const $deviceIs = useDeviceIs();
 
 /**
  * Вычисляет и возвращает свойства компонента на основе
@@ -52,7 +51,7 @@ const properties = computed(() => {
             size: $props.size,
         },
         $props.devices,
-        $deviceIs?.device?.value,
+        $deviceIs.device.value,
     );
 });
 
@@ -120,6 +119,4 @@ const currentLink = computed<string | null>(() => {
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-link.css" />
-<style src="@/assets/css/configuration/pot-link.css" />
 <style src="@/assets/css/preset/pot-link.css" />

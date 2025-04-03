@@ -18,7 +18,7 @@ export interface IPotRadioProps {
     devices?: EPotDevice[];
 
     /** Флаг, указывающий на то, активен ли элемент радио-списка */
-    active?: boolean;
+    checked?: boolean;
 
     /** Если true, то элемент списка будет заблокирован и не активен */
     disabled?: boolean;

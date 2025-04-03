@@ -1,1 +1,35 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.pot-grid._gap-large,
+.pot-grid._gap-medium,
+.pot-grid._gap-small,
+.pot-grid._gap-tiny {
+    --grid-gap: var(--gap);
+}
+
+.pot-grid._row-gap-large,
+.pot-grid._row-gap-medium,
+.pot-grid._row-gap-small,
+.pot-grid._row-gap-tiny {
+    --grid-row-gap: var(--row-gap);
+}
+
+.pot-grid._column-gap-large,
+.pot-grid._column-gap-medium,
+.pot-grid._column-gap-small,
+.pot-grid._column-gap-tiny {
+    --grid-column-gap: var(--column-gap);
+}
+
+/* GAP */
+.pot-grid {
+    --grid-gap: initial;                  /* Расстояние между элементами */
+    --grid-row-gap: initial;              /* Расстояние между рядами */
+    --grid-column-gap: initial;           /* Расстояние между колонками */
+
+    gap: var(--grid-gap);
+}
+
+.pot-grid._divided-gap {
+    row-gap: var(--grid-row-gap);
+    column-gap: var(--grid-column-gap);
+}

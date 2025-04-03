@@ -101,6 +101,4 @@ function formatNumberToFr(v?: string | number): string | undefined {
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-grid.css" />
-<style src="@/assets/css/configuration/pot-grid.css" />
 <style src="@/assets/css/preset/pot-grid.css" />
