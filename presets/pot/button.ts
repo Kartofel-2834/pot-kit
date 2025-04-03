@@ -21,11 +21,11 @@ export const PotButtonConfig: TPotPresetButton = {
             text: 'var(--color-hover-text)',
         },
 
-        // pressed: {
-        //     background: 'var(--color-active-target)',
-        //     border: 'var(--color-active-target)',
-        //     text: 'var(--color-active-text)',
-        // },
+        pressed: {
+            background: 'var(--color-active-target)',
+            border: 'var(--color-active-target)',
+            text: 'var(--color-active-text)',
+        },
 
         disabled: {
             background: 'var(--pot-base-400)',

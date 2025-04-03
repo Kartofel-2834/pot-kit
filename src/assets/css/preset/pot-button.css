@@ -6,6 +6,9 @@
     --button-color-hover-background: var(--color-hover-target);
     --button-color-hover-border: var(--color-hover-border);
     --button-color-hover-text: var(--color-hover-text);
+    --button-color-pressed-background: var(--color-active-target);
+    --button-color-pressed-border: var(--color-active-target);
+    --button-color-pressed-text: var(--color-active-text);
     --button-color-disabled-background: var(--pot-base-400);
     --button-color-disabled-border: var(--pot-base-400);
     --button-color-disabled-text: var(--color-disabled-text);
@@ -133,6 +136,19 @@
     border-color: var(--button-color-hover-border);
     background-color: var(--button-color-hover-background);
     color: var(--button-color-hover-text);
+}
+
+.pot-button {
+    --button-color-pressed-border: initial;             /* Цвет рамки при нажатии */
+    --button-color-pressed-background: initial;         /* Цвет фона при нажатии */
+    --button-color-pressed-text: initial;               /* Цвет текста при нажатии */
+}
+
+.pot-button:active:not(:disabled),
+.pot-button:active:hover:not(:disabled) {
+    border-color: var(--button-color-pressed-border);
+    background-color: var(--button-color-pressed-background);
+    color: var(--button-color-pressed-text);
 }
 
 .pot-button {

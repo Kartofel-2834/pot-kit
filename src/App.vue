@@ -6,216 +6,49 @@ import PotCheckbox from './components/check/PotCheckbox.vue';
 import PotGrid from './components/grid/PotGrid.vue';
 import PotRadioList from './components/radio/PotRadioList.vue';
 import PotLink from './components/link/PotLink.vue';
+import PotInputBase from './components/input/PotInputBase.vue';
 
-const value = ref<number | null>(2);
+const value = ref<string>('');
 const specs = ref<number[]>([1, 2, 3, 4, 5]);
 </script>
 
 <template>
     <main class="main">
-        <PotGrid
-            rows="4"
-            flow="column"
-            gap="large"
-            align="center"
-            justify="center"
-        >
-            <PotLink size="tiny">Link</PotLink>
-            <PotLink size="small">Link</PotLink>
-            <PotLink size="medium">Link</PotLink>
-            <PotLink size="large">Link</PotLink>
+        <PotInputBase
+            style="width: 40rem"
+            v-model="value"
+            size="tiny"
+            icon="pot"
+            preicon="pot"
+            invalid
+        ></PotInputBase>
 
-            <PotLink
-                size="tiny"
-                underline
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                underline
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                underline
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                underline
-            >
-                Link
-            </PotLink>
+        <PotInputBase
+            style="width: 40rem"
+            v-model="value"
+            size="small"
+            icon="pot"
+            preicon="pot"
+            invalid
+        ></PotInputBase>
 
-            <PotLink
-                size="tiny"
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                active
-            >
-                Link
-            </PotLink>
+        <PotInputBase
+            style="width: 40rem"
+            v-model="value"
+            size="medium"
+            icon="pot"
+            preicon="pot"
+            invalid
+        ></PotInputBase>
 
-            <PotLink
-                size="tiny"
-                underline
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                underline
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                underline
-                active
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                underline
-                active
-            >
-                Link
-            </PotLink>
-
-            <PotLink
-                size="tiny"
-                disabled
-                >Link</PotLink
-            >
-            <PotLink
-                size="small"
-                disabled
-                >Link</PotLink
-            >
-            <PotLink
-                size="medium"
-                disabled
-                >Link</PotLink
-            >
-            <PotLink
-                size="large"
-                disabled
-                >Link</PotLink
-            >
-
-            <PotLink
-                size="tiny"
-                underline
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                underline
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                underline
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                underline
-                disabled
-            >
-                Link
-            </PotLink>
-
-            <PotLink
-                size="tiny"
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-
-            <PotLink
-                size="tiny"
-                underline
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="small"
-                underline
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="medium"
-                underline
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-            <PotLink
-                size="large"
-                underline
-                active
-                disabled
-            >
-                Link
-            </PotLink>
-        </PotGrid>
+        <PotInputBase
+            style="width: 40rem"
+            v-model="value"
+            size="large"
+            icon="pot"
+            preicon="pot"
+            invalid
+        ></PotInputBase>
     </main>
 </template>
 

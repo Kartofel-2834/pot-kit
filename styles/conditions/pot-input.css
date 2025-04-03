@@ -1,0 +1,198 @@
+/* CONDITIONS
+base - базовые стили
+hover - стили при наведении
+pressed - стили при нажатии
+focused - стили при фокусе
+focusedHover - стили при фокусе + наведении
+focusedPressed - стили при фокусе + нажатии
+invalid - стили у невалидного инпута
+disabled - стили у заблокированного инпута
+*/
+
+/* CONDITION:base - START */
+.pot-input {
+    --input-color-base-border: initial;                         /* Цвет рамки инпута */
+    --input-color-base-background: initial;                     /* Цвет фона */ 
+    --input-color-base-text: initial;                           /* Цвет текста */
+    --input-color-base-icon: initial;                           /* Цвет иконок */
+
+    color: var(--input-color-base-text);
+    border-color: var(--input-color-base-border);
+}
+
+.pot-input__target {
+    color: var(--input-color-base-text);
+    background-color: var(--input-color-base-background);
+}
+
+.pot-input__icon {
+    color: var(--input-color-base-icon);
+}
+/* CONDITION:base - END */
+
+/* CONDITION:hover - START */
+.pot-input {
+    --input-color-hover-border: initial;                         /* Цвет рамки при наведении */
+    --input-color-hover-background: initial;                     /* Цвет фона при наведении */ 
+    --input-color-hover-text: initial;                           /* Цвет текста при наведении */
+    --input-color-hover-icon: initial;                           /* Цвет иконок при наведении */
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) {
+    color: var(--input-color-hover-text);
+    border-color: var(--input-color-hover-border);
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) .pot-input__target {
+    color: var(--input-color-hover-text);
+    background-color: var(--input-color-hover-background);
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) .pot-input__icon {
+    color: var(--input-color-hover-icon);
+}
+/* CONDITION:hover - END */
+
+/* CONDITION:pressed - START */
+.pot-input {
+    --input-color-pressed-border: initial;                         /* Цвет рамки при нажатии */
+    --input-color-pressed-background: initial;                     /* Цвет фона при нажатии */ 
+    --input-color-pressed-text: initial;                           /* Цвет текста при нажатии */
+    --input-color-pressed-icon: initial;                           /* Цвет иконок при нажатии */
+}
+
+.pot-input:active:not(._disabled, ._invalid, ._focused),
+.pot-input:active:hover:not(._disabled, ._invalid, ._focused) {
+    color: var(--input-color-pressed-text);
+    border-color: var(--input-color-pressed-border);
+}
+
+.pot-input:active:not(._disabled, ._invalid, ._focused) .pot-input__target,
+.pot-input:active:hover:not(._disabled, ._invalid, ._focused) .pot-input__target {
+    color: var(--input-color-pressed-text);
+    background-color: var(--input-color-pressed-background);
+}
+
+.pot-input:active:not(._disabled, ._invalid, ._focused) .pot-input__icon,
+.pot-input:active:hover:not(._disabled, ._invalid, ._focused) .pot-input__icon {
+    color: var(--input-color-pressed-icon);
+}
+/* CONDITION:pressed - END */
+
+/* CONDITION:focused - START */
+.pot-input {
+    --input-color-focused-border: initial;                         /* Цвет рамки при фокусе */
+    --input-color-focused-background: initial;                     /* Цвет фона при фокусе */ 
+    --input-color-focused-text: initial;                           /* Цвет текста при фокусе */
+    --input-color-focused-icon: initial;                           /* Цвет иконок при фокусе */
+}
+
+.pot-input._focused:not(._disabled, ._invalid) {
+    color: var(--input-color-focused-text);
+    border-color: var(--input-color-focused-border);
+}
+
+.pot-input._focused:not(._disabled, ._invalid) .pot-input__target {
+    color: var(--input-color-focused-text);
+    background-color: var(--input-color-focused-background);
+}
+
+.pot-input._focused:not(._disabled, ._invalid) .pot-input__icon {
+    color: var(--input-color-focused-icon);
+}
+/* CONDITION:focused - END */
+
+/* CONDITION:focusedHover - START */
+.pot-input {
+    --input-color-focused-hover-border: initial;                         /* Цвет рамки при фокусе + наведении */
+    --input-color-focused-hover-background: initial;                     /* Цвет фона при фокусе + наведении */ 
+    --input-color-focused-hover-text: initial;                           /* Цвет текста при фокусе + наведении */
+    --input-color-focused-hover-icon: initial;                           /* Цвет иконок при фокусе + наведении */
+}
+
+.pot-input._focused:hover:not(._disabled, ._invalid) {
+    color: var(--input-color-focused-hover-text);
+    border-color: var(--input-color-focused-hover-border);
+}
+
+.pot-input._focused:hover:not(._disabled, ._invalid) .pot-input__target {
+    color: var(--input-color-focused-hover-text);
+    background-color: var(--input-color-focused-hover-background);
+}
+
+.pot-input._focused:hover:not(._disabled, ._invalid) .pot-input__icon {
+    color: var(--input-color-focused-hover-icon);
+}
+/* CONDITION:focusedHover - END */
+
+/* CONDITION:focusedPressed - START */
+.pot-input {
+    --input-color-focused-pressed-border: initial;                         /* Цвет рамки при фокусе + нажатии */
+    --input-color-focused-pressed-background: initial;                     /* Цвет фона при фокусе + нажатии */ 
+    --input-color-focused-pressed-text: initial;                           /* Цвет текста при фокусе + нажатии */
+    --input-color-focused-pressed-icon: initial;                           /* Цвет иконок при фокусе + нажатии */
+}
+
+.pot-input._focused:active:not(._disabled, ._invalid),
+.pot-input._focused:active:hover:not(._disabled, ._invalid) {
+    color: var(--input-color-focused-pressed-text);
+    border-color: var(--input-color-focused-pressed-border);
+}
+
+.pot-input._focused:active:not(._disabled, ._invalid) .pot-input__target,
+.pot-input._focused:active:hover:not(._disabled, ._invalid) .pot-input__target {
+    color: var(--input-color-focused-pressed-text);
+    background-color: var(--input-color-focused-pressed-background);
+}
+
+.pot-input._focused:active:not(._disabled, ._invalid) .pot-input__icon,
+.pot-input._focused:active:hover:not(._disabled, ._invalid) .pot-input__icon {
+    color: var(--input-color-focused-pressed-icon);
+}
+/* CONDITION:focusedPressed - END */
+
+/* CONDITION:invalid - START */
+.pot-input {
+    --input-color-invalid-border: initial;                         /* Цвет рамки невалидного инпута */
+    --input-color-invalid-background: initial;                     /* Цвет фона невалидного инпута */ 
+    --input-color-invalid-text: initial;                           /* Цвет текста невалидного инпута */
+    --input-color-invalid-icon: initial;                           /* Цвет иконок невалидного инпута */
+}
+
+.pot-input._invalid:not(._disabled) {
+    color: var(--input-color-invalid-text);
+    border-color: var(--input-color-invalid-border);
+}
+
+.pot-input._invalid:not(._disabled) .pot-input__target {
+    color: var(--input-color-invalid-text);
+    background-color: var(--input-color-invalid-background);
+}
+
+.pot-input._invalid:not(._disabled) .pot-input__icon {
+    color: var(--input-color-invalid-icon);
+}
+/* CONDITION:invalid - END */
+
+/* CONDITION:disabled - START */
+.pot-input {
+    --input-color-disabled-border: initial;                         /* Цвет рамки заблокированного инпута */
+    --input-color-disabled-background: initial;                     /* Цвет фона заблокированного инпута */ 
+    --input-color-disabled-text: initial;                           /* Цвет текста заблокированного инпута */
+    --input-color-disabled-icon: initial;                           /* Цвет иконок заблокированного инпута */
+}
+
+.pot-input._disabled {
+    color: var(--input-color-disabled-text);
+    border-color: var(--input-color-disabled-border);
+}
+
+.pot-input._disabled .pot-input__target {
+    color: var(--input-color-disabled-text);
+    background-color: var(--input-color-disabled-background);
+}
+
+.pot-input._disabled .pot-input__icon {
+    color: var(--input-color-disabled-icon);
+}
+/* CONDITION:disabled - END */

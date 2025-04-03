@@ -4,7 +4,6 @@ export * from './request-types';
 export * from './specs-types';
 export * from './form-types';
 export * from './resize-observer-types';
-export * from './mask-types';
 export * from './observer-types';
 export * from './intersection-observer-types';
 export * from './scroll-observer-types';

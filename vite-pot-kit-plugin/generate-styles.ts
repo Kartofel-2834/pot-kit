@@ -15,7 +15,7 @@ const STYLES_SUBSCRIPTIONS: Record<
 > = {
     button: ['radius'],
     checkbox: ['radius'],
-    // input: ['radius'],
+    input: ['radius'],
     grid: ['gap', 'rowGap', 'columnGap'],
     group: ['gap'],
     icon: [],
