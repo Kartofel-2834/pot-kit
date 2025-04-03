@@ -25,21 +25,21 @@ export interface IPotKitConfig<
     TRadius extends string = string,
     TGap extends string = string,
 > {
-    breakpoints: Record<TDevice, number>;
+    breakpoints?: Record<TDevice, number>;
 
-    size: TSize[];
+    size?: TSize[];
 
-    color: {
+    color?: {
         [key in TColor]: {
             [varName: string]: string;
         };
     };
     
-    radius: {
+    radius?: {
         [key in TRadius]: string | number;
     };
     
-    gap: {
+    gap?: {
         [key in TGap]: string | number;
     };
     

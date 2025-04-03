@@ -26,6 +26,10 @@ const STYLES_SUBSCRIPTIONS: Record<
 class PotKitColorsGenerator {
     /** Генерация стилей цветовых тем */
     static generate(colorsConfiguration: IPotKitConfig['color']): string {
+        if (!colorsConfiguration) {
+            return '';
+        }
+
         const modificators = Object.entries(colorsConfiguration).map(([colorName, config]) => {
             const className = StylesHelper.getModificatorClassName('color', colorName);
             const vars = PotKitColorsGenerator.generateVars(config);
@@ -60,13 +64,14 @@ class PotKitComponentsStylesGenerator {
         const subscriptions = PotKitComponentsStylesGenerator.generateSubscriptionStyles(componentName, config);
 
         return [
-            styles,
             colors,
             sizes,
-            subscriptions
+            subscriptions,
+            styles,
         ].filter(Boolean).join('\n\n');
     }
 
+    // TODO: Вынести в отдельный скрипт подготовки стилей в словарь и исключить из скрипта генерации
     private static async getConfigurationStyles(
         componentName: keyof IPotKitConfig['components'],
         config: IPotKitConfig
@@ -87,8 +92,8 @@ class PotKitComponentsStylesGenerator {
             configuration,
             conditions
         ] = await Promise.all([
-            fs.readFile(path.join(stylesDir, 'base', fileName), 'utf8').catch(handleError),
-            fs.readFile(path.join(stylesDir, 'configuration', fileName), 'utf8').catch(handleError),
+            fs.readFile(path.join(stylesDir, 'base', fileName), 'utf8').then((v) => v.trim()).catch(handleError),
+            fs.readFile(path.join(stylesDir, 'configuration', fileName), 'utf8').then((v) => v.trim()).catch(handleError),
             !colors ? '' : fs.readFile(path.join(stylesDir, 'conditions', fileName), 'utf8').catch(handleError),
         ]);
 
@@ -109,7 +114,7 @@ class PotKitComponentsStylesGenerator {
 
             const data = conditions.slice(startIndex + stateStartMarker.length, endIndex);
 
-            selectedConditions.push(data);
+            selectedConditions.push(data.trim());
         }
 
         return [
@@ -133,7 +138,7 @@ class PotKitComponentsStylesGenerator {
         const kebabName = StringHelper.camelCaseToKebab(componentName);
         const componentClass = `.pot-${kebabName}`;
         
-        const getStyles = (modificator: string, data: Record<string, unknown>): string => {
+        const getStyles = (modificator: string, data?: Record<string, unknown>): string => {
             if (!data || typeof data !== 'object') {
                 return '';
             }
@@ -187,7 +192,7 @@ class PotKitComponentsStylesGenerator {
     ): string {
         const componentColors = (config.components[componentName] as IPotComponentColorConfig)?.color;
 
-        if (!componentColors) {
+        if (!config?.color || !componentColors) {
             return '';
         }
 
@@ -246,10 +251,10 @@ export class PotKitStylesGenerator {
         return [
             PotKitStylesGenerator.EDIT_WARNING,
             PotKitColorsGenerator.generate(config.color),
-            StylesHelper.generateModificatorGroup('radius', config.radius),
-            StylesHelper.generateModificatorGroup('gap', config.gap),
-            StylesHelper.generateModificatorGroup('row-gap', config.gap),
-            StylesHelper.generateModificatorGroup('column-gap', config.gap),
+            StylesHelper.generateModificatorGroup('radius', config.radius ?? {}),
+            StylesHelper.generateModificatorGroup('gap', config.gap ?? {}),
+            StylesHelper.generateModificatorGroup('row-gap', config.gap ?? {}),
+            StylesHelper.generateModificatorGroup('column-gap', config.gap ?? {}),
         ].filter(Boolean).join('\n\n');
     }
 
