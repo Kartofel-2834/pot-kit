@@ -1,6 +1,32 @@
 // Types
 import { IPotButtonProps } from "../props/pot-button-props";
-import { IPotKitComponentConfig } from "./pot-component-config";
+import {
+    IPotComponentConfig,
+    IPotComponentColorConfig,
+    IPotComponentSizeConfig,
+} from "./pot-component-config";
+
+type TStateVars = {
+    /** Цвет рамки */
+    border: string;
+
+    /** Цвет фона */
+    background: string;
+
+    /** Цвет текста */
+    text: string;
+}
+
+type TConfig<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string, 
+    TRadius extends string = string,
+> = (
+    IPotComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>> &
+    IPotComponentSizeConfig<TSize> &
+    IPotComponentColorConfig<TStateVars>
+);
 
 /** PotButton */
 export interface IPotButtonConfig<
@@ -8,33 +34,40 @@ export interface IPotButtonConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotButtonProps<TDevice, TColor, TSize, TRadius>, TSize> {
-    color: {
-        border: string;
-        background: string;
-        text: string;
+> extends TConfig<TDevice, TColor, TSize, TRadius> {
+    color?: {
+        /** Базовая расцветка */
+        base?: TStateVars;
 
-        hoverBorder: string;
-        hoverBackground: string;
-        hoverText: string;
+        /** Расцветка при наведении */
+        hover?: TStateVars;
 
-        activeBorder: string;
-        activeBackground: string;
-        activeText: string;
+        /** Расцветка при нажатии */
+        pressed?: TStateVars;
 
-        disabledBorder: string;
-        disabledBackground: string;
-        disabledText: string;
+        /** Расцветка заблокированной кнопки */
+        disabled?: TStateVars;
     };
 
-    size: {
+    size?: {
         [key in TSize]: {
+            /** Высота */
             height: string | number;
+
+            /** Текст */
             text: string | number;
+
+            /** Паддинг */
             padding: string | number;
+ 
+            /** Паддинг текста */
             gap: string | number;
+
+            /** Размер рамки */
             border: string | number;
+
+            /** Размер иконки */
             icon: string | number;
-        } 
-    }
+        };
+    };
 }

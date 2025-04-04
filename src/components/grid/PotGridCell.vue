@@ -1,13 +1,3 @@
-<template>
-    <component
-        :is="tag"
-        :style="currentStyles"
-        class="pot-grid-cell"
-    >
-        <slot />
-    </component>
-</template>
-
 <script lang="ts" setup>
 // Types
 import type { IPotGridCell } from '@/types/components';
@@ -24,10 +14,6 @@ import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 const $props = withDefaults(defineProps<IPotGridCell>(), {
     tag: 'div',
-    col: undefined,
-    row: undefined,
-    align: undefined,
-    justify: undefined,
     devices: () => ALL_DEVICES_REVERSED,
 });
 
@@ -49,19 +35,20 @@ const properties = computed(() => {
 
 const currentStyles = computed(() => {
     return {
-        '--pot-grid-cell-col': properties.value.col,
-        '--pot-grid-cell-row': properties.value.row,
-        '--pot-grid-cell-align': properties.value.align,
-        '--pot-grid-cell-justify': properties.value.justify,
+        gridColumn: properties.value.col,
+        gridRow: properties.value.row,
+        alignSelf: properties.value.align,
+        justifySelf: properties.value.justify,
     };
 });
 </script>
 
-<style lang="scss">
-.pot-grid-cell {
-    grid-column: var(--pot-grid-cell-col);
-    grid-row: var(--pot-grid-cell-row);
-    align-self: var(--pot-grid-cell-align);
-    justify-self: var(--pot-grid-cell-justify);
-}
-</style>
+<template>
+    <component
+        :is="tag"
+        :style="currentStyles"
+        class="pot-grid-cell"
+    >
+        <slot />
+    </component>
+</template>

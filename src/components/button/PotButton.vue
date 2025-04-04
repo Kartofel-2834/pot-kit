@@ -1,4 +1,11 @@
 <script lang="ts">
+// Composables
+import { usePropsDefaults } from '@/composables/props-defaults';
+
+// Constants
+import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
+import { POT_BUTTON_DEFAULTS } from '@/constants/defaults';
+
 const $propsDefaults = {
     tag: 'button',
     radius: 'circle',
@@ -10,6 +17,8 @@ const $propsDefaults = {
     square: false,
     disabled: false,
 };
+
+const $configDefaults = usePropsDefaults(POT_BUTTON_DEFAULTS);
 </script>
 
 <script lang="ts" setup>
@@ -25,17 +34,13 @@ import { useClassList } from '@/composables/class-list';
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useDeviceIs } from '@/composables/device-is';
 
-// Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
-import { POT_BUTTON_DEFAULTS } from '@/constants/defaults';
-
 // Components
 const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
 
 const $props = withDefaults(defineProps<IPotButtonProps>(), {
-    ...($propsDefaults as TPropsDefaults<IPotButtonProps>),
-    ...(POT_BUTTON_DEFAULTS as TPropsDefaults<IPotButtonProps>),
-});
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotButtonProps>);
 
 const $deviceIs = useDeviceIs();
 
@@ -66,14 +71,14 @@ const classList = computed(() =>
 
 <template>
     <component
-        :is="tag"
+        :is="$props.tag"
         :class="['pot-button', classList]"
-        :disabled="disabled"
+        :disabled="$props.disabled"
     >
         <slot name="preicon">
             <PotIcon
-                v-if="preicon"
-                :icon="preicon"
+                v-if="$props.preicon"
+                :icon="$props.preicon"
                 class="pot-button__icon pot-button__icon_pre"
             />
         </slot>
@@ -87,14 +92,12 @@ const classList = computed(() =>
 
         <slot name="icon">
             <PotIcon
-                v-if="icon"
-                :icon="icon"
+                v-if="$props.icon"
+                :icon="$props.icon"
                 class="pot-button__icon pot-button__icon_post"
             />
         </slot>
     </component>
 </template>
 
-<style src="@/assets/css/base/pot-button.css" />
-<style src="@/assets/css/configuration/pot-button.css" />
 <style src="@/assets/css/preset/pot-button.css" />

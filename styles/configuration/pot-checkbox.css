@@ -1,0 +1,25 @@
+/* SIZES */
+.pot-checkbox {
+    --checkbox-size-text: initial;           /* Размер текста */
+    --checkbox-size-height: initial;         /* Высота */
+    --checkbox-size-icon: initial;           /* Размер иконки */
+    --checkbox-size-border: initial;         /* Размер рамки */
+    --checkbox-size-gap: initial;            /* Размер расстояния между чекбоксом и его текстом */
+
+    gap: var(--checkbox-size-gap);
+}
+
+.pot-checkbox__icon-wrapper {
+    width: var(--checkbox-size-height);
+    border-width: var(--checkbox-size-border);
+}
+
+/* RADIUS */
+.pot-checkbox {
+    --checkbox-radius: initial;             /* Радиус */
+}
+
+.pot-checkbox__icon-wrapper {
+    border-radius: var(--checkbox-radius);
+}
+

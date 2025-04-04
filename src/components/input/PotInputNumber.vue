@@ -1,49 +1,3 @@
-<template>
-    <PotInputBase
-        :model-value="modelValue"
-        :value="value"
-        :devices="devices"
-        :size="size"
-        :color="color"
-        :icon="icon"
-        :preicon="preicon"
-        :disabled="disabled"
-        :invalid="invalid"
-        :parser="parser"
-        :formatter="formatter"
-        :min="min"
-        :max="max"
-        class="pot-input-number"
-        type="number"
-        @input="$emit('input', $event as number)"
-        @change="$emit('change', $event as number)"
-        @update:model-value="$emit('update:modelValue', $event as number)"
-        @keydown="onKeydown"
-    >
-        <template
-            v-if="$slots.preicon"
-            #preicon
-        >
-            <slot name="preicon" />
-        </template>
-
-        <template
-            v-if="$slots.icon"
-            #icon
-        >
-            <slot name="icon" />
-        </template>
-
-        <template #append>
-            <slot name="append" />
-        </template>
-
-        <template #prepend>
-            <slot name="prepend" />
-        </template>
-    </PotInputBase>
-</template>
-
 <script setup lang="ts">
 // Types
 import type { IPotInputNumberProps } from '@/types/components';
@@ -139,3 +93,49 @@ function formatter(value: unknown): string {
     return String(value);
 }
 </script>
+
+<template>
+    <PotInputBase
+        :model-value="modelValue"
+        :value="value"
+        :devices="devices"
+        :size="size"
+        :color="color"
+        :icon="icon"
+        :preicon="preicon"
+        :disabled="disabled"
+        :invalid="invalid"
+        :parser="parser"
+        :formatter="formatter"
+        :min="min"
+        :max="max"
+        class="pot-input-number"
+        type="number"
+        @input="$emit('input', $event as number)"
+        @change="$emit('change', $event as number)"
+        @update:model-value="$emit('update:modelValue', $event as number)"
+        @keydown="onKeydown"
+    >
+        <template
+            v-if="$slots.preicon"
+            #preicon
+        >
+            <slot name="preicon" />
+        </template>
+
+        <template
+            v-if="$slots.icon"
+            #icon
+        >
+            <slot name="icon" />
+        </template>
+
+        <template #append>
+            <slot name="append" />
+        </template>
+
+        <template #prepend>
+            <slot name="prepend" />
+        </template>
+    </PotInputBase>
+</template>

@@ -1,0 +1,170 @@
+/* CONDITIONS
+base - базовые стили
+hover - стили при наведении
+pressed - стили при нажатии
+checked - стили при выборе чекбокса
+checkedHover - стили при наведении на выбранный чекбокс
+checkedPressed - стили при нажатии на выбранный чекбокс
+invalid - стили невалидного чекбокса
+disabled - стили заблокированного чекбокса
+*/
+
+/* CONDITION:base - START */
+.pot-checkbox {
+    --checkbox-color-base-text: initial;                            /* Цвет текста */
+    --checkbox-color-base-background: initial;                      /* Цвет фона */
+    --checkbox-color-base-icon: initial;                            /* Цвет иконки */
+    --checkbox-color-base-border: initial;                          /* Цвет рамки */
+
+    color: var(--checkbox-color-text);
+}
+
+.pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-base-background);
+    border-color: var(--checkbox-color-base-border);
+    color: var(--checkbox-color-base-icon);
+}
+/* CONDITION:base - END */
+
+/* CONDITION:hover - START */
+.pot-checkbox {
+    --checkbox-color-hover-text: initial;                      /* Цвет текста при наведении */
+    --checkbox-color-hover-border: initial;                    /* Цвет рамки при наведении */
+    --checkbox-color-hover-background: initial;                /* Цвет фона при наведении */
+    --checkbox-color-hover-icon: initial;                      /* Цвет иконки при наведении */
+}
+
+.pot-checkbox:hover:not(._disabled, ._checked, ._invalid) {
+    color: var(--checkbox-color-hover-text);
+}
+
+.pot-checkbox:hover:not(._disabled, ._checked, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-hover-background);
+    border-color: var(--checkbox-color-hover-border);
+    color: var(--checkbox-color-hover-icon);
+}
+/* CONDITION:hover - END */
+
+/* CONDITION:pressed - START */
+.pot-checkbox {
+    --checkbox-color-pressed-text: initial;                    /* Цвет текста при нажатии */
+    --checkbox-color-pressed-border: initial;                  /* Цвет рамки при нажатии */
+    --checkbox-color-pressed-background: initial;              /* Цвет фона при нажатии */
+    --checkbox-color-pressed-icon: initial;                    /* Цвет иконки при нажатии */
+}
+
+.pot-checkbox:active:not(._disabled, ._checked, ._invalid),
+.pot-checkbox:active:hover:not(._disabled, ._checked, ._invalid) { 
+    color: var(--checkbox-color-pressed-text);
+}
+
+.pot-checkbox:active:not(._disabled, ._checked, ._invalid) .pot-checkbox__icon-wrapper,
+.pot-checkbox:active:hover:not(._disabled, ._checked, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-pressed-background);
+    border-color: var(--checkbox-color-pressed-border);
+    color: var(--checkbox-color-pressed-icon);
+}
+/* CONDITION:pressed - END */
+
+/* CONDITION:checked - START */
+.pot-checkbox {
+    --checkbox-color-checked-text: initial;                    /* Цвет текста выбранного чекбокса */
+    --checkbox-color-checked-border: initial;                  /* Цвет рамки выбранного чекбокса */
+    --checkbox-color-checked-background: initial;              /* Цвет фона выбранного чекбокса */
+    --checkbox-color-checked-icon: initial;                    /* Цвет иконки выбранного чекбокса */
+}
+
+.pot-checkbox._checked:not(._disabled, ._invalid) {
+    color: var(--checkbox-color-checked-text);
+}
+
+.pot-checkbox._checked:not(._disabled, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-checked-background);
+    border-color: var(--checkbox-color-checked-border);
+    color: var(--checkbox-color-checked-icon);
+}
+/* CONDITION:checked - END */
+
+/* CONDITION:checkedHover - START */
+.pot-checkbox {
+    --checkbox-color-checked-hover-text: initial;              /* Цвет текста при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-border: initial;            /* Цвет рамки при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-background: initial;        /* Цвет фона при наведении на выбранный чекбокс */
+    --checkbox-color-checked-hover-icon: initial;              /* Цвет иконки при наведении на выбранный чекбокс */
+}
+
+.pot-checkbox._checked:hover:not(._disabled, ._invalid) {
+    color: var(--checkbox-color-checked-hover-text);
+}
+
+.pot-checkbox._checked:hover:not(._disabled, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-checked-hover-background);
+    border-color: var(--checkbox-color-checked-hover-border);
+    color: var(--checkbox-color-checked-hover-icon);
+}
+/* CONDITION:checkedHover - END */
+
+/* CONDITION:checkedPressed - START */
+.pot-checkbox {
+    --checkbox-color-checked-pressed-text: initial;            /* Цвет текста при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-pressed-border: initial;          /* Цвет рамки при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-pressed-background: initial;      /* Цвет фона при нажатии на выбранный чекбокс */
+    --checkbox-color-checked-pressed-icon: initial;            /* Цвет иконки при нажатии на выбранный чекбокс */
+}
+
+.pot-checkbox._checked:active:not(._disabled, ._invalid),
+.pot-checkbox._checked:active:hover:not(._disabled, ._invalid) {
+    color: var(--checkbox-color-checked-pressed-text);
+}
+
+.pot-checkbox._checked:active:not(._disabled, ._invalid) .pot-checkbox__icon-wrapper,
+.pot-checkbox._checked:active:hover:not(._disabled, ._invalid) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-checked-pressed-background);
+    border-color: var(--checkbox-color-checked-pressed-border);
+    color: var(--checkbox-color-checked-pressed-icon);
+}
+/* CONDITION:checkedPressed - END */
+
+/* CONDITION:invalid - START */
+.pot-checkbox {
+    --checkbox-color-invalid-text: initial;                    /* Цвет текста невалидного чекбокса */
+    --checkbox-color-invalid-border: initial;                  /* Цвет рамки невалидного чекбокса */
+    --checkbox-color-invalid-background: initial;              /* Цвет фона невалидного чекбокса */
+    --checkbox-color-invalid-icon: initial;                    /* Цвет иконки невалидного чекбокса */
+}
+
+.pot-checkbox._invalid:not(._disabled) {
+    color: var(--checkbox-color-invalid-text);
+}
+
+.pot-checkbox._invalid:not(._disabled) .pot-checkbox__icon-wrapper {
+    border-color: var(--checkbox-color-invalid-border);
+    color: var(--checkbox-color-invalid-icon);
+}
+
+.pot-checkbox._invalid._checked:not(._disabled) .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-invalid-background);
+}
+/* CONDITION:invalid - END */
+
+/* CONDITION:disabled - START */
+.pot-checkbox {
+    --checkbox-color-disabled-text: initial;                   /* Цвет текста заблокированного чекбокса */
+    --checkbox-color-disabled-border: initial;                 /* Цвет рамки заблокированного чекбокса */
+    --checkbox-color-disabled-background: initial;             /* Цвет фона заблокированного чекбокса */
+    --checkbox-color-disabled-icon: initial;                   /* Цвет иконки заблокированного чекбокса */
+}
+
+.pot-checkbox._disabled {
+    color: var(--checkbox-color-disabled-text);
+}
+
+.pot-checkbox._disabled .pot-checkbox__icon-wrapper {
+    border-color: var(--checkbox-color-disabled-border);
+    color: var(--checkbox-color-disabled-icon);
+}
+
+.pot-checkbox._disabled._checked .pot-checkbox__icon-wrapper {
+    background-color: var(--checkbox-color-disabled-background);
+}
+/* CONDITION:disabled - END */

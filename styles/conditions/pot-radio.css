@@ -1,0 +1,204 @@
+/* CONDITIONS
+base - базовые стили
+hover - стили при наведении
+pressed - стили при нажатии
+checked - стили при выборе радио
+checkedHover - стили при наведении на выбранный радио
+checkedPressed - стили при нажатии на выбранный радио
+invalid - стили невалидного радио
+disabled - стили заблокированного радио
+*/
+
+/* CONDITION:base - START */
+.pot-radio {
+    --radio-color-base-text: initial;                         /* Цвет текста */
+    --radio-color-base-border: initial;                       /* Цвет рамки маркера */
+    --radio-color-base-background: initial;                   /* Цвет фона маркера */
+    --radio-color-base-point: initial;                        /* Цвет точки маркера */
+
+    color: var(--radio-color-base-text);
+}
+
+.pot-radio__marker {
+    border-color: var(--radio-color-base-border);
+    background-color: var(--radio-color-base-background);
+    color: var(--radio-color-base-point);
+}
+
+.pot-radio__marker:before {
+    background-color: var(--radio-color-base-point);
+}
+/* CONDITION:base - END */
+
+/* CONDITION:hover - START */
+.pot-radio {
+    --radio-color-hover-text: initial;                   /* Цвет текста при наведении */
+    --radio-color-hover-border: initial;                 /* Цвет рамки маркера при наведении */
+    --radio-color-hover-background: initial;             /* Цвет фона маркера при наведении */
+    --radio-color-hover-point: initial;                  /* Цвет точки маркера при наведении */
+}
+
+.pot-radio:hover:not(._disabled, ._checked, ._invalid) {
+    color: var(--radio-color-hover-text);
+}
+
+.pot-radio:hover:not(._disabled, ._checked, ._invalid) .pot-radio__marker {
+    border-color: var(--radio-color-hover-border);
+    background-color: var(--radio-color-hover-background);
+    color: var(--radio-color-hover-point);
+}
+
+.pot-radio:hover:not(._disabled, ._checked, ._invalid) .pot-radio__marker:before {
+    background-color: var(--radio-color-hover-point);
+}
+/* CONDITION:hover - END */
+
+/* CONDITION:pressed - START */
+.pot-radio {
+    --radio-color-pressed-text: initial;                   /* Цвет текста при нажатии */
+    --radio-color-pressed-border: initial;                 /* Цвет рамки маркера при нажатии */
+    --radio-color-pressed-background: initial;             /* Цвет фона маркера при нажатии */
+    --radio-color-pressed-point: initial;                  /* Цвет точки маркера при нажатии */
+}
+
+.pot-radio:active:not(._disabled, ._checked, ._invalid),
+.pot-radio:active:hover:not(._disabled, ._checked, ._invalid) {
+    color: var(--radio-color-pressed-text);
+}
+
+.pot-radio:active:not(._disabled, ._checked, ._invalid) .pot-radio__marker,
+.pot-radio:active:hover:not(._disabled, ._checked, ._invalid) .pot-radio__marker {
+    border-color: var(--radio-color-pressed-border);
+    background-color: var(--radio-color-pressed-background);
+    color: var(--radio-color-pressed-point);
+}
+
+.pot-radio:active:not(._disabled, ._checked, ._invalid) .pot-radio__marker:before,
+.pot-radio:active:hover:not(._disabled, ._checked, ._invalid) .pot-radio__marker:before {
+    background-color: var(--radio-color-pressed-point);
+}
+/* CONDITION:pressed - END */
+
+/* CONDITION:checked - START */
+.pot-radio {
+    --radio-color-checked-text: initial;                  /* Цвет текста при выборе */
+    --radio-color-checked-border: initial;                /* Цвет рамки маркера при выборе */
+    --radio-color-checked-background: initial;            /* Цвет фона маркера при выборе */
+    --radio-color-checked-point: initial;                 /* Цвет точки маркера при выборе */
+}
+
+.pot-radio._checked:not(._disabled, ._invalid) {
+    color: var(--radio-color-checked-text);
+}
+
+.pot-radio._checked:not(._disabled, ._invalid) .pot-radio__marker {
+    border-color: var(--radio-color-checked-border);
+    background-color: var(--radio-color-checked-background);
+    color: var(--radio-color-checked-point);
+}
+
+.pot-radio._checked:not(._disabled, ._invalid) .pot-radio__marker:before {
+    background-color: var(--radio-color-checked-point);
+}
+/* CONDITION:checked - END */
+
+/* CONDITION:checkedHover - START */
+.pot-radio {
+    --radio-color-checked-hover-text: initial;                  /* Цвет текста выбранного элемента при наведении */
+    --radio-color-checked-hover-border: initial;                /* Цвет рамки маркера выбранного элемента при наведении */
+    --radio-color-checked-hover-background: initial;            /* Цвет фона маркера выбранного элемента при наведении */
+    --radio-color-checked-hover-point: initial;                 /* Цвет точки маркера выбранного элемента при наведении */
+}
+
+.pot-radio._checked:hover:not(._disabled, ._invalid) {
+    color: var(--radio-color-checked-hover-text);
+}
+
+.pot-radio._checked:hover:not(._disabled, ._invalid) .pot-radio__marker {
+    border-color: var(--radio-color-checked-hover-border);
+    background-color: var(--radio-color-checked-hover-background);
+    color: var(--radio-color-checked-hover-point);
+}
+
+.pot-radio._checked:hover:not(._disabled, ._invalid) .pot-radio__marker:before {
+    background-color: var(--radio-color-checked-hover-point);
+}
+/* CONDITION:checkedHover - END */
+
+/* CONDITION:checkedPressed - START */
+.pot-radio {
+    --radio-color-checked-pressed-text: initial;                  /* Цвет текста выбранного элемента при нажатии */
+    --radio-color-checked-pressed-border: initial;                /* Цвет рамки маркера выбранного элемента при нажатии */
+    --radio-color-checked-pressed-background: initial;            /* Цвет фона маркера выбранного элемента при нажатии */
+    --radio-color-checked-pressed-point: initial;                 /* Цвет точки маркера выбранного элемента при нажатии */
+}
+
+.pot-radio._checked:active:not(._disabled, ._invalid),
+.pot-radio._checked:active:hover:not(._disabled, ._invalid) {
+    color: var(--radio-color-pressed-text);
+}
+
+.pot-radio._checked:active:not(._disabled, ._invalid) .pot-radio__marker,
+.pot-radio._checked:active:hover:not(._disabled, ._invalid) .pot-radio__marker {
+    border-color: var(--radio-color-pressed-border);
+    background-color: var(--radio-color-pressed-background);
+    color: var(--radio-color-pressed-point);
+}
+
+.pot-radio._checked:active:not(._disabled, ._invalid) .pot-radio__marker:before,
+.pot-radio._checked:active:hover:not(._disabled, ._invalid) .pot-radio__marker:before {
+    background-color: var(--radio-color-pressed-point);
+}
+/* CONDITION:checkedPressed - END */
+
+/* CONDITION:invalid - START */
+.pot-radio {
+    --radio-color-invalid-text: initial;                  /* Цвет текста выбранного элемента при нажатии */
+    --radio-color-invalid-border: initial;                /* Цвет рамки маркера выбранного элемента при нажатии */
+    --radio-color-invalid-background: initial;            /* Цвет фона маркера выбранного элемента при нажатии */
+    --radio-color-invalid-point: initial;                 /* Цвет точки маркера выбранного элемента при нажатии */
+}
+
+.pot-radio._invalid:not(._disabled) {
+    color: var(--radio-color-invalid-text);
+}
+
+.pot-radio._invalid:not(._disabled) .pot-radio__marker {
+    border-color: var(--radio-color-invalid-border);
+    color: var(--radio-color-invalid-point);
+}
+
+.pot-radio._invalid._checked:not(._disabled) .pot-radio__marker {
+    background-color: var(--radio-color-invalid-background);
+}
+
+.pot-radio._invalid._checked:not(._disabled) .pot-radio__marker:before {
+    background-color: var(--radio-color-invalid-point);
+}
+/* CONDITION:invalid - END */
+
+/* CONDITION:disabled - START */
+.pot-radio {
+    --radio-color-disabled-text: initial;                /* Цвет текста заблокированного элемента */
+    --radio-color-disabled-border: initial;              /* Цвет рамки маркера заблокированного элемента */
+    --radio-color-disabled-background: initial;          /* Цвет фона маркера заблокированного элемента */
+    --radio-color-disabled-point: initial;               /* Цвет точки маркера заблокированного элемента */
+}
+
+.pot-radio._disabled {
+    color: var(--radio-color-disabled-text);
+}
+
+.pot-radio._disabled .pot-radio__marker {
+    border-color: var(--radio-color-disabled-border);
+    color: var(--radio-color-disabled-point);
+}
+
+.pot-radio._disabled._checked .pot-radio__marker {
+    background-color: var(--radio-color-disabled-background);
+}
+
+.pot-radio._disabled._checked .pot-radio__marker:before {
+    background-color: var(--radio-color-disabled-point);
+}
+/* CONDITION:disabled - END */

@@ -1,0 +1,29 @@
+/* SIZES */
+.pot-input {
+    --input-size-height: initial;              /* Высота */
+    --input-size-padding: initial;             /* Паддинг */
+    --input-size-border: initial;              /* Размер рамки */
+    --input-size-text: initial;                /* Размер текста */
+    --input-size-gap: initial;                 /* Паддинг текста */
+    --input-size-icon: initial;                /* Размер иконки */
+
+    padding: 0 var(--input-size-padding);
+    gap: var(--input-size-gap);
+    font-size: var(--input-size-text);
+    border-width: var(--input-size-border);
+}
+
+.pot-input__target {
+    height: var(--input-size-height);
+}
+
+.pot-input__icon {
+    width: var(--input-size-icon);
+}
+
+/* RADIUS */
+.pot-input {
+    --input-radius: initial;                  /* Радиус */
+
+    border-radius: var(--input-radius);
+}

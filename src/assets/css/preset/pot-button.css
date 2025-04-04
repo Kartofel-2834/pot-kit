@@ -1,16 +1,16 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
 .pot-button._color-pot {
-    --button-color-border: var(--color-target);
-    --button-color-background: var(--color-target);
-    --button-color-text: var(--color-text);
-    --button-color-hover-border: var(--color-hover-target);
+    --button-color-base-border: var(--color-border);
+    --button-color-base-background: var(--color-target);
+    --button-color-base-text: var(--color-text);
     --button-color-hover-background: var(--color-hover-target);
+    --button-color-hover-border: var(--color-hover-border);
     --button-color-hover-text: var(--color-hover-text);
-    --button-color-active-border: var(--color-active-target);
-    --button-color-active-background: var(--color-active-target);
-    --button-color-active-text: var(--color-active-text);
-    --button-color-disabled-border: var(--pot-base-400);
+    --button-color-pressed-background: var(--color-active-target);
+    --button-color-pressed-border: var(--color-active-target);
+    --button-color-pressed-text: var(--color-active-text);
     --button-color-disabled-background: var(--pot-base-400);
+    --button-color-disabled-border: var(--pot-base-400);
     --button-color-disabled-text: var(--color-disabled-text);
 }
 
@@ -60,4 +60,105 @@
 .pot-button._radius-radius--4,
 .pot-button._radius-radius--2 {
     --button-radius: var(--radius);
+}
+
+.pot-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    border-style: solid;
+    font-weight: 500;
+    line-height: 1;
+    transition:
+        color var(--pot-transition),
+        border-color var(--pot-transition),
+        background-color var(--pot-transition);
+}
+
+/* --- PotButton - Disabled --- */
+.pot-button:disabled {
+    cursor: not-allowed;
+}
+
+/* --- PotButton - Square --- */
+.pot-button._square {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+}
+
+.pot-button__icon {
+    flex-shrink: 0;
+}
+
+/* SIZES */
+.pot-button {
+    --button-size-height: initial;              /* Высота */
+    --button-size-padding: initial;             /* Паддинг */
+    --button-size-border: initial;              /* Размер рамки */
+    --button-size-text: initial;                /* Размер текста */
+    --button-size-gap: initial;                 /* Паддинг текста */
+    --button-size-icon: initial;                /* Размер иконки */
+
+    gap: var(--button-size-gap);
+    height: var(--button-size-height);
+    padding: 0 var(--button-size-padding);
+    border-width: var(--button-size-border);
+    font-size: var(--button-size-text);
+}
+
+/* RADIUS */
+.pot-button {
+    --button-radius: initial;                  /* Радиус */
+
+    border-radius: var(--button-radius);
+}
+
+.pot-button {
+    --button-color-base-border: initial;                     /* Цвет рамки */
+    --button-color-base-background: initial;                 /* Цвет фона */
+    --button-color-base-text: initial;                       /* Цвет текста */
+
+    border-color: var(--button-color-base-border);
+    background-color: var(--button-color-base-background);
+    color: var(--button-color-base-text);
+}
+
+.pot-button {
+    --button-color-hover-border: initial;               /* Цвет рамки при наведении */
+    --button-color-hover-background: initial;           /* Цвет фона при наведении */
+    --button-color-hover-text: initial;                 /* Цвет текста при наведении */
+}
+
+.pot-button:hover:not(:disabled) {
+    border-color: var(--button-color-hover-border);
+    background-color: var(--button-color-hover-background);
+    color: var(--button-color-hover-text);
+}
+
+.pot-button {
+    --button-color-pressed-border: initial;             /* Цвет рамки при нажатии */
+    --button-color-pressed-background: initial;         /* Цвет фона при нажатии */
+    --button-color-pressed-text: initial;               /* Цвет текста при нажатии */
+}
+
+.pot-button:active:not(:disabled),
+.pot-button:active:hover:not(:disabled) {
+    border-color: var(--button-color-pressed-border);
+    background-color: var(--button-color-pressed-background);
+    color: var(--button-color-pressed-text);
+}
+
+.pot-button {
+    --button-color-disabled-border: initial;            /* Цвет рамки у неактивной кнопки */
+    --button-color-disabled-background: initial;        /* Цвет фона у неактивной кнопки */
+    --button-color-disabled-text: initial;              /* Цвет текста у неактивной кнопки */
+}
+
+.pot-button:disabled {
+    border-color: var(--button-color-disabled-border);
+    background-color: var(--button-color-disabled-background);
+    color: var(--button-color-disabled-text);
 }

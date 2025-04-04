@@ -1,3 +1,43 @@
+<script setup lang="ts">
+// Types
+import type { IPotInputPasswordProps } from '@/types/components';
+
+// Vue
+import { ref, defineAsyncComponent, computed } from 'vue';
+
+// Composables
+import { useClassList } from '@/composables/class-list';
+
+// Components
+const PotInputBase = defineAsyncComponent(() => import('@/components/input/PotInputBase.vue'));
+const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
+
+withDefaults(defineProps<IPotInputPasswordProps>(), {
+    toggleIcon: 'eye',
+});
+
+const $emit = defineEmits<{
+    input: [value: string];
+    change: [value: string];
+    'update:modelValue': [value: string];
+}>();
+
+const inputType = ref<'text' | 'password'>('password');
+
+// Computed
+const classList = computed(() =>
+    useClassList({
+        type: inputType.value,
+    }),
+);
+
+// Methods
+function onTypeToggle(event: Event) {
+    event.preventDefault();
+    inputType.value = inputType.value === 'text' ? 'password' : 'text';
+}
+</script>
+
 <template>
     <PotInputBase
         :class="['pot-input-password', classList]"
@@ -47,46 +87,6 @@
         </template>
     </PotInputBase>
 </template>
-
-<script setup lang="ts">
-// Types
-import type { IPotInputPasswordProps } from '@/types/components';
-
-// Vue
-import { ref, defineAsyncComponent, computed } from 'vue';
-
-// Composables
-import { useClassList } from '@/composables/class-list';
-
-// Components
-const PotInputBase = defineAsyncComponent(() => import('@/components/input/PotInputBase.vue'));
-const PotIcon = defineAsyncComponent(() => import('@/components/icon/PotIcon.vue'));
-
-withDefaults(defineProps<IPotInputPasswordProps>(), {
-    toggleIcon: 'eye',
-});
-
-const $emit = defineEmits<{
-    input: [value: string];
-    change: [value: string];
-    'update:modelValue': [value: string];
-}>();
-
-const inputType = ref<'text' | 'password'>('password');
-
-// Computed
-const classList = computed(() =>
-    useClassList({
-        type: inputType.value,
-    }),
-);
-
-// Methods
-function onTypeToggle(event: Event) {
-    event.preventDefault();
-    inputType.value = inputType.value === 'text' ? 'password' : 'text';
-}
-</script>
 
 <style>
 .pot-input-password .pot-input-password__toggle-icon {

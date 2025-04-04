@@ -2,7 +2,7 @@
  * Интерфейс пропсов для компонента PotIcon
  */
 export interface IPotIconProps {
-    /** Название svg файла без расширения */
+    /** Название иконки */
     icon: string;
 
     /**
@@ -15,7 +15,7 @@ export interface IPotIconProps {
 
 
     /**
-     * Функция подгрузки возвращающая файл иконки в виде строки
+     * Функция подгрузки возвращающая контент иконки в виде строки
      */
-    loader?: (iconName: string) => Promise<string>;
+    loader?: (iconName: string) => Promise<string> | string;
 }

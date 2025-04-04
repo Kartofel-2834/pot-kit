@@ -4,7 +4,9 @@ import type { TResizeCallback, IResizeConfig, IResizeObserver } from '@/types/co
 
 // Composables
 import { useObserver } from './observer';
-import { multiActionListener } from '@/utils/timer-utils';
+
+// Helpers
+import { TimerHelper } from '@/helpers/timer-helper';
 
 const defaultConfig: IResizeConfig = {
     endDelay: 300,
@@ -25,7 +27,7 @@ const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
 
 export function useResizeObserver(config: Partial<IResizeConfig> = {}): IResizeObserver {
     const currentConfig: IResizeConfig = { ...defaultConfig, ...config };
-    const listener = multiActionListener(currentConfig, currentConfig.endDelay);
+    const listener = TimerHelper.multiActionListener(currentConfig, currentConfig.endDelay);
     
     function observe(target: Element, options?: ResizeObserverOptions) {
         observer.observe(target, { listener });

@@ -6,12 +6,12 @@ import type { IPotKitConfig } from "../types";
 import fs, { constants } from 'fs/promises';
 
 // File data generators
-import { generateStyles } from "./generate-styles";
-import { generateEnums } from './generate-enums';
-import { generateDefaults } from "./generate-defaults";
+import { PotKitStylesGenerator } from "./generate-styles";
+import { PotKitEnumsGenerator } from './generate-enums';
+import { PotKitDefaultsGenerator } from "./generate-defaults";
 
 async function writeStyles(config: IPotKitConfig) {
-    const { global, components } = generateStyles(config);
+    const { global, components } = await PotKitStylesGenerator.generate(config);
 
     try {
         await fs.access('./src/assets/css/preset', constants.R_OK | constants.W_OK);
@@ -30,11 +30,17 @@ async function writeStyles(config: IPotKitConfig) {
 }
 
 async function writeEnums(config: IPotKitConfig) {
-    return fs.writeFile('./src/enums/preset.ts', generateEnums(config));
+    return fs.writeFile(
+        './src/enums/preset.ts', 
+        PotKitEnumsGenerator.generate(config)
+    );
 }
 
 async function writeDefaults(config: IPotKitConfig) {
-    return fs.writeFile('./src/constants/defaults.ts', generateDefaults(config));
+    return fs.writeFile(
+        './src/constants/defaults.ts',
+        PotKitDefaultsGenerator.generate(config)
+    );
 }
 
 async function init(config: IPotKitConfig) {
@@ -46,7 +52,6 @@ async function init(config: IPotKitConfig) {
             writeDefaults(config),
         ]);
         console.timeEnd('[POT-KIT]: enums and styles generation');
-
     } catch (err) {
         console.warn('[POT-KIT]: enums generation error -', err);
     }

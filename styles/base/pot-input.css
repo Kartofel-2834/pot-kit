@@ -1,0 +1,56 @@
+.pot-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-style: solid;
+    cursor: text;
+    background-color: inherit;
+    font-weight: 400;
+    line-height: 1;
+    transition:
+        color var(--pot-transition),
+        background-color var(--pot-transition),
+        border-color var(--pot-transition);
+}
+
+/* --- PotInput - Disabled --- */
+.pot-input._disabled {
+    cursor: not-allowed;
+}
+
+.pot-input._disabled .pot-input__target {
+    cursor: not-allowed;
+}
+
+.pot-input__target {
+    outline: none;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-basis: 100%;
+    font-size: inherit;
+}
+
+.pot-input__target[type='number']::-webkit-inner-spin-button,
+.pot-input__target[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pot-input__target[disabled] {
+    opacity: 1;
+}
+
+.pot-input__target::-ms-clear {
+    display: none;
+}
+
+.pot-input__icon {
+    pointer-events: none;
+    font-size: inherit;
+    transition: color var(--pot-transition);
+}

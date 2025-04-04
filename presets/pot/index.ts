@@ -2,9 +2,14 @@
 import type { IPotPreset } from './types';
 
 // Components configurations
-import { PotButtonConfig } from './pot-button';
-import { PotCheckboxConfig } from './pot-checkbox';
-import { PotInputConfig } from './pot-input';
+import { PotButtonConfig } from './button';
+import { PotCheckboxConfig } from './checkbox';
+import { PotInputConfig } from './input';
+import { PotGridConfig } from './grid';
+import { PotGroupConfig } from './group';
+import { PotIconConfig } from './icon';
+import { PotLinkConfig } from './link';
+import { PotRadioConfig } from './radio';
 
 export const PotPreset: IPotPreset = {
     breakpoints: {
@@ -41,6 +46,12 @@ export const PotPreset: IPotPreset = {
             disabledBorder: 'var(--pot-base-400)',
             disabledSubcolor: 'var(--pot-base-500)',
             disabledText: 'var(--pot-base-0)',
+
+            /* Invalid */
+            invalidTarget: 'var(--pot-color-invalid)',
+            invalidBorder: 'var(--pot-color-invalid)',
+            invalidSubcolor: 'var(--pot-base-400)',
+            invalidText: 'var(--pot-color-invalid-text)',
         }
     },
 
@@ -67,5 +78,10 @@ export const PotPreset: IPotPreset = {
         button: PotButtonConfig,
         checkbox: PotCheckboxConfig,
         input: PotInputConfig,
+        grid: PotGridConfig,
+        group: PotGroupConfig,
+        icon: PotIconConfig,
+        link: PotLinkConfig,
+        radio: PotRadioConfig,
     }
 };

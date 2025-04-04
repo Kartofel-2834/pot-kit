@@ -1,0 +1,285 @@
+/* CONDITIONS
+base - базовые стили
+hover - стили при наведении
+pressed - стили при нажатии
+active - стили активной ссылки
+activeHover - стили активной ссылки при наведении
+activePressed - стили активной ссылки при нажатии
+underline - стили подчеркнутой ссылки
+underlineHover - стили подчеркнутой ссылки при наведении
+underlinePressed - стили подчеркнутой ссылки при нажатии
+underlineActive - стили активной подчеркнутой ссылки
+underlineActiveHover - стили активной подчеркнутой ссылки при наведении
+underlineActivePressed - стили активной подчеркнутой ссылки при нажатии
+disabled - стили заблокированной ссылки
+*/
+
+/* CONDITION:base - START */
+.pot-link {
+    --link-color-base-text: initial;    /* Цвет текста */
+    --link-color-base-icon: initial;    /* Цвет иконки */
+    --link-color-base-line: initial;    /* Цвет линии */
+
+    color: var(--link-color-base-text);
+}
+
+.pot-link:after {
+    background-color: var(--link-color-base-line);
+}
+
+.pot-link__icon {
+    color: var(--link-color-base-icon);
+}
+/* CONDITION:base - END */
+
+/* CONDITION:hover - START */
+.pot-link {
+    --link-color-hover-text: initial;   /* Цвет текста при наведении */
+    --link-color-hover-icon: initial;   /* Цвет иконки при наведении */
+    --link-color-hover-line: initial;   /* Цвет линии при наведении */
+}
+
+.pot-link:hover:not(._disabled, ._active) {
+    color: var(--link-color-hover-text);
+}
+
+.pot-link:hover:not(._disabled, ._active):after {
+    background-color: var(--link-color-hover-line);
+}
+
+.pot-link:hover:not(._disabled, ._active) .pot-link__icon {
+    color: var(--link-color-hover-icon);
+}
+/* CONDITION:hover - END */
+
+/* CONDITION:pressed - START */
+.pot-link {
+    --link-color-pressed-text: initial;    /* Цвет текста при нажатии */
+    --link-color-pressed-icon: initial;    /* Цвет иконки при нажатии */
+    --link-color-pressed-line: initial;    /* Цвет линии при нажатии */
+}
+
+.pot-link:active:not(._disabled, ._active),
+.pot-link:active:hover:not(._disabled, ._active) {
+    color: var(--link-color-pressed-text);
+}
+
+.pot-link:active:not(._disabled, ._active):after,
+.pot-link:active:hover:not(._disabled, ._active):after {
+    background-color: var(--link-color-pressed-line);
+}
+
+.pot-link:active:not(._disabled, ._active) .pot-link__icon,
+.pot-link:active:hover:not(._disabled, ._active) .pot-link__icon {
+    color: var(--link-color-pressed-icon);
+}
+/* CONDITION:pressed - END */
+
+/* CONDITION:active - START */
+.pot-link {
+    --link-color-active-text: initial;  /* Цвет текста активной ссылки */
+    --link-color-active-icon: initial;  /* Цвет иконки активной ссылки */
+    --link-color-active-line: initial;  /* Цвет линии активной ссылки */
+}
+
+.pot-link._active:not(._disabled) {
+    color: var(--link-color-active-text);
+}
+
+.pot-link._active:not(._disabled):after {
+    background-color: var(--link-color-active-line);
+}
+
+.pot-link._active:not(._disabled) .pot-link__icon {
+    color: var(--link-color-active-icon);
+}
+/* CONDITION:active - END */
+
+/* CONDITION:activeHover - START */
+.pot-link {
+    --link-color-active-hover-text: initial;    /* Цвет текста активной ссылки */
+    --link-color-active-hover-icon: initial;    /* Цвет иконки активной ссылки */
+    --link-color-active-hover-line: initial;    /* Цвет линии активной ссылки */
+}
+
+.pot-link._active:hover:not(._disabled) {
+    color: var(--link-color-active-hover-text);
+}
+
+.pot-link._active:hover:not(._disabled):after {
+    background-color: var(--link-color-active-hover-line);
+}
+
+.pot-link._active:hover:not(._disabled) .pot-link__icon {
+    color: var(--link-color-active-hover-icon);
+}
+/* CONDITION:activeHover - END */
+
+/* CONDITION:activePressed - START */
+.pot-link {
+    --link-color-active-pressed-text: initial;  /* Цвет текста активной ссылки при нажатии */
+    --link-color-active-pressed-icon: initial;  /* Цвет иконки активной ссылки при нажатии */
+    --link-color-active-pressed-line: initial;  /* Цвет линии активной ссылки при нажатии */
+}
+
+.pot-link._active:active:not(._disabled),
+.pot-link._active:active:hover:not(._disabled) {
+    color: var(--link-color-active-pressed-text);
+}
+
+.pot-link._active:active:not(._disabled):after,
+.pot-link._active:active:hover:not(._disabled):after {
+    background-color: var(--link-color-active-pressed-line);
+}
+
+.pot-link._active:active:not(._disabled) .pot-link__icon,
+.pot-link._active:active:hover:not(._disabled) .pot-link__icon {
+    color: var(--link-color-active-pressed-icon);
+}
+/* CONDITION:activePressed - END */
+
+/* CONDITION:underline - START */
+.pot-link {
+    --link-color-underline-text: initial;   /* Цвет текста подчеркнутой ссылки */
+    --link-color-underline-icon: initial;   /* Цвет иконки подчеркнутой ссылки */
+    --link-color-underline-line: initial;   /* Цвет линии подчеркнутой ссылки */
+}
+
+.pot-link._underline:not(._disabled, ._active) {
+    color: var(--link-color-underline-text);
+}
+
+.pot-link._underline:not(._disabled, ._active):after {
+    background-color: var(--link-color-underline-line);
+}
+
+.pot-link._underline:not(._disabled, ._active) .pot-link__icon {
+    color: var(--link-color-underline-icon);
+}
+/* CONDITION:underline - END */
+
+/* CONDITION:underlineHover - START */
+.pot-link {
+    --link-color-underline-hover-text: initial;   /* Цвет текста подчеркнутой ссылки при наведении */
+    --link-color-underline-hover-icon: initial;   /* Цвет иконки подчеркнутой ссылки при наведении */
+    --link-color-underline-hover-line: initial;   /* Цвет линии подчеркнутой ссылки при наведении */
+}
+
+.pot-link._underline:hover:not(._disabled, ._active) {
+    color: var(--link-color-underline-hover-text);
+}
+
+.pot-link._underline:hover:not(._disabled, ._active):after {
+    background-color: var(--link-color-underline-hover-line);
+}
+
+.pot-link._underline:hover:not(._disabled, ._active) .pot-link__icon {
+    color: var(--link-color-underline-hover-icon);
+}
+/* CONDITION:underlineHover - END */
+
+/* CONDITION:underlinePressed - START */
+.pot-link {
+    --link-color-underline-pressed-text: initial;   /* Цвет текста подчеркнутой ссылки при нажатии */
+    --link-color-underline-pressed-icon: initial;   /* Цвет иконки подчеркнутой ссылки при нажатии */
+    --link-color-underline-pressed-line: initial;   /* Цвет линии подчеркнутой ссылки при нажатии */
+}
+
+.pot-link._underline:active:not(._disabled, ._active),
+.pot-link._underline:active:hover:not(._disabled, ._active) {
+    color: var(--link-color-underline-pressed-text);
+}
+
+.pot-link._underline:active:not(._disabled, ._active):after,
+.pot-link._underline:active:hover:not(._disabled, ._active):after {
+    background-color: var(--link-color-underline-pressed-line);
+}
+
+.pot-link._underline:active:not(._disabled, ._active) .pot-link__icon,
+.pot-link._underline:active:hover:not(._disabled, ._active) .pot-link__icon {
+    color: var(--link-color-underline-pressed-icon);
+}
+/* CONDITION:underlinePressed - END */
+
+/* CONDITION:underlineActive - START */
+.pot-link {
+    --link-color-underline-active-text: initial;   /* Цвет текста активной подчеркнутой ссылки */
+    --link-color-underline-active-icon: initial;   /* Цвет иконки активной подчеркнутой ссылки */
+    --link-color-underline-active-line: initial;   /* Цвет линии активной подчеркнутой ссылки */
+}
+
+.pot-link._underline._active:not(._disabled) {
+    color: var(--link-color-underline-active-text);
+}
+
+.pot-link._underline._active:not(._disabled):after {
+    background-color: var(--link-color-underline-active-line);
+}
+
+.pot-link._underline._active:not(._disabled) .pot-link__icon {
+    color: var(--link-color-underline-active-icon);
+}
+/* CONDITION:underlineActive - END */
+
+/* CONDITION:underlineActiveHover - START */
+.pot-link {
+    --link-color-underline-active-hover-text: initial;   /* Цвет текста активной подчеркнутой ссылки при наведении */
+    --link-color-underline-active-hover-icon: initial;   /* Цвет иконки активной подчеркнутой ссылки при наведении */
+    --link-color-underline-active-hover-line: initial;   /* Цвет линии активной подчеркнутой ссылки при наведении */
+}
+
+.pot-link._underline._active:hover:not(._disabled) {
+    color: var(--link-color-underline-active-hover-text);
+}
+
+.pot-link._underline._active:hover:not(._disabled):after {
+    background-color: var(--link-color-underline-active-hover-line);
+}
+
+.pot-link._underline._active:hover:not(._disabled) .pot-link__icon {
+    color: var(--link-color-underline-active-hover-icon);
+}
+/* CONDITION:underlineActiveHover - END */
+
+/* CONDITION:underlineActivePressed - START */
+.pot-link {
+    --link-color-underline-active-pressed-text: initial;   /* Цвет текста активной подчеркнутой ссылки при нажатии */
+    --link-color-underline-active-pressed-icon: initial;   /* Цвет иконки активной подчеркнутой ссылки при нажатии */
+    --link-color-underline-active-pressed-line: initial;   /* Цвет линии активной подчеркнутой ссылки при нажатии */
+}
+
+.pot-link._underline._active:active:not(._disabled),
+.pot-link._underline._active:active:hover:not(._disabled) {
+    color: var(--link-color-underline-active-pressed-text);
+}
+
+.pot-link._underline._active:active:not(._disabled):after,
+.pot-link._underline._active:active:hover:not(._disabled):after {
+    background-color: var(--link-color-underline-active-pressed-line);
+}
+
+.pot-link._underline._active:active:not(._disabled) .pot-link__icon,
+.pot-link._underline._active:active:hover:not(._disabled) .pot-link__icon {
+    color: var(--link-color-underline-active-pressed-icon);
+}
+/* CONDITION:underlineActivePressed - END */
+
+/* CONDITION:disabled - START */
+.pot-link {
+    --link-color-disabled-text: initial;   /* Цвет текста заблокированной ссылки */
+    --link-color-disabled-icon: initial;   /* Цвет иконки заблокированной ссылки */
+    --link-color-disabled-line: initial;   /* Цвет линии заблокированной ссылки */
+}
+
+.pot-link._disabled {
+    color: var(--link-color-disabled-text);
+}
+
+.pot-link._disabled:after {
+    background-color: var(--link-color-disabled-line);
+}
+
+.pot-link._disabled .pot-link__icon {
+    color: var(--link-color-disabled-icon);
+}
+/* CONDITION:disabled - END */

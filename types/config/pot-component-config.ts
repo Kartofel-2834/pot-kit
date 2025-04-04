@@ -1,25 +1,23 @@
+export interface IPotComponentConfig<TProps extends object = object> {
+    defaults?: Partial<TProps>;
+}
 
-type VueNativeType = null | number | string | boolean | symbol | Function;
-
-type VueInferDefault<P, T> = ((props: P) => T & {}) | (T extends VueNativeType ? T : never);
-
-type VueInferDefaults<T> = {
-    [K in keyof T]?: VueInferDefault<T, T[K]>;
-};
-
-export interface IPotKitComponentConfig<
-    TProps extends object = object,
-    TSize extends string = string
+export interface IPotComponentSizeConfig<
+    TSize extends string = string,
+    TComponentSizeVarsList extends string = string,
 > {
-    defaults?: VueInferDefaults<TProps>;
-    
-    color: {
-        [varName: string]: string;
-    };
-
     size?: {
         [key in TSize]: {
-            [varName: string]: string | number;
-        };
+            [varName in TComponentSizeVarsList]: string | number;
+        } 
+    }
+}
+
+export interface IPotComponentColorConfig<
+    TStateVars extends object = object,
+    TStatesList extends string = string, 
+> {
+    color?: {
+        [state in TStatesList]?: TStateVars;
     };
 }

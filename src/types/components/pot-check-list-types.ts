@@ -11,9 +11,6 @@ export interface IPotCheckListProps<
     V extends (S extends object ? keyof S : string),
     T extends (V extends keyof S ? S[V] : S) 
 > extends ISpecsProps<S, L, V, T> { 
-    /** HTML-тег чек-листа. По умолчанию - 'div' */
-    tag?: string;
-
     /** Список выбранных значений */
     value?: T[];
 
@@ -37,4 +34,7 @@ export interface IPotCheckListProps<
 
     /** Точки останова для адаптивного дизайна */
     devices?: EPotDevice[];
+
+    /** Иконка в чекбоксе, галочка по-умолчанию */
+    icon?: string;
 }

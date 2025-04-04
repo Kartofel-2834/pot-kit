@@ -1,26 +1,35 @@
 // Types
-import { IPotKitComponentConfig } from "./pot-component-config";
+import { IPotInputBaseProps } from "../props/pot-input-props";
+import {
+    IPotComponentConfig,
+    IPotComponentColorConfig,
+    IPotComponentSizeConfig
+} from "./pot-component-config";
 
-interface IPotInputBaseProps<
+type TStateVars = {
+    /* Цвет рамки */
+    border: string;
+
+    /* Цвет фона */
+    background: string;
+
+    /* Цвет текста */
+    text: string;
+
+    /* Цвет иконки */
+    icon: string;
+};
+
+type TConfig<
     TDevice extends string = string,
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-    T = string
-> {
-    value?: T;
-    modelValue?: T;
-    formatter?: (value: T) => string;
-    parser?: (value: string) => T;
-    devices?: TDevice[];
-    radius?: TRadius | TRadius[] | null;
-    size?: TSize | TSize[] | null;
-    color?: TColor | TColor[] | null;
-    icon?: string;
-    preicon?: string;
-    disabled?: boolean;
-    invalid?: boolean;
-}
+> = (
+    IPotComponentConfig<IPotInputBaseProps<TDevice, TColor, TSize, TRadius>> &
+    IPotComponentSizeConfig<TSize> &
+    IPotComponentColorConfig<TStateVars>
+)
 
 /** PotInput */
 export interface IPotInputConfig<
@@ -28,37 +37,53 @@ export interface IPotInputConfig<
     TColor extends string = string,
     TSize extends string = string, 
     TRadius extends string = string,
-> extends IPotKitComponentConfig<IPotInputBaseProps<TDevice, TColor, TSize, TRadius>, TSize> {
-    color: {
-        border: string;
-        background: string;
-        text: string;
-        icon: string;
+> extends TConfig<TDevice, TColor, TSize, TRadius> {
+    color?: {
+        /** Базовая расцветка */
+        base?: TStateVars;
 
-        hoverBorder: string;
-        hoverBackground: string;
-        hoverText: string;
-        hoverIcon: string;
+        /** Расцветка при наведении */
+        hover?: TStateVars;
 
-        focusedBorder: string;
-        focusedBackground: string;
-        focusedText: string;
-        focusedIcon: string;
+        /** Расцветка при нажатии */
+        pressed?: TStateVars;
 
-        disabledBorder: string;
-        disabledBackground: string;
-        disabledText: string;
-        disabledIcon: string;
+        /** Расцветка при фокусе */
+        focused?: TStateVars;
+
+        /** Расцветка при фокусе + наведении */
+        focusedHover?: TStateVars;
+
+        /** Расцветка при фокусе + нажатии */
+        focusedPressed?: TStateVars;
+
+        /** Расцветка невалидного инпута */
+        invalid?: TStateVars;
+
+        /** Расцветка заблокированной кнопки */
+        disabled?: TStateVars;
     };
 
-    size: {
+    size?: {
         [key in TSize]: {
+            /** Высота */
             height: string | number;
+
+            /** Текст */
             text: string | number;
+
+            /** Паддинг */
             padding: string | number;
+ 
+            /** Паддинг текста */
             gap: string | number;
+
+            /** Размер рамки */
             border: string | number;
+
+            /** Размер иконки */
             icon: string | number;
-        } 
-    }
-}
+        };
+    };
+
+} 

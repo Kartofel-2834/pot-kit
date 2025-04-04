@@ -1,9 +1,9 @@
 /* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
 .pot-input._color-pot {
-    --input-color-border: var(--color-subcolor);
-    --input-color-background: var(--pot-base-0);
-    --input-color-text: inherit;
-    --input-color-icon: var(--color-subcolor);
+    --input-color-base-border: var(--color-subcolor);
+    --input-color-base-background: var(--pot-base-0);
+    --input-color-base-text: inherit;
+    --input-color-base-icon: var(--color-subcolor);
     --input-color-hover-border: var(--color-hover-subcolor);
     --input-color-hover-background: var(--pot-base-0);
     --input-color-hover-text: inherit;
@@ -12,6 +12,10 @@
     --input-color-focused-background: var(--pot-base-0);
     --input-color-focused-text: inherit;
     --input-color-focused-icon: var(--color-active-subcolor);
+    --input-color-invalid-background: var(--color-invalid-text);
+    --input-color-invalid-border: var(--color-invalid-target);
+    --input-color-invalid-text: inherit;
+    --input-color-invalid-icon: var(--color-invalid-target);
     --input-color-disabled-border: var(--pot-base-400);
     --input-color-disabled-background: var(--pot-base-400);
     --input-color-disabled-text: var(--color-disabled-text);
@@ -23,34 +27,34 @@
     --input-size-text: var(--pot-font-size-200);
     --input-size-padding: var(--pot-spacer-1-200);
     --input-size-gap: var(--pot-spacer-0-800);
-    --input-size-icon: var(--pot-spacer-1-400);
+    --input-size-icon: var(--pot-spacer-1-600);
     --input-size-border: 1px;
 }
 
 .pot-input._size-small {
     --input-size-height: var(--pot-spacer-3-600);
     --input-size-text: var(--pot-font-size-200);
-    --input-size-padding: var(--pot-spacer-1-600);
+    --input-size-padding: var(--pot-spacer-1-400);
     --input-size-gap: var(--pot-spacer-0-800);
-    --input-size-icon: var(--pot-spacer-1-600);
+    --input-size-icon: var(--pot-spacer-2);
     --input-size-border: 1px;
 }
 
 .pot-input._size-medium {
     --input-size-height: var(--pot-spacer-4-800);
-    --input-size-text: var(--pot-font-size-200);
-    --input-size-padding: var(--pot-spacer-2);
+    --input-size-text: var(--pot-font-size-300);
+    --input-size-padding: var(--pot-spacer-1-600);
     --input-size-gap: var(--pot-spacer-1-200);
-    --input-size-icon: var(--pot-spacer-1-600);
+    --input-size-icon: var(--pot-spacer-2-400);
     --input-size-border: 1px;
 }
 
 .pot-input._size-large {
     --input-size-height: var(--pot-spacer-5-600);
     --input-size-text: var(--pot-font-size-300);
-    --input-size-padding: var(--pot-spacer-2-800);
+    --input-size-padding: var(--pot-spacer-2);
     --input-size-gap: var(--pot-spacer-1-200);
-    --input-size-icon: var(--pot-spacer-2);
+    --input-size-icon: var(--pot-spacer-2-800);
     --input-size-border: 1px;
 }
 
@@ -64,4 +68,194 @@
 .pot-input._radius-radius--4,
 .pot-input._radius-radius--2 {
     --input-radius: var(--radius);
+}
+
+.pot-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-style: solid;
+    cursor: text;
+    background-color: inherit;
+    font-weight: 400;
+    line-height: 1;
+    transition:
+        color var(--pot-transition),
+        background-color var(--pot-transition),
+        border-color var(--pot-transition);
+}
+
+/* --- PotInput - Disabled --- */
+.pot-input._disabled {
+    cursor: not-allowed;
+}
+
+.pot-input._disabled .pot-input__target {
+    cursor: not-allowed;
+}
+
+.pot-input__target {
+    outline: none;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-basis: 100%;
+    font-size: inherit;
+}
+
+.pot-input__target[type='number']::-webkit-inner-spin-button,
+.pot-input__target[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.pot-input__target[disabled] {
+    opacity: 1;
+}
+
+.pot-input__target::-ms-clear {
+    display: none;
+}
+
+.pot-input__icon {
+    pointer-events: none;
+    font-size: inherit;
+    transition: color var(--pot-transition);
+}
+
+/* SIZES */
+.pot-input {
+    --input-size-height: initial;              /* Высота */
+    --input-size-padding: initial;             /* Паддинг */
+    --input-size-border: initial;              /* Размер рамки */
+    --input-size-text: initial;                /* Размер текста */
+    --input-size-gap: initial;                 /* Паддинг текста */
+    --input-size-icon: initial;                /* Размер иконки */
+
+    padding: 0 var(--input-size-padding);
+    gap: var(--input-size-gap);
+    font-size: var(--input-size-text);
+    border-width: var(--input-size-border);
+}
+
+.pot-input__target {
+    height: var(--input-size-height);
+}
+
+.pot-input__icon {
+    width: var(--input-size-icon);
+}
+
+/* RADIUS */
+.pot-input {
+    --input-radius: initial;                  /* Радиус */
+
+    border-radius: var(--input-radius);
+}
+
+.pot-input {
+    --input-color-base-border: initial;                         /* Цвет рамки инпута */
+    --input-color-base-background: initial;                     /* Цвет фона */ 
+    --input-color-base-text: initial;                           /* Цвет текста */
+    --input-color-base-icon: initial;                           /* Цвет иконок */
+
+    color: var(--input-color-base-text);
+    border-color: var(--input-color-base-border);
+}
+
+.pot-input__target {
+    color: var(--input-color-base-text);
+    background-color: var(--input-color-base-background);
+}
+
+.pot-input__icon {
+    color: var(--input-color-base-icon);
+}
+
+.pot-input {
+    --input-color-hover-border: initial;                         /* Цвет рамки при наведении */
+    --input-color-hover-background: initial;                     /* Цвет фона при наведении */ 
+    --input-color-hover-text: initial;                           /* Цвет текста при наведении */
+    --input-color-hover-icon: initial;                           /* Цвет иконок при наведении */
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) {
+    color: var(--input-color-hover-text);
+    border-color: var(--input-color-hover-border);
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) .pot-input__target {
+    color: var(--input-color-hover-text);
+    background-color: var(--input-color-hover-background);
+}
+
+.pot-input:hover:not(._disabled, ._invalid, ._focused) .pot-input__icon {
+    color: var(--input-color-hover-icon);
+}
+
+.pot-input {
+    --input-color-focused-border: initial;                         /* Цвет рамки при фокусе */
+    --input-color-focused-background: initial;                     /* Цвет фона при фокусе */ 
+    --input-color-focused-text: initial;                           /* Цвет текста при фокусе */
+    --input-color-focused-icon: initial;                           /* Цвет иконок при фокусе */
+}
+
+.pot-input._focused:not(._disabled, ._invalid) {
+    color: var(--input-color-focused-text);
+    border-color: var(--input-color-focused-border);
+}
+
+.pot-input._focused:not(._disabled, ._invalid) .pot-input__target {
+    color: var(--input-color-focused-text);
+    background-color: var(--input-color-focused-background);
+}
+
+.pot-input._focused:not(._disabled, ._invalid) .pot-input__icon {
+    color: var(--input-color-focused-icon);
+}
+
+.pot-input {
+    --input-color-invalid-border: initial;                         /* Цвет рамки невалидного инпута */
+    --input-color-invalid-background: initial;                     /* Цвет фона невалидного инпута */ 
+    --input-color-invalid-text: initial;                           /* Цвет текста невалидного инпута */
+    --input-color-invalid-icon: initial;                           /* Цвет иконок невалидного инпута */
+}
+
+.pot-input._invalid:not(._disabled) {
+    color: var(--input-color-invalid-text);
+    border-color: var(--input-color-invalid-border);
+}
+
+.pot-input._invalid:not(._disabled) .pot-input__target {
+    color: var(--input-color-invalid-text);
+    background-color: var(--input-color-invalid-background);
+}
+
+.pot-input._invalid:not(._disabled) .pot-input__icon {
+    color: var(--input-color-invalid-icon);
+}
+
+.pot-input {
+    --input-color-disabled-border: initial;                         /* Цвет рамки заблокированного инпута */
+    --input-color-disabled-background: initial;                     /* Цвет фона заблокированного инпута */ 
+    --input-color-disabled-text: initial;                           /* Цвет текста заблокированного инпута */
+    --input-color-disabled-icon: initial;                           /* Цвет иконок заблокированного инпута */
+}
+
+.pot-input._disabled {
+    color: var(--input-color-disabled-text);
+    border-color: var(--input-color-disabled-border);
+}
+
+.pot-input._disabled .pot-input__target {
+    color: var(--input-color-disabled-text);
+    background-color: var(--input-color-disabled-background);
+}
+
+.pot-input._disabled .pot-input__icon {
+    color: var(--input-color-disabled-icon);
 }
