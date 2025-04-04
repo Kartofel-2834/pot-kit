@@ -21,6 +21,7 @@ const STYLES_SUBSCRIPTIONS: Record<
     icon: [],
     link: [],
     radio: ['radius'],
+    tooltip: ['radius'],
 };
 
 class PotKitColorsGenerator {

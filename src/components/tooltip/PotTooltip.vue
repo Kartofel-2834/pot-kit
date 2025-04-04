@@ -1,62 +1,40 @@
-<template>
-    <PotTooltipTarget
-        @mount-target="targetRef = $event"
-        @unmount-target="targetRef = $event"
-    >
-        <slot />
-    </PotTooltipTarget>
+<script lang="ts">
+// Constants
+import { POT_TOOLTIP_DEFAULTS } from '@/constants/defaults';
+import { ALL_DEVICES_REVERSED, useDeviceIs } from '@/composables/device-is';
 
-    <Teleport :to="to">
-        <Transition :name="properties.transition ?? undefined">
-            <div
-                v-if="persistent || isVisible"
-                v-show="isVisible"
-                ref="tooltipRef"
-                :class="['pot-tooltip', classList]"
-                :style="{ transform: `translate(${x}px, ${y}px)` }"
-                v-bind="$attrs"
-                v-on="$attrs"
-                @mouseover="clearCloseTimeout"
-                @mouseout="close"
-            >
-                <slot
-                    name="tooltip"
-                    :visible="isVisible"
-                >
-                    <div class="pot-tooltip__wrapper">
-                        <slot
-                            name="content"
-                            :visible="isVisible"
-                        >
-                            {{ text }}
-                        </slot>
-                    </div>
-                </slot>
-            </div>
-        </Transition>
-    </Teleport>
-</template>
+// Composables
+import { usePropsDefaults } from '@/composables/props-defaults';
+
+const $propsDefaults = {
+    to: '#pot-modal-lay',
+    offset: 12,
+    screenOffset: 12,
+    closeDelay: 300,
+    visible: undefined,
+    position: POT_TOOLTIP_POSITION.TOP_CENTER,
+    devices: () => ALL_DEVICES_REVERSED,
+};
+
+const $configDefaults = usePropsDefaults(POT_TOOLTIP_DEFAULTS);
+</script>
 
 <script lang="ts" setup>
 // Types
 import type { IPotTooltipProps, IPotTooltipSlots } from '@/types/components';
-import type { TDeviceIs } from '@/types/composables';
+import type { TPropsDefaults } from '@/types';
 import type { EPotTooltipPosition } from '@/enums/components';
 
 // Enums
-import { POT_COLOR_THEME, POT_SIZE } from '@/enums/preset';
-import { POT_RADIUS, POT_TOOLTIP_POSITION } from '@/enums/components';
+import { POT_TOOLTIP_POSITION } from '@/enums/components';
 
 // Vue
-import { ref, watch, computed, shallowRef, inject } from 'vue';
+import { ref, watch, computed, shallowRef } from 'vue';
 
 // Composables
 import { useResizeObserver } from '@/composables/resize-observer';
 import { useDeviceProperties } from '@/composables/device-properties';
 import { useClassList } from '@/composables/class-list';
-
-// Constants
-import { ALL_DEVICES_REVERSED } from '@/composables/device-is';
 
 // Components
 import PotTooltipTarget from '@/components/tooltip/PotTooltipTarget.vue';
@@ -109,22 +87,9 @@ const yOppositePositions: Record<EPotTooltipPosition, EPotTooltipPosition | null
 };
 
 const $props = withDefaults(defineProps<IPotTooltipProps>(), {
-    visible: undefined,
-    to: '#pot-modal-lay',
-    target: null,
-    offset: 12,
-    screenOffset: 12,
-    closeDelay: 300,
-    transition: 'fade',
-    text: '',
-    fixed: false,
-    persistent: false,
-    devices: () => ALL_DEVICES_REVERSED,
-    position: POT_TOOLTIP_POSITION.TOP_CENTER,
-    size: POT_SIZE.MEDIUM,
-    color: POT_COLOR_THEME.PRIMARY,
-    radius: POT_RADIUS.MEDIUM,
-});
+    ...$propsDefaults,
+    ...$configDefaults,
+} as TPropsDefaults<IPotTooltipProps>);
 
 const $emit = defineEmits<{
     open: [];
@@ -133,7 +98,7 @@ const $emit = defineEmits<{
 
 defineSlots<IPotTooltipSlots>();
 
-const $deviceIs = inject<TDeviceIs>('deviceIs');
+const $deviceIs = useDeviceIs();
 
 const x = ref<number>(0);
 const y = ref<number>(0);
@@ -248,6 +213,10 @@ function removeListeners() {
 }
 
 function open() {
+    if (!properties.value.position) {
+        return;
+    }
+
     isOpen.value = true;
     clearCloseTimeout();
 }
@@ -449,32 +418,44 @@ function calculateYForPosition(somePosition: EPotTooltipPosition): number {
 /* --- TOOLTIP POSITION CALCULATIONS - END --- */
 </script>
 
-<style lang="scss">
-.pot-tooltip {
-    position: absolute;
+<template>
+    <PotTooltipTarget
+        @mount-target="targetRef = $event"
+        @unmount-target="targetRef = $event"
+    >
+        <slot />
+        {{ $props.transition }}
+    </PotTooltipTarget>
 
-    /* --- Colors - START --- */
-    .pot-tooltip__wrapper {
-        box-shadow: var(--pot-tooltip-shadow);
-        background-color: var(--pot-tooltip-background-color);
-        color: var(--pot-tooltip-text-color);
-    }
-    /* --- Colors - END --- */
+    <Teleport :to="to">
+        <Transition :name="properties.transition ?? undefined">
+            <div
+                v-if="persistent || isVisible"
+                v-show="isVisible"
+                ref="tooltipRef"
+                :class="['pot-tooltip', classList]"
+                :style="{ transform: `translate(${x}px, ${y}px)` }"
+                v-bind="$attrs"
+                v-on="$attrs"
+                @mouseover="clearCloseTimeout"
+                @mouseout="close"
+            >
+                <slot
+                    name="tooltip"
+                    :visible="isVisible"
+                >
+                    <div class="pot-tooltip__wrapper">
+                        <slot
+                            name="content"
+                            :visible="isVisible"
+                        >
+                            {{ text }}
+                        </slot>
+                    </div>
+                </slot>
+            </div>
+        </Transition>
+    </Teleport>
+</template>
 
-    /* --- Sizes --- */
-    $standard-size: (
-        padding: var(--pot-tooltip-size-padding),
-        text: var(--pot-tooltip-size-text),
-    );
-
-    @include size($standard-size) using ($size, $size-name) {
-        .pot-tooltip__wrapper {
-            padding: map-get($size, 'padding');
-            font-size: map-get($size, 'text');
-        }
-    }
-
-    /* --- Radius --- */
-    @include radius('.pot-tooltip__wrapper');
-}
-</style>
+<style src="@/assets/css/preset/pot-tooltip.css" />

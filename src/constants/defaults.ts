@@ -13,3 +13,5 @@ export const POT_ICON_DEFAULTS: Record<string, unknown> = {};
 export const POT_LINK_DEFAULTS: Record<string, unknown> = {"color":"pot","size":"medium"};
 
 export const POT_RADIO_DEFAULTS: Record<string, unknown> = {"color":"pot","size":"medium","radius":"circle"};
+
+export const POT_TOOLTIP_DEFAULTS: Record<string, unknown> = {"radius":"medium","size":"medium","color":"pot"};

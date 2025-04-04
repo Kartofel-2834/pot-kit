@@ -48,3 +48,17 @@ export type TPotJustifyItems =
 export type TPotAlign = TPotAlignKeys | TPotSafeAlignment<TPotAlignKeys>;
 
 export type TPotAlignContent = TPotAlignContentKeys | TPotSafeAlignment<TPotAlignContentKeys>;
+
+export type TPotTooltipPosition = 
+    'top-start'
+    | 'top-end'
+    | 'top-center'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'bottom-center'
+    | 'right-start'
+    | 'right-end'
+    | 'right-center'
+    | 'left-start'
+    | 'left-end'
+    | 'left-center';

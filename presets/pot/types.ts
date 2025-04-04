@@ -28,3 +28,4 @@ export type TPotPresetGroup = IPotPreset['components']['group'];
 export type TPotPresetIcon = IPotPreset['components']['icon'];
 export type TPotPresetLink = IPotPreset['components']['link'];
 export type TPotPresetRadio = IPotPreset['components']['radio'];
+export type TPotPresetTooltip = IPotPreset['components']['tooltip'];

@@ -1,0 +1,19 @@
+/* SIZES */
+.pot-tooltip {
+    --tooltip-size-padding: initial;
+    --tooltip-size-text: initial;
+}
+
+.pot-tooltip__wrapper {
+    padding: var(--tooltip-size-padding);
+    font-size: var(--tooltip-size-text);
+}
+
+/* RADIUS */
+.pot-button {
+    --tooltip-radius: initial;                  /* Радиус */
+}
+
+.pot-tooltip__wrapper {
+    border-radius: var(--tooltip-radius);
+}

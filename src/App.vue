@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import PotButton from './components/button/PotButton.vue';
-import PotCheckbox from './components/check/PotCheckbox.vue';
-import PotGrid from './components/grid/PotGrid.vue';
-import PotRadioList from './components/radio/PotRadioList.vue';
-import PotLink from './components/link/PotLink.vue';
-import PotInputBase from './components/input/PotInputBase.vue';
+import PotTooltip from './components/tooltip/PotTooltip.vue';
 
 const value = ref<string>('');
 const specs = ref<number[]>([1, 2, 3, 4, 5]);
@@ -14,41 +9,9 @@ const specs = ref<number[]>([1, 2, 3, 4, 5]);
 
 <template>
     <main class="main">
-        <PotInputBase
-            style="width: 40rem"
-            v-model="value"
-            size="tiny"
-            icon="pot"
-            preicon="pot"
-            invalid
-        ></PotInputBase>
-
-        <PotInputBase
-            style="width: 40rem"
-            v-model="value"
-            size="small"
-            icon="pot"
-            preicon="pot"
-            invalid
-        ></PotInputBase>
-
-        <PotInputBase
-            style="width: 40rem"
-            v-model="value"
-            size="medium"
-            icon="pot"
-            preicon="pot"
-            invalid
-        ></PotInputBase>
-
-        <PotInputBase
-            style="width: 40rem"
-            v-model="value"
-            size="large"
-            icon="pot"
-            preicon="pot"
-            invalid
-        ></PotInputBase>
+        <PotTooltip text="test" visible>
+            <div class="square"></div>
+        </PotTooltip>
     </main>
 </template>
 
@@ -60,5 +23,11 @@ const specs = ref<number[]>([1, 2, 3, 4, 5]);
     justify-content: center;
     min-height: 100vh;
     gap: 2rem;
+}
+
+.square {
+    width: 400px;
+    height: 400px;
+    background-color: red;
 }
 </style>

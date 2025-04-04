@@ -1,24 +1,21 @@
 // Types
-import type { RendererElement, VNode } from "vue";
-import type { EPotColor, EPotSize, EPotDevice, EPotRadius } from "@/enums/preset";
-import type { EPotTooltipPosition } from "@/enums/components";
+import type { TPotTooltipPosition } from './pot-base';
 
 /**
  * Интерфейс пропсов для компонента PotTooltip
  */
-export interface IPotTooltipProps {
+export interface IPotTooltipProps<
+    TDevice extends string = string,
+    TColor extends string = string,
+    TSize extends string = string,
+    TRadius extends string = string
+> {
     /**
      * Флаг для кастомного отображения тултипа
      * (по-умолчанию он открывается и закрывается на hover)
     */
     visible?: boolean;
     
-    /** Элемент в который будет встроен тултип */
-    to?: string | RendererElement | null;
-
-    /** Элемент к которому будет привязан тултип */
-    target?: HTMLElement | null;
-
     /** Задержка перед закрытием тултипа (нужна для возможности перевести на него курсор) */
     closeDelay?: number;
 
@@ -44,25 +41,17 @@ export interface IPotTooltipProps {
     text?: string;
 
     /** Положение тултипа */
-    position?: EPotTooltipPosition | EPotTooltipPosition[];
+    position?: TPotTooltipPosition | TPotTooltipPosition[];
 
     /** Размер тултипа */
-    size?: EPotSize | EPotSize[];
+    size?: TSize | TSize[];
 
     /** Цветовая тема тултипа */
-    color?: EPotColor | EPotColor[];
+    color?: TColor | TColor[];
 
     /** Скругление краев тултипа */
-    radius?: EPotRadius | EPotRadius[] | null;
+    radius?: TRadius | TRadius[] | null;
 
     /** Точки останова для адаптивного дизайна */
-    devices?: EPotDevice[];
-}
-
-
-/** Интерфейс слотов для компонента PotTooltip */
-export interface IPotTooltipSlots {
-    default: () => VNode[];
-    tooltip: () => VNode[];
-    content: () => VNode[];
+    devices?: TDevice[];
 }

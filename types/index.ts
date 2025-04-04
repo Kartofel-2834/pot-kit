@@ -7,6 +7,7 @@ import { IPotGroupConfig } from "./config/pot-group-config";
 import { IPotIconConfig } from "./config/pot-icon-config";
 import { IPotLinkConfig } from "./config/pot-link-config";
 import { IPotRadioConfig } from "./config/pot-radio-config";
+import { IPotTooltipConfig } from "../vite-pot-kit-plugin";
 
 export * from './config/pot-component-config';
 export * from './config/pot-button-config';
@@ -17,6 +18,7 @@ export * from './config/pot-group-config';
 export * from './config/pot-icon-config';
 export * from './config/pot-link-config';
 export * from './config/pot-radio-config';
+export * from './config/pot-tooltip-config';
 
 export interface IPotKitConfig<
     TDevice extends string = string,
@@ -52,6 +54,7 @@ export interface IPotKitConfig<
         icon: IPotIconConfig;
         link: IPotLinkConfig<TDevice, TColor, TSize>,
         radio: IPotRadioConfig<TDevice, TColor, TSize, TRadius>;
+        tooltip: IPotTooltipConfig<TDevice, TColor, TSize, TRadius>;
     }
 }
 
