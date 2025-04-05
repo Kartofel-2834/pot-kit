@@ -113,7 +113,6 @@
     transition: transform var(--pot-transition);
 }
 
-/* SIZES */
 .pot-checkbox {
     --checkbox-size-text: initial;           /* Размер текста */
     --checkbox-size-height: initial;         /* Высота */
@@ -127,15 +126,6 @@
 .pot-checkbox__icon-wrapper {
     width: var(--checkbox-size-height);
     border-width: var(--checkbox-size-border);
-}
-
-/* RADIUS */
-.pot-checkbox {
-    --checkbox-radius: initial;             /* Радиус */
-}
-
-.pot-checkbox__icon-wrapper {
-    border-radius: var(--checkbox-radius);
 }
 
 .pot-checkbox {

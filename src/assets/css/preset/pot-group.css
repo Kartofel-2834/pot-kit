@@ -6,7 +6,6 @@
     --group-gap: var(--gap);
 }
 
-/* GAP */
 .pot-group {
     --group-gap: initial;                 /* Расстояние между элементами */
 

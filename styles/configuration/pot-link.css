@@ -1,4 +1,4 @@
-/* SIZES */
+/* CONFIGURATION:size - START */
 .pot-link {
     --link-size-text: initial;           /* Размер текста */
     --link-size-line: initial;           /* Размер подчеркивания */
@@ -14,3 +14,4 @@
 .pot-link__icon {
     width: var(--link-size-icon);
 }
+/* CONFIGURATION:size - END */

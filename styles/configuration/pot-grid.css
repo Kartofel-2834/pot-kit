@@ -1,4 +1,4 @@
-/* GAP */
+/* CONFIGURATION:gap - START */
 .pot-grid {
     --grid-gap: initial;                  /* Расстояние между элементами */
     --grid-row-gap: initial;              /* Расстояние между рядами */
@@ -11,3 +11,4 @@
     row-gap: var(--grid-row-gap);
     column-gap: var(--grid-column-gap);
 }
+/* CONFIGURATION:gap - END */ 

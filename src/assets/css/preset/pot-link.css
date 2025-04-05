@@ -99,7 +99,6 @@
     flex-shrink: 0;
 }
 
-/* SIZES */
 .pot-link {
     --link-size-text: initial;           /* Размер текста */
     --link-size-line: initial;           /* Размер подчеркивания */

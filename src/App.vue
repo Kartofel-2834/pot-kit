@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 import PotTooltip from './components/tooltip/PotTooltip.vue';
+import PotButton from './components/button/PotButton.vue';
 
 const value = ref<string>('');
 const specs = ref<number[]>([1, 2, 3, 4, 5]);
@@ -9,12 +10,16 @@ const specs = ref<number[]>([1, 2, 3, 4, 5]);
 
 <template>
     <main class="main">
-        <PotTooltip text="test" visible>
-            <div class="square"></div>
-        </PotTooltip>
+        <PotButton>Test</PotButton>
     </main>
 </template>
 
+<style>
+.main {
+}
+</style>
+
+<!-- POT-STYLE - START -->
 <style>
 .main {
     display: flex;
@@ -31,3 +36,4 @@ const specs = ref<number[]>([1, 2, 3, 4, 5]);
     background-color: red;
 }
 </style>
+<!-- POT-STYLE - END -->

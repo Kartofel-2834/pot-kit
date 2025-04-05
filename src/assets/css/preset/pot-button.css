@@ -93,7 +93,6 @@
     flex-shrink: 0;
 }
 
-/* SIZES */
 .pot-button {
     --button-size-height: initial;              /* Высота */
     --button-size-padding: initial;             /* Паддинг */
@@ -109,7 +108,6 @@
     font-size: var(--button-size-text);
 }
 
-/* RADIUS */
 .pot-button {
     --button-radius: initial;                  /* Радиус */
 

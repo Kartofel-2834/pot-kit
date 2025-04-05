@@ -127,7 +127,6 @@
     transition: color var(--pot-transition);
 }
 
-/* SIZES */
 .pot-input {
     --input-size-height: initial;              /* Высота */
     --input-size-padding: initial;             /* Паддинг */
@@ -150,7 +149,6 @@
     width: var(--input-size-icon);
 }
 
-/* RADIUS */
 .pot-input {
     --input-radius: initial;                  /* Радиус */
 

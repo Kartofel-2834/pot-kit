@@ -114,7 +114,6 @@
         transform var(--pot-transition);
 }
 
-/* SIZES */
 .pot-radio {
     --radio-size-text: initial;           /* Размер текста */
     --radio-size-gap: initial;            /* Расстояние между текстом и маркером */
@@ -136,7 +135,6 @@
     width: var(--radio-size-marker-point);
 }
 
-/* RADIUS */
 .pot-radio {
     --radio-radius: initial;              /* Радиус */
 }

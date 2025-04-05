@@ -84,6 +84,7 @@ class PotKitComponentsStylesGenerator {
         };
 
         const colors = (config['components'][componentName] as IPotComponentColorConfig)?.color;
+        const sizes = (config['components'][componentName] as IPotComponentSizeConfig)?.size;   
 
         const stylesDir = path.join(__dirname, '..', 'styles');
         const fileName = `pot-${kebabName}.css`;
@@ -98,29 +99,31 @@ class PotKitComponentsStylesGenerator {
             !colors ? '' : fs.readFile(path.join(stylesDir, 'conditions', fileName), 'utf8').catch(handleError),
         ]);
 
-        if (!colors) return [base, configuration].filter(Boolean).join('\n\n');
+        const sliceStyles = (styles: string, marker: string): string => {
+            const startMarker = `/* ${marker} - START */`;
+            const endMarker = `/* ${marker} - END */`;
 
-        const selectedConditions = [];
+            const startIndex = styles.indexOf(startMarker);
+            const endIndex = styles.indexOf(endMarker);
 
-        for (const state in colors) {
-            const stateStartMarker = `/* CONDITION:${state} - START */`;
-            const stateEndMarker = `/* CONDITION:${state} - END */`;
+            if (startIndex === -1 || endIndex === -1) return '';
 
-            const startIndex = conditions.indexOf(stateStartMarker);
-            const endIndex = conditions.indexOf(stateEndMarker);
-        
-            if (startIndex === -1 || endIndex === -1) {
-                continue;
-            }
+            return styles.slice(startIndex + startMarker.length, endIndex).trim();
+        };
 
-            const data = conditions.slice(startIndex + stateStartMarker.length, endIndex);
+        const selectedConfigurations = [
+            config?.size && sizes ? sliceStyles(configuration, 'CONFIGURATION:size') : '',
+            config?.radius ? sliceStyles(configuration, 'CONFIGURATION:radius') : '',
+            config?.gap ? sliceStyles(configuration, 'CONFIGURATION:gap') : '',
+        ];
 
-            selectedConditions.push(data.trim());
-        }
+        const selectedConditions = Object.keys(colors || {}).map((state) => {
+            return sliceStyles(conditions, `CONDITION:${state}`);
+        });
 
         return [
             base,
-            configuration,
+            ...selectedConfigurations,
             ...selectedConditions
         ].filter(Boolean).join('\n\n');
     } 

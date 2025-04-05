@@ -1,4 +1,4 @@
-/* SIZES */
+/* CONFIGURATION:size - START */
 .pot-checkbox {
     --checkbox-size-text: initial;           /* Размер текста */
     --checkbox-size-height: initial;         /* Высота */
@@ -13,8 +13,9 @@
     width: var(--checkbox-size-height);
     border-width: var(--checkbox-size-border);
 }
+/* CONFIGURATION:size - END */
 
-/* RADIUS */
+/* CONFIGURATION:radius - START */
 .pot-checkbox {
     --checkbox-radius: initial;             /* Радиус */
 }
@@ -22,4 +23,5 @@
 .pot-checkbox__icon-wrapper {
     border-radius: var(--checkbox-radius);
 }
+/* CONFIGURATION:radius - START */
 

@@ -1,4 +1,4 @@
-/* SIZES */
+/* CONFIGURATION:size - START */
 .pot-button {
     --button-size-height: initial;              /* Высота */
     --button-size-padding: initial;             /* Паддинг */
@@ -13,10 +13,12 @@
     border-width: var(--button-size-border);
     font-size: var(--button-size-text);
 }
+/* CONFIGURATION:size - END */
 
-/* RADIUS */
+/* CONFIGURATION:radius - START */
 .pot-button {
     --button-radius: initial;                  /* Радиус */
 
     border-radius: var(--button-radius);
 }
+/* CONFIGURATION:radius - END */

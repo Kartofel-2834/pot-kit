@@ -1,4 +1,4 @@
-/* SIZES */
+/* CONFIGURATION:size - START */
 .pot-input {
     --input-size-height: initial;              /* Высота */
     --input-size-padding: initial;             /* Паддинг */
@@ -20,10 +20,12 @@
 .pot-input__icon {
     width: var(--input-size-icon);
 }
+/* CONFIGURATION:size - END */
 
-/* RADIUS */
+/* CONFIGURATION:radius - START */
 .pot-input {
     --input-radius: initial;                  /* Радиус */
 
     border-radius: var(--input-radius);
 }
+/* CONFIGURATION:radius - END */

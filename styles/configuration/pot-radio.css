@@ -1,4 +1,4 @@
-/* SIZES */
+/* CONFIGURATION:size - START */
 .pot-radio {
     --radio-size-text: initial;           /* Размер текста */
     --radio-size-gap: initial;            /* Расстояние между текстом и маркером */
@@ -19,8 +19,9 @@
 .pot-radio__marker:before {
     width: var(--radio-size-marker-point);
 }
+/* CONFIGURATION:size - END */
 
-/* RADIUS */
+/* CONFIGURATION:radius - START */ 
 .pot-radio {
     --radio-radius: initial;              /* Радиус */
 }
@@ -28,3 +29,4 @@
 .pot-radio__marker {
     border-radius: var(--radio-radius);
 }
+/* CONFIGURATION:radius - END */
