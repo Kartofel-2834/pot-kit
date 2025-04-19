@@ -1,7 +1,0 @@
-/* CONFIGURATION:gap - START */
-.pot-group {
-    --group-gap: initial;                 /* Расстояние между элементами */
-
-    gap: var(--group-gap);
-}
-/* CONFIGURATION:gap - END */

@@ -7,10 +7,12 @@ import { defineConfig } from 'vite';
 // Plugins
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
-import potKit from './vite-pot-kit-plugin';
+import potKit from 'vite-pot-kit-plugin';
 
-// Pot kit preset
-import { PotPreset } from './presets';
+// Preset
+import { PotPreset } from './preset';
+
+const config = { ...PotPreset };
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,12 +21,12 @@ export default defineConfig({
         svgLoader({
             defaultImport: 'raw'
         }),
-        potKit(PotPreset)
+        potKit(config)
     ],
 
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
+            '@': fileURLToPath(new URL('./test', import.meta.url)),
         },
     },
 });

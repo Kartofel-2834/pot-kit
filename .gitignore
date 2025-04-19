@@ -34,3 +34,8 @@ coverage
 
 # Package
 package-lock.json
+
+# PotKit
+todo.md
+src-2
+test

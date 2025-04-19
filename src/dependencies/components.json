@@ -1,0 +1,23 @@
+{
+    "PotButton": {
+        "components": [
+            "PotIcon"
+        ],
+        "composables": [
+            "class-list",
+            "device-is",
+            "device-properties"
+        ],
+        "types": [
+            "components/pot-button",
+            "pot-kit"
+        ]
+    },
+    "PotIcon": {
+        "components": [],
+        "composables": [],
+        "types": [
+            "components/pot-icon"
+        ]
+    }
+}

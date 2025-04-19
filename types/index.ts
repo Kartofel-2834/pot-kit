@@ -1,65 +1,25 @@
-// Types
-import { IPotButtonConfig } from "./config/pot-button-config";
-import { IPotCheckboxConfig } from "./config/pot-checkbox-config";
-import { IPotGridConfig } from "./config/pot-grid-config";
-import { IPotInputConfig } from "./config/pot-input-config";
-import { IPotGroupConfig } from "./config/pot-group-config";
-import { IPotIconConfig } from "./config/pot-icon-config";
-import { IPotLinkConfig } from "./config/pot-link-config";
-import { IPotRadioConfig } from "./config/pot-radio-config";
-import { IPotTooltipConfig } from "../vite-pot-kit-plugin";
+export type TComponentDependencies = {
+    components: string[],
+    composables: string[],
+    types: string[],
+};
 
-export * from './config/pot-component-config';
-export * from './config/pot-button-config';
-export * from './config/pot-checkbox-config';
-export * from './config/pot-input-config';
-export * from './config/pot-grid-config';
-export * from './config/pot-group-config';
-export * from './config/pot-icon-config';
-export * from './config/pot-link-config';
-export * from './config/pot-radio-config';
-export * from './config/pot-tooltip-config';
+export type TComposableDependencies = {
+    types: string[],
+};
 
-export interface IPotKitConfig<
-    TDevice extends string = string,
-    TColor extends string = string,
-    TSize extends string = string, 
-    TRadius extends string = string,
-    TGap extends string = string,
-> {
-    breakpoints?: Record<TDevice, number>;
+export interface IPotKitJsonConfig {
+    /** Использовать для подгрузки стилей и классов собственный сервер pot-kit */
+    ownServer?: boolean;
 
-    size?: TSize[];
-
-    color?: {
-        [key in TColor]: {
-            [varName: string]: string;
-        };
-    };
-    
-    radius?: {
-        [key in TRadius]: string | number;
-    };
-    
-    gap?: {
-        [key in TGap]: string | number;
-    };
-    
-    components: {
-        button: IPotButtonConfig<TDevice, TColor, TSize, TRadius>;
-        checkbox: IPotCheckboxConfig<TDevice, TColor, TSize, TRadius>;
-        input: IPotInputConfig<TDevice, TColor, TSize, TRadius>;
-        grid: IPotGridConfig<TDevice, TGap>;
-        group: IPotGroupConfig<TDevice, TGap>;
-        icon: IPotIconConfig;
-        link: IPotLinkConfig<TDevice, TColor, TSize>,
-        radio: IPotRadioConfig<TDevice, TColor, TSize, TRadius>;
-        tooltip: IPotTooltipConfig<TDevice, TColor, TSize, TRadius>;
-    }
+    components?: string;
+    types?: string;
+    styles?: string;
+    composables?: string;
 }
 
-
-
-
-
-
+export interface IPotKitJsonVerifiedConfig extends IPotKitJsonConfig {
+    components: string;
+    types: string;
+    composables: string;
+}

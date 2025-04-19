@@ -1,0 +1,7 @@
+{
+    "ownServer": true,
+    "components": "./test/components/ui/",
+    "styles": "./test/assets/css/ui/",
+    "composables": "./test/composables/",
+    "types": "./test/types/pot-kit/"
+}
