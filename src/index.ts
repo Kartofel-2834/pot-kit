@@ -1,5 +1,5 @@
 // Types
-import type { IPotKitJsonConfig, IPotKitJsonVerifiedConfig } from '../types';
+import type { IPotKitJsonConfig } from '../types';
 
 // Node
 import fs, { constants } from 'fs/promises';
@@ -9,6 +9,21 @@ import path from 'path';
 import { ModulesService } from './services/module-service';
 import { DependenciesService } from './services/dependencies-service';
 
+function resolveImportPath(
+    fromPath: string,
+    toPath: string,
+    importsConfig: Record<string, string>
+): string {
+    const preaprePath = (v: string) => v.replaceAll(/(\/|\\)+/gm, '/').replace(/\/$/, '');
+
+    for (const key in importsConfig) {
+        if (toPath.startsWith(importsConfig[key])) {
+            return preaprePath(toPath.replaceAll(importsConfig[key], key));
+        }
+    }
+
+    return preaprePath(path.relative(fromPath, toPath));
+}
 
 async function createDir(dirPath: string): Promise<boolean> {
     return fs
@@ -18,54 +33,68 @@ async function createDir(dirPath: string): Promise<boolean> {
         .catch(() => false);
 }
 
-async function getJsonConfig(): Promise<IPotKitJsonConfig | null> {
+async function getJsonConfig(): Promise<Partial<IPotKitJsonConfig>> {
     try {
         const data = await fs.readFile('pot-kit.json', 'utf-8');
         return JSON.parse(data);
     } catch (err) {
         console.warn(`[POT-KIT]: Error! pot-kit.json loading failed!`, err);
-        return null;
+        return {};
     }
 }
 
 async function installComponent(
     componentName: string,
-    jsonConfig: IPotKitJsonVerifiedConfig
+    jsonConfig: IPotKitJsonConfig
 ): Promise<boolean> {
     const data = await ModulesService.getModule(['components', `${componentName}.txt`], jsonConfig);
 
     if (!data) return false;
     
     const outputPath = path.join(jsonConfig.components, `${componentName}.vue`);
-    const typesRelativePath = path.relative(jsonConfig.components, jsonConfig.types).replaceAll(path.sep, '/');
-    const composablesRelativePath = path.relative(jsonConfig.components, jsonConfig.composables).replaceAll(path.sep, '/');
+    
+    const typesImportPath = resolveImportPath(
+        jsonConfig.components,
+        jsonConfig.types,
+        jsonConfig.imports
+    );
+
+    const composablesImportPath = resolveImportPath(
+        jsonConfig.components,
+        jsonConfig.composables,
+        jsonConfig.imports
+    );
 
     return fs.writeFile(
         outputPath,
         data
-            .replaceAll('$types-import', typesRelativePath)
-            .replaceAll('$composables-import', composablesRelativePath)
+            .replaceAll('$types-import', typesImportPath)
+            .replaceAll('$composables-import', composablesImportPath)
     ).then(() => true).catch(() => false);
 }
 
 async function installComposable(
     composableName: string,
-    jsonConfig: IPotKitJsonVerifiedConfig
+    jsonConfig: IPotKitJsonConfig
 ): Promise<boolean> {
     const data = await ModulesService.getModule(['composables', `${composableName}.txt`], jsonConfig);
 
     const outputPath = path.join(jsonConfig.composables, `${composableName}.ts`);
-    const typesRelativePath = path.relative(jsonConfig.composables, jsonConfig.types).replaceAll(path.sep, '/');
+    const typesImportPath = resolveImportPath(
+        jsonConfig.composables,
+        jsonConfig.types,
+        jsonConfig.imports
+    );
 
     return fs.writeFile(
         outputPath,
-        data.replaceAll('$types-import', typesRelativePath)
+        data.replaceAll('$types-import', typesImportPath)
     ).then(() => true).catch(() => false);
 }
 
 async function installType(
     typeFilePath: string,
-    jsonConfig: IPotKitJsonVerifiedConfig,
+    jsonConfig: IPotKitJsonConfig,
 ) {
     const destination = typeFilePath.split('/');
     const fileName = destination.pop();
@@ -83,39 +112,37 @@ async function installType(
 async function init(componentsList: string[]) {
     console.time('[POT-KIT-COMPONENTS] installation');
 
-    const jsonConfig = await getJsonConfig();
+    const jsonConfig: IPotKitJsonConfig = {
+        ownServer: false,
+        components: "./src/components/ui/",
+        styles: "./src/assets/css/ui/",
+        composables: "./src/composables/",
+        types: "./src/types/pot-kit/",
+        imports: {
+            "@": "./src"
+        },
+        ...(await getJsonConfig())  
+    }; 
 
     if (!jsonConfig) return;
 
     const dependencies = DependenciesService.getDependencies(componentsList);
-    const configUnits: Array<keyof IPotKitJsonConfig> =  ['components', 'composables', 'types']; 
 
-    const promises = [];
-
-    for (const unit of configUnits) {
-        if (!jsonConfig[unit]) {
-            console.warn(`[POT-KIT]: Error! pot-kit.json is invalid, "${unit}" field not found`);
-            return;
-        } else {
-            promises.push(
-                createDir(jsonConfig[unit] as string)
-            );
-        }
-    }
-
-    const createdDirsFlags = await Promise.all(promises);
+    const createdDirsFlags = await Promise.all([
+        createDir(jsonConfig.components),
+        createDir(jsonConfig.composables),
+        createDir(jsonConfig.types)
+    ]);
 
     if (createdDirsFlags.includes(false)) {
         console.warn('[POT-KIT]: Error! dirs creation failed');
         return;
     }
 
-    const verifiedJsonConfig = jsonConfig as IPotKitJsonVerifiedConfig;
-
     await Promise.all([
-        ...dependencies.components.map((componentName) => installComponent(componentName, verifiedJsonConfig)),
-        ...dependencies.composables.map((composableName) => installComposable(composableName, verifiedJsonConfig)),
-        ...dependencies.types.map((typeFileName) => installType(typeFileName, verifiedJsonConfig)),
+        ...dependencies.components.map((componentName) => installComponent(componentName, jsonConfig)),
+        ...dependencies.composables.map((composableName) => installComposable(composableName, jsonConfig)),
+        ...dependencies.types.map((typeFileName) => installType(typeFileName, jsonConfig)),
     ]);
 
     console.timeEnd('[POT-KIT-COMPONENTS] installation');

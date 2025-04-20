@@ -10,16 +10,11 @@ export type TComposableDependencies = {
 
 export interface IPotKitJsonConfig {
     /** Использовать для подгрузки стилей и классов собственный сервер pot-kit */
-    ownServer?: boolean;
+    ownServer: boolean;
 
-    components?: string;
-    types?: string;
-    styles?: string;
-    composables?: string;
-}
-
-export interface IPotKitJsonVerifiedConfig extends IPotKitJsonConfig {
     components: string;
     types: string;
+    styles: string;
     composables: string;
+    imports: Record<string, string>;
 }
