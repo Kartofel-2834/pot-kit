@@ -12,8 +12,7 @@ export function getEmptyDependencies(): TDependencies {
 export function getComponentDependencies(
     componentName: string,
     currentDependencies: TDependencies,
-    componentsDeps: Record<string, TDependencies>,
-    composablesDeps: Record<string, TDependencies>
+    deps: Record<string, Record<string, TDependencies>>,
 ): TDependencies {
     if (currentDependencies.components.includes(componentName)) {
         return {
@@ -23,7 +22,7 @@ export function getComponentDependencies(
         };
     };
 
-    const straightDeps = componentsDeps[componentName];
+    const straightDeps = deps.components[componentName];
     const result: TDependencies = {
         components: [componentName],
         composables: [],
@@ -33,7 +32,7 @@ export function getComponentDependencies(
     result.types = straightDeps.types.filter((typeName) => !currentDependencies.types.includes(typeName));
 
     straightDeps.components.forEach((component) => {
-        const dependencies = getComponentDependencies(component, result, componentsDeps, composablesDeps);
+        const dependencies = getComponentDependencies(component, result, deps);
 
         result.components.push(...dependencies.components);
         result.composables.push(...dependencies.composables);
@@ -41,7 +40,7 @@ export function getComponentDependencies(
     });
 
     straightDeps.composables.forEach((composable) => {
-        const dependencies = getComposableDependencies(composable, result, composablesDeps);
+        const dependencies = getComposableDependencies(composable, result, deps);
 
         result.components.push(...dependencies.components);
         result.composables.push(...dependencies.composables);
@@ -54,13 +53,13 @@ export function getComponentDependencies(
 function getComposableDependencies(
     composableName: string,
     currentDependencies: TDependencies,
-    composablesDeps: Record<string, TDependencies>
+    deps: Record<string, Record<string, TDependencies>>
 ): TDependencies {
     if (currentDependencies.composables.includes(composableName)) {
         return getEmptyDependencies(); 
     };
 
-    const straightDeps = composablesDeps[composableName]; 
+    const straightDeps = deps.composables[composableName]; 
     const types = straightDeps.types.filter((typeName) => !currentDependencies.types.includes(typeName));
 
     return {

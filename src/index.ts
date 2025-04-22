@@ -50,18 +50,17 @@ export async function getDependencies(
     componentsList: string[],
     jsonConfig: IPotKitJsonConfig
 ): Promise<TDependencies | null> {
-    const [componentsDeps, composablesDeps] = await Promise.all([
-        getModule(['dependencies', 'components.json'], jsonConfig).then((v) => JSON.parse(v)).catch(() => null),
-        getModule(['dependencies', 'composables.json'], jsonConfig).then((v) => JSON.parse(v)).catch(() => null),
-    ]) as Array<Record<string, TDependencies>>;
+    const deps = await getModule(['dependencies', 'index.json'], jsonConfig)
+        .then((v) => JSON.parse(v))
+        .catch(() => null); 
 
-    if (!componentsDeps || !composablesDeps) {
+    if (!deps) {
         console.warn('[POT-KIT-COMPONENTS] unexpected error; installation failed');
         return null;
     }
 
     return componentsList.reduce((res, componentName) => {
-        const dependencies = getComponentDependencies(componentName, res, componentsDeps, composablesDeps);
+        const dependencies = getComponentDependencies(componentName, res, deps);
 
         res.components.push(...dependencies.components);
         res.composables.push(...dependencies.composables);
@@ -70,7 +69,6 @@ export async function getDependencies(
         return res;
     }, getEmptyDependencies());
 }
-
 
 /** Установить набор компонентов в проект пользователя */ 
 async function init(componentsList: string[]) {
