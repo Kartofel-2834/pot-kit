@@ -1,12 +1,14 @@
-export type TComponentDependencies = {
+export type TDependencies = {
     components: string[],
     composables: string[],
     types: string[],
 };
 
-export type TComposableDependencies = {
-    types: string[],
-};
+export type TPrefix = {
+    kebab: string;
+    camel: string;
+    upper: string;
+}
 
 export interface IPotKitJsonConfig {
     /** Использовать для подгрузки стилей и классов собственный сервер pot-kit */
@@ -17,4 +19,5 @@ export interface IPotKitJsonConfig {
     styles: string;
     composables: string;
     imports: Record<string, string>;
+    prefix: string;
 }

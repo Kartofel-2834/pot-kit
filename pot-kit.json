@@ -1,4 +1,5 @@
 {
+    "prefix": "ui",
     "components": "./test/components/ui/",
     "styles": "./test/assets/css/ui/",
     "composables": "./test/composables/",

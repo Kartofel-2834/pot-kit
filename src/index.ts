@@ -1,132 +1,75 @@
 // Types
-import type { IPotKitJsonConfig } from '../types';
+import type { IPotKitJsonConfig, TDependencies } from './types';
 
 // Node
-import fs, { constants } from 'fs/promises';
-import path from 'path';
+import fs from 'fs/promises';
 
-// Services 
-import { ModulesService } from './services/module-service';
-import { DependenciesService } from './services/dependencies-service';
+// Utils
+import { createDir, installComponent, installComposable, installType } from './utils/installation-utils';
+import { preparePrefix } from './utils/string-utils';
+import { getComponentDependencies, getEmptyDependencies } from './utils/dependencies-utils';
+import { getModule } from './utils/fetch-utils';
 
-function resolveImportPath(
-    fromPath: string,
-    toPath: string,
-    importsConfig: Record<string, string>
-): string {
-    const preaprePath = (v: string) => v.replaceAll(/(\/|\\)+/gm, '/').replace(/\/$/, '');
+const DEFAULT_CONFIG: IPotKitJsonConfig = {
+    ownServer: false,
+    prefix: 'pot',
+    components: "./src/components/ui/",
+    styles: "./src/assets/css/ui/",
+    composables: "./src/composables/",
+    types: "./src/types/pot-kit/",
+    imports: {
+        "@": "./src"
+    },
+};
 
-    for (const key in importsConfig) {
-        if (toPath.startsWith(importsConfig[key])) {
-            return preaprePath(toPath.replaceAll(importsConfig[key], key));
-        }
-    }
-
-    return preaprePath(path.relative(fromPath, toPath));
-}
-
-async function createDir(dirPath: string): Promise<boolean> {
-    return fs
-        .access(dirPath, constants.R_OK | constants.W_OK)
-        .then(() => true)
-        .catch(() => fs.mkdir(dirPath, { recursive: true }).then(() => true))
-        .catch(() => false);
-}
-
-async function getJsonConfig(): Promise<Partial<IPotKitJsonConfig>> {
+/** Прочитать конфигурационный файл */ 
+async function getJsonConfig(): Promise<IPotKitJsonConfig> { 
     try {
         const data = await fs.readFile('pot-kit.json', 'utf-8');
-        return JSON.parse(data);
+        return {
+            ...DEFAULT_CONFIG,
+            ...JSON.parse(data),
+        };
     } catch (err) {
         console.warn(`[POT-KIT]: Error! pot-kit.json loading failed!`, err);
-        return {};
+        return { ...DEFAULT_CONFIG };
     }
 }
 
-async function installComponent(
-    componentName: string,
+/** Подгрузить карту зависимостей компонентов */ 
+export async function getDependencies(
+    componentsList: string[],
     jsonConfig: IPotKitJsonConfig
-): Promise<boolean> {
-    const data = await ModulesService.getModule(['components', `${componentName}.txt`], jsonConfig);
+): Promise<TDependencies | null> {
+    const [componentsDeps, composablesDeps] = await Promise.all([
+        getModule(['dependencies', 'components.json'], jsonConfig).then((v) => JSON.parse(v)).catch(() => null),
+        getModule(['dependencies', 'composables.json'], jsonConfig).then((v) => JSON.parse(v)).catch(() => null),
+    ]) as Array<Record<string, TDependencies>>;
 
-    if (!data) return false;
+    if (!componentsDeps || !composablesDeps) {
+        console.warn('[POT-KIT-COMPONENTS] unexpected error; installation failed');
+        return null;
+    }
+
+    return componentsList.reduce((res, componentName) => {
+        const dependencies = getComponentDependencies(componentName, res, componentsDeps, composablesDeps);
+
+        res.components.push(...dependencies.components);
+        res.composables.push(...dependencies.composables);
+        res.types.push(...dependencies.types);
     
-    const outputPath = path.join(jsonConfig.components, `${componentName}.vue`);
-    
-    const typesImportPath = resolveImportPath(
-        jsonConfig.components,
-        jsonConfig.types,
-        jsonConfig.imports
-    );
-
-    const composablesImportPath = resolveImportPath(
-        jsonConfig.components,
-        jsonConfig.composables,
-        jsonConfig.imports
-    );
-
-    return fs.writeFile(
-        outputPath,
-        data
-            .replaceAll('$types-import', typesImportPath)
-            .replaceAll('$composables-import', composablesImportPath)
-    ).then(() => true).catch(() => false);
+        return res;
+    }, getEmptyDependencies());
 }
 
-async function installComposable(
-    composableName: string,
-    jsonConfig: IPotKitJsonConfig
-): Promise<boolean> {
-    const data = await ModulesService.getModule(['composables', `${composableName}.txt`], jsonConfig);
 
-    const outputPath = path.join(jsonConfig.composables, `${composableName}.ts`);
-    const typesImportPath = resolveImportPath(
-        jsonConfig.composables,
-        jsonConfig.types,
-        jsonConfig.imports
-    );
-
-    return fs.writeFile(
-        outputPath,
-        data.replaceAll('$types-import', typesImportPath)
-    ).then(() => true).catch(() => false);
-}
-
-async function installType(
-    typeFilePath: string,
-    jsonConfig: IPotKitJsonConfig,
-) {
-    const destination = typeFilePath.split('/');
-    const fileName = destination.pop();
-
-    const data = await ModulesService.getModule(['types', ...destination, `${fileName}.txt`], jsonConfig);
-    
-    const dirName = path.join(jsonConfig.types, ...destination);
-    const outputPath = path.join(dirName, `${fileName}.ts`);
-
-    await fs.access(dirName).catch(() => createDir(dirName));
-
-    return fs.writeFile(outputPath, data).then(() => true).catch(() => false);
-}
-
+/** Установить набор компонентов в проект пользователя */ 
 async function init(componentsList: string[]) {
     console.time('[POT-KIT-COMPONENTS] installation');
 
-    const jsonConfig: IPotKitJsonConfig = {
-        ownServer: false,
-        components: "./src/components/ui/",
-        styles: "./src/assets/css/ui/",
-        composables: "./src/composables/",
-        types: "./src/types/pot-kit/",
-        imports: {
-            "@": "./src"
-        },
-        ...(await getJsonConfig())  
-    }; 
+    const jsonConfig: IPotKitJsonConfig = await getJsonConfig(); 
 
     if (!jsonConfig) return;
-
-    const dependencies = DependenciesService.getDependencies(componentsList);
 
     const createdDirsFlags = await Promise.all([
         createDir(jsonConfig.components),
@@ -136,16 +79,25 @@ async function init(componentsList: string[]) {
 
     if (createdDirsFlags.includes(false)) {
         console.warn('[POT-KIT]: Error! dirs creation failed');
+        console.timeEnd('[POT-KIT-COMPONENTS] installation');
+        return;
+    }
+
+    const prefixData = preparePrefix(jsonConfig.prefix);
+    const dependencies = await getDependencies(componentsList, jsonConfig);
+
+    if (!dependencies) {
+        console.timeEnd('[POT-KIT-COMPONENTS] installation');
         return;
     }
 
     await Promise.all([
-        ...dependencies.components.map((componentName) => installComponent(componentName, jsonConfig)),
+        ...dependencies.components.map((componentName) => installComponent(componentName, jsonConfig, prefixData)),
         ...dependencies.composables.map((composableName) => installComposable(composableName, jsonConfig)),
-        ...dependencies.types.map((typeFileName) => installType(typeFileName, jsonConfig)),
+        ...dependencies.types.map((typeFileName) => installType(typeFileName, jsonConfig, prefixData)),
     ]);
 
     console.timeEnd('[POT-KIT-COMPONENTS] installation');
 }
 
-init(['PotButton']);
+init(['button']);
