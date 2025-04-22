@@ -1,5 +1,4 @@
 {
-    "prefix": "ui",
     "components": "./test/components/ui/",
     "styles": "./test/assets/css/ui/",
     "composables": "./test/composables/",
@@ -7,5 +6,9 @@
     "imports": {
         "@": "./test"
     },
-    "ownServer": true
+    "options": {
+        "potServer": true,
+        "prefix": "ui",
+        "stylesImport": true
+    }
 }

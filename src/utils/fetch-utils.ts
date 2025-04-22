@@ -13,7 +13,7 @@ export async function fetchModule(
     destination: string[],
     jsonConfig: IPotKitJsonConfig,
 ): Promise<string> {
-    const base = jsonConfig.ownServer === true ? OWN_SERVER : CLOUDFLARE_SERVER;
+    const base = jsonConfig.options.potServer === true ? OWN_SERVER : CLOUDFLARE_SERVER;
     const url = new URL(`/${destination.join('/')}`, base);
     const client = /^https:\/\//.test(url.href) ? https : http;
 

@@ -11,13 +11,14 @@ export type TPrefix = {
 }
 
 export interface IPotKitJsonConfig {
-    /** Использовать для подгрузки стилей и классов собственный сервер pot-kit */
-    ownServer: boolean;
-
     components: string;
     types: string;
     styles: string;
     composables: string;
     imports: Record<string, string>;
-    prefix: string;
+    options: {
+        prefix: string;
+        stylesImport: boolean;
+        potServer: boolean;
+    }
 }

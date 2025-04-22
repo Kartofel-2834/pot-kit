@@ -11,8 +11,6 @@ import { getComponentDependencies, getEmptyDependencies } from './utils/dependen
 import { getModule } from './utils/fetch-utils';
 
 const DEFAULT_CONFIG: IPotKitJsonConfig = {
-    ownServer: false,
-    prefix: 'pot',
     components: "./src/components/ui/",
     styles: "./src/assets/css/ui/",
     composables: "./src/composables/",
@@ -20,15 +18,26 @@ const DEFAULT_CONFIG: IPotKitJsonConfig = {
     imports: {
         "@": "./src"
     },
+    options: {
+        prefix: 'pot',
+        stylesImport: true,
+        potServer: false,
+    }
 };
 
 /** Прочитать конфигурационный файл */ 
 async function getJsonConfig(): Promise<IPotKitJsonConfig> { 
     try {
         const data = await fs.readFile('pot-kit.json', 'utf-8');
+        const parsedData = JSON.parse(data) as Partial<IPotKitJsonConfig>;
+
         return {
             ...DEFAULT_CONFIG,
-            ...JSON.parse(data),
+            ...parsedData,
+            options: {
+                ...DEFAULT_CONFIG.options,
+                ...(parsedData.options ?? {}),
+            }
         };
     } catch (err) {
         console.warn(`[POT-KIT]: Error! pot-kit.json loading failed!`, err);
@@ -83,7 +92,7 @@ async function init(componentsList: string[]) {
         return;
     }
 
-    const prefixData = preparePrefix(jsonConfig.prefix);
+    const prefixData = preparePrefix(jsonConfig.options.prefix);
     const dependencies = await getDependencies(componentsList, jsonConfig);
 
     if (!dependencies) {
