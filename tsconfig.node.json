@@ -8,7 +8,8 @@
         "playwright.config.*",
         "preset/**/*",
         "types/**/*",
-        "src/**/*"
+        "src/**/*",
+        "vite.config.ts"
     ],
     "compilerOptions": {
         "composite": true,

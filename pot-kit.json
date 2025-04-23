@@ -8,7 +8,7 @@
     },
     "options": {
         "potServer": true,
-        "prefix": "ui",
+        "prefix": "kamal",
         "stylesImport": true
     }
 }

@@ -59,6 +59,7 @@ export function preparePrefix(prefix: string): TPrefix {
     };
 }
 
+/** Подготовить префиксы компонента в шаблоне */
 export function replacePrefix(data: string, prefix: TPrefix): string {
     for (const key in prefix) {
         data = data.replaceAll(`%${key}%`, prefix[key as keyof TPrefix]);
