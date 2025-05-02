@@ -1,0 +1,215 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.ui-radio._color-pot {
+    --radio-color-base-text: inherit;
+    --radio-color-base-border: var(--color-subcolor);
+    --radio-color-base-background: transparent;
+    --radio-color-base-point: transparent;
+    --radio-color-hover-text: inherit;
+    --radio-color-hover-border: var(--color-hover-subcolor);
+    --radio-color-hover-background: transparent;
+    --radio-color-hover-point: transparent;
+    --radio-color-checked-text: inherit;
+    --radio-color-checked-border: var(--color-active-target);
+    --radio-color-checked-background: var(--color-active-target);
+    --radio-color-checked-point: var(--pot-base-0);
+    --radio-color-invalid-text: inherit;
+    --radio-color-invalid-border: var(--color-invalid-target);
+    --radio-color-invalid-background: var(--color-invalid-target);
+    --radio-color-invalid-point: var(--color-invalid-text);
+    --radio-color-disabled-text: inherit;
+    --radio-color-disabled-border: var(--color-disabled-target);
+    --radio-color-disabled-background: var(--color-disabled-target);
+    --radio-color-disabled-point: var(--pot-base-0);
+}
+
+.ui-radio._size-tiny {
+    --radio-size-text: var(--pot-spacer-1-600);
+    --radio-size-marker: var(--pot-spacer-1-600);
+    --radio-size-marker-point: var(--pot-spacer-0-800);
+    --radio-size-marker-border: 1px;
+    --radio-size-gap: 0.4em;
+}
+
+.ui-radio._size-small {
+    --radio-size-text: var(--pot-spacer-1-800);
+    --radio-size-marker: var(--pot-spacer-1-800);
+    --radio-size-marker-point: var(--pot-spacer);
+    --radio-size-marker-border: 1px;
+    --radio-size-gap: 0.4em;
+}
+
+.ui-radio._size-medium {
+    --radio-size-text: var(--pot-spacer-2);
+    --radio-size-marker: var(--pot-spacer-2);
+    --radio-size-marker-point: var(--pot-spacer-1-200);
+    --radio-size-marker-border: 1px;
+    --radio-size-gap: 0.4em;
+}
+
+.ui-radio._size-large {
+    --radio-size-text: var(--pot-spacer-2-400);
+    --radio-size-marker: var(--pot-spacer-2-400);
+    --radio-size-marker-point: var(--pot-spacer-1-600);
+    --radio-size-marker-border: 1px;
+    --radio-size-gap: 0.4em;
+}
+
+.ui-radio._radius-circle,
+.ui-radio._radius-large,
+.ui-radio._radius-medium,
+.ui-radio._radius-small,
+.ui-radio._radius-tiny,
+.ui-radio._radius-radius--8,
+.ui-radio._radius-radius--6,
+.ui-radio._radius-radius--4,
+.ui-radio._radius-radius--2 {
+    --radio-radius: var(--radius);
+}
+
+.ui-radio {
+    --radio-size-text: initial;           /* Размер текста */
+    --radio-size-gap: initial;            /* Расстояние между текстом и маркером */
+    --radio-size-marker: initial;         /* Размер маркера */
+    --radio-size-marker-border: initial;  /* Толщина рамки маркера */
+    --radio-size-marker-point: initial;   /* Размер точки в маркере */
+
+    gap: var(--radio-size-gap);
+    font-size: var(--radio-size-text);
+}
+
+.ui-radio__marker {
+    width: var(--radio-size-marker);
+    height: var(--radio-size-marker);
+    border-width: var(--radio-size-marker-border);
+}
+
+.ui-radio__marker:before {
+    width: var(--radio-size-marker-point);
+}
+
+
+ 
+.ui-radio {
+    --radio-radius: initial;              /* Радиус */
+}
+
+.ui-radio__marker {
+    border-radius: var(--radio-radius);
+}
+
+.ui-radio {
+    --radio-color-base-text: initial;                         /* Цвет текста */
+    --radio-color-base-border: initial;                       /* Цвет рамки маркера */
+    --radio-color-base-background: initial;                   /* Цвет фона маркера */
+    --radio-color-base-point: initial;                        /* Цвет точки маркера */
+
+    color: var(--radio-color-base-text);
+}
+
+.ui-radio__marker {
+    border-color: var(--radio-color-base-border);
+    background-color: var(--radio-color-base-background);
+    color: var(--radio-color-base-point);
+}
+
+.ui-radio__marker:before {
+    background-color: var(--radio-color-base-point);
+}
+
+
+
+.ui-radio {
+    --radio-color-hover-text: initial;                   /* Цвет текста при наведении */
+    --radio-color-hover-border: initial;                 /* Цвет рамки маркера при наведении */
+    --radio-color-hover-background: initial;             /* Цвет фона маркера при наведении */
+    --radio-color-hover-point: initial;                  /* Цвет точки маркера при наведении */
+}
+
+.ui-radio:hover:not(._disabled, ._checked, ._invalid) {
+    color: var(--radio-color-hover-text);
+}
+
+.ui-radio:hover:not(._disabled, ._checked, ._invalid) .ui-radio__marker {
+    border-color: var(--radio-color-hover-border);
+    background-color: var(--radio-color-hover-background);
+    color: var(--radio-color-hover-point);
+}
+
+.ui-radio:hover:not(._disabled, ._checked, ._invalid) .ui-radio__marker:before {
+    background-color: var(--radio-color-hover-point);
+}
+
+
+
+.ui-radio {
+    --radio-color-checked-text: initial;                  /* Цвет текста при выборе */
+    --radio-color-checked-border: initial;                /* Цвет рамки маркера при выборе */
+    --radio-color-checked-background: initial;            /* Цвет фона маркера при выборе */
+    --radio-color-checked-point: initial;                 /* Цвет точки маркера при выборе */
+}
+
+.ui-radio._checked:not(._disabled, ._invalid) {
+    color: var(--radio-color-checked-text);
+}
+
+.ui-radio._checked:not(._disabled, ._invalid) .ui-radio__marker {
+    border-color: var(--radio-color-checked-border);
+    background-color: var(--radio-color-checked-background);
+    color: var(--radio-color-checked-point);
+}
+
+.ui-radio._checked:not(._disabled, ._invalid) .ui-radio__marker:before {
+    background-color: var(--radio-color-checked-point);
+}
+
+
+
+.ui-radio {
+    --radio-color-invalid-text: initial;                  /* Цвет текста выбранного элемента при нажатии */
+    --radio-color-invalid-border: initial;                /* Цвет рамки маркера выбранного элемента при нажатии */
+    --radio-color-invalid-background: initial;            /* Цвет фона маркера выбранного элемента при нажатии */
+    --radio-color-invalid-point: initial;                 /* Цвет точки маркера выбранного элемента при нажатии */
+}
+
+.ui-radio._invalid:not(._disabled) {
+    color: var(--radio-color-invalid-text);
+}
+
+.ui-radio._invalid:not(._disabled) .ui-radio__marker {
+    border-color: var(--radio-color-invalid-border);
+    color: var(--radio-color-invalid-point);
+}
+
+.ui-radio._invalid._checked:not(._disabled) .ui-radio__marker {
+    background-color: var(--radio-color-invalid-background);
+}
+
+.ui-radio._invalid._checked:not(._disabled) .ui-radio__marker:before {
+    background-color: var(--radio-color-invalid-point);
+}
+
+
+
+.ui-radio {
+    --radio-color-disabled-text: initial;                /* Цвет текста заблокированного элемента */
+    --radio-color-disabled-border: initial;              /* Цвет рамки маркера заблокированного элемента */
+    --radio-color-disabled-background: initial;          /* Цвет фона маркера заблокированного элемента */
+    --radio-color-disabled-point: initial;               /* Цвет точки маркера заблокированного элемента */
+}
+
+.ui-radio._disabled {
+    color: var(--radio-color-disabled-text);
+}
+
+.ui-radio._disabled .ui-radio__marker {
+    border-color: var(--radio-color-disabled-border);
+    color: var(--radio-color-disabled-point);
+}
+
+.ui-radio._disabled._checked .ui-radio__marker {
+    background-color: var(--radio-color-disabled-background);
+}
+
+.ui-radio._disabled._checked .ui-radio__marker:before {
+    background-color: var(--radio-color-disabled-point);
+}

@@ -4,11 +4,11 @@
     "composables": "./test/composables/",
     "types": "./test/types/pot-kit/",
     "imports": {
-        "@": "./test"
+        "$": "./test"
     },
     "options": {
         "potServer": true,
-        "prefix": "kamal",
+        "prefix": "ui",
         "stylesImport": true
     }
 }

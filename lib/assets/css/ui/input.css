@@ -1,0 +1,212 @@
+/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */
+.ui-input._color-pot {
+    --input-color-base-border: var(--color-subcolor);
+    --input-color-base-background: var(--pot-base-0);
+    --input-color-base-text: inherit;
+    --input-color-base-icon: var(--color-subcolor);
+    --input-color-hover-border: var(--color-hover-subcolor);
+    --input-color-hover-background: var(--pot-base-0);
+    --input-color-hover-text: inherit;
+    --input-color-hover-icon: var(--color-hover-subcolor);
+    --input-color-focused-border: var(--color-active-target);
+    --input-color-focused-background: var(--pot-base-0);
+    --input-color-focused-text: inherit;
+    --input-color-focused-icon: var(--color-active-subcolor);
+    --input-color-invalid-background: var(--color-invalid-text);
+    --input-color-invalid-border: var(--color-invalid-target);
+    --input-color-invalid-text: inherit;
+    --input-color-invalid-icon: var(--color-invalid-target);
+    --input-color-disabled-border: var(--pot-base-400);
+    --input-color-disabled-background: var(--pot-base-400);
+    --input-color-disabled-text: var(--color-disabled-text);
+    --input-color-disabled-icon: var(--color-disabled-text);
+}
+
+.ui-input._size-tiny {
+    --input-size-height: var(--pot-spacer-3-200);
+    --input-size-text: var(--pot-font-size-200);
+    --input-size-padding: var(--pot-spacer-1-200);
+    --input-size-gap: var(--pot-spacer-0-800);
+    --input-size-icon: var(--pot-spacer-1-600);
+    --input-size-border: 1px;
+}
+
+.ui-input._size-small {
+    --input-size-height: var(--pot-spacer-3-600);
+    --input-size-text: var(--pot-font-size-200);
+    --input-size-padding: var(--pot-spacer-1-400);
+    --input-size-gap: var(--pot-spacer-0-800);
+    --input-size-icon: var(--pot-spacer-2);
+    --input-size-border: 1px;
+}
+
+.ui-input._size-medium {
+    --input-size-height: var(--pot-spacer-4-800);
+    --input-size-text: var(--pot-font-size-300);
+    --input-size-padding: var(--pot-spacer-1-600);
+    --input-size-gap: var(--pot-spacer-1-200);
+    --input-size-icon: var(--pot-spacer-2-400);
+    --input-size-border: 1px;
+}
+
+.ui-input._size-large {
+    --input-size-height: var(--pot-spacer-5-600);
+    --input-size-text: var(--pot-font-size-300);
+    --input-size-padding: var(--pot-spacer-2);
+    --input-size-gap: var(--pot-spacer-1-200);
+    --input-size-icon: var(--pot-spacer-2-800);
+    --input-size-border: 1px;
+}
+
+.ui-input._radius-circle,
+.ui-input._radius-large,
+.ui-input._radius-medium,
+.ui-input._radius-small,
+.ui-input._radius-tiny,
+.ui-input._radius-radius--8,
+.ui-input._radius-radius--6,
+.ui-input._radius-radius--4,
+.ui-input._radius-radius--2 {
+    --input-radius: var(--radius);
+}
+
+.ui-input {
+    --input-size-height: initial;              /* Высота */
+    --input-size-padding: initial;             /* Паддинг */
+    --input-size-border: initial;              /* Размер рамки */
+    --input-size-text: initial;                /* Размер текста */
+    --input-size-gap: initial;                 /* Паддинг текста */
+    --input-size-icon: initial;                /* Размер иконки */
+
+    padding: 0 var(--input-size-padding);
+    gap: var(--input-size-gap);
+    font-size: var(--input-size-text);
+    border-width: var(--input-size-border);
+}
+
+.ui-input__target {
+    height: var(--input-size-height);
+}
+
+.ui-input__icon {
+    width: var(--input-size-icon);
+}
+
+
+
+.ui-input {
+    --input-radius: initial;                  /* Радиус */
+
+    border-radius: var(--input-radius);
+}
+
+.ui-input {
+    --input-color-base-border: initial;                         /* Цвет рамки инпута */
+    --input-color-base-background: initial;                     /* Цвет фона */ 
+    --input-color-base-text: initial;                           /* Цвет текста */
+    --input-color-base-icon: initial;                           /* Цвет иконок */
+
+    color: var(--input-color-base-text);
+    border-color: var(--input-color-base-border);
+}
+
+.ui-input__target {
+    color: var(--input-color-base-text);
+    background-color: var(--input-color-base-background);
+}
+
+.ui-input__icon {
+    color: var(--input-color-base-icon);
+}
+
+
+
+.ui-input {
+    --input-color-hover-border: initial;                         /* Цвет рамки при наведении */
+    --input-color-hover-background: initial;                     /* Цвет фона при наведении */ 
+    --input-color-hover-text: initial;                           /* Цвет текста при наведении */
+    --input-color-hover-icon: initial;                           /* Цвет иконок при наведении */
+}
+
+.ui-input:hover:not(._disabled, ._invalid, ._focused) {
+    color: var(--input-color-hover-text);
+    border-color: var(--input-color-hover-border);
+}
+
+.ui-input:hover:not(._disabled, ._invalid, ._focused) .ui-input__target {
+    color: var(--input-color-hover-text);
+    background-color: var(--input-color-hover-background);
+}
+
+.ui-input:hover:not(._disabled, ._invalid, ._focused) .ui-input__icon {
+    color: var(--input-color-hover-icon);
+}
+
+
+
+.ui-input {
+    --input-color-focused-border: initial;                         /* Цвет рамки при фокусе */
+    --input-color-focused-background: initial;                     /* Цвет фона при фокусе */ 
+    --input-color-focused-text: initial;                           /* Цвет текста при фокусе */
+    --input-color-focused-icon: initial;                           /* Цвет иконок при фокусе */
+}
+
+.ui-input._focused:not(._disabled, ._invalid) {
+    color: var(--input-color-focused-text);
+    border-color: var(--input-color-focused-border);
+}
+
+.ui-input._focused:not(._disabled, ._invalid) .ui-input__target {
+    color: var(--input-color-focused-text);
+    background-color: var(--input-color-focused-background);
+}
+
+.ui-input._focused:not(._disabled, ._invalid) .ui-input__icon {
+    color: var(--input-color-focused-icon);
+}
+
+
+
+.ui-input {
+    --input-color-invalid-border: initial;                         /* Цвет рамки невалидного инпута */
+    --input-color-invalid-background: initial;                     /* Цвет фона невалидного инпута */ 
+    --input-color-invalid-text: initial;                           /* Цвет текста невалидного инпута */
+    --input-color-invalid-icon: initial;                           /* Цвет иконок невалидного инпута */
+}
+
+.ui-input._invalid:not(._disabled) {
+    color: var(--input-color-invalid-text);
+    border-color: var(--input-color-invalid-border);
+}
+
+.ui-input._invalid:not(._disabled) .ui-input__target {
+    color: var(--input-color-invalid-text);
+    background-color: var(--input-color-invalid-background);
+}
+
+.ui-input._invalid:not(._disabled) .ui-input__icon {
+    color: var(--input-color-invalid-icon);
+}
+
+
+
+.ui-input {
+    --input-color-disabled-border: initial;                         /* Цвет рамки заблокированного инпута */
+    --input-color-disabled-background: initial;                     /* Цвет фона заблокированного инпута */ 
+    --input-color-disabled-text: initial;                           /* Цвет текста заблокированного инпута */
+    --input-color-disabled-icon: initial;                           /* Цвет иконок заблокированного инпута */
+}
+
+.ui-input._disabled {
+    color: var(--input-color-disabled-text);
+    border-color: var(--input-color-disabled-border);
+}
+
+.ui-input._disabled .ui-input__target {
+    color: var(--input-color-disabled-text);
+    background-color: var(--input-color-disabled-background);
+}
+
+.ui-input._disabled .ui-input__icon {
+    color: var(--input-color-disabled-icon);
+}
