@@ -1,9 +1,3 @@
-// Types
-import { TPrefix } from '../types';
-
-// Node
-import path from 'path';
-
 /** Делает первую букву строки заглавной */
 export function capitalize(str: string): string {
     return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;
@@ -46,41 +40,4 @@ export function camelCaseToEnumKey(str: string): string {
     const prefix = /[0-9]/.test(str?.[0]) ? '_' : '';
 
     return prefix + camelCaseToKebab(data).toUpperCase().split('-').join('_');
-}
-
-/** Подготовить префикс к вставке в компоненты */
-export function preparePrefix(prefix: string): TPrefix {
-    prefix = camelCaseToKebab(snakeCaseToKebab(prefix));
-
-    return {
-        kebab: prefix,
-        camel: capitalize(kebabCaseToCamel(prefix)),
-        upper: kebabCaseToEnumKey(prefix)
-    };
-}
-
-/** Подготовить префиксы компонента в шаблоне */
-export function replacePrefix(data: string, prefix: TPrefix): string {
-    for (const key in prefix) {
-        data = data.replaceAll(`%${key}%`, prefix[key as keyof TPrefix]);
-    }
-
-    return data;
-}
-
-/** Подстановка шорткатов в пути импортов в компонентах */
-export function resolveImportPath(
-    fromPath: string,
-    toPath: string,
-    importsConfig: Record<string, string>
-): string {
-    const preaprePath = (v: string) => v.replaceAll(/(\/|\\)+/gm, '/').replace(/\/$/, '');
-
-    for (const key in importsConfig) {
-        if (toPath.startsWith(importsConfig[key])) {
-            return preaprePath(toPath.replaceAll(importsConfig[key], key));
-        }
-    }
-
-    return preaprePath(path.relative(fromPath, toPath));
 }

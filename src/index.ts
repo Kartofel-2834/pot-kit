@@ -6,9 +6,9 @@ import fs from 'fs/promises';
 
 // Utils
 import { createDir, installComponent, installComposable, installType } from './utils/installation-utils';
-import { preparePrefix } from './utils/string-utils';
 import { getComponentDependencies, getEmptyDependencies } from './utils/dependencies-utils';
 import { getModule } from './utils/fetch-utils';
+import { preparePrefix } from './utils/template-utils';
 
 const DEFAULT_CONFIG: IPotKitJsonConfig = {
     components: "./src/components/ui/",
@@ -100,7 +100,7 @@ async function init(componentsList: string[]) {
 
     await Promise.all([
         ...dependencies.components.map((componentName) => installComponent(componentName, jsonConfig, prefixData)),
-        ...dependencies.composables.map((composableName) => installComposable(composableName, jsonConfig)),
+        ...dependencies.composables.map((composableName) => installComposable(composableName, jsonConfig, prefixData)),
         ...dependencies.types.map((typeFileName) => installType(typeFileName, jsonConfig, prefixData)),
     ]);
 
