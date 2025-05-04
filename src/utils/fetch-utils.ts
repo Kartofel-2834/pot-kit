@@ -5,6 +5,9 @@ import { IPotKitJsonConfig } from '../types';
 import https from 'https';
 import http from 'http';
 
+// Libs
+import { logger } from '../logger';
+
 const OWN_SERVER = 'http://localhost:3000/';
 const CLOUDFLARE_SERVER = 'https://pot-kit-worker.radjab-gabibov.workers.dev/';
 
@@ -17,14 +20,11 @@ export async function fetchModule(
     const url = new URL(`/${destination.join('/')}`, base);
     const client = /^https:\/\//.test(url.href) ? https : http;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         client
             .get(url, res => {
                 if (!/2\d\d/.test(`${res.statusCode}`)) {
-                    console.warn(
-                        `[ModulesService:fetchModule] Module fetch failed with status ${res.statusCode} (${url.href})`,
-                    );
-
+                    logger.error(`(fetchModule) Module fetch failed with status ${res.statusCode} (${url.href})`);
                     resolve('');
                     return;
                 }
@@ -35,10 +35,7 @@ export async function fetchModule(
                 res.on('end', () => resolve(data));
             })
             .on('error', err => {
-                console.warn(
-                    `[ModulesService:fetchModule] Module fetch failed (${url.href})`,
-                    err,
-                );
+                logger.error(`(fetchModule) Module fetch failed (${url.href})`, err);
                 resolve('');
             });
     });

@@ -1,6 +1,9 @@
 // Types
 import { TDependencies } from "../types";
 
+// Constants
+import { DEPENDENCIES } from "../constants/dependencies";
+
 export function getEmptyDependencies(): TDependencies {
     return {
         components: [],
@@ -9,30 +12,46 @@ export function getEmptyDependencies(): TDependencies {
     };
 }
 
+export function getDependencies(componentsList: string[]): TDependencies {
+    const data = componentsList.reduce((res, componentName) => {
+        const dependencies = getComponentDependencies(componentName, res);
+        
+        res.components.push(...dependencies.components);
+        res.composables.push(...dependencies.composables);
+        res.types.push(...dependencies.types);
+    
+        return res;
+    }, getEmptyDependencies());
+
+    return {
+        components: [...(new Set(data.components))],
+        composables: [...(new Set(data.composables))],
+        types: [...(new Set(data.types))],
+    };
+}
+
 export function getComponentDependencies(
     componentName: string,
     currentDependencies: TDependencies,
-    deps: Record<string, Record<string, TDependencies>>,
 ): TDependencies {
-    if (currentDependencies.components.includes(componentName)) {
-        return {
-            components: [],
-            composables: [],
-            types: []
-        };
+    if (
+        !DEPENDENCIES.components[componentName] ||
+        currentDependencies.components.includes(componentName)
+    ) {
+        return getEmptyDependencies();
     };
 
-    const straightDeps = deps.components[componentName];
+    const straightDeps = DEPENDENCIES.components[componentName];
     const result: TDependencies = {
         components: [componentName],
         composables: [],
         types: [],
     };
 
-    result.types = straightDeps.types.filter((typeName) => !currentDependencies.types.includes(typeName));
+    result.types = straightDeps.types;
 
     straightDeps.components.forEach((component) => {
-        const dependencies = getComponentDependencies(component, result, deps);
+        const dependencies = getComponentDependencies(component, result);
 
         result.components.push(...dependencies.components);
         result.composables.push(...dependencies.composables);
@@ -40,7 +59,7 @@ export function getComponentDependencies(
     });
 
     straightDeps.composables.forEach((composable) => {
-        const dependencies = getComposableDependencies(composable, result, deps);
+        const dependencies = getComposableDependencies(composable, result);
 
         result.components.push(...dependencies.components);
         result.composables.push(...dependencies.composables);
@@ -53,15 +72,17 @@ export function getComponentDependencies(
 function getComposableDependencies(
     composableName: string,
     currentDependencies: TDependencies,
-    deps: Record<string, Record<string, TDependencies>>
 ): TDependencies {
-    if (currentDependencies.composables.includes(composableName)) {
+    if (
+        !DEPENDENCIES.composables[composableName] ||
+        currentDependencies.composables.includes(composableName)
+    ) {
         return getEmptyDependencies(); 
     };
 
-    const straightDeps = deps.composables[composableName]; 
-    const types = straightDeps.types.filter((typeName) => !currentDependencies.types.includes(typeName));
-
+    const straightDeps = DEPENDENCIES.composables[composableName]; 
+    const types = straightDeps.types;
+    
     return {
         components: [],
         composables: [composableName],

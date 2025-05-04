@@ -9,6 +9,7 @@
     "options": {
         "potServer": true,
         "prefix": "ui",
-        "stylesImport": true
+        "stylesImport": true,
+        "overwrite": true
     }
 }

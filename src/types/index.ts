@@ -19,6 +19,7 @@ export interface IPotKitJsonConfig {
     options: {
         prefix: string;
         stylesImport: boolean;
+        overwrite: boolean;
         potServer: boolean;
     }
 }
