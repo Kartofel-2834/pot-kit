@@ -1,14 +1,14 @@
 export type TDependencies = {
-    components: string[],
-    composables: string[],
-    types: string[],
+    components: string[];
+    composables: string[];
+    types: string[];
 };
 
 export type TPrefix = {
     kebab: string;
     camel: string;
     upper: string;
-}
+};
 
 export interface IPotKitJsonConfig {
     components: string;
@@ -18,8 +18,8 @@ export interface IPotKitJsonConfig {
     imports: Record<string, string>;
     options: {
         prefix: string;
-        stylesImport: boolean;
         overwrite: boolean;
+        stylesImport: boolean;
         potServer: boolean;
-    }
+    };
 }

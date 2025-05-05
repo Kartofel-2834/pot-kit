@@ -9,6 +9,7 @@
         "preset/**/*",
         "types/**/*",
         "src/**/*",
+        ".pot-kit/**/*",
         "vite.config.ts"
     ],
     "compilerOptions": {

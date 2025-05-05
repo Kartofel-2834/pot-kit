@@ -15,25 +15,41 @@ import { getDependencies } from '../utils/dependencies-utils';
 // Constants
 import { DEPENDENCIES } from '../constants/dependencies';
 
+interface IAddCommandOptions {
+    componentsPath: string;
+    typesPath: string;
+    composablesPath: string;
+    overwrite: boolean;
+    prefix: string;
+    potServer: boolean;
+    server: boolean;
+}
+
 export function add(jsonConfig: IPotKitJsonConfig): Command {
     const command = new Command();
 
     command.name('add');
     command.description('Install unstyled components to your project');
     command.argument('[components...]', 'the components to add');
-    command.option('-o, --overwrite', 'overwrite existing files', false);
 
-    command.action(async (componentsList) => {
+    // Options
+    command.option('-o, --overwrite', 'overwrite existing files');
+    command.option('-p, --prefix <prefix>', 'set prefix for components');
+    command.option('--pot-server', 'use own pot-server instead of cloudflare cdn');
+    command.option('--server', 'use cloudflare cdn to load components');
+
+    command.action(async (componentsList: string[], options: Partial<IAddCommandOptions>) => {
+        const currentConfig = appendConfig(jsonConfig, options);
         logger.time('pot-kit installation tool work duration');
 
         if (!validate(componentsList)) return;
 
         logger.time('Dependencies collected');
         const dependencies = getDependencies(componentsList);
-        const prefixData = preparePrefix(jsonConfig.options.prefix);
+        const prefixData = preparePrefix(currentConfig.options.prefix);
         logger.timeEnd('Dependencies collected');
 
-        await install(jsonConfig, dependencies, prefixData);
+        await install(currentConfig, dependencies, prefixData);
 
         logger.timeEnd('pot-kit installation tool work duration');
     });
@@ -41,9 +57,27 @@ export function add(jsonConfig: IPotKitJsonConfig): Command {
     return command;
 }
 
-function validate(
-    componentsList: string[],
-): boolean {
+function appendConfig(
+    jsonConfig: IPotKitJsonConfig,
+    options: Partial<IAddCommandOptions>,
+): IPotKitJsonConfig {
+    const usePotServer = options.server ? !options.server : options.potServer;
+
+    return {
+        ...jsonConfig,
+        components: options.componentsPath ?? jsonConfig.components,
+        composables: options.composablesPath ?? jsonConfig.composables,
+        types: options.typesPath ?? jsonConfig.types,
+        options: {
+            ...jsonConfig.options,
+            overwrite: options.overwrite ?? jsonConfig.options.overwrite,
+            potServer: usePotServer ?? jsonConfig.options.potServer,
+            prefix: options.prefix || jsonConfig.options.prefix,
+        },
+    };
+}
+
+function validate(componentsList: string[]): boolean {
     const isComponentsEmpty = !Array.isArray(componentsList) || !componentsList.length;
 
     if (isComponentsEmpty) {
@@ -53,7 +87,7 @@ function validate(
 
     const isComponentsValid = componentsList.reduce((isValid, componentName) => {
         const isComponentNameReserved = Boolean(DEPENDENCIES.components[componentName]);
-    
+
         if (!isComponentNameReserved) {
             logger.error(`Validation error: Component "${componentName}" is not supported`);
         }
@@ -75,14 +109,20 @@ async function install(
 ): Promise<boolean> {
     if (!jsonConfig) return false;
 
-    const componentsPromises = dependencies.components.map((componentName) => installComponent(componentName, jsonConfig, prefixData));
-    const composablesPromises = dependencies.composables.map((composableName) => installComposable(composableName, jsonConfig, prefixData));
-    const typesPromises = dependencies.types.map((typeFileName) => installType(typeFileName, jsonConfig, prefixData));
+    const componentsPromises = dependencies.components.map(componentName =>
+        installComponent(componentName, jsonConfig, prefixData),
+    );
+    const composablesPromises = dependencies.composables.map(composableName =>
+        installComposable(composableName, jsonConfig, prefixData),
+    );
+    const typesPromises = dependencies.types.map(typeFileName =>
+        installType(typeFileName, jsonConfig, prefixData),
+    );
 
     logger.time('Installation duration');
     const [componentsFlags, composablesFlags, typesFlags] = await Promise.all([
         Promise.all(componentsPromises),
-        Promise.all(composablesPromises),    
+        Promise.all(composablesPromises),
         Promise.all(typesPromises),
     ]);
     logger.timeEnd('Installation duration');

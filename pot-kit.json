@@ -8,8 +8,8 @@
     },
     "options": {
         "potServer": true,
-        "prefix": "ui",
         "stylesImport": true,
-        "overwrite": true
+        "overwrite": false,
+        "prefix": "ui"
     }
 }

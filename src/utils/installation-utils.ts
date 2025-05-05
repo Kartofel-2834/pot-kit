@@ -15,13 +15,14 @@ import { parseTemplate, resolveImportPath } from './template-utils';
 
 /** Проверить существование файла */
 export async function checkIsFileExist(filePath: string): Promise<boolean> {
-    return fs.open(filePath, 'r')
-        .then((fileHandle) => {
+    return fs
+        .open(filePath, 'r')
+        .then(fileHandle => {
             fileHandle.close();
             return true;
         })
         .catch(() => false);
-} 
+}
 
 /** Рекурсивное создание папки, если ее нет */
 export async function createDir(dirPath: string): Promise<boolean> {
@@ -29,13 +30,13 @@ export async function createDir(dirPath: string): Promise<boolean> {
         .access(dirPath, constants.R_OK | constants.W_OK)
         .then(() => true)
         .catch(() => fs.mkdir(dirPath, { recursive: true }).then(() => true))
-        .catch((err) => {
+        .catch(err => {
             logger.error(`(createDir) Directory "${dirPath}" creation failed`, err);
             return false;
         });
 }
 
-/** Скачать файл с типами в проект пользователя */ 
+/** Скачать файл с типами в проект пользователя */
 export async function installType(
     typeFilePath: string,
     jsonConfig: IPotKitJsonConfig,
@@ -52,31 +53,34 @@ export async function installType(
     if (!(await createDir(dirName))) return false;
 
     if (!jsonConfig.options.overwrite && (await checkIsFileExist(outputPath))) {
-        logger.warn([
-            `(installComposable) Composable file "${outputPath}" already exists`,
-            `Use --overwrite flag or change owerwrite option in pot-kit config to overwrite existing files`
-        ].join('\n'));
+        logger.warn(
+            [
+                `(installComposable) Composable file "${outputPath}" already exists`,
+                `Use --overwrite flag or change overwrite option in pot-kit config to overwrite existing files`,
+            ].join('\n'),
+        );
         return false;
     }
 
     const preparedData = parseTemplate(data, prefixData);
 
-    return fs.writeFile(outputPath, preparedData)
+    return fs
+        .writeFile(outputPath, preparedData)
         .then(() => {
             logger.success(`${typeFilePath} types file successfully installed`);
             return true;
         })
-        .catch((err) => {
+        .catch(err => {
             logger.error(`(installType) Type file "${outputPath}" install failed`, err);
             return false;
         });
 }
 
-/** Скачать файл с хуками в проект пользователя */ 
+/** Скачать файл с хуками в проект пользователя */
 export async function installComposable(
     composableName: string,
     jsonConfig: IPotKitJsonConfig,
-    prefixData: TPrefix
+    prefixData: TPrefix,
 ): Promise<boolean> {
     const data = await getModule(['composables', `${composableName}.txt`], jsonConfig);
     const outputPath = path.join(jsonConfig.composables, `${composableName}.ts`);
@@ -85,27 +89,30 @@ export async function installComposable(
     if (!(await createDir(jsonConfig.composables))) return false;
 
     if (!jsonConfig.options.overwrite && (await checkIsFileExist(outputPath))) {
-        logger.warn([
-            `(installComposable) Composable file "${outputPath}" already exists`,
-            `Use --overwrite flag or change owerwrite option in pot-kit config to overwrite existing files`
-        ].join('\n'));
+        logger.warn(
+            [
+                `(installComposable) Composable file "${outputPath}" already exists`,
+                `Use --overwrite flag or change overwrite option in pot-kit config to overwrite existing files`,
+            ].join('\n'),
+        );
         return false;
     }
 
     const typesImport = resolveImportPath(
         jsonConfig.composables,
         jsonConfig.types,
-        jsonConfig.imports
+        jsonConfig.imports,
     );
 
     const preparedData = parseTemplate(data, { ...prefixData, typesImport });
 
-    return fs.writeFile(outputPath, preparedData)
+    return fs
+        .writeFile(outputPath, preparedData)
         .then(() => {
             logger.success(`${composableName} composable successfully installed`);
             return true;
         })
-        .catch((err) => {
+        .catch(err => {
             logger.error(`(installComposable) Composable file "${outputPath}" install failed`, err);
             return false;
         });
@@ -115,7 +122,7 @@ export async function installComposable(
 export async function installComponent(
     componentName: string,
     jsonConfig: IPotKitJsonConfig,
-    prefixData: TPrefix
+    prefixData: TPrefix,
 ): Promise<boolean> {
     const data = await getModule(['components', `${componentName}.txt`], jsonConfig);
     const outputName = `${prefixData.camel}${capitalize(componentName)}`;
@@ -123,25 +130,27 @@ export async function installComponent(
 
     if (!data) return false;
     if (!(await createDir(jsonConfig.components))) return false;
-    
+
     if (!jsonConfig.options.overwrite && (await checkIsFileExist(outputPath))) {
-        logger.warn([
-            `(installComponent) Component file "${outputPath}" already exists`,
-            `Use --overwrite flag or change owerwrite option in pot-kit config to overwrite existing files`
-        ].join('\n'));
+        logger.warn(
+            [
+                `(installComponent) Component file "${outputPath}" already exists`,
+                `Use --overwrite flag or change overwrite option in pot-kit config to overwrite existing files`,
+            ].join('\n'),
+        );
         return false;
     }
-        
+
     const typesImport = resolveImportPath(
         jsonConfig.components,
         jsonConfig.types,
-        jsonConfig.imports
+        jsonConfig.imports,
     );
 
     const composablesImport = resolveImportPath(
         jsonConfig.components,
         jsonConfig.composables,
-        jsonConfig.imports
+        jsonConfig.imports,
     );
 
     const preparedData = parseTemplate(data, {
@@ -150,12 +159,13 @@ export async function installComponent(
         composablesImport,
     });
 
-    return fs.writeFile(outputPath, preparedData)
+    return fs
+        .writeFile(outputPath, preparedData)
         .then(() => {
             logger.success(`${componentName} component successfully installed`);
             return true;
         })
-        .catch((err) => {
+        .catch(err => {
             logger.error(`(installComponent) Component file "${outputPath}" install failed`, err);
             return false;
         });

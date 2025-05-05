@@ -10,7 +10,7 @@ import svgLoader from 'vite-svg-loader';
 import potKit, { IPotKitConfig } from 'vite-pot-kit-plugin';
 
 // Preset
-import { PotPreset } from './preset';
+import { PotPreset } from './.pot-kit/preset/';
 
 const config: IPotKitConfig = { ...PotPreset };
 
