@@ -30,7 +30,6 @@ async function getJsonConfig(): Promise<Readonly<IPotKitJsonConfig>> {
             },
         };
     } catch (err) {
-        console.log(err);
         return DEFAULT_CONFIG;
     }
 }
