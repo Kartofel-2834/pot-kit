@@ -35,6 +35,9 @@ export function add(jsonConfig: IPotKitJsonConfig): Command {
     // Options
     command.option('-o, --overwrite', 'overwrite existing files');
     command.option('-p, --prefix <prefix>', 'set prefix for components');
+    command.option('--components-path <path>', 'set path to folder for installing components');
+    command.option('--composables-path <path>', 'set path to folder for installing composables');
+    command.option('--types-path <path>', 'set path to folder for installing types files');
     command.option('--pot-server', 'use own pot-server instead of cloudflare cdn');
     command.option('--server', 'use cloudflare cdn to load components');
 

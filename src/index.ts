@@ -3,6 +3,7 @@ import type { IPotKitJsonConfig } from './types';
 
 // Node
 import fs from 'fs/promises';
+import path from 'path';
 
 // Libs
 import { Command } from 'commander';
@@ -17,7 +18,7 @@ import { add } from './commands/add';
 /** Прочитать конфигурационный файл */
 async function getJsonConfig(): Promise<Readonly<IPotKitJsonConfig>> {
     try {
-        const data = await fs.readFile('pot-kit.json', 'utf-8');
+        const data = await fs.readFile(path.join(process.cwd(), 'pot-kit.json'), 'utf-8');
         const parsedData = JSON.parse(data) as Partial<IPotKitJsonConfig>;
 
         return {
@@ -29,6 +30,7 @@ async function getJsonConfig(): Promise<Readonly<IPotKitJsonConfig>> {
             },
         };
     } catch (err) {
+        console.log(err);
         return DEFAULT_CONFIG;
     }
 }
