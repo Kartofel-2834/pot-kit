@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // Types
 import type { IPotKitConfig, IPotKitInstallationConfig } from './types';
 
