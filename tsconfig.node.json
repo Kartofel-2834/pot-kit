@@ -10,6 +10,7 @@
         "types/**/*",
         "src/**/*",
         ".pot-kit/**/*",
+        "packages/**/*",
         "vite.config.ts"
     ],
     "compilerOptions": {

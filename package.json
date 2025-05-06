@@ -11,7 +11,10 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "pot-kit": "npx tsx ./src/index.ts"
+    "pot-kit-test": "npx tsx ./packages/pot-kit/src/index.ts",
+    "pot-kit-gen-test": "npx tsx ./packages/pot-kit-gen/src/index.ts",
+    "pot-kit": "node ./packages/pot-kit/dist/index.js",
+    "pot-kit-gen": "npx tsx ./packages/pot-kit-gen/dist/index.js"
   },
   "dependencies": {
     "commander": "^13.1.0",

@@ -1,0 +1,1 @@
+export { IPotKitInstallationConfig } from './index';

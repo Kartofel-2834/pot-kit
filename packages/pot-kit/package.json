@@ -1,0 +1,52 @@
+{
+    "name": "pot-kit",
+    "version": "1.0.0",
+    "private": false,
+    "description": "Tool for installing cool and unstyled vue-components",  
+    "author": "Radjab Gabibov <radjab-gabibov@mail.ru> (https://github.com/Kartofel-2834)",
+    "license": "MIT",
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/types/index.d.ts",
+    "files": [
+        "./dist/**/*"
+    ],
+    "exports": {
+        "require": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "import": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "keywords": [
+        "pot",
+        "kit",
+        "pot-kit",
+        "pot-kit-ui",
+        "pot-kit",
+        "ui-kit",
+        "ui-framework",
+        "ui",
+        "PotKit",
+        "PotKitUI",
+        "UIKit"
+    ],
+    "scripts": {
+        "kit:prepare": "pkgroll --minify"
+    },
+    "dependencies": {
+        "commander": "^13.1.0"
+    },
+    "devDependencies": {
+        "@tsconfig/node20": "^20.1.5",
+        "@types/node": "^22.14.1",
+        "pkgroll": "^2.12.1",
+        "prettier": "3.5.3",
+        "tsx": "^4.19.3",
+        "typescript": "~5.7.2"
+    }
+}
