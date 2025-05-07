@@ -29,24 +29,23 @@ export interface IPotKitInstallationConfig {
     };
 }
 
-export interface IPotKitConfig<TSize extends string = string> {
-    breakpoints?: Record<string, number>;
-
+export interface IPotKitConfig<
+    TSize extends string = string,
+    TColorTheme extends { [varName: string]: string } = { [varName: string]: string },
+> {
     size?: TSize[];
 
     color?: {
-        [key: string]: {
-            [varName: string]: string;
-        };
+        [key: string]: TColorTheme;
     };
 
-    radius?: {
-        [key: string]: string | number;
-    };
+    variables?: Record<string, string | number>;
 
-    gap?: {
-        [key: string]: string | number;
-    };
+    breakpoints?: Record<string, number>;
+
+    radius?: Record<string, string | number>;
+
+    gap?: Record<string, string | number>;
 
     components?: {
         button?: IPotButtonConfig<TSize>;
