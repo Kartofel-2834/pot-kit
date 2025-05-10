@@ -10,7 +10,6 @@ import { Command } from 'commander';
 
 // Utils
 import { preparePrefix } from '../utils/template-utils';
-import { camelCaseToKebab } from '../utils/string-utils';
 import { checkIsFileExist, createDir } from '../utils/fs-utils';
 import { generateGlobalStyles } from '../generate/styles-generate';
 import { generateEnums } from '../generate/enums-generate';
@@ -130,7 +129,7 @@ async function writeComponentsData(
     const componentsData = await generateComponents(config, installationConfig, prefixData);
 
     const promises = Object.entries(componentsData).map(async ([componentName, data]) => {
-        const filePath = path.join(stylesPath, `${camelCaseToKebab(componentName)}.css`);
+        const filePath = path.join(stylesPath, `${componentName}.css`);
 
         if (!(await checkOverwrite(filePath, installationConfig))) return false;
 

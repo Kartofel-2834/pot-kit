@@ -1,6 +1,3 @@
-// Utils
-import { camelCaseToKebab } from './string-utils';
-
 /** Подготовка значений для css */
 export function toCssValue(value: string | number): string {
     return typeof value === 'number' ? `${value}px` : value;
@@ -8,7 +5,7 @@ export function toCssValue(value: string | number): string {
 
 /** Получить стиль css правила */
 export function getStyleRule(rule: string, value: string | number): string {
-    return `${camelCaseToKebab(rule)}: ${toCssValue(value)};`;
+    return `${rule}: ${toCssValue(value)};`;
 }
 
 /** Сформировать css-класс */
@@ -25,7 +22,7 @@ export function getSelectorStyles(
 
 /** Сформировать название модификатора */
 export function getModificatorClassName(name: string, value: string): string {
-    return `._${[name, value].filter(Boolean).map(camelCaseToKebab).join('-')}`;
+    return `._${[name, value].filter(Boolean).join('-')}`;
 }
 
 /** Генерация одного класса модификатора */
@@ -55,7 +52,7 @@ export function generateVars(
     return Object.entries(varsRecord).reduce((res, [varName, varValue]) => {
         return {
             ...res,
-            [`--${name}-${camelCaseToKebab(varName)}`]: toCssValue(varValue),
+            [`--${name}-${varName}`]: toCssValue(varValue),
         };
     }, {});
 }

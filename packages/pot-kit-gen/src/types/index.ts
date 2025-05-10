@@ -49,12 +49,12 @@ export interface IPotKitConfig<
 
     components?: {
         button?: IPotButtonConfig<TSize>;
-        checkbox?: IPotCheckboxConfig<TSize>;
-        input?: IPotInputConfig<TSize>;
-        link?: IPotLinkConfig<TSize>;
-        radio?: IPotRadioConfig<TSize>;
-        tooltip?: IPotTooltipConfig<TSize>;
-        grid?: IPotGridConfig;
-        group?: IPotGroupConfig;
+        // checkbox?: IPotCheckboxConfig<TSize>;
+        // input?: IPotInputConfig<TSize>;
+        // link?: IPotLinkConfig<TSize>;
+        // radio?: IPotRadioConfig<TSize>;
+        // tooltip?: IPotTooltipConfig<TSize>;
+        // grid?: IPotGridConfig;
+        // group?: IPotGroupConfig;
     };
 }

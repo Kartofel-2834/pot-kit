@@ -120,22 +120,22 @@
             "border": "var(--pot-color-mushroom-300)",
             "subcolor": "var(--pot-base-400)",
             "text": "var(--pot-base-0)",
-            "hoverTarget": "var(--pot-color-mushroom-200)",
-            "hoverBorder": "var(--pot-color-mushroom-200)",
-            "hoverSubcolor": "var(--pot-base-500)",
-            "hoverText": "var(--pot-base-0)",
-            "activeTarget": "var(--pot-color-mushroom-400)",
-            "activeBorder": "var(--pot-color-mushroom-400)",
-            "activeSubcolor": "var(--pot-base-600)",
-            "activeText": "var(--pot-base-0)",
-            "disabledTarget": "var(--pot-base-400)",
-            "disabledBorder": "var(--pot-base-400)",
-            "disabledSubcolor": "var(--pot-base-500)",
-            "disabledText": "var(--pot-base-0)",
-            "invalidTarget": "var(--pot-color-invalid)",
-            "invalidBorder": "var(--pot-color-invalid)",
-            "invalidSubcolor": "var(--pot-base-400)",
-            "invalidText": "var(--pot-color-invalid-text)"
+            "hover-target": "var(--pot-color-mushroom-200)",
+            "hover-border": "var(--pot-color-mushroom-200)",
+            "hover-subcolor": "var(--pot-base-500)",
+            "hover-text": "var(--pot-base-0)",
+            "active-target": "var(--pot-color-mushroom-400)",
+            "active-border": "var(--pot-color-mushroom-400)",
+            "active-subcolor": "var(--pot-base-600)",
+            "active-text": "var(--pot-base-0)",
+            "disabled-target": "var(--pot-base-400)",
+            "disabled-border": "var(--pot-base-400)",
+            "disabled-subcolor": "var(--pot-base-500)",
+            "disabled-text": "var(--pot-base-0)",
+            "invalid-target": "var(--pot-color-invalid)",
+            "invalid-border": "var(--pot-color-invalid)",
+            "invalid-subcolor": "var(--pot-base-400)",
+            "invalid-text": "var(--pot-color-invalid-text)"
         }
     },
     "radius": {
@@ -161,22 +161,26 @@
                 "base": {
                     "border": "var(--color-border)",
                     "background": "var(--color-target)",
-                    "text": "var(--color-text)"
+                    "text": "var(--color-text)",
+                    "outline": "var(--color-target)"
                 },
                 "hover": {
                     "background": "var(--color-hover-target)",
                     "border": "var(--color-hover-border)",
-                    "text": "var(--color-hover-text)"
+                    "text": "var(--color-hover-text)",
+                    "outline": "var(--color-hover-target)"
                 },
                 "pressed": {
                     "background": "var(--color-active-target)",
                     "border": "var(--color-active-target)",
-                    "text": "var(--color-active-text)"
+                    "text": "var(--color-active-text)",
+                    "outline": "var(--color-active-target)"
                 },
                 "disabled": {
                     "background": "var(--pot-base-400)",
                     "border": "var(--pot-base-400)",
-                    "text": "var(--color-disabled-text)"
+                    "text": "var(--color-disabled-text)",
+                    "outline": "var(--pot-base-400)"
                 }
             },
             "size": {
@@ -184,33 +188,33 @@
                     "height": "var(--pot-spacer-3-200)",
                     "text": "var(--pot-font-size-200)",
                     "padding": "var(--pot-spacer-1-200)",
-                    "gap": "var(--pot-spacer-0-800)",
-                    "icon": "var(--pot-spacer-1-400)",
-                    "border": 1
+                    "border": 1,
+                    "outline": 2,
+                    "outline-offset": 2
                 },
                 "small": {
                     "height": "var(--pot-spacer-3-600)",
                     "text": "var(--pot-font-size-200)",
                     "padding": "var(--pot-spacer-1-600)",
-                    "gap": "var(--pot-spacer-0-800)",
-                    "icon": "var(--pot-spacer-1-600)",
-                    "border": 1
+                    "border": 1,
+                    "outline": 2,
+                    "outline-offset": 2
                 },
                 "medium": {
                     "height": "var(--pot-spacer-4-800)",
                     "text": "var(--pot-font-size-200)",
                     "padding": "var(--pot-spacer-2)",
-                    "gap": "var(--pot-spacer-1-200)",
-                    "icon": "var(--pot-spacer-1-600)",
-                    "border": 1
+                    "border": 1,
+                    "outline": 2,
+                    "outline-offset": 2
                 },
                 "large": {
                     "height": "var(--pot-spacer-5-600)",
                     "text": "var(--pot-font-size-300)",
                     "padding": "var(--pot-spacer-2-800)",
-                    "gap": "var(--pot-spacer-1-200)",
-                    "icon": "var(--pot-spacer-2)",
-                    "border": 1
+                    "border": 1,
+                    "outline": 2,
+                    "outline-offset": 2
                 }
             }
         }

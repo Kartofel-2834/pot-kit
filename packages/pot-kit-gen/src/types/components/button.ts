@@ -5,7 +5,7 @@ import {
     IPotComponentSizeConfig,
 } from './component';
 
-type TClassList = 'button' | 'icon' | 'label';
+type TClassList = 'button';
 
 type TStateVars = {
     /** Цвет рамки */
@@ -16,6 +16,9 @@ type TStateVars = {
 
     /** Цвет текста */
     text: string;
+
+    /** Цвет обводки */
+    outline: string;
 };
 
 type TConfig<TSize extends string = string> = IPotComponentClassConfig<TClassList> &
@@ -49,14 +52,14 @@ export interface IPotButtonConfig<TSize extends string = string> extends TConfig
             /** Паддинг */
             padding: string | number;
 
-            /** Паддинг текста */
-            gap: string | number;
-
             /** Размер рамки */
             border: string | number;
 
-            /** Размер иконки */
-            icon: string | number;
+            /** Размер обводки */
+            outline: string | number;
+
+            /** Отступ рамки от кнопки */
+            'outline-offset': string | number;
         };
     };
 }

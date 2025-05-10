@@ -18,7 +18,7 @@ import {
     getModule,
     resolveImportPath,
 } from '../utils/modules-utils';
-import { camelCaseToKebab, capitalize } from '../utils/string-utils';
+import { capitalize } from '../utils/string-utils';
 import {
     generateVars,
     getModificatorClassName,
@@ -164,17 +164,9 @@ async function replaceClassNames(
 
     for (const key in classData) {
         const className = classes?.[key];
-        const currentClass = parseTemplate(classData[key], { kebab: 'pot' });
+        const prefixClass = parseTemplate(classData[key], { kebab: prefixData.kebab });
 
-        if (className) {
-            result = result.replaceAll(currentClass, className);
-            continue;
-        }
-
-        if (installationConfig.options.prefix !== 'pot') {
-            const prefixClass = parseTemplate(classData[key], { kebab: prefixData.kebab });
-            result = result.replaceAll(currentClass, prefixClass);
-        }
+        result = result.replaceAll(classData[key], className || prefixClass);
     }
 
     return result;
@@ -191,8 +183,7 @@ function generateSubscriptionStyles(
         return '';
     }
 
-    const kebabName = camelCaseToKebab(componentName);
-    const componentClass = `.pot-${kebabName}`;
+    const componentClass = `.<%kebab%>-${componentName}`;
 
     const getStyles = (modificator: string, data?: Record<string, unknown>): string => {
         if (!data || typeof data !== 'object') {
@@ -204,7 +195,7 @@ function generateSubscriptionStyles(
         });
 
         return getSelectorStyles(selectors, {
-            [`--${kebabName}-${camelCaseToKebab(modificator)}`]: `var(--${camelCaseToKebab(modificator)})`,
+            [`--${componentName}-${modificator}`]: `var(--${modificator})`,
         });
     };
 
@@ -231,12 +222,11 @@ function generateComponentSizes(
         return '';
     }
 
-    const kebabName = camelCaseToKebab(componentName);
-    const componentClass = `.pot-${kebabName}`;
+    const componentClass = `.<%kebab%>-${componentName}`;
 
     const modificators = Object.entries(sizesConfig).map(([sizeName, sizeVars]) => {
         const className = getModificatorClassName('size', sizeName);
-        const vars = generateVars(`${kebabName}-size`, sizeVars as Record<string, string>);
+        const vars = generateVars(`${componentName}-size`, sizeVars as Record<string, string>);
 
         return getSelectorStyles([componentClass + className], vars);
     });
@@ -261,8 +251,7 @@ function generateComponentColors(
         return '';
     }
 
-    const kebabName = camelCaseToKebab(componentName);
-    const componentClass = `.pot-${kebabName}`;
+    const componentClass = `.<%kebab%>-${componentName}`;
 
     const selectors = Object.keys(config.color).map(colorName => {
         return componentClass + getModificatorClassName('color', colorName);
@@ -275,7 +264,7 @@ function generateComponentColors(
 
         for (const varName in stateData) {
             const varValue = (stateData as Record<string, string>)[varName];
-            const key = `--${kebabName}-color-${camelCaseToKebab(state)}-${camelCaseToKebab(varName)}`;
+            const key = `--${componentName}-color-${state}-${varName}`;
             colorVars[key] = toCssValue(varValue);
         }
     }

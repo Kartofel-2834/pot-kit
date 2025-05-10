@@ -7,9 +7,9 @@
         "$": "./test"
     },
     "options": {
-        "potServer": true,
+        "potServer": false,
         "stylesImport": true,
-        "overwrite": false,
+        "overwrite": true,
         "prefix": "ui"
     }
 }

@@ -2,7 +2,6 @@
 import type { IPotKitConfig } from '../types';
 
 // Utils
-import { camelCaseToKebab } from '../utils/string-utils';
 import {
     generateModificatorGroup,
     generateVars,
@@ -36,9 +35,7 @@ function generateRootVariables(globalVariables: IPotKitConfig['variables']): str
     }
 
     const varsStyles = Object.entries(globalVariables).map(([varName, varValue]) => {
-        const name = !varName.includes('-') ? camelCaseToKebab(varName) : varName;
-
-        return `    --${name}: ${toCssValue(varValue)};`;
+        return `    --${varName}: ${toCssValue(varValue)};`;
     });
 
     return varsStyles.length ? `:root {\n${varsStyles.join('\n')}\n}` : '';
