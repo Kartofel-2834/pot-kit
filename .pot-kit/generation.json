@@ -217,6 +217,41 @@
                     "outline-offset": 2
                 }
             }
+        },
+        "popover": {
+            "color": {
+                "base": {
+                    "border": "var(--pot-base-400)",
+                    "background": "var(--pot-base-0)",
+                    "text": "inerit"
+                }
+            },
+            "size": {
+                "tiny": {
+                    "text": "var(--pot-font-size-200)",
+                    "padding": "var(--pot-spacer-1-200)",
+                    "shadow": "var(--pot-shadow-200)",
+                    "border": 1
+                },
+                "small": {
+                    "text": "var(--pot-font-size-300)",
+                    "padding": "var(--pot-spacer-1-600)",
+                    "shadow": "var(--pot-shadow-200)",
+                    "border": 1
+                },
+                "medium": {
+                    "text": "var(--pot-font-size-400)",
+                    "padding": "var(--pot-spacer-1-800)",
+                    "shadow": "var(--pot-shadow-300)",
+                    "border": 1
+                },
+                "large": {
+                    "text": "var(--pot-font-size-500)",
+                    "padding": "var(--pot-spacer-2)",
+                    "shadow": "var(--pot-shadow-300)",
+                    "border": 1
+                }
+            }
         }
     }
 }

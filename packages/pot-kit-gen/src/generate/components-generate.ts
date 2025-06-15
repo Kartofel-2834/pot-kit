@@ -32,6 +32,7 @@ type TSubscriptionCharacteristic = 'radius' | 'gap' | 'columnGap' | 'rowGap';
 
 const COMPONENT_STYLES_SUBSCRIPTIONS: Record<string, TSubscriptionCharacteristic[]> = {
     button: ['radius'],
+    popover: ['radius'],
     checkbox: ['radius'],
     input: ['radius'],
     grid: ['gap', 'rowGap', 'columnGap'],
@@ -126,9 +127,9 @@ async function generateComponentStyles(
         getConditionsStyles(componentName, config, installationConfig),
     ]);
 
-    const colors = generateComponentColors(componentName, config);
-    const sizes = generateComponentSizes(componentName, config);
-    const subscriptions = generateSubscriptionStyles(componentName, config);
+    const colors = generateComponentColors(componentName, config, prefixData);
+    const sizes = generateComponentSizes(componentName, config, prefixData);
+    const subscriptions = generateSubscriptionStyles(componentName, config, prefixData);
 
     const data = [colors, sizes, subscriptions, configurationStyles, conditionsStyles]
         .map(v => v.trim())
@@ -176,6 +177,7 @@ async function replaceClassNames(
 function generateSubscriptionStyles(
     componentName: keyof IPotKitConfig['components'],
     config: IPotKitConfig,
+    prefixData: TPrefix,
 ): string {
     const subscription = COMPONENT_STYLES_SUBSCRIPTIONS[componentName] || [];
 
@@ -195,7 +197,7 @@ function generateSubscriptionStyles(
         });
 
         return getSelectorStyles(selectors, {
-            [`--${componentName}-${modificator}`]: `var(--${modificator})`,
+            [`--${prefixData.kebab}-${componentName}-${modificator}`]: `var(--${modificator})`,
         });
     };
 
@@ -214,6 +216,7 @@ function generateSubscriptionStyles(
 function generateComponentSizes(
     componentName: keyof IPotKitConfig['components'],
     config: IPotKitConfig,
+    prefixData: TPrefix,
 ): string {
     const componentConfig = config?.components?.[componentName];
     const sizesConfig = componentConfig ? (componentConfig as IPotComponentSizeConfig)?.size : null;
@@ -226,7 +229,10 @@ function generateComponentSizes(
 
     const modificators = Object.entries(sizesConfig).map(([sizeName, sizeVars]) => {
         const className = getModificatorClassName('size', sizeName);
-        const vars = generateVars(`${componentName}-size`, sizeVars as Record<string, string>);
+        const vars = generateVars(
+            `${prefixData.kebab}-${componentName}-size`,
+            sizeVars as Record<string, string>,
+        );
 
         return getSelectorStyles([componentClass + className], vars);
     });
@@ -241,6 +247,7 @@ function generateComponentSizes(
 function generateComponentColors(
     componentName: keyof IPotKitConfig['components'],
     config: IPotKitConfig,
+    prefixData: TPrefix,
 ): string {
     const componentConfig = config?.components?.[componentName];
     const componentColors = componentConfig
@@ -264,7 +271,7 @@ function generateComponentColors(
 
         for (const varName in stateData) {
             const varValue = (stateData as Record<string, string>)[varName];
-            const key = `--${componentName}-color-${state}-${varName}`;
+            const key = `--${prefixData.kebab}-${componentName}-color-${state}-${varName}`;
             colorVars[key] = toCssValue(varValue);
         }
     }

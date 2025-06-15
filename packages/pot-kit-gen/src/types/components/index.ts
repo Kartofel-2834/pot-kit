@@ -7,3 +7,4 @@ export * from './radio';
 export * from './tooltip';
 export * from './grid';
 export * from './group';
+export * from './popover';

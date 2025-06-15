@@ -8,6 +8,16 @@ export const DEPENDENCIES: {
             composables: ['class-list', 'device-is', 'device-properties'],
             types: ['components/button', 'index'],
         },
+        popover: {
+            components: ['slot-catcher'],
+            composables: ['popover', 'dialog', 'class-list', 'device-is', 'device-properties'],
+            types: ['components/popover', 'index'],
+        },
+        'slot-catcher': {
+            components: [],
+            composables: [],
+            types: ['components/slot-catcher'],
+        },
     },
 
     composables: {
@@ -26,15 +36,20 @@ export const DEPENDENCIES: {
             composables: [],
             types: ['composables/device-properties', 'index'],
         },
-        form: {
+        popover: {
             components: [],
-            composables: [],
-            types: ['composables/form'],
+            composables: ['surrounding'],
+            types: [
+                'components/popover',
+                'composables/popover',
+                'composables/surrounding',
+                'index',
+            ],
         },
-        specs: {
+        surrounding: {
             components: [],
             composables: [],
-            types: ['composables/specs'],
+            types: ['composables/surrounding'],
         },
     },
 };

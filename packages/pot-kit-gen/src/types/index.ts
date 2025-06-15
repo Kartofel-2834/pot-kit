@@ -8,6 +8,7 @@ import type {
     IPotLinkConfig,
     IPotRadioConfig,
     IPotTooltipConfig,
+    IPotPopoverConfig,
 } from './components';
 
 export type TPrefix = {
@@ -49,6 +50,7 @@ export interface IPotKitConfig<
 
     components?: {
         button?: IPotButtonConfig<TSize>;
+        popover?: IPotPopoverConfig<TSize>;
         // checkbox?: IPotCheckboxConfig<TSize>;
         // input?: IPotInputConfig<TSize>;
         // link?: IPotLinkConfig<TSize>;

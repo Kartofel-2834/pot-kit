@@ -1,6 +1,6 @@
 {
     "name": "pot-kit-gen",
-    "version": "1.0.4",
+    "version": "1.1.4",
     "private": false,
     "description": "Tool for generating enums and styles for pot-kit components",
     "author": "Radjab Gabibov <radjab-gabibov@mail.ru> (https://github.com/Kartofel-2834)",

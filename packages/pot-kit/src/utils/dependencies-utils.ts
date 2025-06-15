@@ -1,32 +1,32 @@
 // Types
-import { TDependencies } from "../types";
+import { TDependencies } from '../types';
 
 // Constants
-import { DEPENDENCIES } from "../constants/dependencies";
+import { DEPENDENCIES } from '../constants/dependencies';
 
 export function getEmptyDependencies(): TDependencies {
     return {
         components: [],
         composables: [],
-        types: []
+        types: [],
     };
 }
 
 export function getDependencies(componentsList: string[]): TDependencies {
     const data = componentsList.reduce((res, componentName) => {
         const dependencies = getComponentDependencies(componentName, res);
-        
+
         res.components.push(...dependencies.components);
         res.composables.push(...dependencies.composables);
         res.types.push(...dependencies.types);
-    
+
         return res;
     }, getEmptyDependencies());
 
     return {
-        components: [...(new Set(data.components))],
-        composables: [...(new Set(data.composables))],
-        types: [...(new Set(data.types))],
+        components: [...new Set(data.components)],
+        composables: [...new Set(data.composables)],
+        types: [...new Set(data.types)],
     };
 }
 
@@ -39,7 +39,7 @@ export function getComponentDependencies(
         currentDependencies.components.includes(componentName)
     ) {
         return getEmptyDependencies();
-    };
+    }
 
     const straightDeps = DEPENDENCIES.components[componentName];
     const result: TDependencies = {
@@ -50,7 +50,7 @@ export function getComponentDependencies(
 
     result.types = straightDeps.types;
 
-    straightDeps.components.forEach((component) => {
+    straightDeps.components.forEach(component => {
         const dependencies = getComponentDependencies(component, result);
 
         result.components.push(...dependencies.components);
@@ -58,7 +58,7 @@ export function getComponentDependencies(
         result.types.push(...dependencies.types);
     });
 
-    straightDeps.composables.forEach((composable) => {
+    straightDeps.composables.forEach(composable => {
         const dependencies = getComposableDependencies(composable, result);
 
         result.components.push(...dependencies.components);
@@ -77,15 +77,23 @@ function getComposableDependencies(
         !DEPENDENCIES.composables[composableName] ||
         currentDependencies.composables.includes(composableName)
     ) {
-        return getEmptyDependencies(); 
-    };
+        return getEmptyDependencies();
+    }
 
-    const straightDeps = DEPENDENCIES.composables[composableName]; 
-    const types = straightDeps.types;
-    
-    return {
+    const straightDeps = DEPENDENCIES.composables[composableName];
+    const result: TDependencies = {
         components: [],
         composables: [composableName],
-        types,
+        types: [...straightDeps.types],
     };
+
+    straightDeps.composables.forEach(component => {
+        const dependencies = getComposableDependencies(component, result);
+
+        result.components.push(...dependencies.components);
+        result.composables.push(...dependencies.composables);
+        result.types.push(...dependencies.types);
+    });
+
+    return result;
 }

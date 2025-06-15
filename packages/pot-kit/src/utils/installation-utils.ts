@@ -11,7 +11,7 @@ import { logger } from '../logger';
 
 // Utils
 import { getModule } from './fetch-utils';
-import { capitalize } from './string-utils';
+import { capitalize, kebabCaseToCamel } from './string-utils';
 import { parseTemplate, resolveImportPath } from './template-utils';
 
 /** Прочитать файл JSON */
@@ -110,9 +110,15 @@ export async function installComposable(
     if (!(await checkOverwrite(outputPath, config))) return false;
     if (!(await createDir(config.composables))) return false;
 
+    const composablesImport = resolveImportPath(
+        config.composables,
+        config.composables,
+        config.imports,
+    );
+
     const typesImport = resolveImportPath(config.composables, config.types, config.imports);
 
-    const preparedData = parseTemplate(data, { ...prefixData, typesImport });
+    const preparedData = parseTemplate(data, { ...prefixData, typesImport, composablesImport });
 
     return fs
         .writeFile(outputPath, preparedData)
@@ -133,7 +139,7 @@ export async function installComponent(
     prefixData: TPrefix,
 ): Promise<boolean> {
     const data = await getModule(['components', `${componentName}.txt`], config);
-    const outputName = `${prefixData.camel}${capitalize(componentName)}`;
+    const outputName = `${prefixData.camel}${capitalize(kebabCaseToCamel(componentName))}`;
     const outputPath = path.join(config.components, `${outputName}.vue`);
 
     if (!data) return false;
@@ -148,10 +154,17 @@ export async function installComponent(
         config.imports,
     );
 
+    const componentsImport = resolveImportPath(
+        config.components,
+        config.components,
+        config.imports,
+    );
+
     const preparedData = parseTemplate(data, {
         ...prefixData,
         typesImport,
         composablesImport,
+        componentsImport,
     });
 
     return fs
