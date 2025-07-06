@@ -1,5 +1,5 @@
 // Types
-import { IPotKitInstallationConfig, TDependencies, TPrefix } from '../types';
+import { IPotKitInstallationConfig, TDependencies, TDependenciesMap, TPrefix } from '../types';
 
 // Libs
 import { Command } from 'commander';
@@ -12,9 +12,6 @@ import { installComponent, installComposable, installType } from '../utils/insta
 import { preparePrefix } from '../utils/template-utils';
 import { getDependencies } from '../utils/dependencies-utils';
 
-// Constants
-import { DEPENDENCIES } from '../constants/dependencies';
-
 interface IAddCommandOptions {
     componentsPath: string;
     typesPath: string;
@@ -25,7 +22,7 @@ interface IAddCommandOptions {
     server: boolean;
 }
 
-export function add(config: IPotKitInstallationConfig): Command {
+export function add(config: IPotKitInstallationConfig, dependenciesMap: TDependenciesMap): Command {
     const command = new Command();
 
     command.name('add');
@@ -45,10 +42,10 @@ export function add(config: IPotKitInstallationConfig): Command {
         const currentConfig = appendConfig(config, options);
         logger.time('pot-kit installation tool work duration');
 
-        if (!validate(componentsList)) return;
+        if (!validate(componentsList, dependenciesMap)) return;
 
         logger.time('Dependencies collected');
-        const dependencies = getDependencies(componentsList);
+        const dependencies = getDependencies(componentsList, dependenciesMap);
         const prefixData = preparePrefix(currentConfig.options.prefix);
         logger.timeEnd('Dependencies collected');
 
@@ -80,7 +77,7 @@ function appendConfig(
     };
 }
 
-function validate(componentsList: string[]): boolean {
+function validate(componentsList: string[], dependenciesMap: TDependenciesMap): boolean {
     const isComponentsEmpty = !Array.isArray(componentsList) || !componentsList.length;
 
     if (isComponentsEmpty) {
@@ -89,7 +86,7 @@ function validate(componentsList: string[]): boolean {
     }
 
     const isComponentsValid = componentsList.reduce((isValid, componentName) => {
-        const isComponentNameReserved = Boolean(DEPENDENCIES.components[componentName]);
+        const isComponentNameReserved = Boolean(dependenciesMap.components[componentName]);
 
         if (!isComponentNameReserved) {
             logger.error(`Validation error: Component "${componentName}" is not supported`);

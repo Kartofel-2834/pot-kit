@@ -1,8 +1,21 @@
 // Types
-import { TDependencies } from '../types';
+import { IPotKitInstallationConfig, TDependencies, TDependenciesMap } from '../types';
 
-// Constants
-import { DEPENDENCIES } from '../constants/dependencies';
+// Logger
+import { logger } from '../logger';
+
+// Utils
+import { fetchModule } from './fetch-utils';
+
+export async function fetchDependenciesMap(
+    config: IPotKitInstallationConfig,
+): Promise<TDependenciesMap | null> {
+    return fetchModule(['dependencies.json'], config)
+        .then(data => (data ? JSON.parse(data) : null))
+        .catch(err => {
+            logger.error('(loadDependencies) Dependencies fetch failed:', err);
+        });
+}
 
 export function getEmptyDependencies(): TDependencies {
     return {
@@ -12,88 +25,58 @@ export function getEmptyDependencies(): TDependencies {
     };
 }
 
-export function getDependencies(componentsList: string[]): TDependencies {
-    const data = componentsList.reduce((res, componentName) => {
-        const dependencies = getComponentDependencies(componentName, res);
+export function getDependencies(
+    componentsList: string[],
+    dependenciesMap: TDependenciesMap,
+): TDependencies {
+    const data = collectDependencies(
+        {
+            ...getEmptyDependencies(),
+            components: componentsList,
+        },
+        getEmptyDependencies(),
+        dependenciesMap,
+    );
 
-        res.components.push(...dependencies.components);
-        res.composables.push(...dependencies.composables);
-        res.types.push(...dependencies.types);
-
-        return res;
-    }, getEmptyDependencies());
-
-    return {
-        components: [...new Set(data.components)],
-        composables: [...new Set(data.composables)],
-        types: [...new Set(data.types)],
-    };
+    return data;
 }
 
-export function getComponentDependencies(
-    componentName: string,
+function collectDependencies(
+    initialDependencies: TDependencies,
     currentDependencies: TDependencies,
+    dependenciesMap: TDependenciesMap,
 ): TDependencies {
-    if (
-        !DEPENDENCIES.components[componentName] ||
-        currentDependencies.components.includes(componentName)
-    ) {
-        return getEmptyDependencies();
+    let result = JSON.parse(JSON.stringify(currentDependencies));
+
+    for (const key in initialDependencies) {
+        const initialDepKey = key as keyof TDependencies;
+        const initialDeps = initialDependencies[initialDepKey];
+
+        for (const item of initialDeps) {
+            const currentDeps = currentDependencies[initialDepKey];
+            const straightDeps = dependenciesMap?.[initialDepKey]?.[item];
+
+            result[initialDepKey].push(item);
+
+            if (!straightDeps || currentDeps.includes(item)) {
+                continue;
+            }
+
+            const updatedDeps = collectDependencies(
+                straightDeps as TDependencies,
+                currentDependencies,
+                dependenciesMap,
+            );
+
+            result = Object.keys(updatedDeps).reduce((res, key) => {
+                const typedKey = key as keyof TDependencies;
+                return {
+                    ...res,
+                    [key]: [...new Set([...res[typedKey], ...updatedDeps[typedKey]])],
+                };
+            }, result);
+        }
     }
-
-    const straightDeps = DEPENDENCIES.components[componentName];
-    const result: TDependencies = {
-        components: [componentName],
-        composables: [],
-        types: [],
-    };
-
-    result.types = straightDeps.types;
-
-    straightDeps.components.forEach(component => {
-        const dependencies = getComponentDependencies(component, result);
-
-        result.components.push(...dependencies.components);
-        result.composables.push(...dependencies.composables);
-        result.types.push(...dependencies.types);
-    });
-
-    straightDeps.composables.forEach(composable => {
-        const dependencies = getComposableDependencies(composable, result);
-
-        result.components.push(...dependencies.components);
-        result.composables.push(...dependencies.composables);
-        result.types.push(...dependencies.types);
-    });
-
-    return result;
-}
-
-function getComposableDependencies(
-    composableName: string,
-    currentDependencies: TDependencies,
-): TDependencies {
-    if (
-        !DEPENDENCIES.composables[composableName] ||
-        currentDependencies.composables.includes(composableName)
-    ) {
-        return getEmptyDependencies();
-    }
-
-    const straightDeps = DEPENDENCIES.composables[composableName];
-    const result: TDependencies = {
-        components: [],
-        composables: [composableName],
-        types: [...straightDeps.types],
-    };
-
-    straightDeps.composables.forEach(component => {
-        const dependencies = getComposableDependencies(component, result);
-
-        result.components.push(...dependencies.components);
-        result.composables.push(...dependencies.composables);
-        result.types.push(...dependencies.types);
-    });
 
     return result;
 }

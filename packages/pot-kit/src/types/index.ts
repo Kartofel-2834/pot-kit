@@ -1,3 +1,7 @@
+export type TDependenciesMap = {
+    [key in keyof TDependencies]: Record<string, Record<string, string[]>>;
+};
+
 export type TDependencies = {
     components: string[];
     composables: string[];

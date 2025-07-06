@@ -83,7 +83,8 @@ export async function installType(
     if (!(await checkOverwrite(outputPath, config))) return false;
     if (!(await createDir(dirName))) return false;
 
-    const preparedData = parseTemplate(data, prefixData);
+    const typesImport = resolveImportPath(config.types, config.types, config.imports);
+    const preparedData = parseTemplate(data, { ...prefixData, typesImport });
 
     return fs
         .writeFile(outputPath, preparedData)

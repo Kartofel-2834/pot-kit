@@ -1,48 +1,27 @@
-// Types
-import {
-    IPotComponentClassConfig,
-    IPotComponentColorConfig,
-    IPotComponentSizeConfig,
-} from './component';
-
-type TClassList = 'button';
-
-type TStateVars = {
-    /** Цвет рамки */
-    border: string;
-
-    /** Цвет фона */
-    background: string;
-
-    /** Цвет текста */
-    text: string;
-
-    /** Цвет обводки */
-    outline: string;
-};
-
-type TConfig<TSize extends string = string> = IPotComponentClassConfig<TClassList> &
-    IPotComponentSizeConfig<TSize> &
-    IPotComponentColorConfig<TStateVars>;
+type TPotButtonConditions = 'base' | 'hover' | 'pressed' | 'disabled';
 
 /** PotButton */
-export interface IPotButtonConfig<TSize extends string = string> extends TConfig<TSize> {
+export interface IPotButtonConfig {
     color?: {
-        /** Базовая расцветка */
-        base?: TStateVars;
+        [key: string]: {
+            [condition in TPotButtonConditions]?: {
+                /** Цвет рамки */
+                border: string;
 
-        /** Расцветка при наведении */
-        hover?: TStateVars;
+                /** Цвет фона */
+                background: string;
 
-        /** Расцветка при нажатии */
-        pressed?: TStateVars;
+                /** Цвет текста */
+                text: string;
 
-        /** Расцветка заблокированной кнопки */
-        disabled?: TStateVars;
+                /** Цвет обводки */
+                outline: string;
+            };
+        };
     };
 
     size?: {
-        [key in TSize]: {
+        [key: string]: {
             /** Высота */
             height: string | number;
 
