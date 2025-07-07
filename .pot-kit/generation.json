@@ -158,98 +158,97 @@
     "components": {
         "button": {
             "color": {
-                "base": {
-                    "border": "var(--color-border)",
-                    "background": "var(--color-target)",
-                    "text": "var(--color-text)",
-                    "outline": "var(--color-target)"
-                },
-                "hover": {
-                    "background": "var(--color-hover-target)",
-                    "border": "var(--color-hover-border)",
-                    "text": "var(--color-hover-text)",
-                    "outline": "var(--color-hover-target)"
-                },
-                "pressed": {
-                    "background": "var(--color-active-target)",
-                    "border": "var(--color-active-target)",
-                    "text": "var(--color-active-text)",
-                    "outline": "var(--color-active-target)"
-                },
-                "disabled": {
-                    "background": "var(--pot-base-400)",
-                    "border": "var(--pot-base-400)",
-                    "text": "var(--color-disabled-text)",
-                    "outline": "var(--pot-base-400)"
+                "pot": {
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "border": "var(--color-border)",
+                            "background": "var(--color-target)",
+                            "text": "var(--color-text)",
+                            "outline": "var(--color-target)"
+                        }
+                    },
+                    "hover": {
+                        "selector": "&:hover",
+                        "properties": {
+                            "background": "var(--color-hover-target)",
+                            "border": "var(--color-hover-border)",
+                            "text": "var(--color-hover-text)",
+                            "outline": "var(--color-hover-target)"
+                        }
+                    },
+                    "pressed": {
+                        "selector": "&:active",
+                        "properties": {
+                            "background": "var(--color-active-target)",
+                            "border": "var(--color-active-target)",
+                            "text": "var(--color-active-text)",
+                            "outline": "var(--color-active-target)"
+                        }
+                    },
+                    "disabled": {
+                        "selector": "&:disabled",
+                        "properties": {
+                            "background": "var(--pot-base-400)",
+                            "border": "var(--pot-base-400)",
+                            "text": "var(--color-disabled-text)",
+                            "outline": "var(--pot-base-400)"
+                        }
+                    }
                 }
             },
             "size": {
                 "tiny": {
-                    "height": "var(--pot-spacer-3-200)",
-                    "text": "var(--pot-font-size-200)",
-                    "padding": "var(--pot-spacer-1-200)",
-                    "border": 1,
-                    "outline": 2,
-                    "outline-offset": 2
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "height": "var(--pot-spacer-3-200)",
+                            "text": "var(--pot-font-size-200)",
+                            "padding": "var(--pot-spacer-1-200)",
+                            "border": 1,
+                            "outline": 2,
+                            "outline-offset": 2
+                        }
+                    }
                 },
                 "small": {
-                    "height": "var(--pot-spacer-3-600)",
-                    "text": "var(--pot-font-size-200)",
-                    "padding": "var(--pot-spacer-1-600)",
-                    "border": 1,
-                    "outline": 2,
-                    "outline-offset": 2
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "height": "var(--pot-spacer-3-600)",
+                            "text": "var(--pot-font-size-200)",
+                            "padding": "var(--pot-spacer-1-600)",
+                            "border": 1,
+                            "outline": 2,
+                            "outline-offset": 2
+                        }
+                    }
                 },
                 "medium": {
-                    "height": "var(--pot-spacer-4-800)",
-                    "text": "var(--pot-font-size-200)",
-                    "padding": "var(--pot-spacer-2)",
-                    "border": 1,
-                    "outline": 2,
-                    "outline-offset": 2
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "height": "var(--pot-spacer-4-800)",
+                            "text": "var(--pot-font-size-200)",
+                            "padding": "var(--pot-spacer-2)",
+                            "border": 1,
+                            "outline": 2,
+                            "outline-offset": 2
+                        }
+                    }
                 },
                 "large": {
-                    "height": "var(--pot-spacer-5-600)",
-                    "text": "var(--pot-font-size-300)",
-                    "padding": "var(--pot-spacer-2-800)",
-                    "border": 1,
-                    "outline": 2,
-                    "outline-offset": 2
-                }
-            }
-        },
-        "popover": {
-            "color": {
-                "base": {
-                    "border": "var(--pot-base-400)",
-                    "background": "var(--pot-base-0)",
-                    "text": "inerit"
-                }
-            },
-            "size": {
-                "tiny": {
-                    "text": "var(--pot-font-size-200)",
-                    "padding": "var(--pot-spacer-1-200)",
-                    "shadow": "var(--pot-shadow-200)",
-                    "border": 1
-                },
-                "small": {
-                    "text": "var(--pot-font-size-300)",
-                    "padding": "var(--pot-spacer-1-600)",
-                    "shadow": "var(--pot-shadow-200)",
-                    "border": 1
-                },
-                "medium": {
-                    "text": "var(--pot-font-size-400)",
-                    "padding": "var(--pot-spacer-1-800)",
-                    "shadow": "var(--pot-shadow-300)",
-                    "border": 1
-                },
-                "large": {
-                    "text": "var(--pot-font-size-500)",
-                    "padding": "var(--pot-spacer-2)",
-                    "shadow": "var(--pot-shadow-300)",
-                    "border": 1
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "height": "var(--pot-spacer-5-600)",
+                            "text": "var(--pot-font-size-300)",
+                            "padding": "var(--pot-spacer-2-800)",
+                            "border": 1,
+                            "outline": 2,
+                            "outline-offset": 2
+                        }
+                    }
                 }
             }
         }

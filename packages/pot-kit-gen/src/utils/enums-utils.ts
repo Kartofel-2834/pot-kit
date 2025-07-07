@@ -1,23 +1,57 @@
 // Types
-import type { TPrefix } from '../types';
+import type { IPrefix } from '../types';
 
 // Utils
 import { camelCaseToEnumKey, capitalize } from './string-utils';
 
+/** Получить имя константы енама */
+export function getEnumConstName(name: string, prefixData: IPrefix): string {
+    return `${prefixData.upper}_${camelCaseToEnumKey(name)}`;
+}
+
+/** Получить имя типа енама */
+export function getEnumTypeName(name: string, prefixData: IPrefix): string {
+    return ['E', prefixData.camel, ...name.split('-')].filter(Boolean).map(capitalize).join('');
+}
+
+export function patchEnumConst(content: string, data: string, name: string, prefixData: IPrefix) {
+    const enumConstName = getEnumConstName(name, prefixData);
+    const enumConstRegex = new RegExp(
+        `export const ${enumConstName} = ((.|\n)+?)? as const;`,
+        'gm',
+    );
+
+    return enumConstRegex.test(content)
+        ? content.replace(enumConstRegex, data)
+        : content.trim() + '\n\n' + data;
+}
+
+export function patchEnumType(content: string, data: string, name: string, prefixData: IPrefix) {
+    const enumTypeName = getEnumTypeName(name, prefixData);
+    const enumConstName = getEnumConstName(name, prefixData);
+    const enumTypeRegex = new RegExp(
+        `export type ${enumTypeName}( |\n)+=( |\n)+\\(?typeof ${enumConstName}\\)?\\[keyof typeof ${enumConstName}\\];`,
+        'gm',
+    );
+
+    return enumTypeRegex.test(content)
+        ? content.replace(enumTypeRegex, data)
+        : content.trim() + '\n\n' + data;
+}
+
 /** Генерация кода енама на основе словаря */
 export function getEnum(
     name: string,
-    prefixData: TPrefix,
+    prefixData: IPrefix,
     data?: Record<string, string | number>,
-): string {
+): string[] {
     if (!data || typeof data !== 'object') {
-        return '';
+        return [];
     }
 
-    const enumConstName = `${prefixData.upper}_${camelCaseToEnumKey(name)}`;
-    const enumTypeName = name.split('-').filter(Boolean).map(capitalize).join('');
+    const enumConstName = getEnumConstName(name, prefixData);
+    const enumTypeName = getEnumTypeName(name, prefixData);
 
-    const comment = `/* ${capitalize(name)} */`;
     const values = Object.entries(data)
         .map(([key, value]) => {
             const fotmattedKey = camelCaseToEnumKey(key);
@@ -32,14 +66,18 @@ export function getEnum(
         .filter(Boolean)
         .join(',\n');
 
-    const enumConstant = `${comment}\nexport const ${enumConstName} = {\n${values}\n} as const;`;
-    const enumType = `export type E${prefixData.camel}${enumTypeName} = typeof ${enumConstName}[keyof typeof ${enumConstName}];`;
+    const enumConstant = `export const ${enumConstName} = {\n${values}\n} as const;`;
+    const enumType = `export type ${enumTypeName} = (typeof ${enumConstName})[keyof typeof ${enumConstName}];`;
 
-    return `${enumConstant}\n\n${enumType}`;
+    return [enumConstant, enumType];
 }
 
 /** Генерация енама, у которого ключи совпадают с значениями */
-export function getBaseEnum(name: string, prefixData: TPrefix, data: Record<string, unknown>) {
+export function getBaseEnum(
+    name: string,
+    prefixData: IPrefix,
+    data: Record<string, unknown>,
+): string {
     const enumData = Object.keys(data).reduce(
         (res, themeName) => ({
             ...res,
@@ -48,5 +86,5 @@ export function getBaseEnum(name: string, prefixData: TPrefix, data: Record<stri
         {},
     );
 
-    return getEnum(name, prefixData, enumData);
+    return getEnum(name, prefixData, enumData).join('\n\n');
 }

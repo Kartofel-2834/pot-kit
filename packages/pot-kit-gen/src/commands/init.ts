@@ -1,9 +1,9 @@
 // Types
-import type { IPotKitConfig, IPotKitInstallationConfig, TPrefix } from '../types';
+import type { IGeneratedData, IPotKitConfig, IPotKitInstallationConfig, IPrefix } from '../types';
 
 // Node
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 // Libs
 import { Command } from 'commander';
@@ -11,12 +11,15 @@ import { Command } from 'commander';
 // Utils
 import { preparePrefix } from '../utils/template-utils';
 import { checkIsFileExist, createDir } from '../utils/fs-utils';
-import { generateGlobalStyles } from '../generate/styles-generate';
+
+// Generate
+import { generateStyles } from '../generate/styles-generate';
 import { generateEnums } from '../generate/enums-generate';
 import { generateComponents } from '../generate/components-generate';
 
 // Logger
 import { logger } from '../logger';
+import { capitalize } from '../utils/string-utils';
 
 interface IInitCommandOptions {
     stylesPath: string;
@@ -45,30 +48,32 @@ export function init(
     command.option('--server', 'use cloudflare cdn to load components');
 
     command.action(async (options: Partial<IInitCommandOptions>) => {
-        logger.time('enums and styles generation');
+        logger.time('pot-kit-gen work time');
 
         const currentConfig = appendConfig(installationConfig, options);
         const prefixData = preparePrefix(currentConfig.options.prefix);
 
-        const [isEnumsGenerated, isStylesGenerated, componentsStylesCount] = await Promise.all([
-            writeEnums(config, currentConfig, prefixData),
-            writeStyles(config, currentConfig),
-            writeComponentsData(config, currentConfig, prefixData),
+        const stylesData = generateStyles(config, currentConfig);
+        const enumsData = generateEnums(config, currentConfig, prefixData);
+        const componentsData = await generateComponents(config, currentConfig, prefixData);
+
+        const stylesPromise = stylesData ? writeGeneratedData(stylesData, currentConfig) : false;
+        const enumsPromise = enumsData ? writeGeneratedData(enumsData, currentConfig) : false;
+        const componentsPromise = Promise.all(
+            componentsData.map(v => writeGeneratedData(v, currentConfig)),
+        ).then(res => res.includes(true));
+
+        const [isStylesGenerated, isEnumsGenerated, isComponentsDataGenerated] = await Promise.all([
+            stylesPromise,
+            enumsPromise,
+            componentsPromise,
         ]);
 
-        if (isEnumsGenerated) {
-            logger.success('Enums generated');
-        }
+        if (isEnumsGenerated) logger.success('Enums generated');
+        if (isStylesGenerated) logger.success('Global styles generated');
+        if (isComponentsDataGenerated) logger.success(`Components styles and enums generated`);
 
-        if (isStylesGenerated) {
-            logger.success('Global styles generated');
-        }
-
-        if (componentsStylesCount) {
-            logger.success(`Generated styles files for components: ${componentsStylesCount}`);
-        }
-
-        logger.timeEnd('enums and styles generation');
+        logger.timeEnd('pot-kit-gen work time');
     });
 
     return command;
@@ -115,79 +120,20 @@ async function checkOverwrite(
     return !isFileExist;
 }
 
-/** Установить файлы стилей компонентов в проект пользователя */
-async function writeComponentsData(
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<number> {
-    const stylesPath = installationConfig.styles;
-    const isDirCreated = await createDir(stylesPath);
-
-    if (!isDirCreated) return 0;
-
-    const componentsData = await generateComponents(config, installationConfig, prefixData);
-
-    const promises = Object.entries(componentsData).map(async ([componentName, data]) => {
-        const filePath = path.join(stylesPath, `${componentName}.css`);
-
-        if (!(await checkOverwrite(filePath, installationConfig))) return false;
-
-        return fs
-            .writeFile(filePath, data)
-            .then(() => true)
-            .catch(err => {
-                logger.error(`${componentName} styles generation error`, err);
-                return false;
-            });
-    });
-
-    const createdComponentStyles = await Promise.all(promises).then(
-        res => res.filter(flag => flag).length,
-    );
-
-    return createdComponentStyles;
-}
-
-/** Установить файлы глобальных стилей в проект пользователя */
-async function writeStyles(
-    config: IPotKitConfig,
+async function writeGeneratedData(
+    generatedData: IGeneratedData,
     installationConfig: IPotKitInstallationConfig,
 ): Promise<boolean> {
-    const filePath = path.join(installationConfig.styles, 'index.css');
+    const { name, data, path: filePath, type } = generatedData;
 
     if (!(await checkOverwrite(filePath, installationConfig))) return false;
-    if (!(await createDir(installationConfig.styles))) return false;
+    if (!(await createDir(path.dirname(filePath)))) return false;
 
     return fs
-        .writeFile(filePath, generateGlobalStyles(config))
+        .writeFile(filePath, data)
         .then(() => true)
         .catch(err => {
-            logger.error(`global styles generation error`, err);
-            return false;
-        });
-}
-
-/** Установить енамы в проект пользователя */
-async function writeEnums(
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<boolean> {
-    if (!installationConfig.types) {
-        return false;
-    }
-
-    const filePath = path.join(installationConfig.types, 'index.ts');
-
-    if (!(await checkOverwrite(filePath, installationConfig))) return false;
-    if (!(await createDir(installationConfig.types))) return false;
-
-    return fs
-        .writeFile(filePath, generateEnums(config, prefixData))
-        .then(() => true)
-        .catch(err => {
-            logger.error(`enums generation error`, err);
+            logger.error(`${capitalize(name)} ${type} writing error`, err);
             return false;
         });
 }

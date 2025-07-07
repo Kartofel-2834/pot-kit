@@ -1,21 +1,24 @@
-// Types
-import type {
-    IPotGridConfig,
-    IPotGroupConfig,
-    IPotButtonConfig,
-    IPotCheckboxConfig,
-    IPotInputConfig,
-    IPotLinkConfig,
-    IPotRadioConfig,
-    IPotTooltipConfig,
-    IPotPopoverConfig,
-} from './components';
-
-export type TPrefix = {
+export interface IPrefix {
     kebab: string;
     camel: string;
     upper: string;
+}
+
+export interface IGeneratedData {
+    type: 'component' | 'style' | 'enum' | 'composable';
+    name: string;
+    data: string;
+    path: string;
+}
+
+export type TCondition = {
+    selector: string;
+    properties: Record<string, string | number>;
 };
+
+export type TCharacteristicVariants = Record<string, TCondition>;
+
+export type TCharacteristics = Record<string, TCharacteristicVariants>;
 
 export interface IPotKitInstallationConfig {
     components: string;
@@ -30,33 +33,12 @@ export interface IPotKitInstallationConfig {
     };
 }
 
-export interface IPotKitConfig<
-    TSize extends string = string,
-    TColorTheme extends { [varName: string]: string } = { [varName: string]: string },
-> {
-    size?: TSize[];
-
-    color?: {
-        [key: string]: TColorTheme;
-    };
-
+export interface IPotKitConfig {
     variables?: Record<string, string | number>;
 
     breakpoints?: Record<string, number>;
 
-    radius?: Record<string, string | number>;
-
-    gap?: Record<string, string | number>;
-
     components?: {
-        button?: IPotButtonConfig<TSize>;
-        popover?: IPotPopoverConfig<TSize>;
-        // checkbox?: IPotCheckboxConfig<TSize>;
-        // input?: IPotInputConfig<TSize>;
-        // link?: IPotLinkConfig<TSize>;
-        // radio?: IPotRadioConfig<TSize>;
-        // tooltip?: IPotTooltipConfig<TSize>;
-        // grid?: IPotGridConfig;
-        // group?: IPotGroupConfig;
+        [name: string]: Record<string, TCharacteristics>;
     };
 }

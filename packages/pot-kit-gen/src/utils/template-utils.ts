@@ -1,5 +1,5 @@
 // Types
-import type { TPrefix } from '../types';
+import type { IPrefix } from '../types';
 
 // Utils
 import {
@@ -11,7 +11,7 @@ import {
 } from './string-utils';
 
 /** Подготовить префикс к вставке в компоненты */
-export function preparePrefix(prefix: string): TPrefix {
+export function preparePrefix(prefix: string): IPrefix {
     prefix = camelCaseToKebab(snakeCaseToKebab(prefix));
 
     return {

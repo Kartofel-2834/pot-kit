@@ -1,280 +1,172 @@
 // Types
-import { IPotKitConfig } from '../types';
-import { IPotKitInstallationConfig, TPrefix } from '../types';
 import {
-    IPotComponentClassConfig,
-    IPotComponentColorConfig,
-    IPotComponentSizeConfig,
-} from '../types/components';
+    IGeneratedData,
+    IPotKitConfig,
+    IPotKitInstallationConfig,
+    IPrefix,
+    TCharacteristics,
+} from '../types';
 
 // Node
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 // Utils
-import {
-    getConditionsStyles,
-    getConfigurationStyles,
-    getModule,
-    resolveImportPath,
-} from '../utils/modules-utils';
-import { capitalize } from '../utils/string-utils';
-import {
-    generateVars,
-    getModificatorClassName,
-    getSelectorStyles,
-    toCssValue,
-} from '../utils/styles-utils';
-import { checkAccess } from '../utils/fs-utils';
-import { parseTemplate } from '../utils/template-utils';
+import { getEnum, patchEnumConst, patchEnumType } from '../utils/enums-utils';
+import { checkIsFileExist } from '../utils/fs-utils';
+import { getSelectorStyles } from '../utils/styles-utils';
 
-type TSubscriptionCharacteristic = 'radius' | 'gap' | 'columnGap' | 'rowGap';
+const EDIT_WARNING = '/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */';
 
-const COMPONENT_STYLES_SUBSCRIPTIONS: Record<string, TSubscriptionCharacteristic[]> = {
-    button: ['radius'],
-    popover: ['radius'],
-    checkbox: ['radius'],
-    input: ['radius'],
-    grid: ['gap', 'rowGap', 'columnGap'],
-    group: ['gap'],
-    radio: ['radius'],
-    tooltip: ['radius'],
-};
-
-/** Подключить сгенерированные стили в компонент */
-export async function importStylesToComponent(
-    componentName: string,
-    installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<boolean> {
-    const outputName = `${prefixData.camel}${capitalize(componentName)}`;
-    const componentPath = path.join(installationConfig.components, `${outputName}.vue`);
-
-    const isComponentExist = await checkAccess(componentPath);
-
-    if (!isComponentExist) {
-        return false;
-    }
-
-    const stylesImportPath = resolveImportPath(
-        installationConfig.components,
-        installationConfig.styles,
-        installationConfig.imports,
-    );
-
-    const data = await fs.readFile(componentPath, 'utf-8');
-
-    const startMarker = '<!-- Styles - START -->';
-    const endMarker = '<!-- Styles - END -->';
-
-    const startIndex = data.indexOf(startMarker);
-    const endIndex = data.indexOf(endMarker);
-
-    let updatedData = data;
-
-    if (startIndex !== -1 && endIndex !== -1) {
-        updatedData = data.slice(0, startIndex) + data.slice(endIndex + endMarker.length);
-    }
-
-    updatedData = updatedData.trim();
-    updatedData += `\n\n${startMarker}\n<style src="${stylesImportPath}/${componentName}.css" />\n${endMarker}`;
-
-    return fs
-        .writeFile(componentPath, updatedData)
-        .then(() => true)
-        .catch(() => false);
-}
-
-/** Сгенерировать стили всех компонентов из конфига */
 export async function generateComponents(
     config: IPotKitConfig,
     installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<Record<string, string>> {
-    const componentsStylesPromises = Object.keys(config?.components ?? {}).map(
-        async componentName => {
-            const styles = await generateComponentStyles(
-                componentName as keyof IPotKitConfig['components'],
-                config,
-                installationConfig,
-                prefixData,
-            );
-            const data = `/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */\n${styles}`;
+    prefixData: IPrefix,
+): Promise<IGeneratedData[]> {
+    const { components } = config;
 
-            return { name: componentName, data };
-        },
-    );
-
-    const data = await Promise.all(componentsStylesPromises);
-
-    return data.reduce((res, { name, data }) => {
-        return {
-            ...res,
-            [name]: data,
-        };
-    }, {});
-}
-
-/** Сгенерировать стили для компонента */
-async function generateComponentStyles(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<string> {
-    const [configurationStyles, conditionsStyles] = await Promise.all([
-        getConfigurationStyles(componentName, config, installationConfig),
-        getConditionsStyles(componentName, config, installationConfig),
-    ]);
-
-    const colors = generateComponentColors(componentName, config, prefixData);
-    const sizes = generateComponentSizes(componentName, config, prefixData);
-    const subscriptions = generateSubscriptionStyles(componentName, config, prefixData);
-
-    const data = [colors, sizes, subscriptions, configurationStyles, conditionsStyles]
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
-
-    return replaceClassNames(data, componentName, config, installationConfig, prefixData);
-}
-
-/** Подмена классов в соответствии с префиксом и конфигом */
-async function replaceClassNames(
-    data: string,
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-    prefixData: TPrefix,
-): Promise<string> {
-    const componentConfig = config?.['components']?.[componentName];
-    const classes = componentConfig
-        ? (componentConfig as IPotComponentClassConfig).className
-        : null;
-
-    const classData = await getModule<Record<string, string>>(
-        ['classes', `${componentName}.json`],
-        installationConfig,
-    );
-
-    let result = data;
-
-    if (!classData) {
-        return data;
+    if (!components) {
+        return [];
     }
 
-    for (const key in classData) {
-        const className = classes?.[key];
-        const prefixClass = parseTemplate(classData[key], { kebab: prefixData.kebab });
-
-        result = result.replaceAll(classData[key], className || prefixClass);
-    }
-
-    return result;
-}
-
-/** Генерация стилей с прямой подпиской на переменные базовых классов-модификаторов */
-function generateSubscriptionStyles(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    prefixData: TPrefix,
-): string {
-    const subscription = COMPONENT_STYLES_SUBSCRIPTIONS[componentName] || [];
-
-    if (!subscription.length) {
-        return '';
-    }
-
-    const componentClass = `.<%kebab%>-${componentName}`;
-
-    const getStyles = (modificator: string, data?: Record<string, unknown>): string => {
-        if (!data || typeof data !== 'object') {
-            return '';
-        }
-
-        const selectors = Object.keys(data).map(varName => {
-            return componentClass + getModificatorClassName(modificator, varName);
-        });
-
-        return getSelectorStyles(selectors, {
-            [`--${prefixData.kebab}-${componentName}-${modificator}`]: `var(--${modificator})`,
-        });
-    };
-
-    return [
-        subscription.includes('radius') ? getStyles('radius', config.radius) : '',
-        subscription.includes('gap') ? getStyles('gap', config.gap) : '',
-        subscription.includes('rowGap') ? getStyles('rowGap', config.gap) : '',
-        subscription.includes('columnGap') ? getStyles('columnGap', config.gap) : '',
-    ]
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
-}
-
-/** Генерация стилей размеров компонента */
-function generateComponentSizes(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    prefixData: TPrefix,
-): string {
-    const componentConfig = config?.components?.[componentName];
-    const sizesConfig = componentConfig ? (componentConfig as IPotComponentSizeConfig)?.size : null;
-
-    if (!sizesConfig) {
-        return '';
-    }
-
-    const componentClass = `.<%kebab%>-${componentName}`;
-
-    const modificators = Object.entries(sizesConfig).map(([sizeName, sizeVars]) => {
-        const className = getModificatorClassName('size', sizeName);
-        const vars = generateVars(
-            `${prefixData.kebab}-${componentName}-size`,
-            sizeVars as Record<string, string>,
+    const promises = Object.keys(components).map(async componentName => {
+        const componentData = components[componentName];
+        const enums = await generateComponentEnums(
+            componentName,
+            config,
+            installationConfig,
+            prefixData,
+        );
+        const styles = generateComponentStyles(
+            componentName,
+            componentData,
+            installationConfig,
+            prefixData,
         );
 
-        return getSelectorStyles([componentClass + className], vars);
+        return [enums, styles];
     });
 
-    return modificators
+    return Promise.all(promises).then(res => res.flat().filter(v => v.data));
+}
+
+function generateComponentStyles(
+    componentName: string,
+    componentData: Record<string, TCharacteristics>,
+    installationConfig: IPotKitInstallationConfig,
+    prefixData: IPrefix,
+): IGeneratedData {
+    const componentStylesPath = path.join(installationConfig.styles, `${componentName}.css`);
+    const dataList = Object.keys(componentData).map(
+        characteristicName =>
+            generateCharacteristicStyle(
+                componentName,
+                characteristicName,
+                componentData[characteristicName],
+                installationConfig,
+                prefixData,
+            ).data,
+    );
+
+    const data = dataList
         .map(v => v.trim())
         .filter(Boolean)
         .join('\n\n');
+
+    return {
+        type: 'style',
+        name: componentName,
+        path: componentStylesPath,
+        data: `${EDIT_WARNING}\n\n${data}`,
+    };
 }
 
-/** Генерация стилей цветовых переменных компонента */
-function generateComponentColors(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    prefixData: TPrefix,
-): string {
-    const componentConfig = config?.components?.[componentName];
-    const componentColors = componentConfig
-        ? (componentConfig as IPotComponentColorConfig)?.color
-        : null;
+function generateCharacteristicStyle(
+    componentName: string,
+    characteristicName: string,
+    characteristic: TCharacteristics,
+    installationConfig: IPotKitInstallationConfig,
+    prefixData: IPrefix,
+): IGeneratedData {
+    const className = `.${prefixData.kebab}-${componentName}`;
+    const componentStylesPath = path.join(installationConfig.styles, `${componentName}.css`);
+    const result = [] as string[];
 
-    if (!config?.color || !componentColors) {
-        return '';
-    }
+    for (const variantName in characteristic) {
+        const modificator = `._${characteristicName}-${variantName}`;
+        const modificatorClassName = `${className}${modificator}`;
 
-    const componentClass = `.<%kebab%>-${componentName}`;
+        const variant = characteristic[variantName];
 
-    const selectors = Object.keys(config.color).map(colorName => {
-        return componentClass + getModificatorClassName('color', colorName);
-    });
+        for (const conditionName in variant) {
+            const { selector, properties } = variant[conditionName];
 
-    const colorVars: Record<string, string> = {};
+            if (!selector || !properties) {
+                continue;
+            }
 
-    for (const state in componentColors) {
-        const stateData = componentColors[state];
+            const parsedSelector = selector.replace('&', modificatorClassName);
+            const variables = Object.entries(properties).reduce((res, [key, value]) => {
+                return {
+                    ...res,
+                    [`--${prefixData.kebab}-${componentName}-${characteristicName}-${key}`]: value,
+                };
+            }, {});
 
-        for (const varName in stateData) {
-            const varValue = (stateData as Record<string, string>)[varName];
-            const key = `--${prefixData.kebab}-${componentName}-color-${state}-${varName}`;
-            colorVars[key] = toCssValue(varValue);
+            result.push(getSelectorStyles([parsedSelector], variables));
         }
     }
 
-    return getSelectorStyles(selectors, colorVars);
+    return {
+        type: 'style',
+        name: componentName,
+        path: componentStylesPath,
+        data: result
+            .map(v => v.trim())
+            .filter(Boolean)
+            .join('\n\n'),
+    };
+}
+
+async function generateComponentEnums(
+    componentName: string,
+    config: IPotKitConfig,
+    installationConfig: IPotKitInstallationConfig,
+    prefixData: IPrefix,
+): Promise<IGeneratedData> {
+    const characteristics = config?.components?.[componentName] ?? {};
+    const componentTypingsPath = path.join(
+        installationConfig.types,
+        'components',
+        `${componentName}.ts`,
+    );
+    const isComponentTypingExist = await checkIsFileExist(componentTypingsPath);
+
+    let result = isComponentTypingExist ? await fs.readFile(componentTypingsPath, 'utf-8') : '';
+
+    for (const characteristicName in characteristics) {
+        const characteristicData = characteristics[characteristicName];
+        const enumName = `${componentName}-${characteristicName}`;
+        const enumData = Object.keys(characteristicData).reduce(
+            (res, key) => ({ ...res, [key]: key }),
+            {},
+        );
+
+        const [enumConstant, enumType] = getEnum(enumName, prefixData, enumData);
+
+        if (enumConstant) {
+            result = patchEnumConst(result, enumConstant, enumName, prefixData);
+        }
+
+        if (enumType) {
+            result = patchEnumType(result, enumType, enumName, prefixData);
+        }
+    }
+
+    return {
+        type: 'enum',
+        name: componentName,
+        path: componentTypingsPath,
+        data: result,
+    };
 }

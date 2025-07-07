@@ -1,6 +1,5 @@
 // Types
-import type { IPotKitConfig, IPotKitInstallationConfig } from '../types';
-import type { IPotComponentColorConfig, IPotComponentSizeConfig } from '../types/components';
+import type { IPotKitInstallationConfig } from '../types';
 
 // Node
 import https from 'https';
@@ -28,66 +27,6 @@ export function resolveImportPath(
     }
 
     return preaprePath(path.relative(fromPath, toPath));
-}
-
-/** Подгрузить стили состояний для компонента */
-export async function getConditionsStyles(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-): Promise<string> {
-    const componentConfig = config?.['components']?.[componentName];
-    const colors = componentConfig ? (componentConfig as IPotComponentColorConfig).color : null;
-
-    const conditions = await getModule<Record<string, string>>(
-        ['conditions', `${componentName}.json`],
-        installationConfig,
-    );
-
-    if (!conditions) {
-        return '';
-    }
-
-    const selectedConditions = Object.keys(colors || {}).map(state => {
-        return conditions?.[state] || '';
-    });
-
-    return selectedConditions
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
-}
-
-/** Подгрузить конфигурационные стили для компонента */
-export async function getConfigurationStyles(
-    componentName: keyof IPotKitConfig['components'],
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-): Promise<string> {
-    const componentConfig = config?.['components']?.[componentName];
-    const sizes = componentConfig ? (componentConfig as IPotComponentSizeConfig).size : null;
-
-    if (!config || (!config.size && !config.radius && !config.gap)) {
-        return '';
-    }
-
-    const configuration = await getModule<Record<string, string>>(
-        ['configuration', `${componentName}.json`],
-        installationConfig,
-    );
-
-    if (!configuration) {
-        return '';
-    }
-
-    return [
-        config.size && sizes && configuration.size ? configuration.size : '',
-        config?.radius && configuration.radius ? configuration.radius : '',
-        config?.gap && configuration.gap ? configuration.gap : '',
-    ]
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
 }
 
 /** Подгрузка стилевого модуля для плагина */

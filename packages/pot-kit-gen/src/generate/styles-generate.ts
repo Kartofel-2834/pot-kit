@@ -1,31 +1,31 @@
 // Types
-import type { IPotKitConfig } from '../types';
+import type { IGeneratedData, IPotKitConfig, IPotKitInstallationConfig } from '../types';
 
 // Utils
-import {
-    generateModificatorGroup,
-    generateVars,
-    getModificatorClassName,
-    getSelectorStyles,
-    toCssValue,
-} from '../utils/styles-utils';
+import { toCssValue } from '../utils/styles-utils';
+
+// Node
+import path from 'node:path';
 
 const EDIT_WARNING = '/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */';
 
 /** Генерация css стилей общих для всех компонентов */
-export function generateGlobalStyles(config: IPotKitConfig): string {
-    return [
-        EDIT_WARNING,
-        generateRootVariables(config.variables),
-        generateColors(config.color),
-        generateModificatorGroup('radius', config.radius ?? {}),
-        generateModificatorGroup('gap', config.gap ?? {}),
-        generateModificatorGroup('row-gap', config.gap ?? {}),
-        generateModificatorGroup('column-gap', config.gap ?? {}),
-    ]
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
+export function generateStyles(
+    config: IPotKitConfig,
+    installationConfig: IPotKitInstallationConfig,
+): IGeneratedData | null {
+    const data = generateRootVariables(config.variables);
+
+    if (!data) {
+        return null;
+    }
+
+    return {
+        type: 'style',
+        name: 'global',
+        path: path.join(installationConfig.styles, 'index.css'),
+        data: `${EDIT_WARNING}\n\n${data}`,
+    };
 }
 
 /** Генерация корневых переменных */
@@ -39,23 +39,4 @@ function generateRootVariables(globalVariables: IPotKitConfig['variables']): str
     });
 
     return varsStyles.length ? `:root {\n${varsStyles.join('\n')}\n}` : '';
-}
-
-/** Генерация стилией цветовых тем */
-function generateColors(colorsConfiguration: IPotKitConfig['color']): string {
-    if (!colorsConfiguration) {
-        return '';
-    }
-
-    const modificators = Object.entries(colorsConfiguration).map(([colorName, config]) => {
-        const className = getModificatorClassName('color', colorName);
-        const vars = generateVars('color', config);
-
-        return getSelectorStyles([className], vars);
-    });
-
-    return modificators
-        .map(v => v.trim())
-        .filter(Boolean)
-        .join('\n\n');
 }

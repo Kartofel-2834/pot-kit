@@ -1,5 +1,5 @@
 // Types
-import { TPrefix } from '../types';
+import { IPrefix } from '../types';
 
 // Node
 import path from 'path';
@@ -10,17 +10,17 @@ import {
     capitalize,
     kebabCaseToCamel,
     kebabCaseToEnumKey,
-    snakeCaseToKebab
+    snakeCaseToKebab,
 } from './string-utils';
 
 /** Подготовить префикс к вставке в компоненты */
-export function preparePrefix(prefix: string): TPrefix {
+export function preparePrefix(prefix: string): IPrefix {
     prefix = camelCaseToKebab(snakeCaseToKebab(prefix));
 
     return {
         kebab: prefix,
         camel: capitalize(kebabCaseToCamel(prefix)),
-        upper: kebabCaseToEnumKey(prefix)
+        upper: kebabCaseToEnumKey(prefix),
     };
 }
 
@@ -28,7 +28,7 @@ export function preparePrefix(prefix: string): TPrefix {
 export function resolveImportPath(
     fromPath: string,
     toPath: string,
-    importsConfig: Record<string, string>
+    importsConfig: Record<string, string>,
 ): string {
     const preaprePath = (v: string) => v.replaceAll(/(\/|\\)+/gm, '/').replace(/\/$/, '');
 

@@ -8,7 +8,7 @@ export type TDependencies = {
     types: string[];
 };
 
-export type TPrefix = {
+export type IPrefix = {
     kebab: string;
     camel: string;
     upper: string;

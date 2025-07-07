@@ -4,9 +4,6 @@ import type { IPotKitConfig, IPotKitInstallationConfig } from '../types';
 // Libs
 import { Command } from 'commander';
 
-// Utils
-import { importStylesToComponent } from '../generate/components-generate';
-
 // Logger
 import { logger } from '../logger';
 import { preparePrefix } from '../utils/template-utils';
@@ -45,28 +42,28 @@ export function injectStyles(
 
         logger.time('styles import injection duration');
 
-        const currentConfig = appendConfig(installationConfig, options);
-        const prefixData = preparePrefix(currentConfig.options.prefix);
+        // const currentConfig = appendConfig(installationConfig, options);
+        // const prefixData = preparePrefix(currentConfig.options.prefix);
 
-        const successfullyInjectedStyles = await Promise.all(
-            componentsList.map(async componentName => {
-                const isImported = await importStylesToComponent(
-                    componentName,
-                    installationConfig,
-                    prefixData,
-                );
+        // const successfullyInjectedStyles = await Promise.all(
+        //     componentsList.map(async componentName => {
+        //         const isImported = await importStylesToComponent(
+        //             componentName,
+        //             installationConfig,
+        //             prefixData,
+        //         );
 
-                if (isImported) {
-                    logger.success(`${componentName} component updated`);
-                }
+        //         if (isImported) {
+        //             logger.success(`${componentName} component updated`);
+        //         }
 
-                return isImported;
-            }),
-        );
+        //         return isImported;
+        //     }),
+        // );
 
-        const count = successfullyInjectedStyles.filter(flag => flag).length;
+        // const count = successfullyInjectedStyles.filter(flag => flag).length;
 
-        logger.log(`Updated components count: ${count}`);
+        logger.log(`Updated components count: `);
         logger.timeEnd('styles import injection duration');
     });
 

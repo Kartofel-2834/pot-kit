@@ -1,5 +1,5 @@
 // Types
-import { IPotKitInstallationConfig, TDependencies, TDependenciesMap, TPrefix } from '../types';
+import { IPotKitInstallationConfig, TDependencies, TDependenciesMap, IPrefix } from '../types';
 
 // Libs
 import { Command } from 'commander';
@@ -105,7 +105,7 @@ function validate(componentsList: string[], dependenciesMap: TDependenciesMap): 
 async function install(
     config: IPotKitInstallationConfig,
     dependencies: TDependencies,
-    prefixData: TPrefix,
+    prefixData: IPrefix,
 ): Promise<boolean> {
     if (!config) return false;
 

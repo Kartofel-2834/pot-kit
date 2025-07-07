@@ -1,6 +1,6 @@
 // Types
 import type { PathLike } from 'fs';
-import type { IPotKitInstallationConfig, TPrefix } from '../types';
+import type { IPotKitInstallationConfig, IPrefix } from '../types';
 
 // Node
 import fs, { constants } from 'fs/promises';
@@ -70,7 +70,7 @@ export async function createDir(dirPath: string): Promise<boolean> {
 export async function installType(
     typeFilePath: string,
     config: IPotKitInstallationConfig,
-    prefixData: TPrefix,
+    prefixData: IPrefix,
 ) {
     const destination = typeFilePath.split('/');
     const fileName = destination.pop();
@@ -102,7 +102,7 @@ export async function installType(
 export async function installComposable(
     composableName: string,
     config: IPotKitInstallationConfig,
-    prefixData: TPrefix,
+    prefixData: IPrefix,
 ): Promise<boolean> {
     const data = await getModule(['composables', `${composableName}.txt`], config);
     const outputPath = path.join(config.composables, `${composableName}.ts`);
@@ -137,7 +137,7 @@ export async function installComposable(
 export async function installComponent(
     componentName: string,
     config: IPotKitInstallationConfig,
-    prefixData: TPrefix,
+    prefixData: IPrefix,
 ): Promise<boolean> {
     const data = await getModule(['components', `${componentName}.txt`], config);
     const outputName = `${prefixData.camel}${capitalize(kebabCaseToCamel(componentName))}`;
