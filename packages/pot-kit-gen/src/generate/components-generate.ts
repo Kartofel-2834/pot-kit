@@ -29,8 +29,10 @@ export async function injectStylesToComponent(
 ): Promise<IGeneratedData | null> {
     const componentFileName = `${prefixData.camel}${capitalize(kebabCaseToCamel(componentName))}.vue`;
     const componentPath = path.join(installationConfig.components, componentFileName);
+    const stylePath = path.join(installationConfig.styles, `${componentName}.css`);
 
     if (!(await checkAccess(componentPath))) return null;
+    if (!(await checkAccess(stylePath))) return null;
 
     const styleImportPath = resolveImportPath(
         installationConfig.components,
@@ -40,7 +42,7 @@ export async function injectStylesToComponent(
 
     const data = await fs.readFile(componentPath, 'utf-8');
     const clearedData = data.replaceAll(POT_KIT_GEN_STYLE_TAG_REGEX, '').trim();
-    const newTag = `<style pot-kit-gen src="${styleImportPath}"></style>`;
+    const newTag = `<style pot-kit-gen src="${styleImportPath}/${componentName}.css"></style>`;
 
     return {
         type: 'component',
