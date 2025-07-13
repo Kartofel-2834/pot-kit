@@ -150,6 +150,16 @@
                     }
                 }
             },
+            "radius": {
+                "rounded": {
+                    "base": {
+                        "selector": "&",
+                        "properties": {
+                            "value": "1000px"
+                        }
+                    }
+                }
+            },
             "size": {
                 "tiny": {
                     "base": {

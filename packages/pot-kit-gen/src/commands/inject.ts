@@ -67,7 +67,11 @@ export function injectStyles(): Command {
                     return false;
                 }
 
-                return writeGeneratedData(generatedData, currentConfig);
+                const isWritten = await writeGeneratedData(generatedData, currentConfig);
+
+                if (isWritten) logger.success(`Styles injected in ${componentName} component`);
+
+                return isWritten;
             }),
         );
 
