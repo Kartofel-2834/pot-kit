@@ -1,16 +1,12 @@
 // Types
-import type { IGeneratedData, IPotKitConfig, IPotKitInstallationConfig, IPrefix } from '../types';
-
-// Node
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import type { IPotKitInstallationConfig } from '../types';
 
 // Libs
 import { Command } from 'commander';
 
 // Utils
 import { preparePrefix } from '../utils/template-utils';
-import { checkIsFileExist, createDir } from '../utils/fs-utils';
+import { writeGeneratedData } from '../utils/fs-utils';
 
 // Generate
 import { generateStyles } from '../generate/styles-generate';
@@ -19,7 +15,7 @@ import { generateComponents } from '../generate/components-generate';
 
 // Logger
 import { logger } from '../logger';
-import { capitalize } from '../utils/string-utils';
+import { getConfig, getInstallationConfig } from '../utils/config-utils';
 
 interface IInitCommandOptions {
     stylesPath: string;
@@ -30,10 +26,7 @@ interface IInitCommandOptions {
     prefix: string;
 }
 
-export function init(
-    config: IPotKitConfig,
-    installationConfig: IPotKitInstallationConfig,
-): Command {
+export function init(): Command {
     const command = new Command();
 
     command.name('init');
@@ -48,6 +41,13 @@ export function init(
     command.option('--server', 'use cloudflare cdn to load components');
 
     command.action(async (options: Partial<IInitCommandOptions>) => {
+        const [installationConfig, config] = await Promise.all([
+            getInstallationConfig(),
+            getConfig(),
+        ]);
+
+        if (!config) return;
+
         logger.time('pot-kit-gen work time');
 
         const currentConfig = appendConfig(installationConfig, options);
@@ -97,43 +97,4 @@ function appendConfig(
             prefix: options.prefix || config.options.prefix,
         },
     };
-}
-
-/** Проверить можно ли перезаписать файл */
-async function checkOverwrite(
-    filePath: string,
-    installationConfig: IPotKitInstallationConfig,
-): Promise<boolean> {
-    if (installationConfig.options.overwrite) return true;
-
-    const isFileExist = await checkIsFileExist(filePath);
-
-    if (isFileExist) {
-        logger.warn(
-            [
-                `File "${filePath}" already exists`,
-                `Use --overwrite flag or change overwrite option in installation config to overwrite existing files`,
-            ].join('\n'),
-        );
-    }
-
-    return !isFileExist;
-}
-
-async function writeGeneratedData(
-    generatedData: IGeneratedData,
-    installationConfig: IPotKitInstallationConfig,
-): Promise<boolean> {
-    const { name, data, path: filePath, type } = generatedData;
-
-    if (!(await checkOverwrite(filePath, installationConfig))) return false;
-    if (!(await createDir(path.dirname(filePath)))) return false;
-
-    return fs
-        .writeFile(filePath, data)
-        .then(() => true)
-        .catch(err => {
-            logger.error(`${capitalize(name)} ${type} writing error`, err);
-            return false;
-        });
 }

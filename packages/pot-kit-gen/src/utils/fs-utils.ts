@@ -1,8 +1,16 @@
 // Types
-import { PathLike } from 'fs';
+import type { PathLike } from 'fs';
+import type { IGeneratedData, IPotKitInstallationConfig } from '../types';
 
 // Node
-import fs, { constants } from 'fs/promises';
+import fs, { constants } from 'node:fs/promises';
+import path from 'node:path';
+
+// Logger
+import { logger } from '../logger';
+
+// Utils
+import { capitalize } from './string-utils';
 
 /** Проверить существование файла */
 export async function checkIsFileExist(filePath: string): Promise<boolean> {
@@ -37,4 +45,43 @@ export async function createDir(dirPath: PathLike): Promise<boolean> {
         .then(() => true)
         .catch(() => fs.mkdir(dirPath, { recursive: true }).then(() => true))
         .catch(() => false);
+}
+
+/** Проверить можно ли перезаписать файл */
+export async function checkOverwrite(
+    filePath: string,
+    installationConfig: IPotKitInstallationConfig,
+): Promise<boolean> {
+    if (installationConfig.options.overwrite) return true;
+
+    const isFileExist = await checkIsFileExist(filePath);
+
+    if (isFileExist) {
+        logger.warn(
+            [
+                `File "${filePath}" already exists`,
+                `Use --overwrite flag or change overwrite option in installation config to overwrite existing files`,
+            ].join('\n'),
+        );
+    }
+
+    return !isFileExist;
+}
+
+export async function writeGeneratedData(
+    generatedData: IGeneratedData,
+    installationConfig: IPotKitInstallationConfig,
+): Promise<boolean> {
+    const { name, data, path: filePath, type } = generatedData;
+
+    if (!(await checkOverwrite(filePath, installationConfig))) return false;
+    if (!(await createDir(path.dirname(filePath)))) return false;
+
+    return fs
+        .writeFile(filePath, data)
+        .then(() => true)
+        .catch(err => {
+            logger.error(`${capitalize(name)} ${type} writing error`, err);
+            return false;
+        });
 }

@@ -13,10 +13,42 @@ import fs from 'node:fs/promises';
 
 // Utils
 import { getEnum, patchEnumConst, patchEnumType } from '../utils/enums-utils';
-import { checkIsFileExist } from '../utils/fs-utils';
+import { checkAccess, checkIsFileExist } from '../utils/fs-utils';
 import { getSelectorStyles } from '../utils/styles-utils';
+import { capitalize, kebabCaseToCamel } from '../utils/string-utils';
+import { resolveImportPath } from '../utils/modules-utils';
 
 const EDIT_WARNING = '/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */';
+
+const POT_KIT_GEN_STYLE_TAG_REGEX = /<style pot-kit-gen(.|\n)*?\/?>(.|\n)*?<\/style>/gm;
+
+export async function injectStylesToComponent(
+    componentName: string,
+    installationConfig: IPotKitInstallationConfig,
+    prefixData: IPrefix,
+): Promise<IGeneratedData | null> {
+    const componentFileName = `${prefixData.camel}${capitalize(kebabCaseToCamel(componentName))}.vue`;
+    const componentPath = path.join(installationConfig.components, componentFileName);
+
+    if (!(await checkAccess(componentPath))) return null;
+
+    const styleImportPath = resolveImportPath(
+        installationConfig.components,
+        installationConfig.styles,
+        installationConfig.imports,
+    );
+
+    const data = await fs.readFile(componentPath, 'utf-8');
+    const clearedData = data.replaceAll(POT_KIT_GEN_STYLE_TAG_REGEX, '').trim();
+    const newTag = `<style pot-kit-gen src="${styleImportPath}"></style>`;
+
+    return {
+        type: 'component',
+        name: componentName,
+        data: [clearedData, newTag].join('\n\n'),
+        path: componentPath,
+    };
+}
 
 export async function generateComponents(
     config: IPotKitConfig,
