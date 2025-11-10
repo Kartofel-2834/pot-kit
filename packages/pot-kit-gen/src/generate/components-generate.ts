@@ -156,7 +156,7 @@ function generatePartsStyles(
 ): string {
     const data = characteristic[variantName];
     const selfName = `${prefixData.kebab}-${componentName}`;
-    const modificator = `_${characteristicName}-${variantName}`;
+    const modificator = `_${componentName}-${characteristicName}-${variantName}`;
     const result = [] as string[];
 
     for (const partName in data) {
