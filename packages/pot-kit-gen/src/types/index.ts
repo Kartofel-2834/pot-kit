@@ -16,7 +16,9 @@ export type TCondition = {
     properties: Record<string, string | number>;
 };
 
-export type TCharacteristicVariants = Record<string, TCondition>;
+export type TComponentPart = Record<string, TCondition>;
+
+export type TCharacteristicVariants = Record<string, TComponentPart>;
 
 export type TCharacteristics = Record<string, TCharacteristicVariants>;
 

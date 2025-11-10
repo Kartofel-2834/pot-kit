@@ -112,104 +112,124 @@
         "button": {
             "color": {
                 "pot": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "border": "var(--color-border)",
-                            "background": "var(--color-target)",
-                            "text": "var(--color-text)",
-                            "outline": "var(--color-target)"
-                        }
-                    },
-                    "hover": {
-                        "selector": "&:hover",
-                        "properties": {
-                            "background": "var(--color-hover-target)",
-                            "border": "var(--color-hover-border)",
-                            "text": "var(--color-hover-text)",
-                            "outline": "var(--color-hover-target)"
-                        }
-                    },
-                    "pressed": {
-                        "selector": "&:active",
-                        "properties": {
-                            "background": "var(--color-active-target)",
-                            "border": "var(--color-active-target)",
-                            "text": "var(--color-active-text)",
-                            "outline": "var(--color-active-target)"
-                        }
-                    },
-                    "disabled": {
-                        "selector": "&:disabled",
-                        "properties": {
-                            "background": "var(--pot-base-400)",
-                            "border": "var(--pot-base-400)",
-                            "text": "var(--color-disabled-text)",
-                            "outline": "var(--pot-base-400)"
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "border": "var(--color-border)",
+                                "background": "var(--color-target)",
+                                "text": "var(--color-text)",
+                                "outline": "var(--color-target)"
+                            }
+                        },
+                        "hover": {
+                            "selector": "&:hover",
+                            "properties": {
+                                "background": "var(--color-hover-target)",
+                                "border": "var(--color-hover-border)",
+                                "text": "var(--color-hover-text)",
+                                "outline": "var(--color-hover-target)"
+                            }
+                        },
+                        "pressed": {
+                            "selector": "&:active",
+                            "properties": {
+                                "background": "var(--color-active-target)",
+                                "border": "var(--color-active-target)",
+                                "text": "var(--color-active-text)",
+                                "outline": "var(--color-active-target)"
+                            }
+                        },
+                        "disabled": {
+                            "selector": "&:disabled",
+                            "properties": {
+                                "background": "var(--pot-base-400)",
+                                "border": "var(--pot-base-400)",
+                                "text": "var(--color-disabled-text)",
+                                "outline": "var(--pot-base-400)"
+                            }
                         }
                     }
                 }
             },
             "radius": {
                 "rounded": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "value": "1000px"
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "value": "1000px"
+                            }
                         }
                     }
                 }
             },
             "size": {
                 "tiny": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "height": "var(--pot-spacer-3-200)",
-                            "text": "var(--pot-font-size-200)",
-                            "padding": "var(--pot-spacer-1-200)",
-                            "border": 1,
-                            "outline": 2,
-                            "outline-offset": 2
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "height": "var(--pot-spacer-3-200)",
+                                "text": "var(--pot-font-size-200)",
+                                "padding": "var(--pot-spacer-1-200)",
+                                "border": 1,
+                                "outline": 2,
+                                "outline-offset": 2
+                            }
+                        }
+                    },
+                    "ilmu": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "test": "var(--pot-spacer-3-200)"
+                            }
                         }
                     }
                 },
                 "small": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "height": "var(--pot-spacer-3-600)",
-                            "text": "var(--pot-font-size-200)",
-                            "padding": "var(--pot-spacer-1-600)",
-                            "border": 1,
-                            "outline": 2,
-                            "outline-offset": 2
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "height": "var(--pot-spacer-3-600)",
+                                "text": "var(--pot-font-size-200)",
+                                "padding": "var(--pot-spacer-1-600)",
+                                "border": 1,
+                                "outline": 2,
+                                "outline-offset": 2
+                            }
                         }
                     }
                 },
                 "medium": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "height": "var(--pot-spacer-4-800)",
-                            "text": "var(--pot-font-size-200)",
-                            "padding": "var(--pot-spacer-2)",
-                            "border": 1,
-                            "outline": 2,
-                            "outline-offset": 2
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "height": "var(--pot-spacer-4-800)",
+                                "text": "var(--pot-font-size-200)",
+                                "padding": "var(--pot-spacer-2)",
+                                "border": 1,
+                                "outline": 2,
+                                "outline-offset": 2
+                            }
                         }
                     }
                 },
                 "large": {
-                    "base": {
-                        "selector": "&",
-                        "properties": {
-                            "height": "var(--pot-spacer-5-600)",
-                            "text": "var(--pot-font-size-300)",
-                            "padding": "var(--pot-spacer-2-800)",
-                            "border": 1,
-                            "outline": 2,
-                            "outline-offset": 2
+                    "__self__": {
+                        "base": {
+                            "selector": "&",
+                            "properties": {
+                                "height": "var(--pot-spacer-5-600)",
+                                "text": "var(--pot-font-size-300)",
+                                "padding": "var(--pot-spacer-2-800)",
+                                "border": 1,
+                                "outline": 2,
+                                "outline-offset": 2
+                            }
                         }
                     }
                 }

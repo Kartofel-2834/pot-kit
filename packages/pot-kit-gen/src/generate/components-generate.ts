@@ -22,6 +22,8 @@ const EDIT_WARNING = '/* NOT EDIT! THIS STYLES GENERATED AUTOMATICALLY! */';
 
 const POT_KIT_GEN_STYLE_TAG_REGEX = /<style pot-kit-gen(.|\n)*?\/?>(.|\n)*?<\/style>/gm;
 
+const SELF_PART_NAME = '__self__';
+
 export async function injectStylesToComponent(
     componentName: string,
     installationConfig: IPotKitInstallationConfig,
@@ -41,7 +43,7 @@ export async function injectStylesToComponent(
     );
 
     const data = await fs.readFile(componentPath, 'utf-8');
-    const clearedData = data.replaceAll(POT_KIT_GEN_STYLE_TAG_REGEX, '').trim();
+    const clearedData = data.replace(POT_KIT_GEN_STYLE_TAG_REGEX, '').trim();
     const newTag = `<style pot-kit-gen src="${styleImportPath}/${componentName}.css"></style>`;
 
     return {
@@ -122,24 +124,54 @@ function generateCharacteristicStyle(
     installationConfig: IPotKitInstallationConfig,
     prefixData: IPrefix,
 ): IGeneratedData {
-    const className = `.${prefixData.kebab}-${componentName}`;
     const componentStylesPath = path.join(installationConfig.styles, `${componentName}.css`);
+    const variantsList = Object.keys(characteristic);
+    const result = variantsList.map(variantName =>
+        generatePartsStyles(
+            componentName,
+            characteristicName,
+            variantName,
+            characteristic,
+            prefixData,
+        ),
+    );
+
+    return {
+        type: 'style',
+        name: componentName,
+        path: componentStylesPath,
+        data: result
+            .map(v => v.trim())
+            .filter(Boolean)
+            .join('\n\n'),
+    };
+}
+
+function generatePartsStyles(
+    componentName: string,
+    characteristicName: string,
+    variantName: string,
+    characteristic: TCharacteristics,
+    prefixData: IPrefix,
+): string {
+    const data = characteristic[variantName];
+    const selfName = `${prefixData.kebab}-${componentName}`;
+    const modificator = `_${characteristicName}-${variantName}`;
     const result = [] as string[];
 
-    for (const variantName in characteristic) {
-        const modificator = `._${characteristicName}-${variantName}`;
-        const modificatorClassName = `${className}${modificator}`;
+    for (const partName in data) {
+        const fullName = partName === SELF_PART_NAME ? selfName : `${selfName}-${partName}`;
+        const className = `.${fullName}.${modificator}`;
+        const partData = data[partName];
 
-        const variant = characteristic[variantName];
-
-        for (const conditionName in variant) {
-            const { selector, properties } = variant[conditionName];
+        for (const conditionName in partData) {
+            const { selector, properties } = partData[conditionName];
 
             if (!selector || !properties) {
                 continue;
             }
 
-            const parsedSelector = selector.replace('&', modificatorClassName);
+            const parsedSelector = selector.replace('&', className);
             const variables = Object.entries(properties).reduce((res, [key, value]) => {
                 return {
                     ...res,
@@ -151,15 +183,10 @@ function generateCharacteristicStyle(
         }
     }
 
-    return {
-        type: 'style',
-        name: componentName,
-        path: componentStylesPath,
-        data: result
-            .map(v => v.trim())
-            .filter(Boolean)
-            .join('\n\n'),
-    };
+    return result
+        .map(v => v.trim())
+        .filter(Boolean)
+        .join('\n\n');
 }
 
 async function generateComponentEnums(

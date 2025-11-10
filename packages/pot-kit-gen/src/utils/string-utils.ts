@@ -25,7 +25,7 @@ export function capitalize(str: string): string {
 
 /** Преобразует строку snake_case в kebab-case */
 export function snakeCaseToKebab(str: string): string {
-    return str.toLowerCase().replaceAll('_', '-');
+    return str.toLowerCase().replace(/_/g, '-');
 }
 
 /** Преобразует строку kebab-case в camelCase */
@@ -36,5 +36,5 @@ export function kebabCaseToCamel(str: string): string {
 
 /** Преобразует строку kebab-case в ENUM_KEY */
 export function kebabCaseToEnumKey(str: string): string {
-    return str.toUpperCase().replaceAll('-', '_');
+    return str.toUpperCase().replace(/-/g, '_');
 }
