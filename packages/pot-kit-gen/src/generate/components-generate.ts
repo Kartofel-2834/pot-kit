@@ -173,9 +173,18 @@ function generatePartsStyles(
 
             const parsedSelector = selector.replace('&', className);
             const variables = Object.entries(properties).reduce((res, [key, value]) => {
+                const variableName = [
+                    selfName,
+                    characteristicName,
+                    partName === SELF_PART_NAME ? '' : partName,
+                    key,
+                ]
+                    .filter(Boolean)
+                    .join('-');
+
                 return {
                     ...res,
-                    [`--${prefixData.kebab}-${componentName}-${characteristicName}-${key}`]: value,
+                    [`--${variableName}`]: value,
                 };
             }, {});
 
