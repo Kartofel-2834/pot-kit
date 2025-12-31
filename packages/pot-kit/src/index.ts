@@ -1,58 +1,15 @@
 #!/usr/bin/env node
-// Types
-import type { IPotKitInstallationConfig } from './types';
-
-// Node
-import path from 'path';
-
 // Libs
 import { Command } from 'commander';
 
 // Constants
 import packageJson from '../package.json';
-import { DEFAULT_CONFIG } from './constants/config';
 
 // Commands
 import { add } from './commands/add';
 import { list } from './commands/list';
 
-// Utils
-import { getJson } from './utils/installation-utils';
-
-// Logger
-import { logger } from './logger';
-import { fetchDependenciesMap } from './utils/dependencies-utils';
-
-/** Прочитать конфигурационный файл */
-async function getInstallationConfig(): Promise<Readonly<IPotKitInstallationConfig>> {
-    const config = await getJson<IPotKitInstallationConfig>(
-        path.join(process.cwd(), '.pot-kit', 'installation.json'),
-    );
-
-    if (!config) {
-        logger.warn('.pot-kit/installation.json configuration file not found');
-        return DEFAULT_CONFIG;
-    }
-
-    return {
-        ...DEFAULT_CONFIG,
-        ...config,
-        options: {
-            ...DEFAULT_CONFIG.options,
-            ...(config?.options ?? {}),
-        },
-    };
-}
-
 async function main() {
-    const config = await getInstallationConfig();
-    const dependenciesMap = await fetchDependenciesMap(config);
-
-    if (!dependenciesMap) {
-        logger.error('Dependencies map fetch failed');
-        return;
-    }
-
     const program = new Command();
 
     // Info
@@ -61,8 +18,8 @@ async function main() {
     program.version(packageJson.version || '1.0.0', '-v, --version', 'output the current version');
 
     // Commands
-    program.addCommand(add(config, dependenciesMap));
-    program.addCommand(list(dependenciesMap));
+    program.addCommand(add());
+    program.addCommand(list());
 
     // Run
     program.parse();

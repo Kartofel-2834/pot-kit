@@ -7,22 +7,22 @@ import { Command } from 'commander';
 // Logger
 import { logger } from '../logger';
 
+// Constants
+import { DEFAULT_CONFIG } from '../constants/config';
+
 // Utils
 import { installComponent, installComposable, installType } from '../utils/installation-utils';
 import { preparePrefix } from '../utils/template-utils';
-import { getDependencies } from '../utils/dependencies-utils';
+import { fetchDependenciesMap, getDependencies } from '../utils/dependencies-utils';
 
 interface IAddCommandOptions {
-    componentsPath: string;
-    typesPath: string;
-    composablesPath: string;
     overwrite: boolean;
     prefix: string;
     potServer: boolean;
-    server: boolean;
 }
 
-export function add(config: IPotKitInstallationConfig, dependenciesMap: TDependenciesMap): Command {
+export function add(): Command {
+    const config: IPotKitInstallationConfig = DEFAULT_CONFIG;
     const command = new Command();
 
     command.name('add');
@@ -32,21 +32,19 @@ export function add(config: IPotKitInstallationConfig, dependenciesMap: TDepende
     // Options
     command.option('-o, --overwrite', 'overwrite existing files');
     command.option('-p, --prefix <prefix>', 'set prefix for components');
-    command.option('--components-path <path>', 'set path to folder for installing components');
-    command.option('--composables-path <path>', 'set path to folder for installing composables');
-    command.option('--types-path <path>', 'set path to folder for installing types files');
     command.option('--pot-server', 'use own pot-server instead of cloudflare cdn');
-    command.option('--server', 'use cloudflare cdn to load components');
 
     command.action(async (componentsList: string[], options: Partial<IAddCommandOptions>) => {
-        const currentConfig = appendConfig(config, options);
+        const currentConfig = { ...config, ...options };
+        const dependenciesMap = await fetchDependenciesMap(currentConfig);
+
         logger.time('pot-kit installation tool work duration');
 
-        if (!validate(componentsList, dependenciesMap)) return;
+        if (!dependenciesMap || !validate(componentsList, dependenciesMap)) return;
 
         logger.time('Dependencies collected');
         const dependencies = getDependencies(componentsList, dependenciesMap);
-        const prefixData = preparePrefix(currentConfig.options.prefix);
+        const prefixData = preparePrefix(currentConfig.prefix);
         logger.timeEnd('Dependencies collected');
 
         await install(currentConfig, dependencies, prefixData);
@@ -55,26 +53,6 @@ export function add(config: IPotKitInstallationConfig, dependenciesMap: TDepende
     });
 
     return command;
-}
-
-function appendConfig(
-    config: IPotKitInstallationConfig,
-    options: Partial<IAddCommandOptions>,
-): IPotKitInstallationConfig {
-    const usePotServer = options.server ? !options.server : options.potServer;
-
-    return {
-        ...config,
-        components: options.componentsPath ?? config.components,
-        composables: options.composablesPath ?? config.composables,
-        types: options.typesPath ?? config.types,
-        options: {
-            ...config.options,
-            overwrite: options.overwrite ?? config.options.overwrite,
-            potServer: usePotServer ?? config.options.potServer,
-            prefix: options.prefix || config.options.prefix,
-        },
-    };
 }
 
 function validate(componentsList: string[], dependenciesMap: TDependenciesMap): boolean {
@@ -86,7 +64,8 @@ function validate(componentsList: string[], dependenciesMap: TDependenciesMap): 
     }
 
     const isComponentsValid = componentsList.reduce((isValid, componentName) => {
-        const isComponentNameReserved = Boolean(dependenciesMap.components[componentName]);
+        const preparedName = componentName.toLowerCase().trim();
+        const isComponentNameReserved = Boolean(dependenciesMap.components[preparedName]);
 
         if (!isComponentNameReserved) {
             logger.error(`Validation error: Component "${componentName}" is not supported`);

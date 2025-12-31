@@ -20,9 +20,7 @@ export interface IPotKitInstallationConfig {
     styles: string;
     composables: string;
     imports: Record<string, string>;
-    options: {
-        prefix: string;
-        overwrite: boolean;
-        potServer: boolean;
-    };
+    prefix: string;
+    overwrite: boolean;
+    potServer: boolean;
 }

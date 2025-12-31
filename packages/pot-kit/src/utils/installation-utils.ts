@@ -27,7 +27,7 @@ export async function checkOverwrite(
     filePath: string,
     config: IPotKitInstallationConfig,
 ): Promise<boolean> {
-    if (config.options.overwrite) return true;
+    if (config.overwrite) return true;
 
     const isFileExist = await checkIsFileExist(filePath);
 
@@ -83,7 +83,7 @@ export async function installType(
     if (!(await checkOverwrite(outputPath, config))) return false;
     if (!(await createDir(dirName))) return false;
 
-    const typesImport = resolveImportPath(config.types, config.types, config.imports);
+    const typesImport = resolveImportPath(dirName, config.types, config.imports);
     const preparedData = parseTemplate(data, { ...prefixData, typesImport });
 
     return fs
@@ -160,7 +160,7 @@ export async function installComponent(
         config.components,
         config.imports,
     );
-
+    console.log('COMPONENTS IMPORT', componentsImport);
     const preparedData = parseTemplate(data, {
         ...prefixData,
         typesImport,

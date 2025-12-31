@@ -34,11 +34,11 @@ export function resolveImportPath(
 
     for (const key in importsConfig) {
         if (toPath.startsWith(importsConfig[key])) {
-            return preaprePath(toPath.replaceAll(importsConfig[key], key));
+            return preaprePath(toPath.replaceAll(importsConfig[key], key)) || '.';
         }
     }
 
-    return preaprePath(path.relative(fromPath, toPath));
+    return preaprePath(path.relative(fromPath, toPath)) || '.';
 }
 
 /** Подставляет значения в шаблон pot-kit */
